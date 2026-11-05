@@ -9,6 +9,7 @@ from hiresense.db import connect, initialize
 from hiresense.evaluation.features import load_partition
 from hiresense.evaluation.pilot import create_pilot
 from hiresense.evaluation.split import write_split
+from hiresense.evaluation.transfer import transfer_cohort
 
 FIXTURE = Path(__file__).parent / 'fixtures/temporal.xml'
 
@@ -34,6 +35,10 @@ class PilotTests(unittest.TestCase):
                                       train_count=1, validation_count=1, test_start=2022)
                 self.assertEqual(first, second)
                 self.assertEqual(first['selection']['reserved_test_count'], 1)
+                transferred = transfer_cohort(root / 'pilot-b', root / 'dataset', graph, root / 'transferred', train_count=1)
+                self.assertEqual(transferred['counts'], {'train': 1, 'validation': 1, 'test': 1})
+                self.assertEqual(transferred['files']['test_ground_truth.jsonl'], first['files']['test_ground_truth.jsonl'])
+                self.assertEqual(len(load_partition(root / 'transferred', 'validation', graph)[0]), 1)
                 train, _ = load_partition(root / 'pilot-a', 'train', graph)
                 valid, _ = load_partition(root / 'pilot-a', 'validation', graph)
                 test, _ = load_partition(root / 'pilot-a', 'test', graph)

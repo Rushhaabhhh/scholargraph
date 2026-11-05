@@ -50,11 +50,15 @@ def _deletions(token):
 
 
 class AuthorMatcher:
-    def __init__(self, database, max_candidates: int = 128, max_block_size: int = 2000, year_mode: str = 'exact'):
+    def __init__(self, database, max_candidates: int = 128, max_block_size: int = 2000, year_mode: str = 'exact',
+                 policy: str = 'legacy'):
         if max_candidates < 1 or max_block_size < 1:
             raise ValueError('Candidate and block limits must be positive')
         if year_mode not in ('exact', 'distance'):
             raise ValueError('Unknown year matching mode')
+        if policy not in ('legacy', 'conservative', 'strict'):
+            raise ValueError('Unknown identity decision policy')
+        self.policy = policy
         self.year_mode = year_mode
         self.max_candidates, self.max_block_size = max_candidates, max_block_size
         self.profiles = {}
@@ -129,6 +133,7 @@ class AuthorMatcher:
         return {
             'name': name_similarity(record['noisy_name'], profile['name']),
             'coauthors': len(observed_coauthors & profile['coauthors']) / max(1, len(observed_coauthors)),
+            'shared_coauthor_count': len(observed_coauthors & profile['coauthors']),
             'venues': len(observed_venues & profile['venues']) / max(1, len(observed_venues)),
             'years': year_score,
         }
@@ -142,25 +147,37 @@ class AuthorMatcher:
                         (('name', 0.55), ('coauthors', 0.25), ('venues', 0.12), ('years', 0.08)))
             supported = (features['coauthors'] > 0 or
                          (features['venues'] > 0 and features['years'] > 0 and features['name'] >= 0.93))
+            if self.policy == 'conservative':
+                # Temporal plausibility alone cannot establish identity. Require
+                # independent collaborator evidence, particularly for initials.
+                supported = (features['name'] >= 0.85 and features['coauthors'] > 0
+                             and (features['shared_coauthor_count'] >= 2 or
+                                  (features['name'] >= 0.95 and features['venues'] > 0)))
+            elif self.policy == 'strict':
+                supported = (features['name'] >= 0.93 and features['shared_coauthor_count'] >= 2
+                             and features['coauthors'] >= 0.5 and features['venues'] > 0)
             scored.append((score, identifier, features, supported))
         scored.sort(key=lambda item: (-item[0], item[1]))
         if not scored:
             return None, 0.0, 'unresolved', {}, candidates, available, skipped
         score, identifier, features, supported = scored[0]
         margin = score - scored[1][0] if len(scored) > 1 else score
-        if supported and features['name'] >= 0.7 and score >= threshold:
-            decision = 'matched' if margin >= ambiguity_margin else 'ambiguous'
+        effective_threshold = max(threshold, 0.78) if self.policy == 'strict' else threshold
+        effective_margin = max(ambiguity_margin, 0.12) if self.policy == 'strict' else ambiguity_margin
+        if supported and features['name'] >= 0.7 and score >= effective_threshold:
+            decision = 'matched' if margin >= effective_margin else 'ambiguous'
         else:
             decision = 'unresolved'
         return identifier if decision == 'matched' else None, score, decision, dict(features, margin=margin), candidates, available, skipped
 
 
 def resolve_records(database, noisy_path: str | Path, threshold: float = 0.72,
-                    ambiguity_margin: float = 0.06, max_candidates: int = 128) -> dict:
+                    ambiguity_margin: float = 0.06, max_candidates: int = 128,
+                    year_mode: str = 'exact', policy: str = 'legacy') -> dict:
     if not 0 <= threshold <= 1 or not 0 <= ambiguity_margin <= 1:
         raise ValueError('Threshold and ambiguity margin must be in [0,1]')
     started = monotonic()
-    matcher = AuthorMatcher(database, max_candidates)
+    matcher = AuthorMatcher(database, max_candidates, year_mode=year_mode, policy=policy)
     counts = {'records': 0, 'matched': 0, 'ambiguous': 0, 'unresolved': 0, 'emitted_candidates': 0,
               'candidate_cap_hits': 0, 'oversized_blocks_skipped': 0}
     with database:
@@ -186,6 +203,7 @@ def resolve_records(database, noisy_path: str | Path, threshold: float = 0.72,
     counts['average_candidates'] = counts['emitted_candidates'] / max(1, counts['records'])
     counts['elapsed_seconds'] = round(monotonic() - started, 3)
     counts['policy'] = {'threshold': threshold, 'ambiguity_margin': ambiguity_margin, 'max_candidates': max_candidates,
+                        'year_mode': year_mode, 'decision_policy': policy,
                         'false_merge_cost': 'Higher than a false split: merging contaminates expertise and evidence. Abstain on ambiguity.',
                         'blocking': 'Exact unordered name, token/deletion signatures, and coauthor inverted indexes; cap candidates and skip oversized blocks.'}
     return counts

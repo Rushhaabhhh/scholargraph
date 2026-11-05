@@ -56,6 +56,7 @@ def main() -> None:
     identity.add_argument('--end-year', required=True, type=int)
     identity.add_argument('--rate', type=float, default=1.0)
     identity.add_argument('--seed', type=int, default=42)
+    identity.add_argument('--max-candidates', type=int, default=128)
     identity.add_argument('--out', required=True, type=Path)
     pilot = commands.add_parser('prepare-pilot', help='Reserve fixed training, validation and novel later test cohorts')
     pilot.add_argument('--dataset', required=True, type=Path)
@@ -95,10 +96,14 @@ def main() -> None:
             command.add_argument('--noisy', required=True, type=Path)
             command.add_argument('--threshold', default=0.72, type=float)
             command.add_argument('--ambiguity-margin', default=0.06, type=float)
+            command.add_argument('--year-mode', choices=('exact', 'distance'), default='distance')
+            command.add_argument('--policy', choices=('legacy', 'conservative', 'strict'), default='conservative')
         elif name in ('index', 'search', 'train', 'evaluate'):
             command.add_argument('--encoder', default=Path('models/minilm'), type=Path)
             if name == 'index':
                 command.add_argument('--out', required=True, type=Path)
+                command.add_argument('--reuse-index', type=Path)
+                command.add_argument('--reuse-db', type=Path)
             else:
                 command.add_argument('--index', required=True, type=Path)
                 command.add_argument('--model', required=True, type=Path)
@@ -130,10 +135,11 @@ def main() -> None:
             source, graph = connect(args.source_db), connect(args.graph_db)
             try:
                 report = evaluate_temporal_identity(source, graph, args.start_year, args.end_year,
-                                                    rate=args.rate, seed=args.seed)
+                                                    rate=args.rate, seed=args.seed, max_candidates=args.max_candidates)
                 report['command'] = ['identity-temporal', '--source-db', str(args.source_db), '--graph-db', str(args.graph_db),
                                      '--start-year', str(args.start_year), '--end-year', str(args.end_year),
-                                     '--rate', str(args.rate), '--seed', str(args.seed), '--out', str(args.out)]
+                                     '--rate', str(args.rate), '--seed', str(args.seed), '--max-candidates', str(args.max_candidates),
+                                     '--out', str(args.out)]
                 from .data.artifacts import package_digest
                 report['package_source_sha256'] = package_digest()
                 write_json(args.out, report)
@@ -180,7 +186,8 @@ def main() -> None:
                     if args.command == 'noise':
                         report = {'noisy_records': generate_noisy_authors(database, args.out, args.seed, args.rate)}
                     elif args.command == 'resolve':
-                        report = resolve_records(database, args.noisy, args.threshold, args.ambiguity_margin)
+                        report = resolve_records(database, args.noisy, args.threshold, args.ambiguity_margin,
+                                                 year_mode=args.year_mode, policy=args.policy)
                         truth = args.noisy.with_suffix('.truth.jsonl')
                         if truth.exists():
                             report['evaluation'] = evaluate_resolution(database, truth)
@@ -191,9 +198,23 @@ def main() -> None:
                         from .retrieval.index import SearchIndex, build_index
                         encoder = LocalEncoder(args.encoder)
                         if args.command == 'index':
-                            report = build_index(database, args.out, encoder)
+                            reference = None
+                            try:
+                                if args.reuse_index:
+                                    if not args.reuse_db or not args.reuse_db.is_file():
+                                        raise ValueError('Vector reuse requires an existing reference graph')
+                                    reference = connect(args.reuse_db)
+                                report = build_index(database, args.out, encoder,
+                                                     reuse_index=args.reuse_index, reuse_database=reference)
+                            finally:
+                                if reference:
+                                    reference.close()
                         else:
-                            engine = SearchIndex(database, args.index, encoder)
+                            if args.command in ('search', 'evaluate'):
+                                from .retrieval.factory import search_index
+                                engine = search_index(database, args.index, encoder, json.loads(args.model.read_text()))
+                            else:
+                                engine = SearchIndex(database, args.index, encoder)
                             try:
                                 if args.command == 'search':
                                     from .ranking.service import search

@@ -111,6 +111,13 @@ class GraphTests(unittest.TestCase):
         self.assertIsNone(result[0])
         self.assertEqual(result[2], 'ambiguous')
 
+    def test_conservative_identity_requires_independent_collaborator_evidence(self):
+        matcher = AuthorMatcher(self.database, year_mode='distance', policy='conservative')
+        record = {'noisy_name': 'Alex Kim', 'observed_venues': ['Graph Journal'], 'observed_years': [2020]}
+        self.assertIsNone(matcher.match(record)[0])
+        record['observed_coauthors'] = ['Bea Muller']
+        self.assertIsNotNone(matcher.match(record)[0])
+
     def test_candidate_cap_and_evaluator_detect_incorrect_merge(self):
         matcher = AuthorMatcher(self.database, max_candidates=1)
         candidates, available, _ = matcher.candidates({'noisy_name': 'Alex Kim'})

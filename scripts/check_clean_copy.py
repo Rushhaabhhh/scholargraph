@@ -24,7 +24,7 @@ with tempfile.TemporaryDirectory(prefix='hiresense-backend-clean-') as temporary
     clean = Path(temporary)
     for directory in ('src', 'tests', 'models', 'recordings', 'contracts', 'experiments', 'scripts', 'examples'):
         shutil.copytree(ROOT / directory, clean / directory, ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
-    for name in ('run', 'pyproject.toml', 'requirements.lock', 'README.md'):
+    for name in ('run', 'pyproject.toml', 'requirements.lock', 'requirements-training.lock', 'README.md'):
         shutil.copy2(ROOT / name, clean / name)
     environment = {'PATH': str(Path(sys.executable).parent) + os.pathsep + os.defpath,
                    'PYTHONPATH': str(clean / 'src'), 'PYTHONDONTWRITEBYTECODE': '1'}

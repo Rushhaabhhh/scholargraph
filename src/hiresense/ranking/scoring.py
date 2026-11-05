@@ -13,7 +13,11 @@ from ..retrieval.index import FEATURE_NAMES
 
 def raw_tree_scores(features, model):
     features = np.asarray(features, dtype=np.float32)
-    if tuple(model['features']) != FEATURE_NAMES or features.ndim != 2 or features.shape[1] != len(FEATURE_NAMES):
+    schema = FEATURE_NAMES
+    if model['version'] == 'hybrid-lambdamart-v1':
+        from ..retrieval.hybrid import HYBRID_FEATURES
+        schema = HYBRID_FEATURES
+    if tuple(model['features']) != schema or features.ndim != 2 or features.shape[1] != len(schema):
         raise ValueError('Reranker feature schema differs')
     selected = features[:, model['selected_features']]
     values = np.full(len(features), model['initial_log_odds'], dtype=np.float64)
@@ -33,6 +37,8 @@ def raw_tree_scores(features, model):
 
 
 def score_model(features, model):
+    if model.get('retrieval_kind') == 'hybrid' and model['version'] == 'gradient-boosted-expert-v1':
+        features = np.asarray(features)[:, :len(FEATURE_NAMES)]
     raw = raw_tree_scores(features, model)
     if 'blend_alpha' not in model:
         return raw

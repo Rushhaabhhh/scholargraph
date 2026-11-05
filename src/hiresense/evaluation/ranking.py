@@ -5,10 +5,17 @@ import numpy as np
 from ..ranking.scoring import score_model
 from ..ranking.service import search
 from .metrics import ranking_metrics
+from ..retrieval.index import FEATURE_NAMES
 
 
 def evaluate_rankings(engine, cache, models: dict, bootstrap_samples=1000, seed=42):
-    scores = {name: score_model(cache['features'], model) for name, model in models.items()}
+    schema = tuple(getattr(engine, 'feature_names', FEATURE_NAMES))
+    scores = {}
+    for name, model in models.items():
+        columns = len(model['features'])
+        if tuple(model['features']) != schema[:columns]:
+            raise ValueError('Evaluation model features are not an ordered prefix of the retrieval schema')
+        scores[name] = score_model(cache['features'][:, :columns], model)
     per_query = {name: [] for name in ('lexical', 'dense', 'hybrid', *models)}
     cohort = {'newcomer_history_1_or_2': [], 'prolific_history_20_plus': [], 'has_unseen_relevant_author': []}
     candidate_hits, retrievable_count, relevant_count, available_queries = 0, 0, 0, 0

@@ -1,5 +1,6 @@
 """Prepare an application graph/index from any local DBLP slice, without labels."""
 
+import json
 import os
 import shutil
 import tempfile
@@ -12,6 +13,7 @@ from ..retrieval.encoder import LocalEncoder
 from ..retrieval.index import build_index
 from .artifacts import write_json
 from .ingest import ingest
+from ..retrieval.factory import default_model_path, search_index
 
 
 def prepare_backend(data, output, cutoff_year=None):
@@ -34,7 +36,13 @@ def prepare_backend(data, output, cutoff_year=None):
         source = None
         graph = connect(stage / 'graph.sqlite3')
         graph_report = build_context_graph(graph)
-        index_report = build_index(graph, stage / 'index', LocalEncoder(root / 'models/minilm'))
+        encoder = LocalEncoder(root / 'models/minilm')
+        index_report = build_index(graph, stage / 'index', encoder)
+        model_path = default_model_path()
+        model = json.loads(model_path.read_text())
+        if model.get('retrieval_kind') == 'hybrid':
+            serving_index = search_index(graph, stage / 'index', encoder, model)
+            serving_index.close()
         graph.close()
         graph = None
         # The all-period source is a preparation intermediate, not a serving artifact.
@@ -42,9 +50,11 @@ def prepare_backend(data, output, cutoff_year=None):
             path.unlink()
         configuration = {'graph': 'graph.sqlite3', 'index': 'index', 'session_db': 'sessions.sqlite3',
                          'encoder': os.path.relpath(root / 'models/minilm', output.resolve()),
-                         'model': os.path.relpath(root / 'models/expert_ranker.json', output.resolve()),
+                         'model': os.path.relpath(model_path, output.resolve()),
                          'recordings': os.path.relpath(root / 'recordings/query-intents.json', output.resolve()),
                          'query_provider': 'recorded'}
+        if model.get('retrieval_kind') == 'hybrid':
+            configuration['cross_encoder'] = os.path.relpath(root / 'models/crossencoder', output.resolve())
         write_json(stage / 'backend.json', configuration)
         report = {'source_sha256': ingestion['source_sha256'], 'ingestion': ingestion, 'snapshot': counts,
                   'cutoff_year': cutoff, 'graph': graph_report, 'index': index_report}

@@ -1,0 +1,18 @@
+{
+  "graph": "data/processed/history-enriched/graph.sqlite3",
+  "index": "data/indexes/history-enriched",
+  "profiles": "data/indexes/history-enriched/author_profiles",
+  "dataset": "data/processed/hybrid-cohort-v1",
+  "encoder": "models/minilm",
+  "cross_encoder": "models/crossencoder",
+  "work": "data/processed/hybrid-training-v1",
+  "report": "results/hybrid-validation-v1.json",
+  "seed": 42,
+  "retrieval": {
+    "paper_limit": 512,
+    "candidate_limit": 400,
+    "profile_limit": 128,
+    "expansion_limit": 64,
+    "cross_paper_limit": 64
+  }
+}

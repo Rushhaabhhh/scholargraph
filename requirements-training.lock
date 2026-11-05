@@ -1,0 +1,3 @@
+# CPU training only; serving uses exported numeric trees without LightGBM.
+-r requirements.lock
+lightgbm==4.6.0

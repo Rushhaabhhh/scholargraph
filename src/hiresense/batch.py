@@ -17,13 +17,14 @@ def run_batch(data: str, queries: str, output: str) -> None:
     from .assistant.memory import SessionStore
     from .assistant.errors import BackendError
     from .retrieval.encoder import LocalEncoder
-    from .retrieval.index import SearchIndex, build_index
+    from .retrieval.index import build_index
+    from .retrieval.factory import default_model_path, search_index
 
     data, queries, output = Path(data), Path(queries), Path(output)
     if output.resolve() in {data.resolve(), queries.resolve()}:
         raise ValueError('Output must not overwrite the input data or queries')
     root = Path(__file__).resolve().parents[2]
-    model = json.loads((root / 'models/expert_ranker.json').read_text())
+    model = json.loads(default_model_path().read_text())
     encoder = LocalEncoder(root / 'models/minilm')
     results = []
     with tempfile.TemporaryDirectory(prefix='hiresense-batch-') as temporary:
@@ -36,7 +37,7 @@ def run_batch(data: str, queries: str, output: str) -> None:
             build_context_graph(database, latest)
             directory = Path(temporary) / 'index'
             build_index(database, directory, encoder)
-            engine = SearchIndex(database, directory, encoder)
+            engine = search_index(database, directory, encoder, model)
             recordings = root / 'recordings/query-intents.json'
             provider = RecordedProvider(recordings) if recordings.exists() else None
             runtime = Backend(database, engine, model, SessionStore(Path(temporary) / 'sessions.sqlite3', engine.manifest['content_sha256']), QueryUnderstander(provider))

@@ -27,10 +27,11 @@ def evaluate_temporal_identity(source, graph, start_year, end_year, *, rate=1.0,
     if origin is None or origin[0] != dataset_digest(source):
         raise ValueError('Source database does not match the graph snapshot provenance')
     started = monotonic()
-    matchers = {mode: AuthorMatcher(graph, max_candidates=max_candidates, year_mode=mode)
-                for mode in ('exact', 'distance')}
-    known_ids = set(matchers['exact'].profiles)
-    counts = {mode: Counter() for mode in matchers}
+    matcher = AuthorMatcher(graph, max_candidates=max_candidates)
+    strategies = {'exact': ('exact', 'legacy'), 'distance': ('distance', 'legacy'),
+                  'conservative': ('distance', 'conservative'), 'strict': ('distance', 'strict')}
+    known_ids = set(matcher.profiles)
+    counts = {mode: Counter() for mode in strategies}
     corruptions = Counter()
     rng = random.Random(seed)
     for paper in source.execute('SELECT id,year,venue FROM papers WHERE year BETWEEN ? AND ? ORDER BY id',
@@ -49,7 +50,8 @@ def evaluate_temporal_identity(source, graph, start_year, end_year, *, rate=1.0,
             truth = author['author_id']
             known = truth in known_ids
             corruptions[kind] += 1
-            for mode, matcher in matchers.items():
+            for mode, (year_mode, policy) in strategies.items():
+                matcher.year_mode, matcher.policy = year_mode, policy
                 identifier, _, decision, _, candidates, _, _ = matcher.match(record, threshold, ambiguity_margin)
                 c = counts[mode]
                 c['observations'] += 1
@@ -73,5 +75,7 @@ def evaluate_temporal_identity(source, graph, start_year, end_year, *, rate=1.0,
             'limitation': 'Synthetic name noise; known-reference linkage with unknown-identity rejection, not open-world clustering.',
             'cutoff_year': cutoff, 'start_year': start_year, 'end_year': end_year, 'seed': seed, 'sample_rate': rate,
             'threshold': threshold, 'ambiguity_margin': ambiguity_margin, 'max_candidates': max_candidates,
-            'year_modes': {'exact': 'Exact year overlap.', 'distance': 'Exponential decay with distance to nearest historical year.'},
+            'year_modes': {'exact': 'Exact year overlap.', 'distance': 'Exponential decay with distance to nearest historical year.',
+                           'conservative': 'Year distance with strong name and independent collaborator evidence; abstain otherwise.',
+                           'strict': 'At least two coauthors, >=50% collaborator overlap, name>=0.93, venue match, score>=0.78 and margin>=0.12.'},
             'corruptions': dict(corruptions), 'results': results, 'elapsed_seconds': round(monotonic() - started, 3)}

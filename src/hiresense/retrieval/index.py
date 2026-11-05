@@ -41,7 +41,7 @@ def content_signature(database):
     return digest.hexdigest()
 
 
-def build_index(database, directory: str | Path, encoder: LocalEncoder) -> dict:
+def build_index(database, directory: str | Path, encoder: LocalEncoder, *, reuse_index=None, reuse_database=None) -> dict:
     cutoff = database.execute("SELECT value FROM metadata WHERE key='graph_cutoff_year'").fetchone()
     if cutoff:
         assert_no_leakage(database, [], [], int(cutoff[0]))
@@ -52,6 +52,23 @@ def build_index(database, directory: str | Path, encoder: LocalEncoder) -> dict:
     stage = Path(tempfile.mkdtemp(dir=target.parent, prefix='.index-'))
     started = monotonic()
     try:
+        previous, old_titles, old_rows, reused = None, {}, {}, 0
+        if reuse_index is not None:
+            if reuse_database is None:
+                raise ValueError('Vector reuse requires the corresponding reference graph')
+            reuse_index = Path(reuse_index)
+            old_manifest = json.loads((reuse_index / 'manifest.json').read_text())
+            if (old_manifest['encoder_sha256'] != encoder.signature
+                    or old_manifest['content_sha256'] != content_signature(reuse_database)):
+                raise ValueError('Reference vector index does not match its graph/encoder')
+            for name, checksum in old_manifest['files'].items():
+                if digest_file(reuse_index / name) != checksum:
+                    raise ValueError('Corrupted reference vector index')
+            previous = np.load(reuse_index / 'embeddings.npy', mmap_mode='r', allow_pickle=False)
+            if previous.shape != (len(old_manifest['paper_ids']), encoder.dimensions):
+                raise ValueError('Invalid reference vector dimensions')
+            old_titles = {row['id']: row['title'] for row in reuse_database.execute('SELECT id,title FROM papers')}
+            old_rows = {key: i for i, key in enumerate(old_manifest['paper_ids'])}
         paper_count = database.execute('SELECT COUNT(*) FROM papers').fetchone()[0]
         embeddings = np.lib.format.open_memmap(stage / 'embeddings.npy', mode='w+', dtype=np.float32,
                                                shape=(paper_count, encoder.dimensions))
@@ -62,8 +79,17 @@ def build_index(database, directory: str | Path, encoder: LocalEncoder) -> dict:
             cursor = database.execute('SELECT id,title FROM papers ORDER BY id')
             offset = 0
             while batch := cursor.fetchmany(512):
-                vectors = encoder.encode([row['title'] for row in batch])
-                embeddings[offset:offset + len(batch)] = vectors
+                missing = []
+                for i, row in enumerate(batch):
+                    if previous is not None and row['id'] in old_rows and old_titles.get(row['id']) == row['title']:
+                        embeddings[offset + i] = previous[old_rows[row['id']]]
+                        reused += 1
+                    else:
+                        missing.append(i)
+                if missing:
+                    vectors = encoder.encode([batch[i]['title'] for i in missing])
+                    for i, value in zip(missing, vectors):
+                        embeddings[offset + i] = value
                 lexical.executemany('INSERT INTO documents(rowid,title) VALUES(?,?)',
                                     ((offset + index + 1, paper['title']) for index, paper in enumerate(batch)))
                 paper_ids.extend(row['id'] for row in batch)
@@ -80,7 +106,8 @@ def build_index(database, directory: str | Path, encoder: LocalEncoder) -> dict:
                     'files': {name: digest_file(stage / name) for name in ('embeddings.npy', 'lexical.sqlite3')}}
         write_json(stage / 'manifest.json', manifest)
         stage.rename(target)
-        return {'papers': paper_count, 'elapsed_seconds': round(monotonic() - started, 3),
+        return {'papers': paper_count, 'reused_title_vectors': reused, 'encoded_title_vectors': paper_count - reused,
+                'elapsed_seconds': round(monotonic() - started, 3),
                 'content_sha256': manifest['content_sha256'], 'encoder_sha256': encoder.signature}
     except BaseException:
         shutil.rmtree(stage)
@@ -149,6 +176,11 @@ class SearchIndex:
             raise ValueError('Query must be a string of at most 4000 characters')
         if not query.strip() or not self.papers:
             return {'author_ids': [], 'features': np.empty((0, len(FEATURE_NAMES))), 'lexical': [], 'dense': [], 'hybrid': [], 'evidence': {}}
+        context = self.candidate_context(query, vector)
+        author_ids = sorted(context['fused'], key=lambda author: (-context['fused'][author], author))[:self.candidate_limit]
+        return self.assemble(query, author_ids, context)
+
+    def candidate_context(self, query, vector=None):
         vector = self.encoder.encode([query])[0] if vector is None else vector
         with threadpool_limits(limits=2, user_api='blas'):
             similarities = np.asarray(self.vectors @ vector, dtype=np.float32)
@@ -171,7 +203,12 @@ class SearchIndex:
                  for identifier in set(lexical_rank) | set(dense_rank)}
         for identifier in dense_rank:
             fused[identifier] += 1 / (60 + dense_rank[identifier])
-        author_ids = sorted(fused, key=lambda author: (-fused[author], author))[:self.candidate_limit]
+        return {'similarities': similarities, 'lexical_scores': lexical_scores, 'lexical_rank': lexical_rank,
+                'dense_rank': dense_rank, 'fused': fused, 'lexical': lexical, 'dense': dense}
+
+    def assemble(self, query, author_ids, context):
+        similarities, lexical_scores = context['similarities'], context['lexical_scores']
+        lexical_rank, dense_rank, fused = context['lexical_rank'], context['dense_rank'], context['fused']
         max_lexical = max(lexical_scores.values(), default=1.0)
         query_tokens = tokens(query)
         features, evidence = [], {}
@@ -193,7 +230,7 @@ class SearchIndex:
             ])
             evidence[identifier] = supporting[:3]
         return {'author_ids': author_ids, 'features': np.asarray(features, dtype=np.float32).reshape(-1, len(FEATURE_NAMES)),
-                'lexical': lexical[:self.candidate_limit], 'dense': dense[:self.candidate_limit],
+                'lexical': context['lexical'][:self.candidate_limit], 'dense': context['dense'][:self.candidate_limit],
                 'hybrid': author_ids, 'evidence': evidence}
 
     def results(self, query, retrieval, scores, limit=10):

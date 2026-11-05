@@ -1,0 +1,40 @@
+{
+  "command": [
+    "scripts/compare_history.py",
+    "--baseline-graph",
+    "data/processed/validation-150k/graph.sqlite3",
+    "--expanded-graph",
+    "data/processed/history-enriched/graph.sqlite3",
+    "--dataset",
+    "data/processed/model-pilot-v1",
+    "--out",
+    "results/history-enrichment-coverage.json"
+  ],
+  "comparison": [
+    {
+      "author_history_coverage": 0.3985973115137347,
+      "authors": 151156,
+      "graph": "baseline",
+      "papers": 106978,
+      "queries_with_history": 302,
+      "relevant_authors": 1711,
+      "relevant_with_history": 682
+    },
+    {
+      "author_history_coverage": 0.4266510812390415,
+      "authors": 197282,
+      "graph": "expanded",
+      "papers": 160820,
+      "queries_with_history": 309,
+      "relevant_authors": 1711,
+      "relevant_with_history": 730
+    }
+  ],
+  "cutoff_year": 2018,
+  "excluded_for_graph_title_or_key_overlap": 0,
+  "package_source_sha256": "340fc4a2b5b3b775d475a9a0634b24663037a0da77a7badb0ed123be15b21eb3",
+  "queries": 400,
+  "query_ids_sha256": "1262654ddfc806cc7e3c00926ea979790ffa234938015e7fcddf76da25e8d8dd",
+  "scope": "Same fixed validation labels on both frozen graphs; not final test. Source-order expansion is not representative.",
+  "validation_labels_sha256": "a656af174cc9642cf5525c9577930b9887434d7d8cefe9b325b4be857b9fa802"
+}

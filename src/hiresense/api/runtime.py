@@ -17,7 +17,8 @@ from ..graph.build import validate_graph
 from ..graph.queries import GraphQueries
 from ..ranking.scoring import score_model
 from ..retrieval.encoder import LocalEncoder
-from ..retrieval.index import SearchIndex, tokens
+from ..retrieval.index import tokens
+from ..retrieval.factory import search_index
 
 
 class Backend:
@@ -50,8 +51,10 @@ class Backend:
         try:
             validate_graph(database)
             encoder = LocalEncoder(path('encoder'))
-            engine = SearchIndex(database, path('index'), encoder)
             model = json.loads(path('model').read_text())
+            engine = search_index(database, path('index'), encoder, model,
+                                  profiles=path('profiles') if 'profiles' in config else None,
+                                  cross_directory=path('cross_encoder') if 'cross_encoder' in config else None)
             mode = config.get('query_provider', 'recorded')
             if mode == 'recorded':
                 try:

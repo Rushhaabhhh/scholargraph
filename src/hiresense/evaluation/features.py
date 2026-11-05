@@ -1,7 +1,9 @@
 """Materialize retrieval features without injecting any ground-truth candidates."""
 
 import json
+import shutil
 import sys
+import tempfile
 from pathlib import Path
 from time import monotonic
 
@@ -37,9 +39,12 @@ def load_partition(dataset: str | Path, role: str, database):
 
 def materialize(engine, queries, directory: str | Path, labels_sha256: str):
     directory = Path(directory)
+    feature_names = getattr(engine, 'feature_names', FEATURE_NAMES)
     signature = {'content_sha256': engine.manifest['content_sha256'], 'encoder_sha256': engine.encoder.signature,
-                 'graph_sha256': graph_digest(engine.database), 'feature_version': 1, 'labels_sha256': labels_sha256, 'features': list(FEATURE_NAMES),
+                 'graph_sha256': graph_digest(engine.database), 'feature_version': 1, 'labels_sha256': labels_sha256, 'features': list(feature_names),
                  'paper_limit': engine.paper_limit, 'candidate_limit': engine.candidate_limit}
+    if hasattr(engine, 'retrieval_signature'):
+        signature['retrieval'] = engine.retrieval_signature
     data_file, manifest_file = directory / 'features.npz', directory / 'manifest.json'
     if directory.exists():
         manifest = json.loads(manifest_file.read_text())
@@ -49,7 +54,6 @@ def materialize(engine, queries, directory: str | Path, labels_sha256: str):
             cache = {name: stored[name] for name in stored.files}
         cache['queries'] = queries
         return cache
-    directory.mkdir(parents=True)
     started = monotonic()
     features, author_ids, offsets, lexical, dense = [], [], [0], [], []
     for index, query in enumerate(queries):
@@ -59,14 +63,22 @@ def materialize(engine, queries, directory: str | Path, labels_sha256: str):
         offsets.append(len(author_ids))
         lexical.append((retrieved['lexical'] + [-1] * engine.candidate_limit)[:engine.candidate_limit])
         dense.append((retrieved['dense'] + [-1] * engine.candidate_limit)[:engine.candidate_limit])
-        if (index + 1) % 500 == 0:
+        interval = 100 if hasattr(engine, 'retrieval_signature') else 500
+        if (index + 1) % interval == 0:
             print(f'Materialized {index + 1}/{len(queries)} queries in {monotonic() - started:.1f}s', flush=True, file=sys.stderr)
-    cache = {'features': np.concatenate(features) if features else np.empty((0, len(FEATURE_NAMES)), dtype=np.float32),
+    cache = {'features': np.concatenate(features) if features else np.empty((0, len(feature_names)), dtype=np.float32),
              'author_ids': np.asarray(author_ids, dtype=np.int64), 'offsets': np.asarray(offsets, dtype=np.int64),
              'lexical': np.asarray(lexical, dtype=np.int64), 'dense': np.asarray(dense, dtype=np.int64)}
-    np.savez_compressed(data_file, **cache)
-    write_json(manifest_file, {'signature': signature, 'features_sha256': digest_file(data_file),
-                               'queries': len(queries), 'candidate_rows': len(author_ids),
-                               'elapsed_seconds': round(monotonic() - started, 3)})
+    directory.parent.mkdir(parents=True, exist_ok=True)
+    stage = Path(tempfile.mkdtemp(dir=directory.parent, prefix='.features-'))
+    try:
+        np.savez_compressed(stage / 'features.npz', **cache)
+        write_json(stage / 'manifest.json', {'signature': signature, 'features_sha256': digest_file(stage / 'features.npz'),
+                                            'queries': len(queries), 'candidate_rows': len(author_ids),
+                                            'elapsed_seconds': round(monotonic() - started, 3)})
+        stage.rename(directory)
+    except BaseException:
+        shutil.rmtree(stage)
+        raise
     cache['queries'] = queries
     return cache

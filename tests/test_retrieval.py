@@ -88,6 +88,38 @@ class RetrievalTests(unittest.TestCase):
         finally:
             database.close()
 
+    def test_reused_vectors_require_matching_encoder_graph_and_unchanged_titles(self):
+        expanded = connect(self.path / 'expanded.sqlite3')
+        try:
+            self.database.backup(expanded)
+            expanded.execute("UPDATE papers SET title='Updated historical graph methods' WHERE id='history/graph'")
+            expanded.execute("INSERT INTO papers(id,title,year) VALUES('new/history','Additional history',2018)")
+            expanded.commit()
+            report = build_index(expanded, self.path / 'reused-index', self.encoder,
+                                 reuse_index=self.index_path, reuse_database=self.database)
+            self.assertEqual(report['reused_title_vectors'], 3)
+            self.assertEqual(report['encoded_title_vectors'], 2)
+            titles = [r[0] for r in expanded.execute('SELECT title FROM papers ORDER BY id')]
+            values = np.load(self.path / 'reused-index/embeddings.npy', allow_pickle=False)
+            new_ids = [r[0] for r in expanded.execute('SELECT id FROM papers ORDER BY id')]
+            old_ids = json.loads((self.index_path / 'manifest.json').read_text())['paper_ids']
+            old_vectors = np.load(self.index_path / 'embeddings.npy', allow_pickle=False)
+            for key in old_ids:
+                if key != 'history/graph':
+                    np.testing.assert_array_equal(values[new_ids.index(key)], old_vectors[old_ids.index(key)])
+            changed = [new_ids.index('history/graph'), new_ids.index('new/history')]
+            np.testing.assert_allclose(values[changed], self.encoder.encode([titles[i] for i in changed]), atol=1e-5)
+            # Dynamic int8 activation scales depend slightly on the inference batch;
+            # reuse promises identical verified stored vectors, not bitwise equality
+            # with a differently padded/quantized fresh batch.
+            self.assertTrue((np.sum(values * self.encoder.encode(titles), axis=1) > 0.97).all())
+            self.database.execute("UPDATE papers SET title='Changed reference' WHERE id='history/graph'")
+            with self.assertRaisesRegex(ValueError, 'Reference'):
+                build_index(expanded, self.path / 'bad-reuse', self.encoder,
+                            reuse_index=self.index_path, reuse_database=self.database)
+        finally:
+            expanded.close()
+
     def test_bm25_and_hybrid_are_bounded_deterministic_and_evidence_backed(self):
         first = self.engine.retrieve('historical graph algorithms')
         second = self.engine.retrieve('historical graph algorithms')

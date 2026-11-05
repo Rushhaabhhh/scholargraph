@@ -1,0 +1,489 @@
+{
+  "command": [
+    "scripts/train_hybrid.py",
+    "--config",
+    "experiments/hybrid-training.json"
+  ],
+  "config": {
+    "cross_encoder": "models/crossencoder",
+    "dataset": "data/processed/hybrid-cohort-v1",
+    "encoder": "models/minilm",
+    "graph": "data/processed/history-enriched/graph.sqlite3",
+    "index": "data/indexes/history-enriched",
+    "profiles": "data/indexes/history-enriched/author_profiles",
+    "report": "results/hybrid-validation-v1.json",
+    "retrieval": {
+      "candidate_limit": 400,
+      "cross_paper_limit": 64,
+      "expansion_limit": 64,
+      "paper_limit": 512,
+      "profile_limit": 128
+    },
+    "seed": 42,
+    "work": "data/processed/hybrid-training-v1"
+  },
+  "config_sha256": "b531bfc871a9397070341ebb5ef07778e5e32692fedb2559e311ebcc1c5c1d5a",
+  "elapsed_seconds": 423.056,
+  "environment": {
+    "lightgbm": "4.6.0",
+    "onnxruntime": "1.31.1",
+    "python": "3.12.14",
+    "scikit-learn": "1.9.1"
+  },
+  "feature_ablation_scope": "Identical hybrid candidate pools and labels. Without-graph removes explicit graph features, not graph candidate generation; without-cross removes only pair-score features.",
+  "limitations": [
+    "Authorship is weak expertise supervision; sampled non-authors are unjudged.",
+    "Purposeful venue history is not representative of all DBLP.",
+    "Pretrained encoder and cross-encoder overlap cannot be ruled out."
+  ],
+  "name_counterfactual": {
+    "changed_rankings_or_scores": 0,
+    "intervention": "Replace all author display names with alternating name-origin cues, holding evidence and IDs fixed.",
+    "limitation": "Controlled display-name invariance does not establish demographic fairness or remove historical publication bias.",
+    "queries": 8
+  },
+  "package_source_sha256_end": "61b53481d0bae8e43c3ddd054347df08d34c6dd7f001564cff04940714734920",
+  "package_source_sha256_start": "61b53481d0bae8e43c3ddd054347df08d34c6dd7f001564cff04940714734920",
+  "plain_retrieval_validation": {
+    "ablation_scope": "Feature ablations retrain on identical labels and share hybrid candidates and the hybrid prior. Without-dense removes explicit cosine/rank features, not dense retrieval inside that prior. Standalone lexical/dense baselines test retrieval components.",
+    "cohorts": {
+      "has_unseen_relevant_author": {
+        "metrics": {
+          "dense": {
+            "mrr": 0.023227316269584193,
+            "ndcg_at_10": 0.013805389323298684
+          },
+          "hybrid": {
+            "mrr": 0.032506355626864186,
+            "ndcg_at_10": 0.01741781403871807
+          },
+          "lexical": {
+            "mrr": 0.025147000897701492,
+            "ndcg_at_10": 0.01504234496800976
+          }
+        },
+        "queries": 355
+      },
+      "newcomer_history_1_or_2": {
+        "metrics": {
+          "dense": {
+            "mrr": 0.038604134502061314,
+            "ndcg_at_10": 0.0254709919992349
+          },
+          "hybrid": {
+            "mrr": 0.05208732955390146,
+            "ndcg_at_10": 0.029675697481324315
+          },
+          "lexical": {
+            "mrr": 0.0440462409507564,
+            "ndcg_at_10": 0.026171797859890378
+          }
+        },
+        "queries": 192
+      },
+      "prolific_history_20_plus": {
+        "metrics": {
+          "dense": {
+            "mrr": 0.09831032890133416,
+            "ndcg_at_10": 0.05888034735389425
+          },
+          "hybrid": {
+            "mrr": 0.11079146585482287,
+            "ndcg_at_10": 0.067974120317845
+          },
+          "lexical": {
+            "mrr": 0.09933067198463852,
+            "ndcg_at_10": 0.05746838956959271
+          }
+        },
+        "queries": 87
+      }
+    },
+    "coverage": {
+      "hybrid_candidate_recall_all_authors": 0.14260666277030976,
+      "hybrid_candidate_recall_known_authors": 0.33424657534246577,
+      "queries_with_history": 309,
+      "relevant_authors": 1711,
+      "relevant_with_history": 730
+    },
+    "failure_analyses": [],
+    "learned_vs_baseline": {},
+    "metrics": {
+      "dense": {
+        "mrr": 0.036738628923313525,
+        "ndcg_at_10": 0.024796581879849643
+      },
+      "hybrid": {
+        "mrr": 0.04752578331959985,
+        "ndcg_at_10": 0.03059186323788754
+      },
+      "lexical": {
+        "mrr": 0.04191984368716976,
+        "ndcg_at_10": 0.027611528745903807
+      }
+    },
+    "mrr_scope": "Untruncated within each method's returned list, up to 400 authors.",
+    "queries": 400
+  },
+  "queries": {
+    "train": 3000,
+    "validation": 400
+  },
+  "scope": "Train/validation selection only; reserved test not opened.",
+  "selected": "without_graph",
+  "selected_model": "data/processed/hybrid-training-v1/models/selected.json",
+  "selected_model_sha256": "bd8d5239182d2dd609c17269015e3f2aa0b36408af27a045ef091a9721ec24ab",
+  "training": {
+    "full": {
+      "blend_alpha": 0.75,
+      "elapsed_seconds": 34.735,
+      "examples": 75272,
+      "parameters": {
+        "n_estimators": 80,
+        "num_leaves": 7
+      },
+      "positive_examples": 2440,
+      "queries_used": 1138,
+      "removed_features": [],
+      "validation": {
+        "mrr": 0.07397330474779353,
+        "ndcg_at_10": 0.04344048327534789
+      }
+    },
+    "reference": {
+      "blend_alpha": 0.5,
+      "examples": 38856,
+      "parameters": {
+        "max_depth": 2,
+        "n_estimators": 80
+      },
+      "queries_used": 1138,
+      "selected_features": [
+        "lexical_max",
+        "dense_max",
+        "dense_top3",
+        "lexical_rank",
+        "dense_rank",
+        "title_coverage",
+        "support_fraction",
+        "matched_recency",
+        "author_recency",
+        "log_publications",
+        "log_collaborators",
+        "hybrid_rrf"
+      ],
+      "validation": {
+        "mrr": 0.06456623867248219,
+        "ndcg_at_10": 0.042158169812936366
+      }
+    },
+    "without_cross": {
+      "blend_alpha": 0.75,
+      "elapsed_seconds": 6.317,
+      "examples": 75272,
+      "parameters": {
+        "n_estimators": 80,
+        "num_leaves": 7
+      },
+      "positive_examples": 2440,
+      "queries_used": 1138,
+      "removed_features": [
+        "cross_max",
+        "cross_top2",
+        "cross_observed"
+      ],
+      "validation": {
+        "mrr": 0.0716489256061271,
+        "ndcg_at_10": 0.042746245438026714
+      }
+    },
+    "without_graph": {
+      "blend_alpha": 0.75,
+      "elapsed_seconds": 6.26,
+      "examples": 75272,
+      "parameters": {
+        "n_estimators": 80,
+        "num_leaves": 7
+      },
+      "positive_examples": 2440,
+      "queries_used": 1138,
+      "removed_features": [
+        "graph_support",
+        "log_collaborators"
+      ],
+      "validation": {
+        "mrr": 0.07517992408921775,
+        "ndcg_at_10": 0.043634010748439096
+      }
+    }
+  },
+  "validation": {
+    "ablation_scope": "Feature ablations retrain on identical labels and share hybrid candidates and the hybrid prior. Without-dense removes explicit cosine/rank features, not dense retrieval inside that prior. Standalone lexical/dense baselines test retrieval components.",
+    "cohorts": {
+      "has_unseen_relevant_author": {
+        "metrics": {
+          "dense": {
+            "mrr": 0.023227316269584193,
+            "ndcg_at_10": 0.013805389323298684
+          },
+          "full": {
+            "mrr": 0.059383178151955686,
+            "ndcg_at_10": 0.029447581918965612
+          },
+          "hybrid": {
+            "mrr": 0.031094873718057244,
+            "ndcg_at_10": 0.01803362089818693
+          },
+          "learned": {
+            "mrr": 0.060881498752106133,
+            "ndcg_at_10": 0.030389744357972107
+          },
+          "lexical": {
+            "mrr": 0.025147000897701492,
+            "ndcg_at_10": 0.01504234496800976
+          },
+          "reference": {
+            "mrr": 0.04899983407367608,
+            "ndcg_at_10": 0.0260445955347653
+          },
+          "without_cross": {
+            "mrr": 0.05723113967672091,
+            "ndcg_at_10": 0.029304095892814158
+          },
+          "without_graph": {
+            "mrr": 0.060881498752106133,
+            "ndcg_at_10": 0.030389744357972107
+          }
+        },
+        "queries": 355
+      },
+      "newcomer_history_1_or_2": {
+        "metrics": {
+          "dense": {
+            "mrr": 0.038604134502061314,
+            "ndcg_at_10": 0.0254709919992349
+          },
+          "full": {
+            "mrr": 0.08516498963311865,
+            "ndcg_at_10": 0.04207326637128733
+          },
+          "hybrid": {
+            "mrr": 0.05384283801576845,
+            "ndcg_at_10": 0.034005469958196845
+          },
+          "learned": {
+            "mrr": 0.08758085679855132,
+            "ndcg_at_10": 0.04238350915743613
+          },
+          "lexical": {
+            "mrr": 0.0440462409507564,
+            "ndcg_at_10": 0.026171797859890378
+          },
+          "reference": {
+            "mrr": 0.0657380527605657,
+            "ndcg_at_10": 0.039064515754074706
+          },
+          "without_cross": {
+            "mrr": 0.08201739899738425,
+            "ndcg_at_10": 0.04174894495304001
+          },
+          "without_graph": {
+            "mrr": 0.08758085679855132,
+            "ndcg_at_10": 0.04238350915743613
+          }
+        },
+        "queries": 192
+      },
+      "prolific_history_20_plus": {
+        "metrics": {
+          "dense": {
+            "mrr": 0.09831032890133416,
+            "ndcg_at_10": 0.05888034735389425
+          },
+          "full": {
+            "mrr": 0.1601170809700398,
+            "ndcg_at_10": 0.09640585242263974
+          },
+          "hybrid": {
+            "mrr": 0.08748434827922331,
+            "ndcg_at_10": 0.060364698548603005
+          },
+          "learned": {
+            "mrr": 0.1667042499225807,
+            "ndcg_at_10": 0.09677335719283645
+          },
+          "lexical": {
+            "mrr": 0.09933067198463852,
+            "ndcg_at_10": 0.05746838956959271
+          },
+          "reference": {
+            "mrr": 0.14985759619515615,
+            "ndcg_at_10": 0.100316364435261
+          },
+          "without_cross": {
+            "mrr": 0.1525289452905508,
+            "ndcg_at_10": 0.09447375617460044
+          },
+          "without_graph": {
+            "mrr": 0.1667042499225807,
+            "ndcg_at_10": 0.09677335719283645
+          }
+        },
+        "queries": 87
+      }
+    },
+    "coverage": {
+      "hybrid_candidate_recall_all_authors": 0.14319111630625364,
+      "hybrid_candidate_recall_known_authors": 0.3356164383561644,
+      "queries_with_history": 309,
+      "relevant_authors": 1711,
+      "relevant_with_history": 730
+    },
+    "failure_analyses": [
+      {
+        "failure": "candidate_retrieval_miss",
+        "proposed_change": "Test larger retrieval budgets and author-level topic profiles using validation queries.",
+        "query": "A Novel Phase Coding Design for MIMO SAR Based on Golay Complementary Sequences.",
+        "query_id": "paper:conf/igarss/ZhangZQL22",
+        "relevant_author_ids": [
+          563931436203560,
+          634454429736438,
+          804463526768813,
+          2109653129036151
+        ],
+        "retrievable_relevant_author_ids": [
+          634454429736438,
+          804463526768813,
+          2109653129036151
+        ],
+        "top_results": [
+          {
+            "name": "Jie Chen 0009",
+            "person_id": 210134314953340
+          },
+          {
+            "name": "Wei Yang 0004",
+            "person_id": 1094790297987439
+          },
+          {
+            "name": "Pengbo Wang",
+            "person_id": 1391676365858519
+          }
+        ]
+      },
+      {
+        "failure": "reranking_miss",
+        "proposed_change": "Inspect topic specificity and sampled-negative ambiguity; validate richer paper-author relevance features.",
+        "query": "Constructing Better Evaluation Metrics by Incorporating the Anchoring Effect into the User Model.",
+        "query_id": "paper:conf/sigir/ChenZS22",
+        "relevant_author_ids": [
+          1811981611797301,
+          2405295023655566,
+          4070690574329222
+        ],
+        "retrievable_relevant_author_ids": [
+          2405295023655566,
+          4070690574329222
+        ],
+        "top_results": [
+          {
+            "name": "Paul Thomas 0001",
+            "person_id": 3371270264085439
+          },
+          {
+            "name": "Shaoping Ma",
+            "person_id": 303605588280415
+          },
+          {
+            "name": "Cheng Luo 0001",
+            "person_id": 3036866670942739
+          }
+        ]
+      },
+      {
+        "failure": "no_historical_evidence",
+        "proposed_change": "Additional public pre-cutoff sources could improve coverage; future papers must remain excluded.",
+        "query": "Nonlinear One-bit Precoding for Massive MIMO Downlink: Minimizing the Maximum Mean Squared Error.",
+        "query_id": "paper:conf/wcnc/YuanZ21",
+        "relevant_author_ids": [
+          855230915267818,
+          1347592858579620
+        ],
+        "retrievable_relevant_author_ids": [],
+        "top_results": [
+          {
+            "name": "Tharmalingam Ratnarajah",
+            "person_id": 3987059895293007
+          },
+          {
+            "name": "Anastasios K. Papazafeiropoulos",
+            "person_id": 1168172258992466
+          },
+          {
+            "name": "Christos Masouros",
+            "person_id": 1177810275996422
+          }
+        ]
+      }
+    ],
+    "learned_vs_baseline": {
+      "dense": {
+        "mean_ndcg_delta": 0.01883742886858945,
+        "paired_bootstrap_95pct": [
+          0.010662377695078124,
+          0.02772772911994572
+        ]
+      },
+      "hybrid": {
+        "mean_ndcg_delta": 0.012834051129385826,
+        "paired_bootstrap_95pct": [
+          0.006895195407124381,
+          0.019908394396373753
+        ]
+      },
+      "lexical": {
+        "mean_ndcg_delta": 0.016022482002535286,
+        "paired_bootstrap_95pct": [
+          0.007706241319357591,
+          0.0252041444780394
+        ]
+      }
+    },
+    "metrics": {
+      "dense": {
+        "mrr": 0.036738628923313525,
+        "ndcg_at_10": 0.024796581879849643
+      },
+      "full": {
+        "mrr": 0.07397330474779353,
+        "ndcg_at_10": 0.04344048327534789
+      },
+      "hybrid": {
+        "mrr": 0.04375737997294916,
+        "ndcg_at_10": 0.03079995961905327
+      },
+      "learned": {
+        "mrr": 0.07517992408921775,
+        "ndcg_at_10": 0.043634010748439096
+      },
+      "lexical": {
+        "mrr": 0.04191984368716976,
+        "ndcg_at_10": 0.027611528745903807
+      },
+      "reference": {
+        "mrr": 0.06456623867248219,
+        "ndcg_at_10": 0.042158169812936366
+      },
+      "without_cross": {
+        "mrr": 0.0716489256061271,
+        "ndcg_at_10": 0.042746245438026714
+      },
+      "without_graph": {
+        "mrr": 0.07517992408921775,
+        "ndcg_at_10": 0.043634010748439096
+      }
+    },
+    "mrr_scope": "Untruncated within each method's returned list, up to 400 authors.",
+    "queries": 400
+  }
+}
