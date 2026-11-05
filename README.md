@@ -116,6 +116,8 @@ Author IDs are deterministic and fit JavaScript's exact integer range. Identity 
 
 ## Reproduce graph and model evaluation
 
+For the experimental 150,000-paper source-order pilot, fixed-cohort validation comparisons, stricter temporal identity evaluation, and a user-led training workflow, see `docs/model-training-workbook.md`. For the fixed 1,200/400-query model pilot, reserved test protocol, real evidence trace and advanced model candidates, see `docs/model-selection-and-pilot.md`. The optional `experiments/backend-150k.json` uses the existing baseline-trained model with the larger prepared historical graph; it requires locally prepared 150k artifacts and does not replace the default backend.
+
 After preparing the data artifacts:
 
 ```sh

@@ -49,6 +49,23 @@ def main() -> None:
     assistant.add_argument('--config', type=Path, default=Path('experiments/backend.json'))
     assistant.add_argument('--out', type=Path, required=True)
     assistant.add_argument('--scenarios', type=Path, default=Path('experiments/assistant-scenarios.json'))
+    identity = commands.add_parser('identity-temporal', help='Evaluate linkage on later noisy observations and unseen authors')
+    identity.add_argument('--source-db', required=True, type=Path)
+    identity.add_argument('--graph-db', required=True, type=Path)
+    identity.add_argument('--start-year', required=True, type=int)
+    identity.add_argument('--end-year', required=True, type=int)
+    identity.add_argument('--rate', type=float, default=1.0)
+    identity.add_argument('--seed', type=int, default=42)
+    identity.add_argument('--out', required=True, type=Path)
+    pilot = commands.add_parser('prepare-pilot', help='Reserve fixed training, validation and novel later test cohorts')
+    pilot.add_argument('--dataset', required=True, type=Path)
+    pilot.add_argument('--graph-db', required=True, type=Path)
+    pilot.add_argument('--exclude-source-db', required=True, type=Path)
+    pilot.add_argument('--out', required=True, type=Path)
+    pilot.add_argument('--train-queries', type=int, default=1200)
+    pilot.add_argument('--validation-queries', type=int, default=400)
+    pilot.add_argument('--seed', type=int, default=42)
+    pilot.add_argument('--test-start-year', type=int, default=2025)
     slicer = commands.add_parser('slice', help='Create a reproducible source-order DBLP slice')
     slicer.add_argument('--data', required=True, type=Path)
     slicer.add_argument('--out', required=True, type=Path)
@@ -95,7 +112,35 @@ def main() -> None:
                         command.add_argument('--out', required=True, type=Path)
     args = parser.parse_args()
     try:
-        if args.command == 'prepare-backend':
+        if args.command == 'prepare-pilot':
+            from .evaluation.pilot import create_pilot
+            if not args.graph_db.is_file() or not args.exclude_source_db.is_file():
+                raise ValueError('Input databases must exist')
+            graph, excluded = connect(args.graph_db), connect(args.exclude_source_db)
+            try:
+                report = create_pilot(args.dataset, graph, excluded, args.out, train_count=args.train_queries,
+                                      validation_count=args.validation_queries, seed=args.seed, test_start=args.test_start_year)
+            finally:
+                graph.close()
+                excluded.close()
+        elif args.command == 'identity-temporal':
+            from .evaluation.identity_temporal import evaluate_temporal_identity
+            if args.out.exists() or not args.source_db.is_file() or not args.graph_db.is_file():
+                raise ValueError('Input databases must exist and the output must be a new path')
+            source, graph = connect(args.source_db), connect(args.graph_db)
+            try:
+                report = evaluate_temporal_identity(source, graph, args.start_year, args.end_year,
+                                                    rate=args.rate, seed=args.seed)
+                report['command'] = ['identity-temporal', '--source-db', str(args.source_db), '--graph-db', str(args.graph_db),
+                                     '--start-year', str(args.start_year), '--end-year', str(args.end_year),
+                                     '--rate', str(args.rate), '--seed', str(args.seed), '--out', str(args.out)]
+                from .data.artifacts import package_digest
+                report['package_source_sha256'] = package_digest()
+                write_json(args.out, report)
+            finally:
+                source.close()
+                graph.close()
+        elif args.command == 'prepare-backend':
             from .data.prepare_backend import prepare_backend
             report = prepare_backend(args.data, args.out, args.cutoff_year)
         elif args.command == 'serve':

@@ -1,0 +1,17 @@
+{
+  "batch_queries": 4,
+  "command": [
+    ".venv/bin/python",
+    "scripts/check_clean_copy.py",
+    "--out",
+    "/tmp/hiresense-pilot-clean-check.json"
+  ],
+  "elapsed_seconds": 15.252,
+  "errors": 0,
+  "failures": 0,
+  "package_source_sha256": "d9cb1ed575270ac55efdcc84b69e820ffdaee8938cafe9c3ae210abe2cbff816",
+  "scope": "Clean source/model/recording copy with prepared dependencies; no raw corpus, generated indexes, optional LLM weights or API keys.",
+  "successful": true,
+  "tests_run": 66,
+  "unsupported_batch_claims": 0
+}

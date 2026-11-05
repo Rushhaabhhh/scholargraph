@@ -1,0 +1,36 @@
+{
+  "contract_version": 1,
+  "files": {
+    "test_ground_truth.jsonl": "042e161dd248513feb8ed6c21c45f683a5b5b3ef205a6abfa03d08c2a60677a9",
+    "train_ground_truth.jsonl": "421cbccd7df66a68b70b0e532fd724289981863d5ea8de3d7c1ced6cf65cb944",
+    "validation_ground_truth.jsonl": "a656af174cc9642cf5525c9577930b9887434d7d8cefe9b325b4be857b9fa802"
+  },
+  "limitation": "Same source-order DBLP slice; parent test aggregate counts were previously observed. Reserved records have not been scored here; external unseen-slice testing is still required.",
+  "package_source_sha256": "d9cb1ed575270ac55efdcc84b69e820ffdaee8938cafe9c3ae210abe2cbff816",
+  "protocol": "Deterministic training pilot, novel validation and reserved later novel test.",
+  "selection": {
+    "algorithm": "sha256 of seed:role:query_id, ascending",
+    "excluded_source_dataset_sha256": "f63d099b99c0557fa159e60ade829c1e3995aed71d757546a17db1aa1c6729ec",
+    "excluded_source_records": 50000,
+    "parent_labels_sha256": {
+      "test": "6eb6de4967b581ecbc772c37c5d78f4ac79cae4e9d911a43a944dde8fa4cc481",
+      "train": "d5d1184228a956ce8a3a028c2937e4e1a54f6275d549198103907179b94dec8e",
+      "validation": "575334897a553141a32509e924292de2000f3b6aa50b38963add91ee3606d58d"
+    },
+    "parent_manifest_sha256": "b0def98aafe2bc0edab86bf66f4389baa02c0cb9ae14c86e0b0aca76d218afc2",
+    "reserved_test_count": 5588,
+    "reserved_test_start_year": 2025,
+    "seed": 42,
+    "train_count": 1200,
+    "validation_and_test_exclude_prior_source_keys_and_normalized_titles": true,
+    "validation_count": 400,
+    "validation_pool": 9318
+  },
+  "source_dataset_sha256": "c5600f2dc0f1732a4146203e0e6b6671b59c263fce62617d135f59465dcbaab5",
+  "split": {
+    "graph_cutoff_year": 2018,
+    "test_end_year": 2026,
+    "train_end_year": 2020,
+    "validation_end_year": 2022
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "ambiguity_margin": 0.06,
+  "command": [
+    "identity-temporal",
+    "--source-db",
+    "data/processed/phase1/source.sqlite3",
+    "--graph-db",
+    "data/processed/phase1/dataset/graph.sqlite3",
+    "--start-year",
+    "2021",
+    "--end-year",
+    "2022",
+    "--rate",
+    "0.2",
+    "--seed",
+    "42",
+    "--out",
+    "results/identity-temporal-validation.json"
+  ],
+  "corruptions": {
+    "initials": 385,
+    "name_order": 374,
+    "transliteration": 355,
+    "typo": 395
+  },
+  "cutoff_year": 2018,
+  "elapsed_seconds": 18.026,
+  "end_year": 2022,
+  "limitation": "Synthetic name noise; known-reference linkage with unknown-identity rejection, not open-world clustering.",
+  "max_candidates": 128,
+  "package_source_sha256": "f68be277da74c43757da2ea42e4cf88c49ea3bdb6754c9e55c1a765207348671",
+  "protocol": "Later authorship observations matched only against pre-cutoff profiles; unseen identities included.",
+  "results": {
+    "distance": {
+      "ambiguous": 0,
+      "correct_known_matches": 177,
+      "incorrect_merges": 6,
+      "incorrect_merges_unseen": 5,
+      "known": 495,
+      "known_abstentions": 317,
+      "known_candidate_hits": 482,
+      "known_candidate_recall": 0.9737373737373738,
+      "known_recall": 0.3575757575757576,
+      "matched": 183,
+      "observations": 1509,
+      "precision": 0.9672131147540983,
+      "unseen": 1014,
+      "unseen_abstentions": 1009,
+      "unseen_false_merge_rate": 0.004930966469428008
+    },
+    "exact": {
+      "ambiguous": 0,
+      "correct_known_matches": 143,
+      "incorrect_merges": 5,
+      "incorrect_merges_unseen": 4,
+      "known": 495,
+      "known_abstentions": 351,
+      "known_candidate_hits": 482,
+      "known_candidate_recall": 0.9737373737373738,
+      "known_recall": 0.28888888888888886,
+      "matched": 148,
+      "observations": 1509,
+      "precision": 0.9662162162162162,
+      "unseen": 1014,
+      "unseen_abstentions": 1010,
+      "unseen_false_merge_rate": 0.0039447731755424065
+    }
+  },
+  "sample_rate": 0.2,
+  "seed": 42,
+  "start_year": 2021,
+  "threshold": 0.72,
+  "year_modes": {
+    "distance": "Exponential decay with distance to nearest historical year.",
+    "exact": "Exact year overlap."
+  }
+}

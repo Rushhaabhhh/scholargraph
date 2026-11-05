@@ -50,9 +50,12 @@ def _deletions(token):
 
 
 class AuthorMatcher:
-    def __init__(self, database, max_candidates: int = 128, max_block_size: int = 2000):
+    def __init__(self, database, max_candidates: int = 128, max_block_size: int = 2000, year_mode: str = 'exact'):
         if max_candidates < 1 or max_block_size < 1:
             raise ValueError('Candidate and block limits must be positive')
+        if year_mode not in ('exact', 'distance'):
+            raise ValueError('Unknown year matching mode')
+        self.year_mode = year_mode
         self.max_candidates, self.max_block_size = max_candidates, max_block_size
         self.profiles = {}
         self.names, self.tokens, self.deletions = defaultdict(set), defaultdict(set), defaultdict(set)
@@ -118,11 +121,16 @@ class AuthorMatcher:
         observed_coauthors = {normalize_name(name) for name in record.get('observed_coauthors', ())}
         observed_years = set(record.get('observed_years', ()))
         observed_venues = {name.casefold() for name in record.get('observed_venues', ())}
+        if self.year_mode == 'distance':
+            year_score = (sum(max((math.exp(-abs(year - reference) / 5) for reference in profile['years']),
+                                  default=0.0) for year in observed_years) / max(1, len(observed_years)))
+        else:
+            year_score = len(observed_years & profile['years']) / max(1, len(observed_years))
         return {
             'name': name_similarity(record['noisy_name'], profile['name']),
             'coauthors': len(observed_coauthors & profile['coauthors']) / max(1, len(observed_coauthors)),
             'venues': len(observed_venues & profile['venues']) / max(1, len(observed_venues)),
-            'years': len(observed_years & profile['years']) / max(1, len(observed_years)),
+            'years': year_score,
         }
 
     def match(self, record, threshold=0.72, ambiguity_margin=0.06):

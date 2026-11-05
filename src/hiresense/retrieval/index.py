@@ -52,23 +52,35 @@ def build_index(database, directory: str | Path, encoder: LocalEncoder) -> dict:
     stage = Path(tempfile.mkdtemp(dir=target.parent, prefix='.index-'))
     started = monotonic()
     try:
-        papers = database.execute('SELECT id,title FROM papers ORDER BY id').fetchall()
-        embeddings = encoder.encode([row['title'] for row in papers])
-        np.save(stage / 'embeddings.npy', embeddings, allow_pickle=False)
+        paper_count = database.execute('SELECT COUNT(*) FROM papers').fetchone()[0]
+        embeddings = np.lib.format.open_memmap(stage / 'embeddings.npy', mode='w+', dtype=np.float32,
+                                               shape=(paper_count, encoder.dimensions))
+        paper_ids = []
         lexical = sqlite3.connect(stage / 'lexical.sqlite3')
         try:
             lexical.execute("CREATE VIRTUAL TABLE documents USING fts5(title, tokenize='porter unicode61 remove_diacritics 2')")
-            lexical.executemany('INSERT INTO documents(rowid,title) VALUES(?,?)',
-                                ((index + 1, paper['title']) for index, paper in enumerate(papers)))
+            cursor = database.execute('SELECT id,title FROM papers ORDER BY id')
+            offset = 0
+            while batch := cursor.fetchmany(512):
+                vectors = encoder.encode([row['title'] for row in batch])
+                embeddings[offset:offset + len(batch)] = vectors
+                lexical.executemany('INSERT INTO documents(rowid,title) VALUES(?,?)',
+                                    ((offset + index + 1, paper['title']) for index, paper in enumerate(batch)))
+                paper_ids.extend(row['id'] for row in batch)
+                offset += len(batch)
+            if offset != paper_count:
+                raise ValueError('Paper count changed during index creation')
             lexical.commit()
         finally:
             lexical.close()
+        embeddings.flush()
+        del embeddings
         manifest = {'version': 1, 'content_sha256': content_signature(database), 'encoder_sha256': encoder.signature,
-                    'paper_ids': [row['id'] for row in papers], 'dimensions': encoder.dimensions,
+                    'paper_ids': paper_ids, 'dimensions': encoder.dimensions,
                     'files': {name: digest_file(stage / name) for name in ('embeddings.npy', 'lexical.sqlite3')}}
         write_json(stage / 'manifest.json', manifest)
         stage.rename(target)
-        return {'papers': len(papers), 'elapsed_seconds': round(monotonic() - started, 3),
+        return {'papers': paper_count, 'elapsed_seconds': round(monotonic() - started, 3),
                 'content_sha256': manifest['content_sha256'], 'encoder_sha256': encoder.signature}
     except BaseException:
         shutil.rmtree(stage)

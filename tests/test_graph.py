@@ -8,6 +8,7 @@ from hiresense.contracts import SplitConfig
 from hiresense.data.ingest import ingest
 from hiresense.db import connect, initialize
 from hiresense.evaluation.resolution import evaluate_resolution
+from hiresense.evaluation.identity_temporal import evaluate_temporal_identity
 from hiresense.evaluation.split import write_split
 from hiresense.graph.build import build_context_graph, validate_graph
 from hiresense.graph.queries import GraphQueries
@@ -79,6 +80,24 @@ class GraphTests(unittest.TestCase):
         self.assertGreater(match[3]['years'], 0)
         self.assertIsNone(matcher.match({'noisy_name': 'Alex Kim'})[0])
         self.assertEqual(matcher.candidates({'noisy_name': 'Unrelated Uniquezzzz'})[0], [])
+
+    def test_temporal_identity_evaluates_known_and_new_people_without_future_profiles(self):
+        source = connect(self.path / 'source.sqlite3')
+        try:
+            report = evaluate_temporal_identity(source, self.database, 2020, 2020, seed=42)
+            for result in report['results'].values():
+                self.assertEqual(result['observations'], 2)
+                self.assertEqual(result['known'], 1)
+                self.assertEqual(result['unseen'], 1)
+                self.assertEqual(result['unseen_abstentions'] + result['incorrect_merges_unseen'], 1)
+            self.assertEqual(report, evaluate_temporal_identity(source, self.database, 2020, 2020, seed=42) | {'elapsed_seconds': report['elapsed_seconds']})
+            with self.assertRaises(ValueError):
+                evaluate_temporal_identity(source, self.database, 2019, 2020)
+            source.execute("UPDATE papers SET content_sha256='changed' WHERE id='train/future'")
+            with self.assertRaisesRegex(ValueError, 'provenance'):
+                evaluate_temporal_identity(source, self.database, 2020, 2020)
+        finally:
+            source.close()
 
     def test_ambiguous_initials_abstain_instead_of_incorrect_merge(self):
         a = self.database.execute("SELECT id FROM authors WHERE canonical_name='Alex Kim 0001'").fetchone()[0]

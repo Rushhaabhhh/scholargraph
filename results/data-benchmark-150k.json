@@ -1,0 +1,291 @@
+{
+  "artifact_directory": "data/processed/phase1_150k",
+  "checks": {
+    "dataset_reproduced": true,
+    "disjoint_train_validation_test_periods": true,
+    "foreign_keys_valid": true,
+    "ingestion_idempotent": true,
+    "no_future_or_unknown_year_graph_papers": true,
+    "no_label_papers_or_repeated_titles_in_graph": true,
+    "noise_reproduced": true
+  },
+  "command": [
+    "python3",
+    "-m",
+    "hiresense.cli",
+    "benchmark",
+    "--config",
+    "/tmp/hiresense-150k-data-config.json",
+    "--out",
+    "data/processed/phase1_150k",
+    "--report",
+    "results/data-benchmark-150k.json"
+  ],
+  "config": {
+    "checksum": "data/raw/dblp.xml.gz.md5",
+    "contract_version": 1,
+    "noise": {
+      "rate": 0.25,
+      "seed": 42
+    },
+    "slice": {
+      "limit": 150000,
+      "max_year": 9999,
+      "min_year": 1,
+      "record_types": [
+        "article",
+        "inproceedings",
+        "incollection"
+      ]
+    },
+    "source": "data/raw/dblp.xml.gz",
+    "split": {
+      "graph_cutoff_year": 2018,
+      "test_end_year": 2026,
+      "train_end_year": 2020,
+      "validation_end_year": 2022
+    }
+  },
+  "config_sha256": "736d8442ad56df741d6b8c8bcaaa8ac658ebf1044a185812fc387f8f723cbe57",
+  "contract_version": 1,
+  "dataset": {
+    "contract_version": 1,
+    "files": {
+      "graph.sqlite3": "eefd449c8e2837672c03f76b1c55c7d4b0457031fff681fb7ccdc04df44be552",
+      "test_ground_truth.jsonl": "6eb6de4967b581ecbc772c37c5d78f4ac79cae4e9d911a43a944dde8fa4cc481",
+      "train_ground_truth.jsonl": "d5d1184228a956ce8a3a028c2937e4e1a54f6275d549198103907179b94dec8e",
+      "validation_ground_truth.jsonl": "575334897a553141a32509e924292de2000f3b6aa50b38963add91ee3606d58d"
+    },
+    "graph": {
+      "authors": 151156,
+      "paper_authors": 320958,
+      "papers": 106978,
+      "venues": 1092
+    },
+    "label_limitations": "Future publication authorship is a proxy for expertise. Missing history limits achievable recall; non-authors are unjudged, not proven irrelevant.",
+    "labels": {
+      "test": {
+        "author_history_coverage": 0.3129220380601596,
+        "authorless_excluded": 0,
+        "duplicate_titles_excluded": 24,
+        "queries": 18892,
+        "queries_with_history": 13777,
+        "query_history_coverage": 0.7292504763921237,
+        "relevant_authors": 84708,
+        "retrievable_relevant_authors": 26507
+      },
+      "train": {
+        "author_history_coverage": 0.48573127229488705,
+        "authorless_excluded": 0,
+        "duplicate_titles_excluded": 65,
+        "queries": 13049,
+        "queries_with_history": 10136,
+        "query_history_coverage": 0.7767645030270519,
+        "relevant_authors": 50460,
+        "retrievable_relevant_authors": 24510
+      },
+      "validation": {
+        "author_history_coverage": 0.4025917170125208,
+        "authorless_excluded": 0,
+        "duplicate_titles_excluded": 44,
+        "queries": 10948,
+        "queries_with_history": 8295,
+        "query_history_coverage": 0.7576726342710998,
+        "relevant_authors": 45684,
+        "retrievable_relevant_authors": 18392
+      }
+    },
+    "papers_after_test_end_excluded": 0,
+    "protocol": "Frozen history graph; subsequent disjoint train, validation and test label periods.",
+    "source_dataset_sha256": "c5600f2dc0f1732a4146203e0e6b6671b59c263fce62617d135f59465dcbaab5",
+    "split": {
+      "graph_cutoff_year": 2018,
+      "test_end_year": 2026,
+      "train_end_year": 2020,
+      "validation_end_year": 2022
+    },
+    "unknown_year_papers_excluded": 0
+  },
+  "elapsed_seconds": 166.908,
+  "environment": {
+    "machine": "x86_64",
+    "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+    "python": "3.12.14",
+    "sqlite": "3.53.1"
+  },
+  "environment_variables": {
+    "PYTHONPATH": "src"
+  },
+  "initial_ingestion": {
+    "elapsed_seconds": 80.897,
+    "inserted": 150000,
+    "memory_measurement": "tracemalloc peak during ingest; process lifetime RSS high-water mark",
+    "parser": {
+      "input_records": 150000,
+      "skipped_missing_key_or_title": 0,
+      "skipped_unsupported": 0,
+      "yielded_records": 150000
+    },
+    "peak_python_memory_mb": 3.94,
+    "process_peak_rss_mb": 43.39,
+    "records_loaded": 150000,
+    "records_per_second": 1854.21,
+    "records_seen": 150000,
+    "run_id": 1,
+    "source_sha256": "9cc5df9ae95eab9dce244398fb70eab53600ffc284635f5dfaff0d5c4f74b286",
+    "unchanged": 0,
+    "updated": 0
+  },
+  "noisy_observations": 80462,
+  "package_source_sha256": "f6f1030b832b91470bcd82f858424d29f58404567adbf77cfa3bdc7bcf96eb38",
+  "preparation_seconds": {
+    "noise": 3.067,
+    "split": 15.246
+  },
+  "repeated_ingestion": {
+    "elapsed_seconds": 27.941,
+    "inserted": 0,
+    "memory_measurement": "tracemalloc peak during ingest; process lifetime RSS high-water mark",
+    "parser": {
+      "input_records": 150000,
+      "skipped_missing_key_or_title": 0,
+      "skipped_unsupported": 0,
+      "yielded_records": 150000
+    },
+    "peak_python_memory_mb": 4.34,
+    "process_peak_rss_mb": 43.92,
+    "records_loaded": 150000,
+    "records_per_second": 5368.48,
+    "records_seen": 150000,
+    "run_id": 2,
+    "source_sha256": "9cc5df9ae95eab9dce244398fb70eab53600ffc284635f5dfaff0d5c4f74b286",
+    "unchanged": 150000,
+    "updated": 0
+  },
+  "source": {
+    "contract_version": 1,
+    "elapsed_seconds": 15.236,
+    "license": "CC0",
+    "output_sha256": "9cc5df9ae95eab9dce244398fb70eab53600ffc284635f5dfaff0d5c4f74b286",
+    "papers": 150000,
+    "parser": {
+      "input_records": 197541,
+      "skipped_missing_key_or_title": 2918,
+      "skipped_unsupported": 0,
+      "yielded_records": 194623
+    },
+    "record_type_counts": {
+      "incollection": 34220,
+      "inproceedings": 115780
+    },
+    "records_scanned": 194623,
+    "sampling_limitation": "Source-order slice is not a representative random sample of all research.",
+    "selection": {
+      "limit": 150000,
+      "max_year": 9999,
+      "min_year": 1,
+      "record_types": [
+        "article",
+        "inproceedings",
+        "incollection"
+      ],
+      "require_authors": true,
+      "require_year": true,
+      "strategy": "first_matching_unique_records_in_source_order"
+    },
+    "source": "DBLP",
+    "source_sha256": "830dd95e700a909b36ac28c66a8409b8cdc8dca75592fc4398add21241842392",
+    "verified_md5": "f300f39ffd7ffba9c7421c0cd36c7a5c",
+    "year_counts": {
+      "1964": 17,
+      "1965": 19,
+      "1966": 16,
+      "1967": 24,
+      "1968": 28,
+      "1969": 30,
+      "1970": 36,
+      "1971": 72,
+      "1972": 49,
+      "1973": 91,
+      "1974": 47,
+      "1975": 92,
+      "1976": 102,
+      "1977": 102,
+      "1978": 147,
+      "1979": 150,
+      "1980": 174,
+      "1981": 231,
+      "1982": 211,
+      "1983": 223,
+      "1984": 185,
+      "1985": 218,
+      "1986": 257,
+      "1987": 315,
+      "1988": 260,
+      "1989": 371,
+      "1990": 303,
+      "1991": 435,
+      "1992": 414,
+      "1993": 479,
+      "1994": 512,
+      "1995": 551,
+      "1996": 707,
+      "1997": 706,
+      "1998": 775,
+      "1999": 1261,
+      "2000": 1144,
+      "2001": 883,
+      "2002": 2721,
+      "2003": 3460,
+      "2004": 3256,
+      "2005": 4248,
+      "2006": 3057,
+      "2007": 5858,
+      "2008": 6837,
+      "2009": 8486,
+      "2010": 4964,
+      "2011": 6908,
+      "2012": 5989,
+      "2013": 6265,
+      "2014": 6656,
+      "2015": 6444,
+      "2016": 6515,
+      "2017": 5946,
+      "2018": 7731,
+      "2019": 7416,
+      "2020": 5698,
+      "2021": 5604,
+      "2022": 5388,
+      "2023": 5911,
+      "2024": 6298,
+      "2025": 3760,
+      "2026": 2947
+    }
+  },
+  "table_state": {
+    "authors": {
+      "rows": 227941,
+      "sha256": "7404bce53a216696c76a3d55b1e98bd87d61c59fdfbd009a4c3fc5d2e2340f9f"
+    },
+    "context_edges": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "paper_authors": {
+      "rows": 502327,
+      "sha256": "68d97b2d35f9a4e48a3d0398e2c2d064b25cee163ab4466c74d2bd16942832cd"
+    },
+    "paper_venues": {
+      "rows": 150000,
+      "sha256": "21146cdfe149599d8db72de3a424fd7f1f71a5249a1507f26302c9f17d9501ca"
+    },
+    "papers": {
+      "rows": 150000,
+      "sha256": "4b2e74ddc248a013cc2b34e5f2a7d4047e61cb32639cdcc70ec7fcb0bb9b2d8b"
+    },
+    "venues": {
+      "rows": 1279,
+      "sha256": "5c10ad759e5fa7e639c6970594b5293ba848afb9210e0b332e379fbbf4c2e68c"
+    }
+  }
+}

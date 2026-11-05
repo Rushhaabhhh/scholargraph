@@ -1,0 +1,62 @@
+{
+  "command": [
+    "scripts/compare_graph_retrieval.py",
+    "--baseline-graph",
+    "data/processed/phase23/graph.sqlite3",
+    "--baseline-index",
+    "data/indexes/phase23",
+    "--expanded-graph",
+    "data/processed/validation-150k/graph.sqlite3",
+    "--expanded-index",
+    "data/indexes/validation-150k",
+    "--dataset",
+    "data/processed/phase1/dataset",
+    "--model",
+    "models/expert_ranker.json",
+    "--queries",
+    "200",
+    "--seed",
+    "42",
+    "--out",
+    "results/graph-retrieval-validation.json"
+  ],
+  "comparison": [
+    {
+      "all_relevant": 858,
+      "authors": 61185,
+      "candidate_hits": 70,
+      "candidate_recall_all": 0.08158508158508158,
+      "candidate_recall_known": 0.2788844621513944,
+      "graph": "baseline",
+      "history_coverage": 0.2925407925407925,
+      "known_relevant": 251,
+      "mean_ms_per_query": 19.349,
+      "mrr": 0.057297812243284556,
+      "ndcg_at_10": 0.030245806198695418,
+      "papers": 41786
+    },
+    {
+      "all_relevant": 858,
+      "authors": 151156,
+      "candidate_hits": 104,
+      "candidate_recall_all": 0.12121212121212122,
+      "candidate_recall_known": 0.29971181556195964,
+      "graph": "expanded",
+      "history_coverage": 0.40442890442890445,
+      "known_relevant": 347,
+      "mean_ms_per_query": 32.298,
+      "mrr": 0.07247183534820605,
+      "ndcg_at_10": 0.041368596412885636,
+      "papers": 106978
+    }
+  ],
+  "excluded_for_graph_title_or_key_overlap": 0,
+  "limitation": "Expanded graph is source-order selected; training graph and expanded serving graph differ.",
+  "model_sha256": "4af823d2310042da51a454564d0b5a7d15bb9212d4b94575d7c1af7ca34516fa",
+  "package_source_sha256": "f6f1030b832b91470bcd82f858424d29f58404567adbf77cfa3bdc7bcf96eb38",
+  "queries": 200,
+  "query_ids_sha256": "2b6431e07f32318433808c51cbf8b46ed0b0c16cfd756d968aed97124c61ab16",
+  "scope": "Same sampled validation cohort, fixed baseline-trained model and 256:200 retrieval budgets; no retraining or final-test selection.",
+  "seed": 42,
+  "validation_labels_sha256": "fa5c03af3c688abd523b481f5f6f10314e96ff2163831a0a8a88ec39b6db1215"
+}

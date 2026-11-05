@@ -1,0 +1,441 @@
+{
+  "candidate_count": 200,
+  "candidate_limit": 200,
+  "command": [
+    "scripts/trace_pipeline.py",
+    "--source-db",
+    "data/processed/phase1_150k/source.sqlite3",
+    "--graph-db",
+    "data/processed/validation-150k/graph.sqlite3",
+    "--index",
+    "data/indexes/validation-150k",
+    "--model",
+    "models/expert_ranker.json",
+    "--query",
+    "information retrieval expert search",
+    "--out",
+    "results/pipeline-trace-expert-search.json"
+  ],
+  "graph_authors": 151156,
+  "graph_cutoff_year": 2018,
+  "graph_papers": 106978,
+  "index_content_sha256": "7bdc79887cfc35ef7050331d95a3ba73c24cb00f824fdfda861101254613b4c0",
+  "model_sha256": "4af823d2310042da51a454564d0b5a7d15bb9212d4b94575d7c1af7ca34516fa",
+  "package_source_sha256": "d9cb1ed575270ac55efdcc84b69e820ffdaee8938cafe9c3ae210abe2cbff816",
+  "paper_limit": 256,
+  "query": "information retrieval expert search",
+  "scope": "Illustrative query and evidence trace, not a model-quality evaluation.",
+  "source_paper_graph_authors": [
+    {
+      "author_position": 0,
+      "canonical_name": "Yi Fang 0008",
+      "id": 140002180208270,
+      "source_key": "dblp:name:Yi Fang 0008"
+    },
+    {
+      "author_position": 1,
+      "canonical_name": "Naveen Somasundaram",
+      "id": 1680922127797129,
+      "source_key": "dblp:name:Naveen Somasundaram"
+    },
+    {
+      "author_position": 2,
+      "canonical_name": "Luo Si",
+      "id": 2012927910964397,
+      "source_key": "dblp:name:Luo Si"
+    },
+    {
+      "author_position": 3,
+      "canonical_name": "Jeongwoo Ko",
+      "id": 4494230716624307,
+      "source_key": "dblp:name:Jeongwoo Ko"
+    },
+    {
+      "author_position": 4,
+      "canonical_name": "Aditya P. Mathur",
+      "id": 4497113991511015,
+      "source_key": "dblp:name:Aditya P. Mathur"
+    }
+  ],
+  "source_paper_graph_edges": [
+    {
+      "edge_type": "author_paper",
+      "edge_year": 2011,
+      "source_id": "author:140002180208270",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "paper:conf/sigir/FangSSKM11"
+    },
+    {
+      "edge_type": "author_paper",
+      "edge_year": 2011,
+      "source_id": "author:1680922127797129",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "paper:conf/sigir/FangSSKM11"
+    },
+    {
+      "edge_type": "author_paper",
+      "edge_year": 2011,
+      "source_id": "author:2012927910964397",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "paper:conf/sigir/FangSSKM11"
+    },
+    {
+      "edge_type": "author_paper",
+      "edge_year": 2011,
+      "source_id": "author:4494230716624307",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "paper:conf/sigir/FangSSKM11"
+    },
+    {
+      "edge_type": "author_paper",
+      "edge_year": 2011,
+      "source_id": "author:4497113991511015",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "paper:conf/sigir/FangSSKM11"
+    },
+    {
+      "edge_type": "author_venue",
+      "edge_year": 2011,
+      "source_id": "author:140002180208270",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "venue:1065"
+    },
+    {
+      "edge_type": "author_venue",
+      "edge_year": 2011,
+      "source_id": "author:1680922127797129",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "venue:1065"
+    },
+    {
+      "edge_type": "author_venue",
+      "edge_year": 2011,
+      "source_id": "author:2012927910964397",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "venue:1065"
+    },
+    {
+      "edge_type": "author_venue",
+      "edge_year": 2011,
+      "source_id": "author:4494230716624307",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "venue:1065"
+    },
+    {
+      "edge_type": "author_venue",
+      "edge_year": 2011,
+      "source_id": "author:4497113991511015",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "venue:1065"
+    },
+    {
+      "edge_type": "coauthorship",
+      "edge_year": 2011,
+      "source_id": "author:140002180208270",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "author:1680922127797129"
+    },
+    {
+      "edge_type": "coauthorship",
+      "edge_year": 2011,
+      "source_id": "author:140002180208270",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "author:2012927910964397"
+    },
+    {
+      "edge_type": "coauthorship",
+      "edge_year": 2011,
+      "source_id": "author:140002180208270",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "author:4494230716624307"
+    },
+    {
+      "edge_type": "coauthorship",
+      "edge_year": 2011,
+      "source_id": "author:140002180208270",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "author:4497113991511015"
+    },
+    {
+      "edge_type": "coauthorship",
+      "edge_year": 2011,
+      "source_id": "author:1680922127797129",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "author:2012927910964397"
+    },
+    {
+      "edge_type": "coauthorship",
+      "edge_year": 2011,
+      "source_id": "author:1680922127797129",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "author:4494230716624307"
+    },
+    {
+      "edge_type": "coauthorship",
+      "edge_year": 2011,
+      "source_id": "author:1680922127797129",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "author:4497113991511015"
+    },
+    {
+      "edge_type": "coauthorship",
+      "edge_year": 2011,
+      "source_id": "author:2012927910964397",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "author:4494230716624307"
+    },
+    {
+      "edge_type": "coauthorship",
+      "edge_year": 2011,
+      "source_id": "author:2012927910964397",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "author:4497113991511015"
+    },
+    {
+      "edge_type": "coauthorship",
+      "edge_year": 2011,
+      "source_id": "author:4494230716624307",
+      "source_record_id": "conf/sigir/FangSSKM11",
+      "target_id": "author:4497113991511015"
+    }
+  ],
+  "source_publication": {
+    "id": "conf/sigir/FangSSKM11",
+    "source": "dblp",
+    "title": "Analysis of an expert search query log.",
+    "venue": "SIGIR",
+    "year": 2011
+  },
+  "top_results": [
+    {
+      "evidence": [
+        {
+          "collaborators": [
+            {
+              "name": "Naveen Somasundaram",
+              "person_id": 1680922127797129
+            },
+            {
+              "name": "Luo Si",
+              "person_id": 2012927910964397
+            },
+            {
+              "name": "Jeongwoo Ko",
+              "person_id": 4494230716624307
+            },
+            {
+              "name": "Aditya P. Mathur",
+              "person_id": 4497113991511015
+            }
+          ],
+          "paper_id": "conf/sigir/FangSSKM11",
+          "source": "dblp",
+          "title": "Analysis of an expert search query log.",
+          "year": 2011
+        },
+        {
+          "collaborators": [
+            {
+              "name": "Luo Si",
+              "person_id": 2012927910964397
+            },
+            {
+              "name": "Aditya P. Mathur",
+              "person_id": 4497113991511015
+            }
+          ],
+          "paper_id": "conf/sigir/FangSM10",
+          "source": "dblp",
+          "title": "Discriminative models of integrating document evidence and document-candidate associations for expert search.",
+          "year": 2010
+        },
+        {
+          "collaborators": [
+            {
+              "name": "Archana Godavarthy",
+              "person_id": 3246204401419522
+            }
+          ],
+          "paper_id": "conf/sigir/FangG14",
+          "source": "dblp",
+          "title": "Modeling the dynamics of personal expertise.",
+          "year": 2014
+        }
+      ],
+      "features": {
+        "author_recency": 1.0,
+        "dense_max": 0.7944289445877075,
+        "dense_rank": 0.9836065769195557,
+        "dense_top3": 0.6440198421478271,
+        "hybrid_rrf": 0.8447444438934326,
+        "lexical_max": 0.8616361618041992,
+        "lexical_rank": 0.7058823704719543,
+        "log_collaborators": 3.044522523880005,
+        "log_publications": 2.4849066734313965,
+        "matched_recency": 0.24659696221351624,
+        "support_fraction": 0.27272728085517883,
+        "title_coverage": 0.5
+      },
+      "hybrid_candidate_rank": 4,
+      "name": "Yi Fang 0008",
+      "person_id": 140002180208270,
+      "ranking_score": 0.7385215306049367
+    },
+    {
+      "evidence": [
+        {
+          "collaborators": [
+            {
+              "name": "Krisztian Balog",
+              "person_id": 3677754645316662
+            },
+            {
+              "name": "Wouter Weerkamp",
+              "person_id": 4395299109879219
+            }
+          ],
+          "paper_id": "conf/sigir/BalogRW08",
+          "source": "dblp",
+          "title": "Bloggers as experts: feed distillation using expert retrieval models.",
+          "year": 2008
+        },
+        {
+          "collaborators": [
+            {
+              "name": "Tom Kenter",
+              "person_id": 4148796078326581
+            },
+            {
+              "name": "Alexey Borisov",
+              "person_id": 3547789716846723
+            },
+            {
+              "name": "Christophe Van Gysel",
+              "person_id": 2011374180723201
+            },
+            {
+              "name": "Mostafa Dehghani 0001",
+              "person_id": 1557508447877879
+            },
+            {
+              "name": "Bhaskar Mitra 0001",
+              "person_id": 106593778870658
+            }
+          ],
+          "paper_id": "conf/sigir/KenterBGDRM17",
+          "source": "dblp",
+          "title": "Neural Networks for Information Retrieval.",
+          "year": 2017
+        },
+        {
+          "collaborators": [
+            {
+              "name": "Krisztian Balog",
+              "person_id": 3677754645316662
+            }
+          ],
+          "paper_id": "conf/sigir/BalogR07",
+          "source": "dblp",
+          "title": "Finding similar experts.",
+          "year": 2007
+        }
+      ],
+      "features": {
+        "author_recency": 1.0,
+        "dense_max": 0.6627036333084106,
+        "dense_rank": 0.6060606241226196,
+        "dense_top3": 0.6351354122161865,
+        "hybrid_rrf": 0.7645687460899353,
+        "lexical_max": 0.9209260940551758,
+        "lexical_rank": 0.9230769276618958,
+        "log_collaborators": 4.927253723144531,
+        "log_publications": 4.499809741973877,
+        "matched_recency": 0.1353352814912796,
+        "support_fraction": 0.3595505654811859,
+        "title_coverage": 0.5
+      },
+      "hybrid_candidate_rank": 10,
+      "name": "Maarten de Rijke",
+      "person_id": 800788917339021,
+      "ranking_score": 0.6929280883658827
+    },
+    {
+      "evidence": [
+        {
+          "collaborators": [
+            {
+              "name": "Vítor Mangaravite",
+              "person_id": 229931556667292
+            }
+          ],
+          "paper_id": "conf/sigir/MangaraviteS16",
+          "source": "dblp",
+          "title": "On Information-Theoretic Document-Person Associations for Expert Search in Academia.",
+          "year": 2016
+        },
+        {
+          "collaborators": [
+            {
+              "name": "Pablo Castells",
+              "person_id": 3159608997107522
+            },
+            {
+              "name": "Ismail Sengör Altingövde",
+              "person_id": 2258107192590096
+            },
+            {
+              "name": "Fazli Can",
+              "person_id": 1752436025844438
+            }
+          ],
+          "paper_id": "conf/sigir/SantosCAC13",
+          "source": "dblp",
+          "title": "Diversity and novelty in information retrieval.",
+          "year": 2013
+        },
+        {
+          "collaborators": [
+            {
+              "name": "Vítor Mangaravite",
+              "person_id": 229931556667292
+            },
+            {
+              "name": "Isac S. Ribeiro",
+              "person_id": 1247579490112894
+            },
+            {
+              "name": "Marcos André Gonçalves",
+              "person_id": 886808990063213
+            },
+            {
+              "name": "Alberto H. F. Laender",
+              "person_id": 2113405465309087
+            }
+          ],
+          "paper_id": "conf/sigir/MangaraviteSRGL16",
+          "source": "dblp",
+          "title": "The LExR Collection for Expertise Retrieval in Academia.",
+          "year": 2016
+        }
+      ],
+      "features": {
+        "author_recency": 0.8187307715415955,
+        "dense_max": 0.6751197576522827,
+        "dense_rank": 0.6666666865348816,
+        "dense_top3": 0.6322359442710876,
+        "hybrid_rrf": 0.8020833134651184,
+        "lexical_max": 0.9557927250862122,
+        "lexical_rank": 0.9375,
+        "log_collaborators": 2.6390573978424072,
+        "log_publications": 2.3025851249694824,
+        "matched_recency": 0.6703200340270996,
+        "support_fraction": 0.5555555820465088,
+        "title_coverage": 0.75
+      },
+      "hybrid_candidate_rank": 7,
+      "name": "Rodrygo L. T. Santos",
+      "person_id": 1462672082901215,
+      "ranking_score": 0.6927403524550682
+    }
+  ]
+}

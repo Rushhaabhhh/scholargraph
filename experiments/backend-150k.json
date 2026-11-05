@@ -1,0 +1,9 @@
+{
+  "graph": "../data/processed/validation-150k/graph.sqlite3",
+  "index": "../data/indexes/validation-150k",
+  "encoder": "../models/minilm",
+  "model": "../models/expert_ranker.json",
+  "session_db": "../data/runtime/sessions-150k.sqlite3",
+  "query_provider": "recorded",
+  "recordings": "../recordings/query-intents.json"
+}

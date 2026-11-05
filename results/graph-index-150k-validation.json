@@ -1,0 +1,43 @@
+{
+  "graph": {
+    "author_paper": 320958,
+    "author_venue": 320958,
+    "coauthorship": 520708,
+    "coauthorship_edges": 520708,
+    "context_edges": 1162624,
+    "elapsed_seconds": 59.013,
+    "integrity": {
+      "foreign_keys_valid": true,
+      "unsupported_edges": 0
+    },
+    "papers_scanned": 106978,
+    "sha256": "8678ffd9e25bed660b538e0e837326cc99ea7b6c191499ab2938a36ea361ab98"
+  },
+  "graph_command": [
+    ".venv/bin/python",
+    "-m",
+    "hiresense.cli",
+    "graph",
+    "--db",
+    "data/processed/validation-150k/graph.sqlite3"
+  ],
+  "index": {
+    "content_sha256": "7bdc79887cfc35ef7050331d95a3ba73c24cb00f824fdfda861101254613b4c0",
+    "elapsed_seconds": 269.671,
+    "encoder_sha256": "611803ca6eebfb8eaf24fc22c22e604bc87e44ca41e6ba83f43dc89f52906eb6",
+    "papers": 106978
+  },
+  "index_command": [
+    ".venv/bin/python",
+    "-m",
+    "hiresense.cli",
+    "index",
+    "--db",
+    "data/processed/validation-150k/graph.sqlite3",
+    "--out",
+    "data/indexes/validation-150k"
+  ],
+  "package_source_sha256": "f6f1030b832b91470bcd82f858424d29f58404567adbf77cfa3bdc7bcf96eb38",
+  "scope": "Separate 150k source-order historical snapshot; graph and local index, not a ranking evaluation.",
+  "source_data_report_sha256": "8651698031abf0f93a9c5c77338d303eca60362a208dc56285ecc976d30d86d7"
+}

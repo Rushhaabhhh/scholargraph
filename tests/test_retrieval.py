@@ -60,6 +60,34 @@ class RetrievalTests(unittest.TestCase):
         self.assertGreater(float(vectors[0] @ vectors[1]), float(vectors[0] @ vectors[2]) + 0.3)
         self.assertEqual(self.encoder.encode([]).shape, (0, 384))
 
+    def test_index_builds_in_bounded_chunks_and_keeps_vectors_aligned(self):
+        class CountingEncoder:
+            dimensions = 2
+            signature = 'test-encoder'
+            def __init__(self):
+                self.batch_sizes = []
+            def encode(self, titles):
+                self.batch_sizes.append(len(titles))
+                return np.asarray([[int(title), -int(title)] for title in titles], dtype=np.float32)
+
+        database = connect(self.path / 'many.sqlite3')
+        try:
+            initialize(database)
+            database.executemany('INSERT INTO papers(id,title) VALUES(?,?)',
+                                 [(f'{i:04}', str(i)) for i in range(1030)])
+            encoder = CountingEncoder()
+            index = self.path / 'many-index'
+            report = build_index(database, index, encoder)
+            self.assertEqual(report['papers'], 1030)
+            self.assertEqual(encoder.batch_sizes, [512, 512, 6])
+            vectors = np.load(index / 'embeddings.npy', allow_pickle=False)
+            self.assertEqual(vectors.shape, (1030, 2))
+            np.testing.assert_array_equal(vectors[:, 0], np.arange(1030))
+            manifest = json.loads((index / 'manifest.json').read_text())
+            self.assertEqual(manifest['paper_ids'][512], '0512')
+        finally:
+            database.close()
+
     def test_bm25_and_hybrid_are_bounded_deterministic_and_evidence_backed(self):
         first = self.engine.retrieve('historical graph algorithms')
         second = self.engine.retrieve('historical graph algorithms')

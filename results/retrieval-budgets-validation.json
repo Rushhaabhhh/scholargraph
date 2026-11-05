@@ -1,0 +1,70 @@
+{
+  "command": [
+    "scripts/compare_retrieval.py",
+    "--db",
+    "data/processed/phase23/graph.sqlite3",
+    "--index",
+    "data/indexes/phase23",
+    "--dataset",
+    "data/processed/phase1/dataset",
+    "--model",
+    "models/expert_ranker.json",
+    "--queries",
+    "200",
+    "--out",
+    "results/retrieval-budgets-validation.json"
+  ],
+  "comparisons": [
+    {
+      "all_relevant": 858,
+      "author_limit": 200,
+      "candidate_hits": 70,
+      "candidate_recall_all": 0.08158508158508158,
+      "candidate_recall_known": 0.2788844621513944,
+      "elapsed_seconds": 3.561,
+      "known_relevant": 251,
+      "mean_candidates": 200.0,
+      "mean_ms_per_query": 17.807,
+      "mrr": 0.057297812243284556,
+      "ndcg_at_10": 0.030245806198695418,
+      "paper_limit": 256,
+      "queries": 200
+    },
+    {
+      "all_relevant": 858,
+      "author_limit": 200,
+      "candidate_hits": 71,
+      "candidate_recall_all": 0.08275058275058275,
+      "candidate_recall_known": 0.28286852589641437,
+      "elapsed_seconds": 4.084,
+      "known_relevant": 251,
+      "mean_candidates": 200.0,
+      "mean_ms_per_query": 20.42,
+      "mrr": 0.057121305297635615,
+      "ndcg_at_10": 0.030245806198695418,
+      "paper_limit": 512,
+      "queries": 200
+    },
+    {
+      "all_relevant": 858,
+      "author_limit": 400,
+      "candidate_hits": 91,
+      "candidate_recall_all": 0.10606060606060606,
+      "candidate_recall_known": 0.36254980079681276,
+      "elapsed_seconds": 4.849,
+      "known_relevant": 251,
+      "mean_candidates": 400.0,
+      "mean_ms_per_query": 24.246,
+      "mrr": 0.057337776338981586,
+      "ndcg_at_10": 0.030245806198695418,
+      "paper_limit": 512,
+      "queries": 200
+    }
+  ],
+  "model_sha256": "4af823d2310042da51a454564d0b5a7d15bb9212d4b94575d7c1af7ca34516fa",
+  "package_source_sha256": "f68be277da74c43757da2ea42e4cf88c49ea3bdb6754c9e55c1a765207348671",
+  "query_ids_sha256": "2b6431e07f32318433808c51cbf8b46ed0b0c16cfd756d968aed97124c61ab16",
+  "scope": "Seeded validation subset; existing model is not retrained. This is a development comparison, not a final test.",
+  "seed": 42,
+  "validation_labels_sha256": "fa5c03af3c688abd523b481f5f6f10314e96ff2163831a0a8a88ec39b6db1215"
+}

@@ -2,6 +2,8 @@
 
 This is a working decision document for discussion, not the assignment's final two-to-three-page design PDF and not a report of new experiments. The application code and model have not been changed as part of this document. Status labels distinguish what exists, what is proposed, and what must be measured.
 
+**Later implementation update:** The 150k source-order pilot, bounded index building and a held-out temporal identity comparison have since been implemented. See [model-training-workbook.md](model-training-workbook.md) for their actual validation results, limitations and commands. The next experimental ranking model has not yet been trained.
+
 ## 1. What we are building
 
 An offline-first expert-finding product over DBLP. A user describes a research problem; the system ranks researchers and cites dated publications and relationships as evidence. A conversational assistant can search, inspect a profile, find a collaboration path, and remember or forget shortlist/reject decisions. A reviewer can also run `./run --data ... --queries ... --out ...` against a different DBLP-style XML slice without a network or API key.
