@@ -369,3 +369,11 @@ Evidence / report / model paths:
 **Frontend transition.** Retired the static prototype and its browser test after preserving them in the snapshot. `web/` is an empty workspace for the planned frontend. Compose now provides the API and sample graph, not a web application; the earlier demo and design describe the retired prototype and must be updated in the next phase. No new model training or evaluation was performed during cleanup.
 
 **Cleanup verification.** The reorganized clean copy passed 79 backend/data/ML/assistant tests and four batch queries with no unsupported claims. The count excludes the retired prototype's browser test; the previous 80-test report remains historical. A fresh API-only Compose volume started successfully, and the pre-existing sample volume also returned recorded-provider search results after the path migration. Archive integrity and the restored frozen package hash were checked; no training or final-test replay was run.
+
+### Frontend implementation: Next.js search and assistant
+
+Built the replacement TypeScript interface around the existing FastAPI contracts: search with cancellable requests, evidence and author timelines, assistant tool/memory visibility, and server-confirmed shortlist/reject controls. Session decisions remain in the backend until explicitly cleared; the browser tab holds the session ID. Added a runtime API proxy and a Next.js container to Compose, along with component and browser tests.
+
+Verification used a fresh Compose sample (200 papers, 762 authors): the production build and two component tests passed; five Chromium browser tests covered search → evidence → assistant → shortlist → profile, a failed decision, stale search, mobile memory deletion, and result-reference numbering after rejection. An earlier build-time proxy configuration would have pointed the Docker frontend at itself; switching to a runtime proxy fixed this. Result numbers are kept stable when a person is rejected so assistant references continue to identify the intended person.
+
+These are functional checks on the sample, not new ranking evaluations. The existing low held-out ranking metrics still apply. The old design PDF and recording predate this frontend and must be updated before submission. Image/dependency preparation can require network access; the prepared application runs without external API keys.

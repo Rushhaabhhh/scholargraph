@@ -2,7 +2,7 @@
 
 Offline research-expert discovery using public DBLP bibliographic data. The Python backend owns ingestion, identity resolution, the dated context graph, retrieval, ranking, grounded explanations and session memory. SQLite stores research data and sessions separately.
 
-**Frontend transition:** the previous static prototype has been retired. `web/` is intentionally empty and reserved for the planned Next.js/TypeScript application. Compose currently starts the API and sample database only; a browser interface will be added in the next phase. The historical prototype and its test are preserved in `resources/experiments/frozen-source-504ec1.zip`.
+The Next.js/TypeScript application in `web/` connects to the Python API. It includes search, sourced evidence, author profiles, an assistant, and session decisions. The earlier static prototype is preserved in `resources/experiments/frozen-source-504ec1.zip`.
 
 ## Setup
 
@@ -24,13 +24,15 @@ Dependency installation and the initial Docker image build may require network a
 
 The command accepts another valid DBLP-style XML slice and a text file with one query per line. It creates an isolated temporary graph/index and writes ranked people, scores, explanations and sourced paper evidence as JSON. Scores are ranking values, not probabilities. The included 200-paper sample is a functional demonstration, not an accuracy benchmark.
 
-## Run the API
+## Run the application
 
 ```sh
 docker compose up --build
 ```
 
-The first start prepares the bundled sample graph. The API is available at `http://localhost:8000`; `GET /health` reports readiness and `GET /openapi.json` exposes its contract. The image and dependencies must be available to build; after preparation the service runs offline. This interim Compose configuration does not serve a frontend.
+The first start prepares the bundled sample graph. Open `http://localhost:3000` for the application. The API is available at `http://localhost:8000`; `GET /health` reports readiness and `GET /openapi.json` exposes its contract. Building images requires dependencies and base images; once prepared, the application runs offline without API keys. The small included sample is for functional testing, not a measure of ranking quality.
+
+For frontend development, start the local Python API as below, then run `cd web && npm ci && npm run dev`. Run `npm test` for component tests. With the API and frontend running, use `npm run test:e2e` for browser tests (install Playwright Chromium first with `npx playwright install chromium`, or set `CHROMIUM_PATH` to a compatible local executable).
 
 For local Python development without Docker, use a new output directory:
 
@@ -71,10 +73,10 @@ src/hiresense/   Python data, graph, retrieval, ranking, assistant and API code
 scripts/         Preparation, training and verification entry points
 tests/           Python tests and fixtures
 models/          Local encoders and trained numeric models
-web/             Empty workspace for the future Next.js frontend
+web/             Next.js application, frontend tests and container configuration
 docs/            Journal, design and assignment materials
 data/            Ignored local raw and generated artifacts
 run              Required offline batch command
 ```
 
-The existing [design PDF](docs/design.pdf), [demo recording](docs/demo.mp4) and [AI-use statement](docs/ai-use-statement.md) describe the earlier prototype and need review/update after the new frontend is built. The demo uses synthetic narration. The repository contains no account authentication and is a local assignment demo.
+The existing [design PDF](docs/design.pdf), [demo recording](docs/demo.mp4) and [AI-use statement](docs/ai-use-statement.md) describe the earlier prototype and need review/update for the new frontend. The demo uses synthetic narration. The repository contains no account authentication and is a local assignment demo.

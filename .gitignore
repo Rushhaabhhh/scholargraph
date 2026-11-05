@@ -19,3 +19,11 @@ build/
 dist/
 
 /data/runtime/
+
+# Next.js local dependencies and build outputs
+/web/node_modules/
+/web/.next/
+/web/coverage/
+/web/*.tsbuildinfo
+/web/test-results/
+/web/playwright-report/
