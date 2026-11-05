@@ -2,7 +2,7 @@
 
 Offline research-expert discovery using public DBLP bibliographic data. The Python backend owns ingestion, identity resolution, the dated context graph, retrieval, ranking, grounded explanations and session memory. SQLite stores research data and sessions separately.
 
-The Next.js/TypeScript application in `web/` connects to the Python API. It includes search, sourced evidence, author profiles, an assistant, and session decisions. The earlier static prototype is preserved in `resources/experiments/frozen-source-504ec1.zip`.
+The Next.js/TypeScript application in `web/` connects to the Python API. It includes search and supported recency/year filters, sourced evidence, author profiles, an assistant, a shortlist/rejected list, and session-memory controls. It uses a local browser session because the API has no account system. See [frontend capability gaps](docs/frontend-backend-gaps.md) for the route map and intentionally omitted assignment extensions. The earlier static prototype is preserved in `resources/experiments/frozen-source-504ec1.zip`.
 
 ## Setup
 
@@ -32,7 +32,7 @@ docker compose up --build
 
 The first start prepares the bundled sample graph. Open `http://localhost:3000` for the application. The API is available at `http://localhost:8000`; `GET /health` reports readiness and `GET /openapi.json` exposes its contract. Building images requires dependencies and base images; once prepared, the application runs offline without API keys. The small included sample is for functional testing, not a measure of ranking quality.
 
-For frontend development, start the local Python API as below, then run `cd web && npm ci && npm run dev`. Run `npm test` for component tests. With the API and frontend running, use `npm run test:e2e` for browser tests (install Playwright Chromium first with `npx playwright install chromium`, or set `CHROMIUM_PATH` to a compatible local executable).
+For frontend development, prepare the API as below, then run `cd web && npm ci && npm run dev`. Run `cd web && npm test` for component tests. With the API and frontend running, use `cd web && npm run test:e2e` for browser tests (install Playwright Chromium first with `npx playwright install chromium`, or set `CHROMIUM_PATH` to a compatible local executable).
 
 For local Python development without Docker, use a new output directory:
 

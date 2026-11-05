@@ -3,7 +3,7 @@
 This journal records what we tried, what happened, what we learned, and what we should consider next. It is a working record for the user and AI assistant, not a claim that every assignment requirement is complete. The entries below reconstruct earlier work from saved reports and our discussion; where a precise date or detail is not recorded, it is not invented.
 
 **Last updated:** 5 November 2026.  
-**Current position:** The trained ranker and previously inspected final evaluation are recorded. The backend, batch interface and API-only Compose setup remain available; the earlier frontend was retired in preparation for the planned Next.js implementation.
+**Current position:** The API and batch pipeline are available; the Next.js frontend now provides the API-backed search, profile, assistant, shortlist and session-memory flows. Ranking results remain weak and the inspected test still must not be retuned against.
 
 For the system design, see [architecture and experiment plan](architecture-and-experiment-plan.md). For runnable commands and model-training details, see [model training workbook](model-training-workbook.md). Links to machine-readable reports in this journal preserve the evidence for each result.
 
@@ -377,3 +377,12 @@ Built the replacement TypeScript interface around the existing FastAPI contracts
 Verification used a fresh Compose sample (200 papers, 762 authors): the production build and two component tests passed; five Chromium browser tests covered search → evidence → assistant → shortlist → profile, a failed decision, stale search, mobile memory deletion, and result-reference numbering after rejection. An earlier build-time proxy configuration would have pointed the Docker frontend at itself; switching to a runtime proxy fixed this. Result numbers are kept stable when a person is rejected so assistant references continue to identify the intended person.
 
 These are functional checks on the sample, not new ranking evaluations. The existing low held-out ranking metrics still apply. The old design PDF and recording predate this frontend and must be updated before submission. Image/dependency preparation can require network access; the prepared application runs without external API keys.
+
+
+### Frontend capability audit and completion
+
+Reviewed the running API routes, request/response schemas, search/profile runtime and assistant/session services before exposing each UI action. The interface now has one shared responsive shell; supported search filters; ranked results with sourced claims and evidence; profiles; assistant tools; shortlist/reject and comparison over returned profile data; and server-confirmed memory controls. All card, navigation, filter, assistant, saved-list, profile and memory actions map to real frontend state or an existing route. Search result scores are explicitly identified as ranking values.
+
+A first pass briefly showed a saved badge unrelated to backend state and the settings suggested a local account; both were removed. The shortlist view fetches profiles from the existing author route, and comparison derives only publication/topic fields the API returns. The assistant drawer is keyboard-dismissible. Test coverage now includes filters, errors, cancellation, mobile drawer, shortlist/reject/compare, profile actions and confirmed session deletion.
+
+**Not implemented because the API lacks corresponding operations:** user authentication, account/organization roles, affiliations and organization filters, per-item memory editing, publication URLs, outreach drafting/approval/sending, credits, dossier export, and a standalone profile collaboration graph. Those omissions and API route mapping are listed in `frontend-backend-gaps.md`. No synthetic workflow is presented.
