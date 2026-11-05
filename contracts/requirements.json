@@ -1,0 +1,40 @@
+{
+  "contract_version": 1,
+  "scope": {
+    "product": "Offline research-expert discovery over a dated, sourced context graph",
+    "architecture": "Python core and FastAPI; SQLite graph and sessions; local lexical/vector indexes; React and TypeScript client through API only",
+    "priorities": ["data correctness and temporal isolation", "measured retrieval and trained model", "grounded assistant", "usable tested application", "reproducible submission"],
+    "time_budget_hours": null,
+    "time_budget_policy": "No deadline or hour cap supplied; complete phases in order and report measured work in chat.",
+    "intentional_exclusions": ["AWS deployment", "Redis and a separate graph database for the local submission", "live outreach workflows"],
+    "production_design_targets": {"papers": 50000000, "queries_per_second": 200, "p95_latency_ms": 500},
+    "production_targets_policy": "Discuss in the final design; do not claim measured capacity without a corresponding benchmark."
+  },
+  "acceptance": [
+    {"id": "P0-contracts", "phase": 0, "expected": "Versioned API/batch contracts, architecture choice, acceptance criteria, and fixed experiment configuration exist."},
+    {"id": "P1-parser", "phase": 1, "expected": "Offline streaming XML/gzip handles DBLP publication types, entities, encodings, nested titles, missing metadata and suffixed identities."},
+    {"id": "P1-scale", "phase": 1, "expected": "At least 50000 real DBLP papers ingested with source checksum, timing, throughput, Python allocation peak and process RSS."},
+    {"id": "P1-ingestion", "phase": 1, "expected": "Repeated ingestion preserves graph records; source corrections replace relationships; malformed input rolls back atomically with a failed audit record."},
+    {"id": "P1-temporal", "phase": 1, "expected": "Graph has only known-year pre-cutoff papers, historical author labels and historical venues. Train, validation and test queries are disjoint later periods; repeated titles are excluded."},
+    {"id": "P1-ground-truth", "phase": 1, "expected": "Future paper titles produce automatic authorship labels; manifests report newcomer coverage and label limitations."},
+    {"id": "P1-noise", "phase": 1, "expected": "Seeded per-authorship name corruption uses historical context, removes disambiguation suffixes, and stores identity labels separately from observations."},
+    {"id": "P1-reproduce", "phase": 1, "expected": "Fixed source/config reproduces slice, query labels and noise bytes; every artifact has a digest and experiments cannot silently overwrite previous runs."},
+    {"id": "P2-resolution", "phase": 2, "expected": "Blocked matcher uses names, coauthors, venues and years; report candidate recall and precision/recall with incorrect merge and split tests."},
+    {"id": "P2-graph", "phase": 2, "expected": "Idempotent author-paper, author-venue and coauthorship edges have typed endpoints, dates, sources and clear error costs."},
+    {"id": "P3-hybrid", "phase": 3, "expected": "Lexical and off-the-shelf semantic dense baselines plus hybrid candidate retrieval run offline."},
+    {"id": "P3-model", "phase": 3, "expected": "Train a model on separate labels, compare against baselines, report ablations, and address a documented hard case."},
+    {"id": "P4-query", "phase": 4, "expected": "LLM structured topics/recency are schema validated with an offline fallback."},
+    {"id": "P4-grounding", "phase": 4, "expected": "Claims cite evidence; automatic verification reports unsupported-claim rate."},
+    {"id": "P4-tools", "phase": 4, "expected": "At least three schema-validated graph tools, multi-turn shortlist/reject memory, visible memory application and deletion."},
+    {"id": "P4-safety", "phase": 4, "expected": "Query/title injections cannot trigger tools as instructions; at least six scripted scenarios report success and injection resistance."},
+    {"id": "P5-search", "phase": 5, "expected": "Search supports loading, empty, error and stale-request cancellation states."},
+    {"id": "P5-evidence", "phase": 5, "expected": "Results expose score, explanation, expandable evidence and unsupported claims; profiles expose sourced publication timelines and topics."},
+    {"id": "P5-assistant", "phase": 5, "expected": "Assistant panel shows calls and applied memory; shortlist/reject remain correct after failed requests."},
+    {"id": "P5-quality", "phase": 5, "expected": "Safe rendering, keyboard navigation, accessible labels, component tests and search-assistant-shortlist end-to-end test."},
+    {"id": "P6-batch", "phase": 6, "expected": "Required ./run handles an unseen XML slice offline with scores, explanations, papers, years and collaborators."},
+    {"id": "P6-operations", "phase": 6, "expected": "Health endpoint, logs, Compose application, exact setup in five commands or fewer, offline tests and CI."},
+    {"id": "P7-evaluation", "phase": 7, "expected": "Measured nDCG@10/MRR, baselines, ablation, leakage audit, controlled fairness check and two significant failure analyses."},
+    {"id": "P7-delivery", "phase": 7, "expected": "2-3 page design with scaling/privacy, measured results with commands, AI-use statement, 3-5 minute recording and clean offline startup."}
+  ],
+  "non_negotiable": ["No API keys or network required for runtime/tests", "No secrets or raw DBLP in submission", "All performance claims measured locally", "Record omissions and reasons honestly", "External API spend below approximately USD 5"]
+}

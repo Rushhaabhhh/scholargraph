@@ -1,0 +1,12 @@
+{
+  "dataset": "data/processed/phase1/dataset",
+  "noise": "data/processed/phase1/noisy_authors.jsonl",
+  "work": "data/processed/phase23",
+  "index": "data/indexes/phase23",
+  "encoder": "models/minilm",
+  "models": "models",
+  "report": "results/phase23.json",
+  "seed": 42,
+  "resolution": {"threshold": 0.72, "ambiguity_margin": 0.06, "max_candidates": 128},
+  "retrieval": {"paper_limit": 256, "candidate_limit": 200}
+}

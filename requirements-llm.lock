@@ -1,0 +1,5 @@
+# Optional local recording/live-query runtime. Install with the CPU wheel index in README.
+llama-cpp-python==0.3.36
+diskcache==5.6.3
+jinja2==3.1.6
+markupsafe==3.0.4

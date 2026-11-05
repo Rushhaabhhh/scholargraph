@@ -1,0 +1,15 @@
+{
+  "conversion": "Xenova/all-MiniLM-L6-v2",
+  "dimensions": 384,
+  "files": {
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "NOTICE": "dd27f77c6684e9a7305ffd3f0e2e1277771c13e002ce60c4347f616bba9a980b",
+    "model.onnx": "afdb6f1a0e45b715d0bb9b11772f032c399babd23bfc31fed1c170afc848bdb1",
+    "tokenizer.json": "da0e79933b9ed51798a3ae27893d3c5fa4a201126cef75586296df9b4d2c62a0"
+  },
+  "license": "Apache-2.0",
+  "max_tokens": 256,
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "pooling": "attention-mask mean, L2 normalization",
+  "revision": "751bff37182d3f1213fa05d7196b954e230abad9"
+}

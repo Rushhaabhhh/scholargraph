@@ -1,0 +1,1833 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dblp>
+  <inproceedings key="conf/dac/LiuC13">
+    <author>Hung-Yi Liu</author>
+    <author>Luca P. Carloni</author>
+    <title>On learning-based methods for design-space exploration with high-level synthesis.</title>
+    <year>2013</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ClarkKBL18">
+    <author>Mark Clark</author>
+    <author>Avinash Kodi</author>
+    <author>Razvan C. Bunescu</author>
+    <author>Ahmed Louri</author>
+    <title>LEAD: learning-enabled energy-aware dynamic voltage/frequency scaling in NoCs.</title>
+    <year>2018</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BhardwajCM20">
+    <author>Kartikeya Bhardwaj</author>
+    <author>Wei Chen 0124</author>
+    <author>Radu Marculescu</author>
+    <title>INVITED: New Directions in Distributed Deep Learning: Bringing the Network at Forefront of IoT Design.</title>
+    <year>2020</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/0003RKEKSOGC21">
+    <author>Rajarshi Roy 0003</author>
+    <author>Jonathan Raiman</author>
+    <author>Neel Kant</author>
+    <author>Ilyas Elkin</author>
+    <author>Robert Kirby 0001</author>
+    <author>Michael Y. Siu</author>
+    <author>Stuart F. Oberman</author>
+    <author>Saad Godil</author>
+    <author>Bryan Catanzaro</author>
+    <title>PrefixRL: Optimization of Parallel Prefix Circuits using Deep Reinforcement Learning.</title>
+    <year>2021</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BianSHS17">
+    <author>Song Bian 0001</author>
+    <author>Michihiro Shintani</author>
+    <author>Masayuki Hiromoto</author>
+    <author>Takashi Sato 0001</author>
+    <title>LSTA: Learning-Based Static Timing Analysis for High-Dimensional Correlated On-Chip Variations.</title>
+    <year>2017</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AnticevACF24">
+    <author>John Anticev</author>
+    <author>Ali Aghdaei</author>
+    <author>Wuxinlin Cheng</author>
+    <author>Zhuo Feng</author>
+    <title>SGM-PINN: Sampling Graphical Models for Faster Training of Physics-Informed Neural Networks.</title>
+    <year>2024</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BouvierVS21">
+    <author>Maxence Bouvier</author>
+    <author>Alexandre Valentian</author>
+    <author>Gilles Sicard</author>
+    <title>Scalable Pitch-Constrained Neural Processing Unit for 3D Integration with Event-Based Imagers.</title>
+    <year>2021</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/0002WYSSLH20">
+    <author>Hanrui Wang 0002</author>
+    <author>Kuan Wang</author>
+    <author>Jiacheng Yang</author>
+    <author>Linxiao Shen</author>
+    <author>Nan Sun 0001</author>
+    <author>Hae-Seung Lee</author>
+    <author>Song Han 0003</author>
+    <title>GCN-RL Circuit Designer: Transferable Transistor Sizing with Graph Neural Networks and Reinforcement Learning.</title>
+    <year>2020</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/0001CAAA20">
+    <author>Kaushik Roy 0001</author>
+    <author>Indranil Chakraborty</author>
+    <author>Mustafa Fayez Ali</author>
+    <author>Aayush Ankit</author>
+    <author>Amogh Agrawal</author>
+    <title>In-Memory Computing in Emerging Memory Technologies for Machine Learning: An Overview.</title>
+    <year>2020</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/CaiYM0Z021">
+    <author>Junzhe Cai</author>
+    <author>Changhao Yan</author>
+    <author>Yuzhe Ma</author>
+    <author>Bei Yu 0001</author>
+    <author>Dian Zhou</author>
+    <author>Xuan Zeng 0001</author>
+    <title>NeurFill: Migrating Full-Chip CMP Simulators to Neural Networks for Model-Based Dummy Filling Synthesis.</title>
+    <year>2021</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AlamLM25">
+    <author>Manaar Alam</author>
+    <author>Hithem Lamri</author>
+    <author>Michail Maniatakos</author>
+    <title>ReVeil: Unconstrained Concealed Backdoor Attack on Deep Neural Networks using Machine Unlearning.</title>
+    <year>2025</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BaiA019">
+    <author>Kangjun Bai</author>
+    <author>Qiyuan An</author>
+    <author>Yang Yi 0002</author>
+    <title>Deep-DFR: A Memristive Deep Delayed Feedback Reservoir Computing System with Hybrid Neural Network Topology.</title>
+    <year>2019</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BhattacharjeeVM22">
+    <author>Abhiroop Bhattacharjee</author>
+    <author>Yeshwanth Venkatesha</author>
+    <author>Abhishek Moitra</author>
+    <author>Priyadarshini Panda</author>
+    <title>MIME: adapting a single neural network for multi-task inference with memory-efficient dynamic pruning.</title>
+    <year>2022</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/LiuWLWCCC16">
+    <author>Chun-Chen Liu</author>
+    <author>Yen-Hsiang Wang</author>
+    <author>Yilei Li</author>
+    <author>Chien-Heng Wong</author>
+    <author>Tien Pei Chou</author>
+    <author>Young-Kai Chen</author>
+    <author>M.-C. Frank Chang</author>
+    <title>Invited - A 2.2 GHz SRAM with high temperature variation immunity for deep learning application under 28nm.</title>
+    <year>2016</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BarbozaSCH19">
+    <author>Erick Carvajal Barboza</author>
+    <author>Nishchal Shukla</author>
+    <author>Yiran Chen 0001</author>
+    <author>Jiang Hu 0001</author>
+    <title>Machine Learning-Based Pre-Routing Timing Prediction with Reduced Pessimism.</title>
+    <year>2019</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChoiHJY23">
+    <author>Insu Choi</author>
+    <author>Jae-Youn Hong</author>
+    <author>JaeHwa Jeon</author>
+    <author>Joon-Sung Yang</author>
+    <title>RQ-DNN: Reliable Quantization for Fault-tolerant Deep Neural Networks.</title>
+    <year>2023</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/0001TYLCTSHWYWC22">
+    <author>Fu-Chieh Chang 0001</author>
+    <author>Yu-Wei Tseng</author>
+    <author>Ya-Wen Yu</author>
+    <author>Ssu-Rui Lee</author>
+    <author>Alexandru Cioba</author>
+    <author>I-Lun Tseng</author>
+    <author>Da-Shan Shiu</author>
+    <author>Jhih-Wei Hsu</author>
+    <author>Cheng-Yuan Wang</author>
+    <author>Chien-Yi Yang</author>
+    <author>Ren-Chu Wang</author>
+    <author>Yao-Wen Chang</author>
+    <author>Tai-Chen Chen</author>
+    <author>Tung-Chieh Chen</author>
+    <title>Flexible chip placement via reinforcement learning: late breaking results.</title>
+    <year>2022</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BianHS18">
+    <author>Song Bian 0001</author>
+    <author>Masayuki Hiromoto</author>
+    <author>Takashi Sato 0001</author>
+    <title>DWE: decrypting learning with errors with errors.</title>
+    <year>2018</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AlawiehWL17">
+    <author>Mohamad Baker Alawieh</author>
+    <author>Fa Wang</author>
+    <author>Xin Li 0001</author>
+    <title>Efficient Hierarchical Performance Modeling for Integrated Circuits via Bayesian Co-Learning.</title>
+    <year>2017</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/0001SMAKV14">
+    <author>Anup Das 0001</author>
+    <author>Rishad A. Shafik</author>
+    <author>Geoff V. Merrett</author>
+    <author>Bashir M. Al-Hashimi</author>
+    <author>Akash Kumar 0001</author>
+    <author>Bharadwaj Veeravalli</author>
+    <title>Reinforcement Learning-Based Inter- and Intra-Application Thermal Optimization for Lifetime Improvement of Multicore Systems.</title>
+    <year>2014</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChakrabortyAKA020">
+    <author>Indranil Chakraborty</author>
+    <author>Mustafa Fayez Ali</author>
+    <author>Dong Eun Kim</author>
+    <author>Aayush Ankit</author>
+    <author>Kaushik Roy 0001</author>
+    <title>GENIEx: A Generalized Approach to Emulating Non-Ideality in Memristive Xbars using Neural Networks.</title>
+    <year>2020</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChengXZC0WY17">
+    <author>Ming Cheng</author>
+    <author>Lixue Xia</author>
+    <author>Zhenhua Zhu 0002</author>
+    <author>Yi Cai 0003</author>
+    <author>Yuan Xie 0001</author>
+    <author>Yu Wang 0002</author>
+    <author>Huazhong Yang</author>
+    <title>TIME: A Training-in-memory Architecture for Memristor-based Deep Neural Networks.</title>
+    <year>2017</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/0003LYCWM024">
+    <author>Yi Wang 0003</author>
+    <author>Huan Liu</author>
+    <author>Jianan Yuan</author>
+    <author>Jiaxian Chen</author>
+    <author>Tianyu Wang 0009</author>
+    <author>Chenlin Ma</author>
+    <author>Rui Mao 0001</author>
+    <title>Leanor: A Learning-Based Accelerator for Efficient Approximate Nearest Neighbor Search via Reduced Memory Access.</title>
+    <year>2024</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AlawiehBP20">
+    <author>Mohamed Baker Alawieh</author>
+    <author>Duane S. Boning</author>
+    <author>David Z. Pan</author>
+    <title>Wafer Map Defect Patterns Classification using Deep Selective Learning.</title>
+    <year>2020</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChenLY25">
+    <author>Shuo Chen</author>
+    <author>Zeshi Liu</author>
+    <author>Haihang You</author>
+    <title>Maximizing Energy Efficiency in Spiking Neural Networks: A Dynamic Joint Pruning Framework.</title>
+    <year>2025</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BaiSSC22">
+    <author>Yunsheng Bai</author>
+    <author>Atefeh Sohrabizadeh</author>
+    <author>Yizhou Sun</author>
+    <author>Jason Cong</author>
+    <title>Improving GNN-based accelerator design automation with meta learning.</title>
+    <year>2022</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChenNZWXJXH25">
+    <author>Pengju Chen</author>
+    <author>Dan Niu</author>
+    <author>Dekang Zhang</author>
+    <author>Wenhao Wang</author>
+    <author>Depeng Xie</author>
+    <author>Zhou Jin 0001</author>
+    <author>Wei W. Xing</author>
+    <author>Lei He 0001</author>
+    <title>NeuralMesh: Neural Network For FEM Mesh Generation in 2.5D/3D Chiplet Thermal Simulation.</title>
+    <year>2025</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/0004W00LWTW24">
+    <author>Yifan Gong 0004</author>
+    <author>Yushu Wu</author>
+    <author>Zheng Zhan 0001</author>
+    <author>Pu Zhao 0001</author>
+    <author>Liangkai Liu</author>
+    <author>Chao Wu 0006</author>
+    <author>Xulong Tang</author>
+    <author>Yanzhi Wang 0001</author>
+    <title>LOTUS: learning-based online thermal and latency variation management for two-stage detectors on edge devices.</title>
+    <year>2024</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AnkitSP017">
+    <author>Aayush Ankit</author>
+    <author>Abhronil Sengupta</author>
+    <author>Priyadarshini Panda</author>
+    <author>Kaushik Roy 0001</author>
+    <title>RESPARC: A Reconfigurable and Energy-Efficient Architecture with Memristive Crossbars for Deep Spiking Neural Networks.</title>
+    <year>2017</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChenDWZDZ25">
+    <author>Silin Chen</author>
+    <author>Kangjian Di</author>
+    <author>Guohao Wang</author>
+    <author>Wenzheng Zhao</author>
+    <author>Li Du</author>
+    <author>Ningmu Zou</author>
+    <title>Delving into Topology Representation for Layout Pattern: A Novel Contrastive Learning Framework for Hotspot Detection.</title>
+    <year>2025</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/SharadAPR12">
+    <author>Mrigank Sharad</author>
+    <author>Charles Augustine</author>
+    <author>Georgios Panagopoulos</author>
+    <author>Kaushik Roy 0001</author>
+    <title>Cognitive computing with spin-based neural networks.</title>
+    <year>2012</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChenCX15">
+    <author>Xiang Chen 0010</author>
+    <author>Yiran Chen 0001</author>
+    <author>Chun Jason Xue</author>
+    <title>DaTuM: dynamic tone mapping technique for OLED display power saving based on video classification.</title>
+    <year>2015</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/0001F24">
+    <author>Junyao Wang 0001</author>
+    <author>Mohammad Abdullah Al Faruque</author>
+    <title>SMORE: Similarity-Based Hyperdimensional Domain Adaptation for Multi-Sensor Time Series Classification.</title>
+    <year>2024</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/MirhoseiniRSK16">
+    <author>Azalia Mirhoseini</author>
+    <author>Bita Darvish Rouhani</author>
+    <author>Ebrahim M. Songhori</author>
+    <author>Farinaz Koushanfar</author>
+    <title>Perform-ML: performance optimized machine learning by platform and content aware customization.</title>
+    <year>2016</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/RokniG16">
+    <author>Seyed Ali Rokni</author>
+    <author>Hassan Ghasemzadeh 0001</author>
+    <title>Plug-n-learn: automatic learning of computational algorithms in human-centered internet-of-things applications.</title>
+    <year>2016</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AkhlaghiG018">
+    <author>Vahideh Akhlaghi</author>
+    <author>Sicun Gao</author>
+    <author>Rajesh K. Gupta 0001</author>
+    <title>LEMAX: learning-based energy consumption minimization in approximate computing with quality guarantee.</title>
+    <year>2018</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/Chen0ZL21">
+    <author>Cen Chen 0002</author>
+    <author>Kenli Li 0001</author>
+    <author>Xiaofeng Zou</author>
+    <author>Yangfan Li 0001</author>
+    <title>DyGNN: Algorithm and Architecture Support of Dynamic Pruning for Graph Neural Networks.</title>
+    <year>2021</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/WangXAP11">
+    <author>Yanzhi Wang 0001</author>
+    <author>Qing Xie 0001</author>
+    <author>Ahmed Chiheb Ammari</author>
+    <author>Massoud Pedram</author>
+    <title>Deriving a near-optimal power management policy using model-free reinforcement learning and Bayesian classification.</title>
+    <year>2011</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AhmadXZ23">
+    <author>Afzal Ahmad 0001</author>
+    <author>Zhiyao Xie</author>
+    <author>Wei Zhang 0012</author>
+    <title>PertNAS: Architectural Perturbations for Memory-Efficient Neural Architecture Search.</title>
+    <year>2023</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AngiziHRF18">
+    <author>Shaahin Angizi</author>
+    <author>Zhezhi He</author>
+    <author>Adnan Siraj Rakin</author>
+    <author>Deliang Fan</author>
+    <title>CMP-PIM: an energy-efficient comparator-based processing-in-memory neural network accelerator.</title>
+    <year>2018</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BouzidiOONF23">
+    <author>Halima Bouzidi</author>
+    <author>Mohanad Odema</author>
+    <author>Hamza Ouarnoughi</author>
+    <author>Smaïl Niar</author>
+    <author>Mohammad Abdullah Al Faruque</author>
+    <title>Map-and-Conquer: Energy-Efficient Mapping of Dynamic Neural Nets onto Heterogeneous MPSoCs.</title>
+    <year>2023</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AlbalawiLL14">
+    <author>Hassan Albalawi</author>
+    <author>Yuanning Li</author>
+    <author>Xin Li 0001</author>
+    <title>Computer-Aided Design of Machine Learning Algorithm: Training Fixed-Point Classifier for On-Chip Low-Power Implementation.</title>
+    <year>2014</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/WardDP12">
+    <author>Samuel I. Ward</author>
+    <author>Duo Ding</author>
+    <author>David Z. Pan</author>
+    <title>PADE: a high-performance placer with automatic datapath extraction and evaluation through high dimensional data learning.</title>
+    <year>2012</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChenCV0K20">
+    <author>Huili Chen</author>
+    <author>Rosario Cammarota</author>
+    <author>Felipe Valencia</author>
+    <author>Francesco Regazzoni 0001</author>
+    <author>Farinaz Koushanfar</author>
+    <title>AHEC: End-to-end Compiler Framework for Privacy-preserving Machine Learning Acceleration.</title>
+    <year>2020</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChangJYL17">
+    <author>Wei-Chun Chang</author>
+    <author>Iris Hui-Ru Jiang</author>
+    <author>Yen-Ting Yu</author>
+    <author>Wei-Fang Liu</author>
+    <title>iClaire: A Fast and General Layout Pattern Classification Algorithm.</title>
+    <year>2017</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/KimKYSLC16">
+    <author>Kyounghoon Kim</author>
+    <author>Jungki Kim</author>
+    <author>Joonsang Yu</author>
+    <author>Jungwoo Seo</author>
+    <author>Jongeun Lee</author>
+    <author>Kiyoung Choi</author>
+    <title>Dynamic energy-accuracy trade-off using stochastic computing in deep neural networks.</title>
+    <year>2016</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AlthoffK17">
+    <author>Alric Althoff</author>
+    <author>Ryan Kastner</author>
+    <title>An Architecture for Learning Stream Distributions with Application to RNG Testing.</title>
+    <year>2017</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/SongWHZLL16">
+    <author>Lili Song</author>
+    <author>Ying Wang 0001</author>
+    <author>Yinhe Han 0001</author>
+    <author>Xin Zhao 0044</author>
+    <author>Bosheng Liu</author>
+    <author>Xiaowei Li 0001</author>
+    <title>C-brain: a deep learning accelerator that tames the diversity of CNNs through adaptive data-level parallelization.</title>
+    <year>2016</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AjayiCFHHKKLMNP19">
+    <author>Tutu Ajayi</author>
+    <author>Vidya A. Chhabria</author>
+    <author>Mateus Fogaça</author>
+    <author>Soheil Hashemi</author>
+    <author>Abdelrahman Hosny</author>
+    <author>Andrew B. Kahng</author>
+    <author>Minsoo Kim 0016</author>
+    <author>Jeongsup Lee</author>
+    <author>Uday Mallappa</author>
+    <author>Marina Neseem</author>
+    <author>Geraldo Pradipta</author>
+    <author>Sherief Reda</author>
+    <author>Mehdi Saligane</author>
+    <author>Sachin S. Sapatnekar</author>
+    <author>Carl Sechen</author>
+    <author>Mohamed Shalan</author>
+    <author>William Swartz</author>
+    <author>Lutong Wang</author>
+    <author>Zhehong Wang</author>
+    <author>Mingyu Woo</author>
+    <author>Bangqi Xu</author>
+    <title>Toward an Open-Source Digital Flow: First Learnings from the OpenROAD Project.</title>
+    <year>2019</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/CaoLLZJ21">
+    <author>Jing Cao</author>
+    <author>Zirui Lian</author>
+    <author>Weihong Liu</author>
+    <author>Zongwei Zhu</author>
+    <author>Cheng Ji 0002</author>
+    <title>HADFL: Heterogeneity-aware Decentralized Federated Learning Framework.</title>
+    <year>2021</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChoiS0G19">
+    <author>Wonseok Choi 0004</author>
+    <author>Dongyeob Shin</author>
+    <author>Jongsun Park 0001</author>
+    <author>Swaroop Ghosh</author>
+    <title>Sensitivity based Error Resilient Techniques for Energy Efficient Deep Neural Network Accelerators.</title>
+    <year>2019</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/CaoBZM22">
+    <author>Weidong Cao 0001</author>
+    <author>Mouhacine Benosman</author>
+    <author>Xuan Zhang 0001</author>
+    <author>Rui Ma</author>
+    <title>Domain knowledge-infused deep learning for automated analog/radio-frequency circuit parameter optimization.</title>
+    <year>2022</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/0001MS20">
+    <author>Abhishek Chakraborty 0001</author>
+    <author>Ankit Mondal</author>
+    <author>Ankur Srivastava 0001</author>
+    <title>Hardware-Assisted Intellectual Property Protection of Deep Learning Models.</title>
+    <year>2020</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BaiLH018">
+    <author>Kangjun Bai</author>
+    <author>Jialing Li</author>
+    <author>Kian Hamedani</author>
+    <author>Yang Yi 0002</author>
+    <title>Enabling a new era of brain-inspired computing: energy-efficient spiking neural network with ring topology.</title>
+    <year>2018</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChenCYF17">
+    <author>Kuan-Jung Chen</author>
+    <author>Yu-Kai Chuang</author>
+    <author>Bo-Yi Yu</author>
+    <author>Shao-Yun Fang</author>
+    <title>Minimizing Cluster Number with Clip Shifting in Hotspot Pattern Classification.</title>
+    <year>2017</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AramoonCQ21">
+    <author>Omid Aramoon</author>
+    <author>Pin-Yu Chen</author>
+    <author>Gang Qu 0001</author>
+    <title>AID: Attesting the Integrity of Deep Neural Networks.</title>
+    <year>2021</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/Chen0LTSP21">
+    <author>Hao Chen 0059</author>
+    <author>Keren Zhu 0001</author>
+    <author>Mingjie Liu</author>
+    <author>Xiyuan Tang</author>
+    <author>Nan Sun 0001</author>
+    <author>David Z. Pan</author>
+    <title>Universal Symmetry Constraint Extraction for Analog and Mixed-Signal Circuits with Graph Neural Networks.</title>
+    <year>2021</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AhnKE22">
+    <author>Byung Hoon Ahn</author>
+    <author>Sean Kinzer</author>
+    <author>Hadi Esmaeilzadeh</author>
+    <title>Glimpse: mathematical embedding of hardware specification for neural compilation.</title>
+    <year>2022</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/VenkataramaniRL15">
+    <author>Swagath Venkataramani</author>
+    <author>Anand Raghunathan</author>
+    <author>Jie Liu 0001</author>
+    <author>Mohammed Shoaib</author>
+    <title>Scalable-effort classifiers for energy-efficient machine learning.</title>
+    <year>2015</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/0005L19">
+    <author>Hao Zheng 0005</author>
+    <author>Ahmed Louri</author>
+    <title>An Energy-Efficient Network-on-Chip Design using Reinforcement Learning.</title>
+    <year>2019</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/DayaPC16">
+    <author>Bhavya K. Daya</author>
+    <author>Li-Shiuan Peh</author>
+    <author>Anantha P. Chandrakasan</author>
+    <title>Quest for high-performance bufferless NoCs with single-cycle express paths and self-learning throttling.</title>
+    <year>2016</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/GeQ11">
+    <author>Yang Ge</author>
+    <author>Qinru Qiu</author>
+    <title>Dynamic thermal management for multimedia applications using machine learning.</title>
+    <year>2011</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChenPLDS18">
+    <author>Chixiao Chen</author>
+    <author>Huwan Peng</author>
+    <author>Xindi Liu</author>
+    <author>Hongwei Ding</author>
+    <author>Chuanjin Richard Shi</author>
+    <title>Exploring the programmability for deep learning processors: from architecture to tensorization.</title>
+    <year>2018</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/DayaPC17">
+    <author>Bhavya K. Daya</author>
+    <author>Li-Shiuan Peh</author>
+    <author>Anantha P. Chandrakasan</author>
+    <title>Low-Power On-Chip Network Providing Guaranteed Services for Snoopy Coherent and Artificial Neural Network Systems.</title>
+    <year>2017</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChenKY23">
+    <author>Xuan-Jun Chen</author>
+    <author>Cynthia Kuan</author>
+    <author>Chia-Lin Yang</author>
+    <title>Unified Agile Accuracy Assessment in Computing-in-Memory Neural Accelerators by Layerwise Dynamical Isometry.</title>
+    <year>2023</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/CallegariDWA10">
+    <author>Nicholas Callegari</author>
+    <author>Dragoljub Gagi Drmanac</author>
+    <author>Li-C. Wang</author>
+    <author>Magdy S. Abadir</author>
+    <title>Classification rule learning using subgroup discovery of cross-domain attributes responsible for design-silicon mismatch.</title>
+    <year>2010</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BudakB0SPK21">
+    <author>Ahmet Faruk Budak</author>
+    <author>Prateek Bhansali</author>
+    <author>Bo Liu 0003</author>
+    <author>Nan Sun 0001</author>
+    <author>David Z. Pan</author>
+    <author>Chandramouli V. Kashyap</author>
+    <title>DNN-Opt: An RL Inspired Optimization for Analog Circuit Sizing using Deep Neural Networks.</title>
+    <year>2021</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AlamM24">
+    <author>Manaar Alam</author>
+    <author>Michail Maniatakos</author>
+    <title>AdvHunter: Detecting Adversarial Perturbations in Black-Box Neural Networks through Hardware Performance Counters.</title>
+    <year>2024</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AgrawalCCGOSSVZ17">
+    <author>Ankur Agrawal</author>
+    <author>Chia-Yu Chen</author>
+    <author>Jungwook Choi</author>
+    <author>Kailash Gopalakrishnan</author>
+    <author>Jinwook Oh</author>
+    <author>Sunil Shukla</author>
+    <author>Viji Srinivasan</author>
+    <author>Swagath Venkataramani</author>
+    <author>Wei Zhang 0022</author>
+    <title>Accelerator Design for Deep Learning Training: Extended Abstract: Invited.</title>
+    <year>2017</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/LiYLWS16">
+    <author>Dandan Li</author>
+    <author>Shuzhen Yao</author>
+    <author>Yuhang Liu 0001</author>
+    <author>Senzhang Wang</author>
+    <author>Xian-He Sun</author>
+    <title>Efficient design space exploration via statistical sampling and AdaBoost learning.</title>
+    <year>2016</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChungS16">
+    <author>Jaeyong Chung</author>
+    <author>Taehwan Shin</author>
+    <title>Simplifying deep neural networks for neuromorphic architectures.</title>
+    <year>2016</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChenPWTT23">
+    <author>Xizi Chen</author>
+    <author>Rui Pan</author>
+    <author>Xiaomeng Wang</author>
+    <author>Fengshi Tian</author>
+    <author>Chi-Ying Tsui</author>
+    <title>Late Breaking Results: Weight Decay is ALL You Need for Neural Network Sparsification.</title>
+    <year>2023</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChangWLLPLWSSCH19">
+    <author>Chih-Cheng Chang</author>
+    <author>Ming-Hung Wu</author>
+    <author>Jia-Wei Lin</author>
+    <author>Chun-Hsien Li</author>
+    <author>Vivek Parmar</author>
+    <author>Heng-Yuan Lee</author>
+    <author>Jeng-Hua Wei</author>
+    <author>Shyh-Shyuan Sheu</author>
+    <author>Manan Suri</author>
+    <author>Tian-Sheuan Chang</author>
+    <author>Tuo-Hung Hou</author>
+    <title>NV-BNN: An Accurate Deep Convolutional Neural Network Based on Binary STT-MRAM for Adaptive AI Edge.</title>
+    <year>2019</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/KatzRZS11">
+    <author>Yoav Katz</author>
+    <author>Michal Rimon</author>
+    <author>Avi Ziv</author>
+    <author>Gai Shaked</author>
+    <title>Learning microarchitectural behaviors to improve stimuli generation quality.</title>
+    <year>2011</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AhmadzadehG24">
+    <author>Mohsen Ahmadzadeh</author>
+    <author>Georges G. E. Gielen</author>
+    <title>Using Probabilistic Model Rollouts to Boost the Sample Efficiency of Reinforcement Learning for Automated Analog Circuit Sizing.</title>
+    <year>2024</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BarchiUMA19">
+    <author>Francesco Barchi</author>
+    <author>Gianvito Urgese</author>
+    <author>Enrico Macii</author>
+    <author>Andrea Acquaviva</author>
+    <title>Code Mapping in Heterogeneous Platforms Using Deep Learning and LLVM-IR.</title>
+    <year>2019</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChenPYMYW23">
+    <author>Guojin Chen</author>
+    <author>Zehua Pei</author>
+    <author>Haoyu Yang</author>
+    <author>Yuzhe Ma</author>
+    <author>Bei Yu 0001</author>
+    <author>Martin D. F. Wong</author>
+    <title>Physics-Informed Optical Kernel Regression Using Complex-valued Neural Fields.</title>
+    <year>2023</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AutenT020">
+    <author>Adam Auten</author>
+    <author>Matthew Tomei</author>
+    <author>Rakesh Kumar 0002</author>
+    <title>Hardware Acceleration of Graph Neural Networks.</title>
+    <year>2020</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/DonatoRPGBW18">
+    <author>Marco Donato</author>
+    <author>Brandon Reagen</author>
+    <author>Lillian Pentecost</author>
+    <author>Udit Gupta 0001</author>
+    <author>David Brooks 0001</author>
+    <author>Gu-Yeon Wei</author>
+    <title>On-chip deep neural network storage with multi-level eNVM.</title>
+    <year>2018</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/Baccelli0HM20">
+    <author>Guido Baccelli</author>
+    <author>Dimitrios Stathis 0001</author>
+    <author>Ahmed Hemani</author>
+    <author>Maurizio Martina</author>
+    <title>NACU: A Non-Linear Arithmetic Unit for Neural Networks.</title>
+    <year>2020</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BasitNRS25">
+    <author>Abdul Basit 0013</author>
+    <author>Maha Nawaz</author>
+    <author>Saim Rehman</author>
+    <author>Muhammad Shafique 0001</author>
+    <title>CognitiveArm: Enabling Real-Time EEG-Controlled Prosthetic Arm Using Embodied Machine Learning.</title>
+    <year>2025</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/LaiJW10">
+    <author>Chih-Fan Lai</author>
+    <author>Jie-Hong R. Jiang</author>
+    <author>Kuo-Hua Wang</author>
+    <title>BooM: a decision procedure for boolean matching with abstraction and dynamic learning.</title>
+    <year>2010</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AlamM19">
+    <author>Manaar Alam</author>
+    <author>Debdeep Mukhopadhyay</author>
+    <title>How Secure are Deep Learning Algorithms from Side-Channel based Reverse Engineering?</title>
+    <year>2019</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChoiCLK23">
+    <author>Minjeong Choi</author>
+    <author>Youngchang Choi</author>
+    <author>Kyongsu Lee</author>
+    <author>Seokhyeong Kang</author>
+    <title>Reinforcement Learning-based Analog Circuit Optimizer using gm/ID for Sizing.</title>
+    <year>2023</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChenZC25">
+    <author>Yonghao Chen</author>
+    <author>Jiaxiang Zou</author>
+    <author>Xinyu Chen</author>
+    <title>April: Accuracy-Improved Floating-Point Approximation For Neural Network Accelerators.</title>
+    <year>2025</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/GuptaBAKPO18">
+    <author>Ujjwal Gupta</author>
+    <author>Manoj Babu</author>
+    <author>Raid Ayoub</author>
+    <author>Michael Kishinevsky</author>
+    <author>Francesco Paterna</author>
+    <author>Ümit Y. Ogras</author>
+    <title>STAFF: online learning with stabilized adaptive forgetting factor and feature selection algorithm.</title>
+    <year>2018</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/BhattacharyayCC22">
+    <author>Aritra Bhattacharyay</author>
+    <author>Prabuddha Chakraborty</author>
+    <author>Jonathan Cruz 0001</author>
+    <author>Swarup Bhunia</author>
+    <title>VIPR-PCB: a machine learning based golden-free PCB assurance framework.</title>
+    <year>2022</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/0001PDJWXN22">
+    <author>Zhou Jin 0001</author>
+    <author>Haojie Pei</author>
+    <author>Yichao Dong</author>
+    <author>Xiang Jin</author>
+    <author>Xiao Wu</author>
+    <author>Wei W. Xing</author>
+    <author>Dan Niu</author>
+    <title>Accelerating nonlinear DC circuit simulation with reinforcement learning.</title>
+    <year>2022</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/DingGYP11">
+    <author>Duo Ding</author>
+    <author>Jhih-Rong Gao</author>
+    <author>Kun Yuan 0002</author>
+    <author>David Z. Pan</author>
+    <title>AENEID: a generic lithography-friendly detailed router based on post-RET data learning and hotspot detection.</title>
+    <year>2011</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChoiCY25">
+    <author>Insu Choi</author>
+    <author>Jaeyong Chung</author>
+    <author>Joon-Sung Yang</author>
+    <title>DBC: Drift-aware Binary Code for Drift-tolerant Deep Neural Networks.</title>
+    <year>2025</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AhmedMG25">
+    <author>Imtiaz Ahmed</author>
+    <author>Akul Malhotra</author>
+    <author>Sumeet Kumar Gupta</author>
+    <title>CREST-CiM: Cross-Coupling-Enhanced Differential STT-MRAM for Robust Computing-in-Memory in Binary Neural Networks.</title>
+    <year>2025</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChoiHSSN19">
+    <author>Jinhang Choi</author>
+    <author>Zeinab Hakimi</author>
+    <author>Philip Wootaek Shin</author>
+    <author>Jack Sampson</author>
+    <author>Vijaykrishnan Narayanan</author>
+    <title>Context-Aware Convolutional Neural Network over Distributed System in Collaborative Computing.</title>
+    <year>2019</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/0019KSWY022">
+    <author>Min Li 0019</author>
+    <author>Sadaf Khan</author>
+    <author>Zhengyuan Shi</author>
+    <author>Naixing Wang</author>
+    <author>Huang Yu</author>
+    <author>Qiang Xu 0001</author>
+    <title>DeepGate: learning neural representations of logic gates.</title>
+    <year>2022</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/GuoYSCZ12">
+    <author>Jing Guo</author>
+    <author>Fan Yang 0001</author>
+    <author>Subarna Sinha</author>
+    <author>Charles C. Chiang</author>
+    <author>Xuan Zeng 0001</author>
+    <title>Improved tangent space based distance metric for accurate lithographic hotspot classification.</title>
+    <year>2012</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/YuLJC13">
+    <author>Yen-Ting Yu</author>
+    <author>Geng-He Lin</author>
+    <author>Iris Hui-Ru Jiang</author>
+    <author>Charles C. Chiang</author>
+    <title>Machine-learning-based hotspot detection using topological classification and critical feature extraction.</title>
+    <year>2013</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ChoiJCL018">
+    <author>Woong Choi</author>
+    <author>Kwanghyo Jeong</author>
+    <author>Kyungrak Choi</author>
+    <author>Kyeongho Lee</author>
+    <author>Jongsun Park 0001</author>
+    <title>Content addressable memory based binarized neural network accelerator using time-domain signal processing.</title>
+    <year>2018</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/CaoW23">
+    <author>Peng Cao</author>
+    <author>Jiahao Wang</author>
+    <title>Late Breaking Results: RL-LPO: Reinforcement Learning Based Leakage Power Optimization Framework with Graph Neural Network.</title>
+    <year>2023</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/AnDD24">
+    <author>Zhiyu An</author>
+    <author>Xianzhong Ding</author>
+    <author>Wan Du</author>
+    <title>Go Beyond Black-box Policies: Rethinking the Design of Learning Agent for Interpretable and Verifiable HVAC Control.</title>
+    <year>2024</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/NagabhushanaW16">
+    <author>Abhilash Karnatakam Nagabhushana</author>
+    <author>Haibo Wang 0005</author>
+    <title>A novel time and voltage based SAR ADC design with self-learning technique.</title>
+    <year>2016</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/dac/ArefSHSM24">
+    <author>Zahra Aref</author>
+    <author>Rohit Suvarna</author>
+    <author>Bill Hughes</author>
+    <author>Sandeep Srinivasan</author>
+    <author>Narayan B. Mandayam</author>
+    <title>Advanced Reinforcement Learning Algorithms to Optimize Design Verification.</title>
+    <year>2024</year>
+    <booktitle>DAC</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/PouteauSC10">
+    <author>Robin Pouteau</author>
+    <author>Benoît Stoll</author>
+    <author>Sébastien Chabrier</author>
+    <title>Ground truth method assessment for SVM-based landscape classification.</title>
+    <year>2010</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/HanZ15">
+    <author>Min Han 0001</author>
+    <author>Yang Zhou</author>
+    <title>Joint-classification change detection based on improved fuzzy ARTMAP.</title>
+    <year>2015</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ArndtL20">
+    <author>Jacob Arndt</author>
+    <author>Dalton D. Lunga</author>
+    <title>Sampling Subjective Polygons for Patch-Based Deep Learning Land-Use Classification in Satellite Images.</title>
+    <year>2020</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/0002LZL18">
+    <author>Xiang Xu 0002</author>
+    <author>Jun Li 0009</author>
+    <author>Yanning Zhang 0001</author>
+    <author>Shutao Li 0001</author>
+    <title>A Subpixel Spatial-Spectral Feature Mining for Hyperspectral Image Classification.</title>
+    <year>2018</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BlackwellPT11">
+    <author>William J. Blackwell</author>
+    <author>Michael L. Pieper</author>
+    <author>Zuoyu Tao</author>
+    <title>Neural network estimation of atmospheric profiles using AIRS/AMSU observations: Improved uncertainty assessments.</title>
+    <year>2011</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/0002MMRL17">
+    <author>Yong Xu 0002</author>
+    <author>Fan Ma</author>
+    <author>Deyu Meng</author>
+    <author>Chao Ren 0004</author>
+    <author>Yee Leung</author>
+    <title>A co-training approach to the classification of local climate zones with multi-source data.</title>
+    <year>2017</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChengLSZZX11">
+    <author>Xi Cheng</author>
+    <author>Jiancheng Luo</author>
+    <author>Zhanfeng Shen</author>
+    <author>Changming Zhu</author>
+    <author>Xin Zhang</author>
+    <author>Liegang Xia</author>
+    <title>Estimation of impervious surface based on integrated analysis of classification and regression by using SVM.</title>
+    <year>2011</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/GengFWM17">
+    <author>Jie Geng 0005</author>
+    <author>Jianchao Fan</author>
+    <author>Hongyu Wang 0001</author>
+    <author>Xiaorui Ma</author>
+    <title>Change detection of marine reclamation using multispectral images via patch-based recurrent neural network.</title>
+    <year>2017</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChaabaneRT22">
+    <author>Ferdaous Chaabane</author>
+    <author>Safa Réjichi</author>
+    <author>Florence Tupin</author>
+    <title>Self Attention Deep Graph CNN Classification of Times Series Images for Land Cover Monitoring.</title>
+    <year>2022</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/Gleich16">
+    <author>Dusan Gleich</author>
+    <title>Sparse SAR patch classification using complex valued approach.</title>
+    <year>2016</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AytekinKU12">
+    <author>Örsan Aytekin</author>
+    <author>Mehmet Koç</author>
+    <author>Ilkay Ulusoy</author>
+    <title>A novel feature extraction method for the classification of SAR images.</title>
+    <year>2012</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AmaniSMGB17">
+    <author>Meisam Amani</author>
+    <author>Bahram Salehi</author>
+    <author>Sahel Mahdavi</author>
+    <author>Jean Granger</author>
+    <author>Brian Brisco</author>
+    <title>Evaluation of multi-temporal landsat 8 data for wetland classification in newfoundland, Canada.</title>
+    <year>2017</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/DjerririM15">
+    <author>Khelifa Djerriri</author>
+    <author>Malki Mimoun</author>
+    <title>Genetic programming and one-class classification for discovering useful spectral transformations.</title>
+    <year>2015</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AghababaeiFV23">
+    <author>Hossein Aghababaei</author>
+    <author>Giampaolo Ferraioli</author>
+    <author>Sergio Vitale</author>
+    <title>Deep Learning based Data Augmentation for Restoring SAR Images.</title>
+    <year>2023</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/HeremansO12">
+    <author>Stien Heremans</author>
+    <author>Jos Van Orshoven</author>
+    <title>Validating sub-pixel classifications: A comparison of approaches using an artificial dataset.</title>
+    <year>2012</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/DheenathayalanH13">
+    <author>Prabu Dheenathayalan</author>
+    <author>Ramon F. Hanssen</author>
+    <title>Radar target type classification and validation.</title>
+    <year>2013</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/MarpuGC10">
+    <author>Prashanth Reddy Marpu</author>
+    <author>Paolo Gamba</author>
+    <author>Morton J. Canty</author>
+    <title>Change detection using iteratively reweighted regression with neural networks.</title>
+    <year>2010</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/HagensiekerW17">
+    <author>Ron Hagensieker</author>
+    <author>Björn Waske</author>
+    <title>Synergetic potentials of C-band SAR and multi-spectral imagery for tropical classifications in Northern Mato Grosso (BR).</title>
+    <year>2017</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AliCGD14">
+    <author>Iftikhar Ali</author>
+    <author>Fiona Cawkwell</author>
+    <author>Stuart Green</author>
+    <author>Ned Dwyer</author>
+    <title>Application of statistical and machine learning models for grassland yield estimation based on a hypertemporal satellite remote sensing time series.</title>
+    <year>2014</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/DuHY13">
+    <author>Qian Du 0001</author>
+    <author>Deok Han</author>
+    <author>Nicolas H. Younan</author>
+    <title>Combine labeled and unlabeled information for hyperspectral image classification.</title>
+    <year>2013</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChenJMZHD18">
+    <author>Xiaofeng Chen</author>
+    <author>Jingyu Ji</author>
+    <author>Shaohui Mei</author>
+    <author>Yifan Zhang 0006</author>
+    <author>Manli Han</author>
+    <author>Qian Du 0001</author>
+    <title>FPGA Based Implementation of Convolutional Neural Network for Hyperspectral Classification.</title>
+    <year>2018</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/Dopido0PB12">
+    <author>Inmaculada Dopido</author>
+    <author>Jun Li 0009</author>
+    <author>Antonio Plaza</author>
+    <author>José M. Bioucas-Dias</author>
+    <title>Semi-supervised active learning for urban hyperspectral image classification.</title>
+    <year>2012</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/MonteiroM10">
+    <author>Sildomar T. Monteiro</author>
+    <author>Richard J. Murphy</author>
+    <title>Calibrating probabilities for hyperspectral classification of rock types.</title>
+    <year>2010</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ApostolakisGAGBK24">
+    <author>Alexis Apostolakis</author>
+    <author>Stella Girtsou</author>
+    <author>Konstantinos Alexis</author>
+    <author>Giorgos Giannopoulos</author>
+    <author>Nikolaos S. Bartsotas</author>
+    <author>Charalampos Kontoes</author>
+    <title>Enhancing Daily Wildfire Risk Prediction Application Through Interpretable Machine Learning Results.</title>
+    <year>2024</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AmiesBNPDSSD20">
+    <author>Alexander C. Amies</author>
+    <author>Stella E. Belliss</author>
+    <author>Heather C. North</author>
+    <author>David Pairman</author>
+    <author>John R. Dymond</author>
+    <author>Jan Schindler</author>
+    <author>James D. Shepherd</author>
+    <author>John Drewry</author>
+    <title>Classification of Winter Land Cover in New Zealand Hill Country for Risky Practice Identification.</title>
+    <year>2020</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ArshadZW23">
+    <author>Tahir Arshad</author>
+    <author>Junping Zhang</author>
+    <author>Qingyan Wang</author>
+    <title>Multiclass Classification of Remote Sensing Images Using Deep Learning Techniques.</title>
+    <year>2023</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/LiuWBZ13">
+    <author>Chuntian Liu</author>
+    <author>Wei Wei</author>
+    <author>Xiao Bai 0001</author>
+    <author>Jun Zhou 0001</author>
+    <title>Marginalized kernel-based feature fusion method for VHR object classification.</title>
+    <year>2013</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BorbaDSB21">
+    <author>Philipe Borba</author>
+    <author>Felipe de Carvalho Diniz</author>
+    <author>Nilton Correia da Silva</author>
+    <author>Edilson de Souza Bias</author>
+    <title>Building Footprint Extraction Using Deep Learning Semantic Segmentation Techniques: Experiments and Results.</title>
+    <year>2021</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BP23">
+    <author>Samrat B</author>
+    <author>Arun P. V.</author>
+    <title>Decoding the Moon's Surface: A Graph Neural Network Based Analysis of Chandrayaan-2 Lunar Data Classification.</title>
+    <year>2023</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AshapureJOCDL20">
+    <author>Akash Ashapure</author>
+    <author>Jinha Jung</author>
+    <author>Sungchan Oh</author>
+    <author>Anjin Chang</author>
+    <author>Nothabo Dube</author>
+    <author>Juan Landivar 0001</author>
+    <title>Combining UAS and Sentinel-2 Data to Estimate Canopy Parameters of a Cotton Crop Using Machine Learning.</title>
+    <year>2020</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BenevidesCMMC21">
+    <author>Pedro Benevides</author>
+    <author>Hugo Costa</author>
+    <author>Francisco D. Moreira</author>
+    <author>Daniel Moraes</author>
+    <author>Mario Caetano</author>
+    <title>Annual Crop Classification Experiments in Portugal Using Sentinel-2.</title>
+    <year>2021</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/Bian0S0D17">
+    <author>Xiaoyong Bian</author>
+    <author>Chen Chen 0001</author>
+    <author>Yuxia Sheng</author>
+    <author>Yan Xu 0003</author>
+    <author>Qian Du 0001</author>
+    <title>Fusing two convolutional neural networks for high-resolution scene classification.</title>
+    <year>2017</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/KayaEK10">
+    <author>Gülsen Taskin Kaya</author>
+    <author>Okan K. Ersoy</author>
+    <author>Mustafa E. Kamasak</author>
+    <title>Hybrid SVM and SVSA method for classification of remote sensing images.</title>
+    <year>2010</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AlbarracinAST17">
+    <author>Juan Felipe Hernandez Albarracin</author>
+    <author>Edemir Ferreira de Andrade Jr.</author>
+    <author>Jefersson A. dos Santos</author>
+    <author>Ricardo da Silva Torres</author>
+    <title>Fusion of genetic-programming-based indices in hyperspectral image classification tasks.</title>
+    <year>2017</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChenZL14">
+    <author>Yushi Chen 0002</author>
+    <author>Xing Zhao 0005</author>
+    <author>Zhouhan Lin</author>
+    <title>Joint Adaboost and multifeature based ensemble for hyperspectral image classification.</title>
+    <year>2014</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChiLBB11">
+    <author>Mingmin Chi</author>
+    <author>Jun Liu</author>
+    <author>Jiangfeng Bao</author>
+    <author>Jón Atli Benediktsson</author>
+    <title>Scalable semi-supervised classification of hyperspectral remote sensing data with spectral and spatial information.</title>
+    <year>2011</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AlnujaimOK19">
+    <author>Ibrahim Alnujaim</author>
+    <author>Daegun Oh</author>
+    <author>Youngwook Kim 0003</author>
+    <title>Generative Adversarial Networks to Augment Micro-Doppler Signatures for the Classification of Human Activity.</title>
+    <year>2019</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BhangaleDPS19">
+    <author>Ujwala Bhangale</author>
+    <author>Surya S. Durbha</author>
+    <author>Abhishek Potnis</author>
+    <author>Rajat C. Shinde</author>
+    <title>Rapid Earthquake Damage Detection Using Deep Learning from VHR Remote Sensing Images.</title>
+    <year>2019</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/CaicoyaKHP12">
+    <author>Astor Toraño Caicoya</author>
+    <author>Florian Kugler</author>
+    <author>Irena Hajnsek</author>
+    <author>Kostas Papathanassiou</author>
+    <title>Boreal forest biomass classification with TanDEM-X.</title>
+    <year>2012</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BeguetCBG14">
+    <author>Benoit Beguet</author>
+    <author>Nesrine Chehata</author>
+    <author>Samia Boukir</author>
+    <author>Dominique Guyon</author>
+    <title>Classification of forest structure using very high resolution Pleiades image texture.</title>
+    <year>2014</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AcitoDMC15">
+    <author>Nicola Acito</author>
+    <author>Marco Diani</author>
+    <author>Stefania Matteoli</author>
+    <author>Giovanni Corsini</author>
+    <title>Multi-temporal approach to atmospheric effects compensation in hyperspectral image classification.</title>
+    <year>2015</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/Foody15">
+    <author>Giles M. Foody</author>
+    <title>The effect of mis-labeled training data on the accuracy of supervised image classification by SVM.</title>
+    <year>2015</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AguiarCBRS22">
+    <author>Pedro Aguiar</author>
+    <author>António Cunha</author>
+    <author>Matus Bakon</author>
+    <author>Antonio M. Ruiz-Armenteros</author>
+    <author>Joaquim João Moreira de Sousa</author>
+    <title>PS-InSAR Target Classification Using Deep Learning.</title>
+    <year>2022</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AbidiIAF24">
+    <author>Azza Abidi</author>
+    <author>Dino Ienco</author>
+    <author>Ali Ben Abbes</author>
+    <author>Imed Riadh Farah</author>
+    <title>Multi-Scale Classification of Sentinel-2 Images for Land Cover Mapping Using Two-Branch Convolutional Neural Network.</title>
+    <year>2024</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BakhtiDACK19">
+    <author>Khadidja Bakhti</author>
+    <author>Khelifa Djerriri</author>
+    <author>Mohammed El Amin Arabi</author>
+    <author>Souleyman Chaib</author>
+    <author>Moussa Sofiane Karoui</author>
+    <title>Improvememt of multi-temporal vegetation modeling using hybrid deep neural networks of multispectral remote sensing images.</title>
+    <year>2019</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChenCCC15">
+    <author>Xuehong Chen</author>
+    <author>Xin Cao 0002</author>
+    <author>Jin Chen 0001</author>
+    <author>Xihong Cui</author>
+    <title>Effect of training strategy on PUL-SVM classification for cropland mapping by Landsat imagery.</title>
+    <year>2015</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AndrejchenkoHLP18">
+    <author>Vera Andrejchenko</author>
+    <author>Rob Heylen</author>
+    <author>Wenzhi Liao</author>
+    <author>Wilfried Philips</author>
+    <author>Paul Scheunders</author>
+    <title>MRF-Based Decision Fusion for Hyperspectral Image Classification.</title>
+    <year>2018</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChiniBCS14">
+    <author>Marco Chini</author>
+    <author>Christian Bignami</author>
+    <author>Alessandro Chiancone</author>
+    <author>Salvatore Stramondo</author>
+    <title>Classification of VHR optical data for land use change analysis by scale object seletion (SOS) algorithm.</title>
+    <year>2014</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AdugnaXF24">
+    <author>Tesfaye Adugna</author>
+    <author>Wenbo Xu 0004</author>
+    <author>Jinlong Fan</author>
+    <title>Application of 1D CNN and 3D CNN for Coarse Resolution Satellite Image Classification in Extensive Area Land Cover Mapping.</title>
+    <year>2024</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BuWLZL24">
+    <author>Jinwei Bu</author>
+    <author>Qiulan Wang</author>
+    <author>Linghui Li</author>
+    <author>Yongfeng Zhang</author>
+    <author>Xinyu Liu</author>
+    <title>Combining Spaceborne GNSS-R Data and Ensemble Machine Learning Methods for the Retrieval Vegetation Optical Depth.</title>
+    <year>2024</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ArslanovaHMSTSHFUS23">
+    <author>Linara Arslanova</author>
+    <author>Sören Hese</author>
+    <author>Friederike Metz</author>
+    <author>Christiane Schmullius</author>
+    <author>Christian Thau</author>
+    <author>Friedemann Scheibler</author>
+    <author>Kai Heckel</author>
+    <author>Marcel Fölsch</author>
+    <author>Marcel Urban</author>
+    <author>Michael Schultz</author>
+    <title>Potential of UAV-Based Pattern Classification with Convolutional Neural Network on Moderate/Low Quality UAV Data.</title>
+    <year>2023</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/CaoX21">
+    <author>Mengying Cao</author>
+    <author>Qinchuan Xin</author>
+    <title>A Deep Learning Method for Detecting Leaf Phenology from Phenocam Imagery.</title>
+    <year>2021</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/DemirB13">
+    <author>Begüm Demir</author>
+    <author>Lorenzo Bruzzone</author>
+    <title>An effective active learning method for interactive content-based retrieval in remote sensing images.</title>
+    <year>2013</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ArimaKUK20">
+    <author>Yuya Arima</author>
+    <author>Shoichiro Kojima</author>
+    <author>Jyunpei Uemoto</author>
+    <author>Tomohiko Konno</author>
+    <title>Semi-Supervised Land Cover Classification Using Pi-SAR2 Observation Data.</title>
+    <year>2020</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AlkhatibAAZA23">
+    <author>Mohammed Q. Alkhatib</author>
+    <author>Mina Al-Saad</author>
+    <author>Nour Aburaed</author>
+    <author>Mohammad Sami Zitouni</author>
+    <author>Hussain Al-Ahmad</author>
+    <title>PolSAR Image Classification Using Attention Based Shallow to Deep Convolutional Neural Network.</title>
+    <year>2023</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/DongKZLL14a">
+    <author>Ganggang Dong</author>
+    <author>Gangyao Kuang</author>
+    <author>Lingjun Zhao</author>
+    <author>Jun Lu 0008</author>
+    <author>Min Lu 0001</author>
+    <title>Nonnegative and local linear regression for classification in SAR imagery.</title>
+    <year>2014</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/0007DD21">
+    <author>Wei Yao 0007</author>
+    <author>Corneliu Octavian Dumitru</author>
+    <author>Mihai Datcu</author>
+    <title>An Active Learning Tool for the Generation of Earth Observation Image Benchmarks.</title>
+    <year>2021</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AachSLCNR22">
+    <author>Marcel Aach</author>
+    <author>Rocco Sedona</author>
+    <author>Andreas Lintermann</author>
+    <author>Gabriele Cavallaro</author>
+    <author>Helmut Neukirchen</author>
+    <author>Morris Riedel</author>
+    <title>Accelerating Hyperparameter Tuning of a Deep Learning Model for Remote Sensing Image Classification.</title>
+    <year>2022</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChureesampantS12">
+    <author>Kamolratn Chureesampant</author>
+    <author>Junichi Susaki</author>
+    <title>Land cover classification using multi-temporal SAR data and optical data fusion with adaptive training sample selection.</title>
+    <year>2012</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BhattGK15">
+    <author>Abhishek Bhatt</author>
+    <author>Sanjay Kumar Ghosh</author>
+    <author>Anil Kumar</author>
+    <title>Automated change detection in satellite images using machine learning algorithms for Delhi, India.</title>
+    <year>2015</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/0004HDXQYD19">
+    <author>Wei Feng 0004</author>
+    <author>Wenjiang Huang</author>
+    <author>Gabriel Dauphin</author>
+    <author>Junshi Xia</author>
+    <author>Yinghui Quan</author>
+    <author>Huichun Ye</author>
+    <author>Yingying Dong</author>
+    <title>Ensemble Margin Based Semi-Supervised Random Forest for the Classification of Hyperspectral Image with Limited Training Data.</title>
+    <year>2019</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/DuWXLW16">
+    <author>Lu Du</author>
+    <author>Zebin Wu 0001</author>
+    <author>Yang Xu 0006</author>
+    <author>Wei Liu</author>
+    <author>Zhihui Wei</author>
+    <title>Kernel low-rank representation for hyperspectral image classification.</title>
+    <year>2016</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChauffertIS12">
+    <author>Nicolas Chauffert</author>
+    <author>Jonathan Israel</author>
+    <author>Bertrand Le Saux</author>
+    <title>Boosting for interactive man-made structure classification.</title>
+    <year>2012</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/DabbiruABY18">
+    <author>Lalitha Dabbiru</author>
+    <author>James V. Aanstoos</author>
+    <author>John E. Ball</author>
+    <author>Nicolas H. Younan</author>
+    <title>Machine Learning Framework for Mapping of Mississippi River Levees and Damage Assessment Using Terrasar-X Data.</title>
+    <year>2018</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AlonsoD14">
+    <author>Kevin Alonso 0001</author>
+    <author>Mihai Datcu</author>
+    <title>Knowledge-driven image mining system for Big Earth Observation data fusion: GIS maps inclusion in active learning stage.</title>
+    <year>2014</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/HosokawaJT10">
+    <author>Masafumi Hosokawa</author>
+    <author>Byeong-pyo Jeong</author>
+    <author>Osamu Takizawa</author>
+    <title>Earthquake risk evaluation using landforms processed by unsupervised classification method.</title>
+    <year>2010</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AppiahTwumX24">
+    <author>Michael Appiah-Twum</author>
+    <author>Wenbo Xu 0004</author>
+    <title>An Attention-Based LSTM Lithological Classification Using Multisensor Datasets.</title>
+    <year>2024</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChenHGJ18">
+    <author>Wenshuai Chen</author>
+    <author>Dong Hai 0001</author>
+    <author>Shuiping Gou</author>
+    <author>Licheng Jiao</author>
+    <title>Classification of PolSAR Images Based on SVM with Self-Paced Learning Optimization.</title>
+    <year>2018</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AvantheyGGBR10">
+    <author>Loïca Avanthey</author>
+    <author>Vincent Germain</author>
+    <author>Antoine Gademer</author>
+    <author>Laurent Beaudoin</author>
+    <author>Jean-Paul Rudant</author>
+    <title>Real time detection of forest fires and volcanic eruptions from Meteosat Second Generation images using a neural network.</title>
+    <year>2010</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/0003SJG20">
+    <author>Peng Fu 0003</author>
+    <author>Quansen Sun</author>
+    <author>Zexuan Ji</author>
+    <author>Leilei Geng</author>
+    <title>A Superpixel-Based Framework for Noisy Hyperspectral Image Classification.</title>
+    <year>2020</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AidiniTT24">
+    <author>Anastasia Aidini</author>
+    <author>Grigorios Tsagkatakis</author>
+    <author>Panagiotis Tsakalides</author>
+    <title>Unsupervised Change Detection on Multi-Temporal Satellite Images Using Tensor Decomposition Learning.</title>
+    <year>2024</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/DjerririSKA18">
+    <author>Khelifa Djerriri</author>
+    <author>Abdelmounaime Safia</author>
+    <author>Moussa Sofiane Karoui</author>
+    <author>Reda Adjoudj</author>
+    <title>Enhancing the Classification of Remote Sensing Data Using Multiband Compact Texture Unit Descriptor and Deep Convolutional Neural Network.</title>
+    <year>2018</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AcitoDC21">
+    <author>Nicola Acito</author>
+    <author>Marco Diani</author>
+    <author>Giovanni Corsini</author>
+    <title>Learning Based Atmospheric Compensation: Results on Prisma Data.</title>
+    <year>2021</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BrumRGPSV22">
+    <author>Diego Brum</author>
+    <author>Vinicius Francisco Rofatto</author>
+    <author>Luiz Gonzaga 0001</author>
+    <author>Rafaela De Oliveira Pena</author>
+    <author>Luiz Fernando Sapucci</author>
+    <author>Maurício Roberto Veronez</author>
+    <title>Mean Tropospheric Temperature Estimation Using Deep Learning and Ensemble Methods.</title>
+    <year>2022</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/LuusBM13">
+    <author>Francois P. S. Luus</author>
+    <author>Frans van den Bergh</author>
+    <author>Bodhaswar T. Maharaj</author>
+    <title>Mean translation of GLCM texture features for across-date settlement type classification of QuickBird images.</title>
+    <year>2013</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChenYLS11">
+    <author>Lijun Chen</author>
+    <author>Wen Yang 0001</author>
+    <author>Ying Liu</author>
+    <author>Hong Sun</author>
+    <title>Polsar scene classification based on fast approximate neareast neighbours search.</title>
+    <year>2011</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BalarabeJ21">
+    <author>Anas Tukur Balarabe</author>
+    <author>Ivan Jordanov</author>
+    <title>LULC Image Classification with Convolutional Neural Network.</title>
+    <year>2021</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/CloseWG11">
+    <author>Ryan Close</author>
+    <author>Joseph N. Wilson</author>
+    <author>Paul D. Gader</author>
+    <title>A Bayesian approach to localized multi-kernel learning using the relevance vector machine.</title>
+    <year>2011</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BaisantryS19">
+    <author>Munmun Baisantry</author>
+    <author>Anil Kumar Sao</author>
+    <title>Band Selection Using Segmented Pca And Component Loadings For Hyperspectral Image Classification.</title>
+    <year>2019</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/CerraBMR12">
+    <author>Daniele Cerra</author>
+    <author>Jakub Bieniarz</author>
+    <author>Rupert Müller</author>
+    <author>Peter Reinartz</author>
+    <title>New approaches on dimensionality reduction in hyperspectral images for classification purposes.</title>
+    <year>2012</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/DemirB15a">
+    <author>Begüm Demir</author>
+    <author>Lorenzo Bruzzone</author>
+    <title>Histogram based attribute profiles for classification of very high resolution remote sensing images.</title>
+    <year>2015</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/Clark16">
+    <author>Matthew L. Clark</author>
+    <title>Mapping land cover with hyperspectral and multispectral satellites using machine learning and Spectral Mixture Analysis.</title>
+    <year>2016</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/DeshpandeIB18">
+    <author>Shailesh S. Deshpande</author>
+    <author>Arun Inamdar</author>
+    <author>P. Balamuralidhar</author>
+    <title>Classification of Urban Materials Using Artificial Color Features for Hyperspectral Data.</title>
+    <year>2018</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AriyasuKGS19">
+    <author>Emiko Ariyasu</author>
+    <author>Satomi Kakuta</author>
+    <author>Kotaro Goto</author>
+    <author>Takio Sano</author>
+    <title>Evaluation of Coral Reefs Mapping in Kerama Islands by Satellite-Based Classification.</title>
+    <year>2019</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/FangXSYCP16">
+    <author>Yuan Fang 0003</author>
+    <author>Linlin Xu</author>
+    <author>Xiao Sun</author>
+    <author>Longshan Yang</author>
+    <author>Yujia Chen 0002</author>
+    <author>Junhuan Peng</author>
+    <title>A novel unsupervised classification approach for hyperspectral imagery based on spectral mixture model and MARKOV random field.</title>
+    <year>2016</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AckermannGZSO11">
+    <author>Etienne R. Ackermann</author>
+    <author>Trienko L. Grobler</author>
+    <author>Augustinus J. van Zyl</author>
+    <author>Karen C. Steenkamp</author>
+    <author>J. Corne Olivier</author>
+    <title>Minimum error land cover separability analysis and classification of MODIS time series data.</title>
+    <year>2011</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AlajlanABH11">
+    <author>Naif Alajlan</author>
+    <author>Nassim Ammour</author>
+    <author>Yakoub Bazi</author>
+    <author>Haikel Hichri</author>
+    <title>A cluster ensemble method for robust unsupervised classification of VHR remote sensing images.</title>
+    <year>2011</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/EetiB17">
+    <author>Laxmi Narayana Eeti</author>
+    <author>Krishna Mohan Buddhiraju</author>
+    <title>Comparison of AdaBoost.M2 and perspective based model ensemble in multispectral image classification.</title>
+    <year>2017</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AlwadeiZRB22">
+    <author>Bashair Alwadei</author>
+    <author>Mansour Zuair</author>
+    <author>Mohamad Mahmoud Al Rahhal</author>
+    <author>Yakoub Bazi</author>
+    <title>Convmixer with Selective Kernel Attention for Hyperspectral Image Classification.</title>
+    <year>2022</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/FuLTX13">
+    <author>Sitao Fu</author>
+    <author>Zhen Li 0001</author>
+    <author>Bangsen Tian</author>
+    <author>Qiang Xing</author>
+    <title>Radar-coding in the application of SAR image classification in the district of glaciers.</title>
+    <year>2013</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/0016SZHRZ19">
+    <author>Hui Huang 0016</author>
+    <author>Genyun Sun</author>
+    <author>Aizhu Zhang</author>
+    <author>Yanling Hao</author>
+    <author>Jun Rong</author>
+    <author>Li Zhang</author>
+    <title>Combined Multiscale Convolutional Neural Networks and Superpixels for Building Extraction In Very High-Resolution Images.</title>
+    <year>2019</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BattitiDB16">
+    <author>Romano Battiti</author>
+    <author>Begüm Demir</author>
+    <author>Lorenzo Bruzzone</author>
+    <title>Quad-tree based compressed histogram attribute profiles for classification of very high resolution images.</title>
+    <year>2016</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChangSLK14">
+    <author>Chew Wai Chang</author>
+    <author>Chenghua Shi</author>
+    <author>Soo Chin Liew</author>
+    <author>Leong Keong Kwoh</author>
+    <title>Object-oriented land use cover classification of Landsat 8 OLI images in Sumatra.</title>
+    <year>2014</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/KuoHHLC10">
+    <author>Bor-Chen Kuo</author>
+    <author>Chih-Sheng Huang</author>
+    <author>Chih-Cheng Hung</author>
+    <author>Yu-Lung Liu</author>
+    <author>I-Ling Chen</author>
+    <title>Spatial information based support vector machine for hyperspectral image classification.</title>
+    <year>2010</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AmbrosanioFAP22">
+    <author>Michele Ambrosanio</author>
+    <author>Stefano Franceschini</author>
+    <author>Maria Maddalena Autorino</author>
+    <author>Vito Pascazio</author>
+    <title>Neural Networks for Optimal Initial Guess Selection in Nonlinear Microwave Subsurface Imaging.</title>
+    <year>2022</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/ChenLZ13">
+    <author>Yushi Chen 0002</author>
+    <author>Zhouhan Lin</author>
+    <author>Xing Zhao 0005</author>
+    <title>Riemannian manifold learning based k-nearest-neighbor for hyperspectral image classification.</title>
+    <year>2013</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/BaiFWLLZZ20">
+    <author>Jiayu Bai</author>
+    <author>Ruyi Feng</author>
+    <author>Lizhe Wang 0001</author>
+    <author>Hao Li 0058</author>
+    <author>Fengpeng Li</author>
+    <author>Yanfei Zhong</author>
+    <author>Liangpei Zhang 0001</author>
+    <title>Semi-Supervised Hyperspectral Unmixing with Very Deep Convolutional Neural Networks.</title>
+    <year>2020</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/AdrianoYYO23">
+    <author>Bruno Adriano</author>
+    <author>Naoto Yokoya</author>
+    <author>Kazuki Yamanoi</author>
+    <author>Satoru Oishi</author>
+    <title>Combining Deep Learning and Numerical Simulation to Predict Flood Inundation Depth.</title>
+    <year>2023</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/GouWLJ16">
+    <author>Shuiping Gou</author>
+    <author>Peng Wang</author>
+    <author>Xiaofeng Li 0001</author>
+    <author>Licheng Jiao</author>
+    <title>Coastal zone land-use classification of full-polarization SAR data based on joint sparse.</title>
+    <year>2016</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+  <inproceedings key="conf/igarss/GaoP16">
+    <author>Wei Gao 0005</author>
+    <author>Yu Peng</author>
+    <title>Multiple kernel learning based on ideal kernel optimization for hyperspectral imagery classification.</title>
+    <year>2016</year>
+    <booktitle>IGARSS</booktitle>
+  </inproceedings>
+</dblp>

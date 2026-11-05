@@ -1,0 +1,59 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "scripts/check_backend.py",
+    "--config",
+    "data/processed/backend-demo/backend.json",
+    "--out",
+    "results/backend-smoke.json"
+  ],
+  "elapsed_seconds": 0.848,
+  "generated_claims": 17,
+  "health": {
+    "authors": 3,
+    "model_version": "gradient-boosted-expert-v1",
+    "papers": 4,
+    "query_provider": "recorded",
+    "status": "ok"
+  },
+  "http_checks": [
+    {
+      "operation": "health",
+      "status": 200
+    },
+    {
+      "operation": "search",
+      "status": 200
+    },
+    {
+      "operation": "shortlist",
+      "status": 200
+    },
+    {
+      "operation": "retry_same_decision",
+      "status": 200
+    },
+    {
+      "operation": "profile",
+      "status": 200
+    },
+    {
+      "operation": "collaboration_path",
+      "status": 200
+    },
+    {
+      "operation": "delete_memory",
+      "status": 200
+    },
+    {
+      "operation": "delete_session",
+      "status": 204
+    }
+  ],
+  "network_scope": "Owned loopback HTTP server; no external service calls.",
+  "package_source_sha256": "27d2fb2ee56b0509f0bf3e164a413fcdcaf500db2701c581ff930e78e06e3f53",
+  "path_checked": true,
+  "runtime_environment": "Only PATH, PYTHONPATH and PYTHONDONTWRITEBYTECODE; no API keys.",
+  "startup_seconds": 0.784,
+  "unsupported_claims": 0
+}

@@ -1,0 +1,313 @@
+{
+  "$defs": {
+    "Claim": {
+      "additionalProperties": false,
+      "properties": {
+        "collaborator_id": {
+          "anyOf": [
+            {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Collaborator Id"
+        },
+        "data_warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Data Warnings",
+          "type": "array"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "paper_id": {
+          "title": "Paper Id",
+          "type": "string"
+        },
+        "person_id": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Person Id",
+          "type": "integer"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Source"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "supported": {
+          "title": "Supported",
+          "type": "boolean"
+        },
+        "term": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Term"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "year": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Year"
+        }
+      },
+      "required": [
+        "kind",
+        "person_id",
+        "paper_id",
+        "year",
+        "text",
+        "supported",
+        "reason",
+        "sources"
+      ],
+      "title": "Claim",
+      "type": "object"
+    },
+    "GroundingCounts": {
+      "additionalProperties": false,
+      "properties": {
+        "claims": {
+          "title": "Claims",
+          "type": "integer"
+        },
+        "unsupported": {
+          "title": "Unsupported",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "claims",
+        "unsupported"
+      ],
+      "title": "GroundingCounts",
+      "type": "object"
+    },
+    "PaperEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "collaborators": {
+          "items": {
+            "$ref": "#/$defs/Person"
+          },
+          "title": "Collaborators",
+          "type": "array"
+        },
+        "paper_id": {
+          "title": "Paper Id",
+          "type": "string"
+        },
+        "source": {
+          "const": "dblp",
+          "title": "Source",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "year": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Year"
+        }
+      },
+      "required": [
+        "paper_id",
+        "title",
+        "year",
+        "source",
+        "collaborators"
+      ],
+      "title": "PaperEvidence",
+      "type": "object"
+    },
+    "Person": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "person_id": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Person Id",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "person_id",
+        "name"
+      ],
+      "title": "Person",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "edge_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Edge Id"
+        },
+        "paper_id": {
+          "title": "Paper Id",
+          "type": "string"
+        },
+        "source": {
+          "const": "dblp",
+          "title": "Source",
+          "type": "string"
+        },
+        "year": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Year"
+        }
+      },
+      "required": [
+        "paper_id",
+        "year",
+        "source"
+      ],
+      "title": "Source",
+      "type": "object"
+    }
+  },
+  "$id": "urn:hiresense:batch:v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "items": {
+    "additionalProperties": false,
+    "properties": {
+      "error": {
+        "type": "string"
+      },
+      "query": {
+        "type": "string"
+      },
+      "results": {
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "claims": {
+              "items": {
+                "$ref": "#/$defs/Claim"
+              },
+              "title": "Claims",
+              "type": "array"
+            },
+            "evidence": {
+              "items": {
+                "$ref": "#/$defs/PaperEvidence"
+              },
+              "title": "Evidence",
+              "type": "array"
+            },
+            "explanation": {
+              "title": "Explanation",
+              "type": "string"
+            },
+            "grounding": {
+              "$ref": "#/$defs/GroundingCounts"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "person_id": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "title": "Person Id",
+              "type": "integer"
+            },
+            "score": {
+              "title": "Score",
+              "type": "number"
+            },
+            "shortlisted": {
+              "default": false,
+              "title": "Shortlisted",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "person_id",
+            "name",
+            "score",
+            "explanation",
+            "evidence",
+            "claims",
+            "grounding"
+          ],
+          "title": "ExpertResult",
+          "type": "object"
+        },
+        "type": "array"
+      }
+    },
+    "required": [
+      "query",
+      "results"
+    ],
+    "type": "object"
+  },
+  "title": "Offline batch output v1",
+  "type": "array"
+}

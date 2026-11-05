@@ -1,0 +1,4 @@
+graph neural networks hardware acceleration
+deep learning remote sensing image classification
+hyperspectral image classification
+machine learning circuit design

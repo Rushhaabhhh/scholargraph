@@ -1,0 +1,6 @@
+Embedding model: sentence-transformers/all-MiniLM-L6-v2 (Apache-2.0).
+Original model card: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
+Quantized ONNX conversion and tokenizer: Xenova/all-MiniLM-L6-v2 (Apache-2.0).
+Pinned conversion revision: 751bff37182d3f1213fa05d7196b954e230abad9
+Conversion source: https://huggingface.co/Xenova/all-MiniLM-L6-v2
+The embedding encoder is used unchanged. The author reranker is trained by this project.

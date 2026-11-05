@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dblp SYSTEM "dblp.dtd">
+<dblp>
+<article key="p:2019"><author>J&uuml;rgen M&uuml;ller</author><author>Ana Mar&iacute;a</author><title>A study of &uuml;nicode &amp; entities</title><year>2019</year><journal>Test Journal</journal></article>
+<inproceedings key="p:2021"><author>J&uuml;rgen M&uuml;ller</author><title>Graph retrieval methods</title><year>2021</year><booktitle>Test Conference</booktitle></inproceedings>
+<article key="p:2022"><author>Ana Mar&iacute;a</author><title>Reliable ranking systems</title><year>2022</year><journal>Test Journal</journal></article>
+</dblp>

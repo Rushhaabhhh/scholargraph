@@ -1,0 +1,17 @@
+{
+  "batch_queries": 2,
+  "command": [
+    ".venv/bin/python",
+    "scripts/check_clean_copy.py",
+    "--out",
+    "results/backend-clean-copy.json"
+  ],
+  "elapsed_seconds": 13.56,
+  "errors": 0,
+  "failures": 0,
+  "package_source_sha256": "27d2fb2ee56b0509f0bf3e164a413fcdcaf500db2701c581ff930e78e06e3f53",
+  "scope": "Clean source/model/recording copy with prepared dependencies; no raw corpus, generated indexes, optional LLM weights or API keys.",
+  "successful": true,
+  "tests_run": 63,
+  "unsupported_batch_claims": 0
+}

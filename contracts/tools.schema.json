@@ -1,0 +1,149 @@
+{
+  "authority": "Only server routing may invoke these tools. LLM output is restricted to query intent.",
+  "query_intent": {
+    "additionalProperties": false,
+    "properties": {
+      "recency_preference": {
+        "default": "any",
+        "enum": [
+          "any",
+          "recent"
+        ],
+        "title": "Recency Preference",
+        "type": "string"
+      },
+      "since_year": {
+        "anyOf": [
+          {
+            "maximum": 9999,
+            "minimum": 1,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Since Year"
+      },
+      "topics": {
+        "items": {
+          "maxLength": 500,
+          "minLength": 1,
+          "type": "string"
+        },
+        "maxItems": 8,
+        "minItems": 1,
+        "title": "Topics",
+        "type": "array"
+      }
+    },
+    "required": [
+      "topics"
+    ],
+    "title": "QueryIntent",
+    "type": "object"
+  },
+  "tools": {
+    "find_collaboration_path": {
+      "additionalProperties": false,
+      "properties": {
+        "max_hops": {
+          "default": 4,
+          "maximum": 6,
+          "minimum": 0,
+          "title": "Max Hops",
+          "type": "integer"
+        },
+        "source": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Source",
+          "type": "integer"
+        },
+        "target": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Target",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source",
+        "target"
+      ],
+      "title": "PathArgs",
+      "type": "object"
+    },
+    "get_profile": {
+      "additionalProperties": false,
+      "properties": {
+        "person_id": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Person Id",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "person_id"
+      ],
+      "title": "ProfileArgs",
+      "type": "object"
+    },
+    "search_experts": {
+      "additionalProperties": false,
+      "properties": {
+        "limit": {
+          "default": 10,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        },
+        "query": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Query",
+          "type": "string"
+        },
+        "recency_preference": {
+          "anyOf": [
+            {
+              "enum": [
+                "any",
+                "recent"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recency Preference"
+        },
+        "since_year": {
+          "anyOf": [
+            {
+              "maximum": 9999,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Since Year"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "title": "SearchExpertsArgs",
+      "type": "object"
+    }
+  },
+  "version": 1
+}

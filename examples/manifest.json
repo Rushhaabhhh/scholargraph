@@ -1,0 +1,53 @@
+{
+  "source": "DBLP",
+  "source_url": "https://dblp.org/xml/",
+  "license": "CC0",
+  "source_slice": "data/processed/phase1/source.xml",
+  "source_slice_sha256": "bd69e4775ecc924530b0adfd1ac0d5759ef7bfea348efe6a5f8640b651ed9f7d",
+  "raw_source_sha256": "830dd95e700a909b36ac28c66a8409b8cdc8dca75592fc4398add21241842392",
+  "selection": {
+    "papers_per_venue": 100,
+    "venues": [
+      "DAC",
+      "IGARSS"
+    ],
+    "year_range_inclusive": [
+      2010,
+      2025
+    ],
+    "title_contains_any_case_insensitive": [
+      "neural",
+      "learning",
+      "classification"
+    ],
+    "ordering": "Within each venue, sort keys per year, then round-robin ascending years until 100 papers; output in source order."
+  },
+  "limitations": "Topic-focused convenience sample of the existing source-order slice; not representative of all DBLP research. Bibliographic facts are preserved; only XML formatting changes.",
+  "papers": 200,
+  "authors": 762,
+  "year_counts": {
+    "2010": 9,
+    "2011": 11,
+    "2012": 10,
+    "2013": 9,
+    "2014": 9,
+    "2015": 9,
+    "2016": 16,
+    "2017": 16,
+    "2018": 16,
+    "2019": 16,
+    "2020": 15,
+    "2021": 14,
+    "2022": 14,
+    "2023": 14,
+    "2024": 14,
+    "2025": 8
+  },
+  "venue_counts": {
+    "DAC": 100,
+    "IGARSS": 100
+  },
+  "sample_bytes": 76027,
+  "sample_sha256": "1bf6e8f861a8cd850c3041ccc698bde14354e6f9c200d8294b50dde3cfc90534",
+  "queries": 4
+}

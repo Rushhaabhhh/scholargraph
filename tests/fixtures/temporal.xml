@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dblp SYSTEM "dblp.dtd">
+<dblp>
+  <article key="history/graph"><author>Alex Kim 0001</author><author>Bea Müller</author><title>Historical <i>graph</i> algorithms &amp; search</title><year>2018</year><journal>Graph Journal</journal></article>
+  <inproceedings key="history/text"><author>Alex Kim 0002</author><title>Historical language methods</title><year>2019</year><booktitle>Language Conference</booktitle></inproceedings>
+  <book key="history/book"><editor>Ed Editor</editor><title>Collected history</title><year>2018</year></book>
+  <www key="unknown/year"><author>Unknown Year</author><title>Undated homepage</title></www>
+  <inproceedings key="train/future"><author>Alex Kim 0001</author><author>New Person</author><title>Future graph retrieval</title><year>2020</year><booktitle>Later Conference</booktitle></inproceedings>
+  <article key="validation/future"><author>Alex Kim 0002</author><title>Future language reasoning</title><year>2021</year><journal>Later Journal</journal></article>
+  <article key="test/future"><author>Bea Müller</author><author>New Person</author><title>Future expert discovery</title><year>2022</year><journal>Later Journal</journal></article>
+  <article key="after/test"><author>Even Later Person</author><title>Beyond the experiment</title><year>2023</year><journal>Future Journal</journal></article>
+  <article key="duplicate/graph"><author>Bea Müller</author><title>Repeated title</title><year>2018</year></article>
+  <article key="duplicate/test"><author>Bea Müller</author><title>REPEATED   TITLE</title><year>2022</year></article>
+  <data key="metadata/concept"><ee>https://example.org/concept</ee></data>
+</dblp>

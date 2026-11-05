@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+"""Required assignment entry point; implementation lives under scripts/."""
+from pathlib import Path
+from runpy import run_path
+
+if __name__ == '__main__':
+    run_path(str(Path(__file__).resolve().parent / 'scripts/run_batch.py'), run_name='__main__')
