@@ -12,10 +12,10 @@ def default_model_path():
 
 def search_index(database, directory, encoder, model, *, profiles=None, cross_directory=None):
     kind = model.get('retrieval_kind')
-    if kind not in (None, 'hybrid'):
+    if kind not in (None, 'hybrid', 'paper'):
         raise ValueError(f'Unsupported retrieval kind: {kind}')
-    if kind is None:
-        return SearchIndex(database, directory, encoder)
+    if kind in (None, 'paper'):
+        return SearchIndex(database, directory, encoder, **model.get('retrieval', {}))
     from .crossencoder import CrossEncoder
     from .hybrid import HybridIndex
     settings = model['retrieval']

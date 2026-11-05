@@ -28,7 +28,7 @@ def create_app(config_path=None, backend=None):
     @asynccontextmanager
     async def lifespan(app):
         owned = backend is None
-        app.state.backend = backend or Backend.load(config_path or os.environ.get('HIRESENSE_CONFIG', 'experiments/backend.json'))
+        app.state.backend = backend or Backend.load(config_path or os.environ.get('HIRESENSE_CONFIG', 'resources/experiments/backend.json'))
         app.state.assistant = Assistant(app.state.backend)
         _LOG.info('backend_ready papers=%d authors=%d', len(app.state.backend.engine.papers), len(app.state.backend.engine.authors))
         try:

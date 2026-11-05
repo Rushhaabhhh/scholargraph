@@ -15,10 +15,10 @@ from hiresense.data.artifacts import digest_file, write_json
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', type=Path, required=True)
-parser.add_argument('--queries', type=Path, default=Path('recordings/queries.json'))
-parser.add_argument('--out', type=Path, default=Path('recordings/query-intents.json'))
+parser.add_argument('--queries', type=Path, default=Path('resources/recordings/queries.json'))
+parser.add_argument('--out', type=Path, default=Path('resources/recordings/query-intents.json'))
 args = parser.parse_args()
-model_metadata = json.loads((Path(__file__).resolve().parents[1] / 'recordings/local-model.json').read_text())
+model_metadata = json.loads((Path(__file__).resolve().parents[1] / 'resources/recordings/local-model.json').read_text())
 provider = LocalLLMProvider(args.model, model_metadata['sha256'])
 records = []
 for query in json.loads(args.queries.read_text()):

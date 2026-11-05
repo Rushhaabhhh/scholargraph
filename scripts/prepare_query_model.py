@@ -15,7 +15,7 @@ from hiresense.data.artifacts import digest_file
 parser = argparse.ArgumentParser()
 parser.add_argument('--out', type=Path, default=ROOT / 'data/models/query-understanding.gguf')
 args = parser.parse_args()
-metadata = json.loads((ROOT / 'recordings/local-model.json').read_text())
+metadata = json.loads((ROOT / 'resources/recordings/local-model.json').read_text())
 if args.out.exists():
     if digest_file(args.out) != metadata['sha256']:
         raise SystemExit('Existing model checksum differs; choose a new output path')

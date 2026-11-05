@@ -38,7 +38,7 @@ def run_batch(data: str, queries: str, output: str) -> None:
             directory = Path(temporary) / 'index'
             build_index(database, directory, encoder)
             engine = search_index(database, directory, encoder, model)
-            recordings = root / 'recordings/query-intents.json'
+            recordings = root / 'resources/recordings/query-intents.json'
             provider = RecordedProvider(recordings) if recordings.exists() else None
             runtime = Backend(database, engine, model, SessionStore(Path(temporary) / 'sessions.sqlite3', engine.manifest['content_sha256']), QueryUnderstander(provider))
             for line in queries.read_text(encoding='utf-8').splitlines():

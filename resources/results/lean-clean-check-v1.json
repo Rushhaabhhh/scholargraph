@@ -1,0 +1,17 @@
+{
+  "batch_queries": 4,
+  "command": [
+    ".venv/bin/python",
+    "scripts/check_clean_copy.py",
+    "--out",
+    "/tmp/hiresense-clean-final-2.json"
+  ],
+  "elapsed_seconds": 20.9,
+  "errors": 0,
+  "failures": 0,
+  "package_source_sha256": "504ec1a134328b5bf095467bdebca20dba2fec0d83dfd657249f7aa7751f5791",
+  "scope": "Clean source/model/recording copy with prepared dependencies; no raw corpus, generated indexes, optional LLM weights or API keys.",
+  "successful": true,
+  "tests_run": 80,
+  "unsupported_batch_claims": 0
+}

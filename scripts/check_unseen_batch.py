@@ -25,8 +25,10 @@ if args.out.exists():
 started = monotonic()
 with tempfile.TemporaryDirectory(prefix='hiresense-unseen-clean-') as tmp:
     clean = Path(tmp)
-    for directory in ('src', 'scripts', 'models', 'recordings'):
+    for directory in ('src', 'scripts', 'models'):
         shutil.copytree(ROOT / directory, clean / directory, ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
+    (clean / 'resources').mkdir()
+    shutil.copytree(ROOT / 'resources/recordings', clean / 'resources/recordings')
     shutil.copy2(ROOT / 'run', clean / 'run')
     shutil.copy2(args.model, clean / 'models/hybrid_ranker.json')
     environment = {'PATH': str(Path(sys.executable).parent) + os.pathsep + os.defpath,

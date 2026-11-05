@@ -9,6 +9,8 @@ import unittest
 from pathlib import Path
 from fastapi.testclient import TestClient
 from hiresense.api.app import create_app
+from hiresense.api.runtime import Backend
+from hiresense.assistant.providers import RecordedProvider
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -24,7 +26,7 @@ class BackendCliTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='hiresense-cli-backend-') as temporary:
             output = Path(temporary) / 'prepared'
             command = [sys.executable, '-m', 'hiresense.cli', 'prepare-backend', '--data',
-                       str(ROOT / 'examples/sample.xml'), '--out', str(output)]
+                       str(ROOT / 'resources/examples/sample.xml'), '--out', str(output)]
             result = subprocess.run(command, cwd=ROOT, env=dict(os.environ, PYTHONPATH=str(ROOT / 'src')),
                                     text=True, capture_output=True, timeout=30)
             self.assertEqual(result.returncode, 0, result.stderr)
@@ -36,3 +38,13 @@ class BackendCliTests(unittest.TestCase):
                 self.assertTrue(search['results'])
                 self.assertTrue(all(claim['supported'] for person in search['results'] for claim in person['claims']))
                 self.assertEqual(client.get('/health').json()['papers'], 200)
+            # Configurations produced before the resource move remain usable.
+            config_path = Path(preparation['config'])
+            config = json.loads(config_path.read_text())
+            config['recordings'] = str(ROOT / 'recordings/query-intents.json')
+            config_path.write_text(json.dumps(config))
+            backend = Backend.load(config_path)
+            try:
+                self.assertIsInstance(backend.understander.provider, RecordedProvider)
+            finally:
+                backend.close()

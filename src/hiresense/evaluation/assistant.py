@@ -117,7 +117,7 @@ def run_assistant_evaluation(config_path, scenarios_path, output):
                                 dict(draft, year=9999 if draft['year'] != 9999 else 1)):
                         mutations += 1
                         rejected += not backend.verifier.verify(bad)['supported']
-                recording_path = Path(__file__).resolve().parents[3] / 'recordings/query-intents.json'
+                recording_path = Path(__file__).resolve().parents[3] / 'resources/recordings/query-intents.json'
                 recordings = json.loads(recording_path.read_text())
                 replay_understander = QueryUnderstander(RecordedProvider(recording_path))
                 semantic_accepted = 0

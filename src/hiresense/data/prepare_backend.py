@@ -51,7 +51,7 @@ def prepare_backend(data, output, cutoff_year=None):
         configuration = {'graph': 'graph.sqlite3', 'index': 'index', 'session_db': 'sessions.sqlite3',
                          'encoder': os.path.relpath(root / 'models/minilm', output.resolve()),
                          'model': os.path.relpath(model_path, output.resolve()),
-                         'recordings': os.path.relpath(root / 'recordings/query-intents.json', output.resolve()),
+                         'recordings': os.path.relpath(root / 'resources/recordings/query-intents.json', output.resolve()),
                          'query_provider': 'recorded'}
         if model.get('retrieval_kind') == 'hybrid':
             configuration['cross_encoder'] = os.path.relpath(root / 'models/crossencoder', output.resolve())

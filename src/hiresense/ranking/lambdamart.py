@@ -5,6 +5,7 @@ import numpy as np
 
 from ..data.artifacts import write_json
 from ..retrieval.hybrid import HYBRID_FEATURES
+from ..retrieval.index import FEATURE_NAMES
 from .scoring import cache_metrics, raw_tree_scores, score_model
 
 
@@ -49,10 +50,13 @@ def training_rows(cache, seed):
     return np.asarray(rows), np.asarray(labels), groups
 
 
-def train_lambdamart(train, validation, output, metadata, *, seed=42, removed=(), settings=None):
+def train_lambdamart(train, validation, output, metadata, *, seed=42, removed=(), settings=None, feature_names=HYBRID_FEATURES):
     from lightgbm import LGBMRanker
     started = monotonic()
-    selected = [i for i, name in enumerate(HYBRID_FEATURES) if name not in removed]
+    feature_names = tuple(feature_names)
+    if feature_names not in (FEATURE_NAMES, HYBRID_FEATURES):
+        raise ValueError('Unsupported ranker feature schema')
+    selected = [i for i, name in enumerate(feature_names) if name not in removed]
     rows, labels, groups = training_rows(train, seed)
     settings = settings or [dict(n_estimators=80, num_leaves=7), dict(n_estimators=160, num_leaves=7),
                             dict(n_estimators=160, num_leaves=15)]
@@ -64,8 +68,8 @@ def train_lambdamart(train, validation, output, metadata, *, seed=42, removed=()
                            reg_lambda=2.0, n_jobs=2, random_state=seed, verbosity=-1,
                            deterministic=True, force_col_wise=True, **setting)
         fitted.fit(x, labels, group=groups)
-        model = {'version': 'hybrid-lambdamart-v1',
-                 'features': list(HYBRID_FEATURES),
+        model = {'version': 'hybrid-lambdamart-v1' if feature_names == HYBRID_FEATURES else 'paper-lambdamart-v1',
+                 'features': list(feature_names),
                  'selected_features': selected, 'initial_log_odds': 0.0, 'learning_rate': 1.0,
                  'trees': [_tree(item['tree_structure']) for item in fitted.booster_.dump_model()['tree_info']],
                  'parameters': setting, **metadata}

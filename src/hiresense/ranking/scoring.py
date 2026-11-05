@@ -17,7 +17,7 @@ def raw_tree_scores(features, model):
     if model['version'] == 'hybrid-lambdamart-v1':
         from ..retrieval.hybrid import HYBRID_FEATURES
         schema = HYBRID_FEATURES
-    elif model['version'] != 'gradient-boosted-expert-v1':
+    elif model['version'] not in ('gradient-boosted-expert-v1', 'paper-lambdamart-v1'):
         raise ValueError(f"Unsupported reranker version: {model['version']}")
     if tuple(model['features']) != schema or features.ndim != 2 or features.shape[1] != len(schema):
         raise ValueError('Reranker feature schema differs')

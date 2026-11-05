@@ -1,8 +1,10 @@
 # HireSense: architecture and joint experiment plan
 
+**Historical context:** This document records earlier architecture decisions. The static frontend has since been retired and `web/` is reserved for the planned Next.js implementation; see the README for the live layout.
+
 This is a working decision document for discussion, not the assignment's final two-to-three-page design PDF and not a report of new experiments. The application code and model have not been changed as part of this document. Status labels distinguish what exists, what is proposed, and what must be measured.
 
-**Current review:** Hybrid training and reserved evaluation have now run. This document preserves the earlier architecture/planning discussion. See [hybrid experiment](hybrid-experiment.md) for the completed experiment and [system review and recovery plan](system-review-and-recovery-plan.md) for current quality findings, missing product work and proposed goals.
+**Current review:** Hybrid training and reserved evaluation have now run. This document preserves the earlier architecture/planning discussion. See [hybrid experiment (archive: hybrid-experiment.md)](historical.zip) for the completed experiment and [system review and recovery plan (archive: system-review-and-recovery-plan.md)](historical.zip) for current quality findings, missing product work and proposed goals.
 
 ## 1. What we are building
 
@@ -22,7 +24,7 @@ The assignment requires a pipeline capable of at least 50,000 papers, not exactl
 | Identity experiment | 99.996% match precision, 91.61% recall | Optimistic setup: canonical profiles include the same paper that generated each noisy observation. It is known-identity linkage, not open-world clustering. |
 | Trained model | 80-tree gradient-boosted classifier, exported to `models/expert_ranker.json` | Trained on 26,523 candidate examples from 782 usable training queries. MiniLM is pretrained and unchanged. |
 
-The values come from the existing `results/phase23.json` and `results/data-benchmark.json`; no new accuracy is promised. The earlier ranking metrics were reproduced against the prepared graph and the ranker was retrained byte-for-byte during the prior audit. Those checks reproduce the existing experiment, including its limitations.
+The values come from the existing `resources/results/phase23.json` and `resources/results/data-benchmark.json`; no new accuracy is promised. The earlier ranking metrics were reproduced against the prepared graph and the ranker was retrained byte-for-byte during the prior audit. Those checks reproduce the existing experiment, including its limitations.
 
 ## 2. End-to-end architecture
 

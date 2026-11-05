@@ -12,12 +12,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class ProviderTests(unittest.TestCase):
     def test_recordings_are_actual_model_outputs_and_are_validated_on_replay(self):
-        recordings = json.loads((ROOT / 'recordings/query-intents.json').read_text())
-        model = json.loads((ROOT / 'recordings/local-model.json').read_text())
+        recordings = json.loads((ROOT / 'resources/recordings/query-intents.json').read_text())
+        model = json.loads((ROOT / 'resources/recordings/local-model.json').read_text())
         self.assertEqual(recordings['provenance']['model_sha256'], model['sha256'])
         self.assertEqual(recordings['provenance']['revision'], model['revision'])
         self.assertIn('unedited', recordings['provenance']['method'])
-        provider = RecordedProvider(ROOT / 'recordings/query-intents.json')
+        provider = RecordedProvider(ROOT / 'resources/recordings/query-intents.json')
         for item in recordings['records']:
             self.assertEqual(provider.extract(item['query']), item['raw_output'])
             QueryIntent.model_validate_json(item['raw_output'])

@@ -19,7 +19,7 @@ from hiresense.ranking.scoring import score_model
 from hiresense.retrieval.crossencoder import CrossEncoder
 from hiresense.retrieval.encoder import LocalEncoder
 from hiresense.retrieval.hybrid import HYBRID_FEATURES, HybridIndex
-from hiresense.retrieval.index import build_index
+from hiresense.retrieval.index import FEATURE_NAMES, build_index
 from hiresense.retrieval.factory import search_index
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,6 +31,23 @@ class ModelCompatibilityTests(unittest.TestCase):
             search_index(None, None, None, {'retrieval_kind': 'evidence'})
         with self.assertRaisesRegex(ValueError, 'Unsupported reranker version'):
             score_model(np.empty((0, 0)), {'version': 'evidence-lambdamart-v2'})
+
+    @unittest.skipUnless(importlib.util.find_spec('lightgbm'), 'Optional training dependency is not installed')
+    def test_paper_ranker_exports_and_rejects_wrong_schema(self):
+        from hiresense.ranking.lambdamart import train_lambdamart
+        matrix = np.random.default_rng(8).random((120, len(FEATURE_NAMES)), dtype=np.float32)
+        ids = np.tile(np.arange(4), 30)
+        queries = [GroundTruthQuery(f'q:{i}', f'query {i}', f'paper:{i}', 2021, (0,)) for i in range(30)]
+        cache = {'features': matrix, 'author_ids': ids, 'offsets': np.arange(0, 121, 4), 'queries': queries}
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'model.json'
+            train_lambdamart(cache, cache, path, {}, feature_names=FEATURE_NAMES,
+                             settings=[{'n_estimators': 5, 'num_leaves': 3}])
+            model = json.loads(path.read_text())
+            self.assertEqual(model['version'], 'paper-lambdamart-v1')
+            self.assertTrue(np.isfinite(score_model(matrix, model)).all())
+            with self.assertRaisesRegex(ValueError, 'schema'):
+                score_model(matrix[:, :-1], model)
 
 
 class HybridTests(unittest.TestCase):

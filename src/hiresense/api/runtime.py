@@ -58,7 +58,11 @@ class Backend:
             mode = config.get('query_provider', 'recorded')
             if mode == 'recorded':
                 try:
-                    provider = RecordedProvider(path('recordings'))
+                    recording_path = path('recordings')
+                    root = Path(__file__).resolve().parents[3]
+                    if recording_path == root / 'recordings/query-intents.json' and not recording_path.exists():
+                        recording_path = root / 'resources/recordings/query-intents.json'
+                    provider = RecordedProvider(recording_path)
                 except (OSError, ValueError, KeyError, TypeError):
                     provider = UnavailableProvider()
             elif mode == 'local_llm':

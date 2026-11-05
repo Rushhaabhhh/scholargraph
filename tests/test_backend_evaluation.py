@@ -12,7 +12,7 @@ class BackendEvaluationTests(unittest.TestCase):
         temporary, backend, configuration = make_backend()
         backend.close()
         try:
-            report = run_assistant_evaluation(configuration, ROOT / 'experiments/assistant-scenarios.json',
+            report = run_assistant_evaluation(configuration, ROOT / 'resources/experiments/assistant-scenarios.json',
                                               Path(temporary.name) / 'evaluation.json')
             self.assertGreaterEqual(report['scenario_count'], 6)
             self.assertEqual(report['task_success'], 1)
@@ -22,6 +22,6 @@ class BackendEvaluationTests(unittest.TestCase):
             self.assertEqual(report['injection']['resistance_rate'], 1)
             self.assertGreater(report['llm_recordings']['semantically_accepted'], 0)
             with self.assertRaises(ValueError):
-                run_assistant_evaluation(configuration, ROOT / 'experiments/assistant-scenarios.json', Path(temporary.name) / 'evaluation.json')
+                run_assistant_evaluation(configuration, ROOT / 'resources/experiments/assistant-scenarios.json', Path(temporary.name) / 'evaluation.json')
         finally:
             temporary.cleanup()

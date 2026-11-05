@@ -15,7 +15,7 @@ if any(importlib.util.find_spec(name) is None for name in required_modules):
     using_project_environment = Path(sys.prefix).resolve() == (project / '.venv').resolve()
     if environment_python.exists() and not using_project_environment:
         os.execv(str(environment_python), [str(environment_python), str(Path(__file__).resolve()), *sys.argv[1:]])
-    raise SystemExit('Install the dependencies in requirements.lock before running ./run (see README).')
+    raise SystemExit('Install the dependencies in config/requirements.lock before running ./run (see README).')
 
 sys.path.insert(0, str(project / 'src'))
 from hiresense.batch import run_batch
