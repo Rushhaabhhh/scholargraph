@@ -1,8 +1,8 @@
-# HireSense.ai
+# ScholarGraph
 
 Offline research-expert discovery using public DBLP bibliographic data. The Python backend owns ingestion, identity resolution, the dated context graph, retrieval, ranking, grounded explanations and session memory. SQLite stores research data and sessions separately.
 
-The Next.js/TypeScript application in `web/` connects to the Python API. It includes search and supported recency/year filters, sourced evidence, author profiles, an assistant, a shortlist/rejected list, and session-memory controls. It uses a local browser session because the API has no account system. See [frontend capability gaps](docs/frontend-backend-gaps.md) for the route map and intentionally omitted assignment extensions. The earlier static prototype is preserved in `resources/experiments/frozen-source-504ec1.zip`.
+The Next.js/TypeScript application in `web/` connects to the Python API. It includes search and supported recency/year filters, sourced evidence, author profiles, an assistant, a shortlist/rejected list, and session-memory controls. It uses a local browser session because the API has no account system. The earlier static prototype is preserved in `resources/experiments/frozen-source-504ec1.zip`.
 
 ## Setup
 
@@ -10,9 +10,11 @@ Use Python 3.12 or newer. Keep `pyproject.toml` at the root: it is the standard 
 
 ```sh
 uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python -r config/requirements-training.lock
-PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -v
+uv pip install --python .venv/bin/python -r config/requirements.lock
+(cd web && npm ci)
 ```
+
+Install `config/requirements-training.lock` when training or reproducing model experiments.
 
 Dependency installation and the initial Docker image build may require network access. Inference, prepared tests, the batch command and the running API require no API key or network access.
 
@@ -25,6 +27,16 @@ Dependency installation and the initial Docker image build may require network a
 The command accepts another valid DBLP-style XML slice and a text file with one query per line. It creates an isolated temporary graph/index and writes ranked people, scores, explanations and sourced paper evidence as JSON. Scores are ranking values, not probabilities. The included 200-paper sample is a functional demonstration, not an accuracy benchmark.
 
 ## Run the application
+
+For local development, start the API and frontend together:
+
+```sh
+./scripts/start-local.sh
+```
+
+Open `http://127.0.0.1:3017`. The command uses the existing prepared research graph and trained model when available; otherwise it prepares the bundled sample as a small functional demo. It waits for the API to become ready and stops both services with Ctrl+C. Set `SCHOLARGRAPH_BACKEND_PORT` or `SCHOLARGRAPH_WEB_PORT` if the defaults are occupied, or set `HIRESENSE_CONFIG` to use a different prepared backend. Install the Python and frontend dependencies from the setup instructions first.
+
+Alternatively, with Docker:
 
 ```sh
 docker compose up --build

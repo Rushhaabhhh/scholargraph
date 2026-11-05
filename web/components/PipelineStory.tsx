@@ -5,13 +5,13 @@ import {Icon} from './Icon';
 const stages=[
  {number:'01',label:'Source',title:'Start with a research record',body:'The prepared DBLP corpus supplies publication titles, dates, author records, and source identifiers. This is the evidence base, not generated profiles.',tag:'DBLP · versioned artifacts'},
  {number:'02',label:'Connect',title:'Resolve people and relationships',body:'Author identities and coauthorship links are assembled from records. Graph edges stay tied to their supporting papers and years.',tag:'Identity · sourced edges'},
- {number:'03',label:'Retrieve',title:'Cast a wide, hybrid net',body:'Lexical and semantic paper matches are combined with author profiles. Relevant coauthor neighborhoods can expand the candidate set; a cross-encoder scores selected paper matches.',tag:'Lexical + dense + graph'},
- {number:'04',label:'Rank',title:'Put the strongest evidence first',body:'A query-trained LambdaRank model orders retrieved researchers from relevance and evidence features. Grounding checks attach publication-backed claims to results.',tag:'Trained ranker · evidence checks'},
+ {number:'03',label:'Retrieve',title:'Find candidate researchers',body:'Lexical and semantic searches find relevant papers. Their authors become candidates, and the research graph supplies publication and collaboration context.',tag:'Lexical + dense retrieval'},
+ {number:'04',label:'Rank',title:'Put the strongest evidence first',body:'The trained ranker scores candidates using research relevance and historical features. Grounding checks attach publication-backed claims to results.',tag:'Trained ranker · evidence checks'},
  {number:'05',label:'Explore',title:'Make every match inspectable',body:'Search returns ranked researchers with papers and provenance. Profiles, collaboration-path questions, and session shortlists let you investigate the evidence.',tag:'Results · profiles · assistant'},
 ];
 
 export function PipelineStory({stats}:{stats:{papers:number;authors:number}|null}){
- const [active,setActive]=useState(2);const current=stages[active];
+ const [active,setActive]=useState(0);const current=stages[active];
  return <section className="pipeline-section" id="how-it-works" aria-labelledby="pipeline-title">
   <div className="section-kicker"><span className="kicker-mark"><Icon name="graph" size={15}/></span> UNDER THE HOOD <span className="kicker-line"/></div>
   <div className="pipeline-heading"><div><h2 id="pipeline-title">From paper to <em>the right person.</em></h2><p>ScholarGraph follows a real research retrieval and ranking pipeline. Explore what happens at each step.</p></div><span className="pipeline-version">THE SCHOLARGRAPH METHOD <b>01—05</b></span></div>
