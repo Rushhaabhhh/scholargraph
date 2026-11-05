@@ -1,0 +1,61 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "scripts/check_backend.py",
+    "--config",
+    "experiments/backend.json",
+    "--out",
+    "results/hybrid-backend-smoke.json",
+    "--startup-timeout",
+    "180.0"
+  ],
+  "elapsed_seconds": 37.078,
+  "generated_claims": 39,
+  "health": {
+    "authors": 332611,
+    "model_version": "hybrid-lambdamart-v1",
+    "papers": 265885,
+    "query_provider": "recorded",
+    "status": "ok"
+  },
+  "http_checks": [
+    {
+      "operation": "health",
+      "status": 200
+    },
+    {
+      "operation": "search",
+      "status": 200
+    },
+    {
+      "operation": "shortlist",
+      "status": 200
+    },
+    {
+      "operation": "retry_same_decision",
+      "status": 200
+    },
+    {
+      "operation": "profile",
+      "status": 200
+    },
+    {
+      "operation": "collaboration_path",
+      "status": 200
+    },
+    {
+      "operation": "delete_memory",
+      "status": 200
+    },
+    {
+      "operation": "delete_session",
+      "status": 204
+    }
+  ],
+  "network_scope": "Owned loopback HTTP server; no external service calls.",
+  "package_source_sha256": "61b53481d0bae8e43c3ddd054347df08d34c6dd7f001564cff04940714734920",
+  "path_checked": true,
+  "runtime_environment": "Only PATH, PYTHONPATH and PYTHONDONTWRITEBYTECODE; no API keys.",
+  "startup_seconds": 36.688,
+  "unsupported_claims": 0
+}

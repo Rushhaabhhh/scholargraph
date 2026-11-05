@@ -13,7 +13,7 @@ PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -v
 ./run --data examples/sample.xml --queries examples/queries.txt --out result.json
 ```
 
-Dependency installation is an explicit preparation step. Runtime, model inference, batch commands, and tests require no network access or API keys. The pinned quantized MiniLM model, tokenizer, license, checksums, and trained JSON reranker are bundled under `models/`; no model download occurs at startup. `./run` selects the project virtual environment when the calling Python lacks the dependencies.
+Dependency installation is an explicit preparation step. Runtime, model inference, batch commands, and tests require no network access or API keys. The pinned quantized MiniLM encoder, cross-encoder, licenses, checksums, and trained JSON rerankers are bundled under `models/`; no model download occurs at startup. `./run` selects the project virtual environment when the calling Python lacks the dependencies.
 
 The batch command works from any directory and creates an isolated temporary database and index. It runs hybrid retrieval and the trained reranker, returning scores, explanations, and paper/year/source/collaborator evidence. Scores are ranking values, not calibrated probabilities. Unknown publication years remain null. A new input slice is indexed independently and uses the same trained model without retraining or applying the development-data cutoff.
 
@@ -38,7 +38,11 @@ To serve the larger prepared historical graph, use:
 PYTHONPATH=src .venv/bin/python -m hiresense.cli serve --config experiments/backend.json
 ```
 
+The default configuration uses the 2024 inference snapshot and locally trained `models/hybrid_ranker.json`; its graph and index under `data/` are generated artifacts and must be prepared locally. The earlier configuration is preserved at `experiments/backend-baseline.json`. See [the hybrid experiment](docs/hybrid-experiment.md) for lineage, evaluation and reproduction.
+
 The research graph and lexical index open read-only. A lock serializes shared model/SQLite operations in this local worker. Sessions use a separate SQLite file, bound to the graph-content signature. Startup checks graph relationships, index/encoder checksums and model compatibility. This worker configuration is not a measured production throughput design.
+
+The hybrid combines lexical and dense paper retrieval, author profiles and bounded collaborator expansion, then scores evidence papers with a pretrained cross-encoder and reranks authors with a locally trained LambdaRank model. It uses up to 400 candidates. The bundled cross-encoder is a quantized x86 model; other hardware has not been verified.
 
 ## Search, conversations and memory
 
@@ -98,7 +102,7 @@ These explicit preparation commands may use the network; inference does not. The
 
 To use live local extraction, copy a backend configuration, set `query_provider` to `local_llm`, and supply `local_model` and `local_model_sha256` from that metadata. Configuration paths resolve relative to the configuration file. The provider bounds generation, uses schema-constrained decoding and clears conversational KV state between queries. It has no tools or session context. A missing optional model or failed call falls back without disabling research search.
 
-## Reproduce the data experiment
+## Reproduce the original data experiment
 
 Place the local DBLP archive and its matching checksum at `data/raw/dblp.xml.gz` and `data/raw/dblp.xml.gz.md5`:
 
@@ -136,9 +140,9 @@ The context graph contains typed author–paper, author–venue and undirected c
 
 Retrieval combines SQLite FTS5 BM25 and exact cosine search over local, unchanged MiniLM title embeddings. MiniLM uses masked mean pooling, L2 normalization and 256-token truncation. The encoder attribution, upstream model-card link, conversion revision and hashes are in `models/minilm/`. Dense and lexical paper results aggregate to authors using maximum relevance rather than raw sums; reciprocal-rank fusion supplies hybrid candidates.
 
-The trained gradient-boosted model uses title relevance, retrieval ranks, normalized topical support, graph degree, productivity and recency relative to the graph cutoff. A validation-selected blend retains the hybrid ranking prior while learning adjustments. Display names are excluded from ranking features and tie-breaking. Training uses future-author positives and retrieved, sampled non-author contrasts with per-query/class-balanced weights; those non-authors are unjudged rather than proven irrelevant.
+The original baseline gradient-boosted model uses title relevance, retrieval ranks, normalized topical support, graph degree, productivity and recency relative to the graph cutoff. A validation-selected blend retains the hybrid ranking prior while learning adjustments. Display names are excluded from ranking features and tie-breaking. Training uses future-author positives and retrieved, sampled non-author contrasts with per-query/class-balanced weights; those non-authors are unjudged rather than proven irrelevant.
 
-Recency has explicit features and a retrained ablation. Maximum paper relevance and normalized support address prolific authors with broad output. Feature ablations share hybrid candidates and the hybrid prior: removing explicit dense features does not remove dense retrieval from that prior. Standalone lexical-only and embedding-only baselines measure retrieval components. Evaluation reports nDCG@10 and MRR over each returned list, capped at 200 authors, including zero-score queries and missing-history authors. Upstream embedding pretraining overlap cannot be independently ruled out.
+Recency has explicit features and a retrained ablation. Maximum paper relevance and normalized support address prolific authors with broad output. Feature ablations share hybrid candidates and the hybrid prior: removing explicit dense features does not remove dense retrieval from that prior. Standalone lexical-only and embedding-only baselines measure retrieval components. The original baseline evaluation reports nDCG@10 and MRR over each returned list, capped at 200 authors, including zero-score queries and missing-history authors; the new hybrid protocol uses up to 400. Upstream embedding pretraining overlap cannot be independently ruled out.
 
 ## Individual commands
 

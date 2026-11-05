@@ -8,6 +8,8 @@ from pathlib import Path
 import numpy as np
 
 from hiresense.contracts import SplitConfig
+from hiresense.api.runtime import Backend
+from hiresense.assistant.memory import SessionStore
 from hiresense.data.ingest import ingest
 from hiresense.db import connect, initialize
 from hiresense.evaluation.split import write_split
@@ -18,6 +20,7 @@ from hiresense.retrieval.crossencoder import CrossEncoder
 from hiresense.retrieval.encoder import LocalEncoder
 from hiresense.retrieval.hybrid import HYBRID_FEATURES, HybridIndex
 from hiresense.retrieval.index import build_index
+from hiresense.retrieval.factory import search_index
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -68,6 +71,37 @@ class HybridTests(unittest.TestCase):
                 if engine:
                     engine.close()
                 graph.close()
+                source.close()
+
+    def test_portable_hybrid_model_connects_to_backend_with_grounded_results(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary)
+            source = connect(path / 'source.sqlite3')
+            initialize(source)
+            ingest(source, ROOT / 'tests/fixtures/temporal.xml')
+            write_split(source, path / 'dataset', SplitConfig(2019, 2020, 2021, 2022))
+            graph = connect(path / 'dataset/graph.sqlite3')
+            backend = None
+            try:
+                build_context_graph(graph)
+                build_index(graph, path / 'index', self.encoder)
+                model = {'version': 'hybrid-lambdamart-v1', 'features': list(HYBRID_FEATURES),
+                         'selected_features': list(range(len(HYBRID_FEATURES))), 'initial_log_odds': 0.0,
+                         'learning_rate': 1.0, 'blend_alpha': 0.5, 'encoder_sha256': self.encoder.signature,
+                         'trees': [{'left': [-1], 'right': [-1], 'feature': [-2], 'threshold': [0], 'value': [0.2]}],
+                         'retrieval_kind': 'hybrid', 'use_cross_encoder': False,
+                         'retrieval': {'paper_limit': 16, 'candidate_limit': 10, 'profile_limit': 10,
+                                       'expansion_limit': 4, 'cross_paper_limit': 0}}
+                engine = search_index(graph, path / 'index', self.encoder, model, profiles=path / 'profiles')
+                backend = Backend(graph, engine, model, SessionStore(path / 'session.sqlite3', engine.manifest['content_sha256']))
+                packet = backend.search({'query': 'historical graph algorithms'})
+                self.assertTrue(packet['results'])
+                self.assertTrue(all(claim['supported'] for person in packet['results'] for claim in person['claims']))
+            finally:
+                if backend:
+                    backend.close()
+                else:
+                    graph.close()
                 source.close()
 
     @unittest.skipUnless(importlib.util.find_spec('lightgbm'), 'Optional training dependency is not installed')

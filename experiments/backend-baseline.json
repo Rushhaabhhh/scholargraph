@@ -1,0 +1,9 @@
+{
+  "graph": "../data/processed/phase23/graph.sqlite3",
+  "index": "../data/indexes/phase23",
+  "encoder": "../models/minilm",
+  "model": "../models/expert_ranker.json",
+  "session_db": "../data/runtime/sessions.sqlite3",
+  "query_provider": "recorded",
+  "recordings": "../recordings/query-intents.json"
+}

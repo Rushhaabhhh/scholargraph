@@ -1,9 +1,10 @@
 {
-  "graph": "../data/processed/phase23/graph.sqlite3",
-  "index": "../data/indexes/phase23",
+  "graph": "../data/processed/recent-history/graph.sqlite3",
+  "index": "../data/indexes/recent-history",
   "encoder": "../models/minilm",
-  "model": "../models/expert_ranker.json",
-  "session_db": "../data/runtime/sessions.sqlite3",
+  "model": "../models/hybrid_ranker.json",
+  "session_db": "../data/runtime/sessions-hybrid-2024.sqlite3",
   "query_provider": "recorded",
-  "recordings": "../recordings/query-intents.json"
+  "recordings": "../recordings/query-intents.json",
+  "cross_encoder": "../models/crossencoder"
 }

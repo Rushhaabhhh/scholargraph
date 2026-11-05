@@ -1,0 +1,27 @@
+{
+  "command": [
+    "scripts/check_unseen_batch.py",
+    "--model",
+    "data/processed/hybrid-training-v1/models/selected.json",
+    "--data",
+    "data/processed/unseen-systems-check/source.xml",
+    "--queries",
+    "data/processed/unseen-systems-check/queries.txt",
+    "--out",
+    "results/unseen-systems-hybrid-check.json"
+  ],
+  "data_sha256": "ea77cf71cdfcd0f1630484f54de02395353b81034677da554fa34b149122c58e",
+  "elapsed_seconds": 2.06,
+  "environment": "Clean code/model copy with prepared dependencies; no API keys.",
+  "model_sha256": "bd8d5239182d2dd609c17269015e3f2aa0b36408af27a045ef091a9721ec24ab",
+  "package_source_sha256": "61b53481d0bae8e43c3ddd054347df08d34c6dd7f001564cff04940714734920",
+  "queries_sha256": "227371a776521c81ae1d18258ecbb340b73e40f6467425126a7a1382e241d2fa",
+  "query_count": 3,
+  "result_counts": [
+    10,
+    10,
+    10
+  ],
+  "scope": "Different-field, disjoint XML functional acceptance; not an expert-ranking accuracy test.",
+  "unsupported_claims": 0
+}

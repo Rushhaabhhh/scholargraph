@@ -1,0 +1,227 @@
+{
+  "baseline_model_sha256": "4af823d2310042da51a454564d0b5a7d15bb9212d4b94575d7c1af7ca34516fa",
+  "command": [
+    "scripts/evaluate_previous_system.py",
+    "--freeze",
+    "experiments/hybrid-freeze-v1.json",
+    "--out",
+    "results/hybrid-final-previous-baseline.json"
+  ],
+  "evaluation": {
+    "ablation_scope": "Feature ablations retrain on identical labels and share hybrid candidates and the hybrid prior. Without-dense removes explicit cosine/rank features, not dense retrieval inside that prior. Standalone lexical/dense baselines test retrieval components.",
+    "cohorts": {
+      "has_unseen_relevant_author": {
+        "metrics": {
+          "dense": {
+            "mrr": 0.002786371821363816,
+            "ndcg_at_10": 0.0011123683546605933
+          },
+          "hybrid": {
+            "mrr": 0.002111633332105485,
+            "ndcg_at_10": 0.0009596503201152966
+          },
+          "learned": {
+            "mrr": 0.004256026435337432,
+            "ndcg_at_10": 0.0017975183782402448
+          },
+          "lexical": {
+            "mrr": 0.0014584978083426188,
+            "ndcg_at_10": 0.0004711633795409201
+          }
+        },
+        "queries": 996
+      },
+      "newcomer_history_1_or_2": {
+        "metrics": {
+          "dense": {
+            "mrr": 0.010932802109335336,
+            "ndcg_at_10": 0.004413935654712885
+          },
+          "hybrid": {
+            "mrr": 0.007785039813990791,
+            "ndcg_at_10": 0.0038127872882892295
+          },
+          "learned": {
+            "mrr": 0.013017796451087615,
+            "ndcg_at_10": 0.0052520627996647026
+          },
+          "lexical": {
+            "mrr": 0.005946648330065428,
+            "ndcg_at_10": 0.002142825232980623
+          }
+        },
+        "queries": 219
+      },
+      "prolific_history_20_plus": {
+        "metrics": {
+          "dense": {
+            "mrr": 0.003703703703703704,
+            "ndcg_at_10": 0.0
+          },
+          "hybrid": {
+            "mrr": 0.018200798838053738,
+            "ndcg_at_10": 0.0
+          },
+          "learned": {
+            "mrr": 0.043672839506172845,
+            "ndcg_at_10": 0.025169936371300872
+          },
+          "lexical": {
+            "mrr": 0.05793650793650793,
+            "ndcg_at_10": 0.08333333333333333
+          }
+        },
+        "queries": 6
+      }
+    },
+    "coverage": {
+      "hybrid_candidate_recall_all_authors": 0.007024116132053383,
+      "hybrid_candidate_recall_known_authors": 0.08823529411764706,
+      "queries_with_history": 271,
+      "relevant_authors": 4271,
+      "relevant_with_history": 340
+    },
+    "failure_analyses": [
+      {
+        "failure": "no_historical_evidence",
+        "proposed_change": "Additional public pre-cutoff sources could improve coverage; future papers must remain excluded.",
+        "query": "Secrecy Performance Analysis of RIS-Aided Fluid Antenna Systems.",
+        "query_id": "paper:conf/wcnc/GhadiWKLN025",
+        "relevant_author_ids": [
+          250830940962924,
+          1713974856612831,
+          1860903628671359,
+          2533198683512172,
+          2779887108620808,
+          4389669052431055
+        ],
+        "retrievable_relevant_author_ids": [],
+        "top_results": [
+          {
+            "name": "Gang Qu 0001",
+            "person_id": 4468886805244100
+          },
+          {
+            "name": "Paola Badurina-Tomic",
+            "person_id": 2369237957505917
+          },
+          {
+            "name": "Peng Li 0001",
+            "person_id": 750045112948447
+          }
+        ]
+      },
+      {
+        "failure": "candidate_retrieval_miss",
+        "proposed_change": "Test larger retrieval budgets and author-level topic profiles using validation queries.",
+        "query": "Denoising Multi-Interest-Aware Logical Reasoning for Long-Sequence Recommendation.",
+        "query_id": "paper:conf/sigir/LiGDYGZ025",
+        "relevant_author_ids": [
+          1170858835635814,
+          1712851091126612,
+          1761446866747908,
+          2076038345296773,
+          2131781100014976,
+          4142925465408787,
+          4427981324301767
+        ],
+        "retrievable_relevant_author_ids": [
+          2076038345296773
+        ],
+        "top_results": [
+          {
+            "name": "Amita Jain",
+            "person_id": 2298493107297361
+          },
+          {
+            "name": "Marco de Gemmis",
+            "person_id": 1455580917477256
+          },
+          {
+            "name": "Pasquale Lops",
+            "person_id": 527735611858623
+          }
+        ]
+      },
+      {
+        "failure": "reranking_miss",
+        "proposed_change": "Inspect topic specificity and sampled-negative ambiguity; validate richer paper-author relevance features.",
+        "query": "Joint Deployment of UAV and Edge Server In Edge Computing.",
+        "query_id": "paper:conf/wcnc/HuangZLT25",
+        "relevant_author_ids": [
+          864735758203695,
+          1011608948381633,
+          3161327593003973,
+          3593667219607018
+        ],
+        "retrievable_relevant_author_ids": [
+          864735758203695,
+          3593667219607018
+        ],
+        "top_results": [
+          {
+            "name": "David Atienza 0001",
+            "person_id": 343555235376553
+          },
+          {
+            "name": "Michal Pechoucek",
+            "person_id": 1099347765305543
+          },
+          {
+            "name": "Tihana Galinac Grbac",
+            "person_id": 298854924536995
+          }
+        ]
+      }
+    ],
+    "learned_vs_baseline": {
+      "dense": {
+        "mean_ndcg_delta": 0.0006824094234853332,
+        "paired_bootstrap_95pct": [
+          -0.00010757831003129357,
+          0.0016596826068277393
+        ]
+      },
+      "hybrid": {
+        "mean_ndcg_delta": 0.0008345165858924486,
+        "paired_bootstrap_95pct": [
+          0.000258012750595069,
+          0.0015836604510095973
+        ]
+      },
+      "lexical": {
+        "mean_ndcg_delta": 0.0008210495787045275,
+        "paired_bootstrap_95pct": [
+          -0.0006907988065884695,
+          0.002278641662230688
+        ]
+      }
+    },
+    "metrics": {
+      "dense": {
+        "mrr": 0.002775226334078361,
+        "ndcg_at_10": 0.001107918881241951
+      },
+      "hybrid": {
+        "mrr": 0.0021865201321103964,
+        "ndcg_at_10": 0.0009558117188348354
+      },
+      "learned": {
+        "mrr": 0.004264002329596083,
+        "ndcg_at_10": 0.0017903283047272839
+      },
+      "lexical": {
+        "mrr": 0.0017859971504425817,
+        "ndcg_at_10": 0.0009692787260227564
+      }
+    },
+    "mrr_scope": "Untruncated within each method's returned list, up to 200 authors.",
+    "queries": 1000
+  },
+  "freeze_sha256": "574d2a9ab1efc77b725b95d6b25e9e263b0ac4cc9219baf72829b487a337f102",
+  "graph_cutoff_year": 2018,
+  "package_source_sha256": "61b53481d0bae8e43c3ddd054347df08d34c6dd7f001564cff04940714734920",
+  "queries": 1000,
+  "scope": "Previous 2018 graph, original retrieval and original model on the same frozen test queries; comparison with a 2024 graph changes graph, retrieval and model together.",
+  "test_labels_sha256": "154b3822d87d6c0f3a3b20c1c15cbf58a99ed6d7b4e3e4b27254985853147461"
+}

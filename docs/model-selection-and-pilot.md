@@ -1,5 +1,7 @@
 # Model selection and fixed pilot
 
+**Current review:** This document records the earlier pilot. The hybrid ranker has since been trained and evaluated; see [hybrid experiment](hybrid-experiment.md) and [system review and recovery plan](system-review-and-recovery-plan.md). References below to work not yet trained describe that earlier stage.
+
 This document records the completed data/graph inspection and the proposed model comparison. No new model has been trained for this pilot, and the reserved test cohort has not been scored. The numerical results below are development measurements; model improvements remain hypotheses until compared.
 
 ## 1. One real record through the pipeline

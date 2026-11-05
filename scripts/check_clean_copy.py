@@ -17,6 +17,7 @@ from hiresense.data.artifacts import write_json
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--out', type=Path, required=True)
+parser.add_argument('--candidate-model', type=Path, help='Test a candidate as the default model in the temporary copy')
 args = parser.parse_args()
 if args.out.exists():
     raise SystemExit('Use a new report path')
@@ -26,6 +27,8 @@ with tempfile.TemporaryDirectory(prefix='hiresense-backend-clean-') as temporary
         shutil.copytree(ROOT / directory, clean / directory, ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
     for name in ('run', 'pyproject.toml', 'requirements.lock', 'requirements-training.lock', 'README.md'):
         shutil.copy2(ROOT / name, clean / name)
+    if args.candidate_model:
+        shutil.copy2(args.candidate_model, clean / 'models/hybrid_ranker.json')
     environment = {'PATH': str(Path(sys.executable).parent) + os.pathsep + os.defpath,
                    'PYTHONPATH': str(clean / 'src'), 'PYTHONDONTWRITEBYTECODE': '1'}
     started = time.monotonic()
@@ -44,7 +47,10 @@ with tempfile.TemporaryDirectory(prefix='hiresense-backend-clean-') as temporary
     unsupported = sum(not claim['supported'] for item in payload for person in item['results'] for claim in person['claims'])
     if unsupported:
         raise RuntimeError('Clean batch emitted unsupported claims')
-    report = {'command': ['.venv/bin/python', 'scripts/check_clean_copy.py', '--out', str(args.out)],
+    command = ['.venv/bin/python', 'scripts/check_clean_copy.py', '--out', str(args.out)]
+    if args.candidate_model:
+        command.extend(['--candidate-model', str(args.candidate_model)])
+    report = {'command': command,
               'tests_run': tests['tests_run'], 'successful': tests['successful'],
               'failures': tests['failures'], 'errors': tests['errors'], 'batch_queries': len(payload),
               'unsupported_batch_claims': unsupported, 'elapsed_seconds': round(time.monotonic() - started, 3),

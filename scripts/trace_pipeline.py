@@ -13,7 +13,8 @@ from hiresense.db import connect
 from hiresense.evaluation.split import dataset_digest
 from hiresense.ranking.scoring import score_model
 from hiresense.retrieval.encoder import LocalEncoder
-from hiresense.retrieval.index import FEATURE_NAMES, SearchIndex
+from hiresense.retrieval.index import FEATURE_NAMES
+from hiresense.retrieval.factory import search_index
 
 
 def main():
@@ -31,7 +32,7 @@ def main():
         if metadata is None or metadata[0] != dataset_digest(source):
             raise ValueError('Source database does not match graph provenance')
         model, encoder = json.loads(args.model.read_text()), LocalEncoder()
-        engine = SearchIndex(graph, args.index, encoder)
+        engine = search_index(graph, args.index, encoder, model)
         if model['encoder_sha256'] != encoder.signature:
             raise ValueError('Reranker and encoder differ')
         retrieved = engine.retrieve(args.query)
@@ -45,7 +46,7 @@ def main():
             author = result['person_id']
             rows.append({'person_id': author, 'name': result['name'], 'ranking_score': result['score'],
                          'hybrid_candidate_rank': retrieved['author_ids'].index(author) + 1,
-                         'features': {name: float(value) for name, value in zip(FEATURE_NAMES, feature_rows[author])},
+                         'features': {name: float(value) for name, value in zip(getattr(engine, 'feature_names', FEATURE_NAMES), feature_rows[author])},
                          'evidence': result['evidence']})
         top, paper = results[0], results[0]['evidence'][0]
         original = source.execute('SELECT id,title,year,venue,source FROM papers WHERE id=?', (paper['paper_id'],)).fetchone()

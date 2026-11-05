@@ -2,7 +2,7 @@
 
 This is a working decision document for discussion, not the assignment's final two-to-three-page design PDF and not a report of new experiments. The application code and model have not been changed as part of this document. Status labels distinguish what exists, what is proposed, and what must be measured.
 
-**Later implementation update:** The 150k source-order pilot, bounded index building and a held-out temporal identity comparison have since been implemented. See [model-training-workbook.md](model-training-workbook.md) for their actual validation results, limitations and commands. The next experimental ranking model has not yet been trained.
+**Current review:** Hybrid training and reserved evaluation have now run. This document preserves the earlier architecture/planning discussion. See [hybrid experiment](hybrid-experiment.md) for the completed experiment and [system review and recovery plan](system-review-and-recovery-plan.md) for current quality findings, missing product work and proposed goals.
 
 ## 1. What we are building
 

@@ -1,0 +1,51 @@
+{
+  "config": {
+    "cross_encoder": "models/crossencoder",
+    "dataset": "data/processed/reserved-rolling-v1",
+    "encoder": "models/minilm",
+    "graph": "data/processed/recent-history/graph.sqlite3",
+    "index": "data/indexes/recent-history",
+    "profiles": "data/indexes/recent-history/author_profiles",
+    "report": "results/hybrid-validation-v1.json",
+    "retrieval": {
+      "candidate_limit": 400,
+      "cross_paper_limit": 64,
+      "expansion_limit": 64,
+      "paper_limit": 512,
+      "profile_limit": 128
+    },
+    "seed": 42,
+    "work": "data/processed/hybrid-final-v1"
+  },
+  "dataset_manifest_sha256": "be8aa5cadceddc20d6cb168d03128ee1ed70357a534e4dfa848a171ef5a252db",
+  "inference_content_sha256": "b1f5d40476913be2c2bfb424310906264deac321bf6fc99a6da15acee2842b79",
+  "models": {
+    "full": {
+      "path": "data/processed/hybrid-training-v1/models/full.json",
+      "sha256": "da173a2726e750a050dcc1cb655096ef642ac9a9c2e2ef339999bb3cd8e2fefb"
+    },
+    "learned": {
+      "path": "data/processed/hybrid-training-v1/models/selected.json",
+      "sha256": "bd8d5239182d2dd609c17269015e3f2aa0b36408af27a045ef091a9721ec24ab"
+    },
+    "reference": {
+      "path": "data/processed/hybrid-training-v1/models/reference.json",
+      "sha256": "6f932d3f4782415479dcd5a2fb0bde1737f6118e957908e8b99559a6fc57305a"
+    },
+    "without_cross": {
+      "path": "data/processed/hybrid-training-v1/models/without_cross.json",
+      "sha256": "ffc780a89602ef4b25eb4711892fbf3a0e150d4b0d3eefce2d7b8b337bb1fd74"
+    },
+    "without_graph": {
+      "path": "data/processed/hybrid-training-v1/models/without_graph.json",
+      "sha256": "b4fbac70a7b3db78433973854633b0748d19263ec948d650b02ed285fccd7cee"
+    }
+  },
+  "package_source_sha256": "61b53481d0bae8e43c3ddd054347df08d34c6dd7f001564cff04940714734920",
+  "plan_sha256": "d1443ac0aba779df6fe31bca1d6395c76c9ecde24846ed0b8ab35eaee5da90b2",
+  "protocol": "rolling_inference",
+  "scope": "Models selected on 2018-graph validation; snapshot through 2024 used only for subsequent 2025–2026 test inference.",
+  "selected": "without_graph",
+  "training_content_sha256": "2c3070668773f103a27fc475a0414e1ad6fa97b8935e6d52fda521b4b41c804a",
+  "training_report_sha256": "02849234cab81378f7fe20b727a941bff73cdb2ff81a793c98a19d7335428d34"
+}

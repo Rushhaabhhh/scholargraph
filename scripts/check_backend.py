@@ -19,9 +19,10 @@ from hiresense.data.artifacts import package_digest, write_json
 parser = argparse.ArgumentParser()
 parser.add_argument('--config', type=Path, required=True)
 parser.add_argument('--out', type=Path, required=True)
+parser.add_argument('--startup-timeout', type=float, default=30)
 args = parser.parse_args()
-if args.out.exists():
-    raise SystemExit('Use a new report path')
+if args.out.exists() or args.startup_timeout <= 0:
+    raise SystemExit('Use a new report path and a positive startup timeout')
 with socket.socket() as reservation:
     reservation.bind(('127.0.0.1', 0))
     port = reservation.getsockname()[1]
@@ -41,7 +42,7 @@ with tempfile.TemporaryFile(mode='w+') as log:
                         break
                 except httpx.TransportError:
                     pass
-                if process.poll() is not None or time.monotonic() - started > 30:
+                if process.poll() is not None or time.monotonic() - started > args.startup_timeout:
                     log.seek(0)
                     raise RuntimeError('Backend did not become ready: ' + log.read()[-2000:])
                 time.sleep(0.1)
@@ -90,7 +91,8 @@ with tempfile.TemporaryFile(mode='w+') as log:
             if response.status_code != 204:
                 raise RuntimeError('Session deletion failed')
             report = {'command': [str(Path(sys.executable).relative_to(ROOT)) if Path(sys.executable).is_relative_to(ROOT) else sys.executable,
-                                  'scripts/check_backend.py', '--config', str(args.config), '--out', str(args.out)],
+                                  'scripts/check_backend.py', '--config', str(args.config), '--out', str(args.out),
+                                  '--startup-timeout', str(args.startup_timeout)],
                       'package_source_sha256': package_digest(), 'health': health, 'http_checks': statuses,
                       'path_checked': path_checked, 'generated_claims': len(claims),
                       'unsupported_claims': sum(not claim['supported'] for claim in claims),
