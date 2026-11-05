@@ -25,6 +25,14 @@ from hiresense.retrieval.factory import search_index
 ROOT = Path(__file__).resolve().parents[1]
 
 
+class ModelCompatibilityTests(unittest.TestCase):
+    def test_retired_model_formats_fail_closed(self):
+        with self.assertRaisesRegex(ValueError, 'Unsupported retrieval kind'):
+            search_index(None, None, None, {'retrieval_kind': 'evidence'})
+        with self.assertRaisesRegex(ValueError, 'Unsupported reranker version'):
+            score_model(np.empty((0, 0)), {'version': 'evidence-lambdamart-v2'})
+
+
 class HybridTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

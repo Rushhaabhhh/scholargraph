@@ -97,7 +97,6 @@ def main() -> None:
             command.add_argument('--threshold', default=0.72, type=float)
             command.add_argument('--ambiguity-margin', default=0.06, type=float)
             command.add_argument('--year-mode', choices=('exact', 'distance'), default='distance')
-            command.add_argument('--decision-model', type=Path, help='Portable contextual identity model; uses its validated thresholds')
             command.add_argument('--policy', choices=('legacy', 'conservative', 'strict'), default='conservative')
         elif name in ('index', 'search', 'train', 'evaluate'):
             command.add_argument('--encoder', default=Path('models/minilm'), type=Path)
@@ -188,7 +187,7 @@ def main() -> None:
                         report = {'noisy_records': generate_noisy_authors(database, args.out, args.seed, args.rate)}
                     elif args.command == 'resolve':
                         report = resolve_records(database, args.noisy, args.threshold, args.ambiguity_margin,
-                                                 year_mode=args.year_mode, policy=args.policy, decision_model=args.decision_model)
+                                                 year_mode=args.year_mode, policy=args.policy)
                         truth = args.noisy.with_suffix('.truth.jsonl')
                         if truth.exists():
                             report['evaluation'] = evaluate_resolution(database, truth)

@@ -120,6 +120,10 @@ Author IDs are deterministic and fit JavaScript's exact integer range. Identity 
 
 ## Reproduce graph and model evaluation
 
+The hybrid training entry point is `scripts/train_hybrid.py --config experiments/hybrid-training.json`; it uses training and validation only. `scripts/freeze_hybrid.py` and `scripts/evaluate_hybrid.py` provide separate freeze and evaluation steps. The committed configuration describes the earlier experiment, not a new recommended dataset: choose and verify a fresh temporal dataset before training. See [the hybrid experiment](docs/hybrid-experiment.md) for its original protocol. The old test has already been inspected and is suitable only for regression comparisons.
+
+The unfinished recovery-v2 retriever, adapter, identity model and runners have been retired. Their measured reports, data-selection configurations, and [journal](docs/project-journal.md) remain. Historical freezes bind an exact package hash and cannot be rerun unchanged against a later cleanup revision. Removed historical scripts can be inspected at Git revision `87c48ac`, though a freeze may require different exact source bytes. Local generated data and cached indexes are retained.
+
 For the experimental 150,000-paper source-order pilot, fixed-cohort validation comparisons, stricter temporal identity evaluation, and a user-led training workflow, see `docs/model-training-workbook.md`. For the fixed 1,200/400-query model pilot, reserved test protocol, real evidence trace and advanced model candidates, see `docs/model-selection-and-pilot.md`. The optional `experiments/backend-150k.json` uses the existing baseline-trained model with the larger prepared historical graph; it requires locally prepared 150k artifacts and does not replace the default backend.
 
 After preparing the data artifacts:
@@ -160,7 +164,7 @@ Use `python -m hiresense.cli --help` with `PYTHONPATH=src` for ingestion, slicin
 
 ```text
 examples/                  Small DBLP sample and example batch queries
-run                        Required ./run launcher; implementation in scripts/
+run                        Required standalone batch launcher
 contracts/                 Versioned API, batch schema and acceptance criteria
 experiments/               Fixed data and ML experiment inputs
 models/                    Local semantic encoder and portable trained JSON trees

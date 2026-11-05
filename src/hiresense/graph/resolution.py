@@ -184,22 +184,11 @@ class AuthorMatcher:
 
 def resolve_records(database, noisy_path: str | Path, threshold: float = 0.72,
                     ambiguity_margin: float = 0.06, max_candidates: int = 128,
-                    year_mode: str = 'exact', policy: str = 'legacy', decision_model=None) -> dict:
+                    year_mode: str = 'exact', policy: str = 'legacy') -> dict:
     if not 0 <= threshold <= 1 or not 0 <= ambiguity_margin <= 1:
         raise ValueError('Threshold and ambiguity margin must be in [0,1]')
     started = monotonic()
-    if decision_model is None and policy == 'conservative':
-        bundled = Path(__file__).resolve().parents[3] / 'models/identity_matcher.json'
-        if bundled.exists():
-            decision_model = bundled
-    model = None
-    if decision_model is not None:
-        from .identity_model import LearnedAuthorMatcher
-        model = json.loads(Path(decision_model).read_text()) if not isinstance(decision_model, dict) else decision_model
-        matcher = LearnedAuthorMatcher(database, model, max_candidates=max_candidates)
-        year_mode = 'distance'
-    else:
-        matcher = AuthorMatcher(database, max_candidates, year_mode=year_mode, policy=policy)
+    matcher = AuthorMatcher(database, max_candidates, year_mode=year_mode, policy=policy)
     counts = {'records': 0, 'matched': 0, 'ambiguous': 0, 'unresolved': 0, 'emitted_candidates': 0,
               'candidate_cap_hits': 0, 'oversized_blocks_skipped': 0}
     with database:
@@ -228,8 +217,4 @@ def resolve_records(database, noisy_path: str | Path, threshold: float = 0.72,
                         'year_mode': year_mode, 'decision_policy': policy,
                         'false_merge_cost': 'Higher than a false split: merging contaminates expertise and evidence. Abstain on ambiguity.',
                         'blocking': 'Exact unordered name, surname/first-initial, token/deletion signatures, and coauthor inverted indexes; cap candidates and skip oversized blocks.'}
-    if model is not None:
-        counts['policy'].update(decision_policy='calibrated_contextual_model',
-            logit_threshold=model['logit_threshold'],margin_threshold=model['margin_threshold'],
-            score_scope='Learned decision score; thresholds calibrated on validation only; abstain without shared coauthors.')
     return counts

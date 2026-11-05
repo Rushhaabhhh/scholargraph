@@ -1,5 +1,7 @@
 # Model training and experiment workbook
 
+**Current workflow:** Use `scripts/train_hybrid.py` with a reviewed copy of `experiments/hybrid-training.json`, then freeze and evaluate separately using `scripts/freeze_hybrid.py` and `scripts/evaluate_hybrid.py`. Choose fresh data and output paths before running; the checked-in configuration describes an earlier experiment. The sections below are a historical record. Some old comparison scripts have been removed from the current checkout; reproduce their historical commands from Git revision `87c48ac`.
+
 This workbook is for the user and assistant to inspect, run and interpret experiments together. It records what has actually been done and provides repeatable commands; it is not evidence that a planned run has happened. The assistant should explain decisions and obtain the user's involvement in the next model-training run. The assignment permits AI coding tools but requires the submitter to explain and defend the work.
 
 **Later update:** A new hybrid LambdaRank model has now been trained and evaluated. The sections below preserve the earlier baseline and planning context; see [hybrid experiment](hybrid-experiment.md) and [journal entry 13](project-journal.md#entry-13--completed-hybrid-training-and-rolling-evaluation) for current results and limitations.

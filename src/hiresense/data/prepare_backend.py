@@ -40,7 +40,7 @@ def prepare_backend(data, output, cutoff_year=None):
         index_report = build_index(graph, stage / 'index', encoder)
         model_path = default_model_path()
         model = json.loads(model_path.read_text())
-        if model.get('retrieval_kind') in ('hybrid', 'evidence'):
+        if model.get('retrieval_kind') == 'hybrid':
             serving_index = search_index(graph, stage / 'index', encoder, model)
             serving_index.close()
         graph.close()
@@ -53,7 +53,7 @@ def prepare_backend(data, output, cutoff_year=None):
                          'model': os.path.relpath(model_path, output.resolve()),
                          'recordings': os.path.relpath(root / 'recordings/query-intents.json', output.resolve()),
                          'query_provider': 'recorded'}
-        if model.get('retrieval_kind') in ('hybrid', 'evidence'):
+        if model.get('retrieval_kind') == 'hybrid':
             configuration['cross_encoder'] = os.path.relpath(root / 'models/crossencoder', output.resolve())
         write_json(stage / 'backend.json', configuration)
         report = {'source_sha256': ingestion['source_sha256'], 'ingestion': ingestion, 'snapshot': counts,

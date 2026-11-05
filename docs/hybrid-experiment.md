@@ -1,5 +1,7 @@
 # Hybrid experiment and reproduction
 
+**Historical reproduction:** This report describes the earlier frozen experiment. The old scripts are available at Git revision `87c48ac`; the freeze also requires its exact recorded package hash, which that revision is not guaranteed to match. The current training, freeze and evaluation scripts are retained for a newly defined experiment.
+
 This records the completed CPU run. The user requested stronger history, retrieval, model training and identity protection; the assistant ran the experiment. MiniLM and the cross-encoder are pretrained and unchanged. The model trained here is the query-grouped author LambdaRank ranker, not a fine-tuned language model. A GPU or notebook was not required. Runtime uses the exported trees and does not require LightGBM; install `requirements-training.lock` for training.
 
 ## Pipeline and temporal protocol

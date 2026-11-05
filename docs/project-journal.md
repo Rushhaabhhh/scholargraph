@@ -326,3 +326,13 @@ Decision and rationale:
 Next idea (clearly mark as untested):
 Evidence / report / model paths:
 ```
+
+## Entry 19 — Lean reset
+
+**Decision.** The unfinished recovery-v2 training path did not produce a new final ranker. Retired its evidence retriever, query adapter, learned identity matcher, dedicated runners and their exclusive tests; retained the earlier hybrid pipeline, conservative identity rules, temporal retrieval fixes, historical reports/configurations and locally generated data. The v1 backup was byte-identical to the served hybrid model and was removed as a duplicate. Historical source code remains in Git at `87c48ac`.
+
+**Data check.** A proposed nine-family 1995–2025 slice contains 63,567 papers, 56,035 through 2024. With repeated normalized titles excluded and before prior-evaluation exclusions, relevant-author history coverage was 49.91% for 2019–2021 labels against a 2018 graph and 57.54% for 2022–2023 labels against a 2021 graph. Their perfect-graph nDCG@10 ceilings were 0.5932 and 0.6611 respectively. This is a feasibility check, not model performance; the slice should not be adopted without addressing historical coverage and defining the evaluation cohort.
+
+**Next.** Select historical data with a rule independent of future target authors, measure history/candidate coverage, then train and compare one bounded model against fixed baselines. Preserve a fresh final test and assess user-facing relevance separately with human judgments.
+
+**Second cleanup pass.** Removed superseded diagnostic/comparison scripts, a one-off unseen-data builder, and three generated baseline ablation JSON files; the recorded results and historical Git revision remain. Combined the batch launcher with its argument-handling wrapper and made the shipped hybrid ranker the explicit default. The baseline model remains for comparison. Historical documentation identifies commands that require the earlier revision; future data and retrieval comparisons must use a fresh, compatible protocol.

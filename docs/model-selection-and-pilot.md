@@ -1,5 +1,7 @@
 # Model selection and fixed pilot
 
+**Historical commands:** The one-off inspection and tracing scripts below were retired in the lean cleanup. They remain available at Git revision `87c48ac`; the results and this record remain available here.
+
 **Current review:** This document records the earlier pilot. The hybrid ranker has since been trained and evaluated; see [hybrid experiment](hybrid-experiment.md) and [system review and recovery plan](system-review-and-recovery-plan.md). References below to work not yet trained describe that earlier stage.
 
 This document records the completed data/graph inspection and the proposed model comparison. No new model has been trained for this pilot, and the reserved test cohort has not been scored. The numerical results below are development measurements; model improvements remain hypotheses until compared.
