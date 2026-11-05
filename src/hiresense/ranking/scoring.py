@@ -14,7 +14,10 @@ from ..retrieval.index import FEATURE_NAMES
 def raw_tree_scores(features, model):
     features = np.asarray(features, dtype=np.float32)
     schema = FEATURE_NAMES
-    if model['version'] == 'hybrid-lambdamart-v1':
+    if model['version'] == 'evidence-lambdamart-v2':
+        from ..retrieval.evidence import EVIDENCE_FEATURES
+        schema = EVIDENCE_FEATURES
+    elif model['version'] == 'hybrid-lambdamart-v1':
         from ..retrieval.hybrid import HYBRID_FEATURES
         schema = HYBRID_FEATURES
     if tuple(model['features']) != schema or features.ndim != 2 or features.shape[1] != len(schema):
@@ -37,7 +40,7 @@ def raw_tree_scores(features, model):
 
 
 def score_model(features, model):
-    if model.get('retrieval_kind') == 'hybrid' and model['version'] == 'gradient-boosted-expert-v1':
+    if model.get('retrieval_kind') in ('hybrid', 'evidence') and model['version'] == 'gradient-boosted-expert-v1':
         features = np.asarray(features)[:, :len(FEATURE_NAMES)]
     raw = raw_tree_scores(features, model)
     if 'blend_alpha' not in model:
@@ -72,7 +75,7 @@ def cache_metrics(cache, scores):
 
 
 def train_ranker(train_cache, validation_cache, output_path: str | Path, metadata: dict,
-                 seed=42, selected_features=None, parameters=None):
+                 seed=42, selected_features=None, parameters=None, hard_negatives=24, tail_negatives=8):
     from sklearn.ensemble import GradientBoostingClassifier
 
     selected_features = list(range(len(FEATURE_NAMES))) if selected_features is None else list(selected_features)
@@ -87,10 +90,10 @@ def train_ranker(train_cache, validation_cache, output_path: str | Path, metadat
         if not positives or not negatives:
             continue
         # Hard negatives come from retrieval; sample tail negatives as additional contrast.
-        hard = negatives[:24]
-        tail = negatives[24:]
+        hard = negatives[:hard_negatives]
+        tail = negatives[hard_negatives:]
         if tail:
-            hard.extend(rng.choice(tail, min(8, len(tail)), replace=False).tolist())
+            hard.extend(rng.choice(tail, min(tail_negatives, len(tail)), replace=False).tolist())
         rows.extend(positives + hard)
         labels.extend([1] * len(positives) + [0] * len(hard))
         weights.extend([0.5 / len(positives)] * len(positives) + [0.5 / len(hard)] * len(hard))
@@ -127,6 +130,7 @@ def train_ranker(train_cache, validation_cache, output_path: str | Path, metadat
                          'queries_used': used_queries, 'queries_without_training_contrast': len(train_cache['queries']) - used_queries,
                          'label_policy': 'Future authors are positive; retrieved non-authors are sampled unjudged negatives. Per-query and class-balanced weights.',
                          'selection': 'Choose tree parameters and hybrid/learned blend by validation nDCG@10, then MRR; no test labels are read.',
+                         'negative_sampling': {'hard': hard_negatives, 'tail': tail_negatives},
                          'blend_grid': [0.0, 0.01, 0.025, 0.05, 0.1, 0.2, 0.35, 0.5, 0.75, 1.0]}
     model['validation_candidates'] = [{'parameters': item[2], 'blend_alpha': item[3]['blend_alpha'], 'metrics': item[4]} for item in candidates]
     write_json(output_path, model)

@@ -12,7 +12,7 @@ def default_model_path():
 
 
 def search_index(database, directory, encoder, model, *, profiles=None, cross_directory=None):
-    if not model.get('retrieval_kind') == 'hybrid':
+    if model.get('retrieval_kind') not in ('hybrid', 'evidence'):
         return SearchIndex(database, directory, encoder)
     from .crossencoder import CrossEncoder
     from .hybrid import HybridIndex
@@ -22,5 +22,9 @@ def search_index(database, directory, encoder, model, *, profiles=None, cross_di
         cross = CrossEncoder(cross_directory or ROOT / 'models/crossencoder')
         if cross.signature != model['cross_encoder_sha256']:
             raise ValueError('Cross-encoder differs from the model training artifact')
+    if model.get('retrieval_kind') == 'evidence':
+        from .evidence import EvidenceIndex
+        return EvidenceIndex(database, directory, encoder, profiles=profiles or Path(directory) / 'evidence_profiles',
+                             cross_encoder=cross, query_adapter=model.get('query_adapter'), **settings)
     return HybridIndex(database, directory, encoder, profiles=profiles or Path(directory) / 'author_profiles',
                        cross_encoder=cross, **settings)

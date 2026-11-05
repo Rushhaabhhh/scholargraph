@@ -1,0 +1,24 @@
+{
+  "archive": "data/raw/dblp.xml.gz",
+  "checksum": "data/raw/dblp.xml.gz.md5",
+  "baseline": "data/processed/recent-history/source.xml",
+  "min_year": 1995,
+  "cutoff_year": 2026,
+  "key_prefixes": [
+    "conf/sigir/", "conf/cikm/", "conf/wsdm/", "conf/www/", "conf/kdd/",
+    "conf/icml/", "conf/nips/", "conf/iclr/", "conf/aaai/", "conf/ijcai/",
+    "conf/acl/", "conf/emnlp/", "conf/naacl/", "conf/coling/",
+    "conf/cvpr/", "conf/iccv/", "conf/eccv/",
+    "conf/vldb/", "conf/sigmod/", "conf/icde/",
+    "conf/osdi/", "conf/sosp/", "conf/eurosys/", "conf/sigcomm/", "conf/nsdi/",
+    "conf/sp/", "conf/ccs/", "conf/uss/", "conf/ndss/",
+    "conf/icse/", "conf/fse/", "conf/ase/",
+    "conf/infocom/", "conf/icc/", "conf/globecom/", "conf/mobicom/", "conf/mobisys/",
+    "conf/dac/", "conf/iccad/", "conf/date/", "conf/isca/", "conf/micro/", "conf/hpca/",
+    "conf/popl/", "conf/pldi/", "conf/lics/", "conf/cav/", "conf/stoc/", "conf/focs/",
+    "conf/icra/", "conf/iros/",
+    "journals/jmlr/", "journals/tois/", "journals/tkde/", "journals/tist/", "journals/ml/",
+    "journals/tpami/", "journals/tse/", "journals/tods/", "journals/tocs/", "journals/ton/", "journals/tit/"
+  ],
+  "rationale": "A declared cross-CS venue portfolio spanning AI, language, vision, databases, systems, security, software, networking, hardware, theory and robotics. Families are selected by discipline, not by target author identities or final-query success. All-period records supply separate labels; every feature graph is exported strictly before its label period. Preserve the old source for honest regression comparisons."
+}

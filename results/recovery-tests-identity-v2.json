@@ -1,0 +1,23 @@
+{
+  "batch_entrypoint_sha256": "8f80dac6d99bb5c0caccdbf72d1be567eab9b2dafe0853860278c5cc37243095",
+  "command": [
+    ".venv/bin/python",
+    "scripts/run_backend_tests.py",
+    "--out",
+    "results/recovery-tests-identity-v2.json"
+  ],
+  "elapsed_seconds": 116.191,
+  "environment_variables": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "src"
+  },
+  "error_tests": [],
+  "errors": 0,
+  "failure_tests": [],
+  "failures": 0,
+  "package_source_sha256": "9ff194178f183503e389ef58622f8051be29ffe03ccbbf260c65892080c5dcb9",
+  "scope": "Data, graph, ML, schemas, HTTP, assistant, grounding, privacy, retries and concurrency; prepared dependencies/models, no API keys or external services.",
+  "skipped": 0,
+  "successful": true,
+  "tests_run": 85
+}

@@ -8,7 +8,7 @@ from ..data.artifacts import digest_file
 
 
 class CrossEncoder:
-    def __init__(self, directory, threads=2):
+    def __init__(self, directory, threads=4):
         import onnxruntime as ort
         from tokenizers import Tokenizer
         directory = Path(directory)

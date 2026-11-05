@@ -41,7 +41,7 @@ def materialize(engine, queries, directory: str | Path, labels_sha256: str):
     directory = Path(directory)
     feature_names = getattr(engine, 'feature_names', FEATURE_NAMES)
     signature = {'content_sha256': engine.manifest['content_sha256'], 'encoder_sha256': engine.encoder.signature,
-                 'graph_sha256': graph_digest(engine.database), 'feature_version': 1, 'labels_sha256': labels_sha256, 'features': list(feature_names),
+                 'graph_sha256': graph_digest(engine.database), 'feature_version': 2, 'base_implementation_sha256': digest_file(Path(__file__).parents[1] / 'retrieval/index.py'), 'labels_sha256': labels_sha256, 'features': list(feature_names),
                  'paper_limit': engine.paper_limit, 'candidate_limit': engine.candidate_limit}
     if hasattr(engine, 'retrieval_signature'):
         signature['retrieval'] = engine.retrieval_signature

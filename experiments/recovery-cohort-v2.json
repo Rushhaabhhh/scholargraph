@@ -1,0 +1,49 @@
+{
+  "source": "data/processed/recovery-v2/source.xml",
+  "work": "data/processed/recovery-v2",
+  "seed": 314159,
+  "windows": [
+    {
+      "role": "train-early",
+      "cutoff": 2020,
+      "start": 2021,
+      "end": 2022,
+      "queries": 1500
+    },
+    {
+      "role": "train-later",
+      "cutoff": 2022,
+      "start": 2023,
+      "end": 2023,
+      "queries": 1500
+    },
+    {
+      "role": "validation",
+      "cutoff": 2023,
+      "start": 2024,
+      "end": 2024,
+      "queries": 800
+    },
+    {
+      "role": "test",
+      "cutoff": 2024,
+      "start": 2025,
+      "end": 2026,
+      "queries": 1000
+    }
+  ],
+  "exclude_evaluation_labels": [
+    "data/processed/phase1/dataset/validation_ground_truth.jsonl",
+    "data/processed/phase1/dataset/test_ground_truth.jsonl",
+    "data/processed/model-pilot-v1/validation_ground_truth.jsonl",
+    "data/processed/model-pilot-v1/test_ground_truth.jsonl",
+    "data/processed/hybrid-cohort-v1/validation_ground_truth.jsonl",
+    "data/processed/hybrid-cohort-v1/test_ground_truth.jsonl"
+  ],
+  "sampling": "Round-robin across DBLP venue-key families, with SHA256(seed:role:query_id) order inside each family. No filtering on author history, retrieval success or scores. Exact source keys and normalized query titles from previous evaluation datasets are excluded. All duplicate normalized titles in the new source are excluded mechanically.",
+  "limits": "A declared cross-CS venue-portfolio benchmark, not representative all DBLP. The prior broad 1000-query cohort remains reported separately and is not a selection set.",
+  "parent_protocol": "experiments/recovery-protocol-v2.json",
+  "portfolio": "experiments/recovery-data-v2.json",
+  "rationale": "Before model fitting, restrict primary label sampling to the cross-CS venue portfolio declared before the archive scan. Preserved legacy source records remain historical evidence and supply the unchanged broad v1 transfer/regression cohort. No filtering on author history or model success.",
+  "resource_decision": "Measured evidence feature extraction is about one second per query on the first 404k-paper graph. Use 1500 deterministic queries in each of two rolling training windows (3000 total), retaining 800 validation and 1000 final queries, to constrain CPU time and candidate-matrix memory. No sample is selected by history or success; original 2000-per-window cohorts remain archived."
+}

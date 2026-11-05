@@ -101,27 +101,20 @@ class Backend:
                 intent['recency_preference'] = 'recent'
                 intent['since_year'] = max(1, self.engine.anchor_year - int(relative[1]) + 1)
         retrieval_query = ' '.join(intent['topics'])
-        vector = self.engine.encoder.encode([retrieval_query])[0]
-        retrieved = self.engine.retrieve(retrieval_query, vector)
-        scores = score_model(retrieved['features'], self.model)
         memory = memory or {'shortlisted_person_ids': [], 'rejected_person_ids': []}
         rejected, shortlisted = set(memory['rejected_person_ids']), set(memory['shortlisted_person_ids'])
         minimum_year = intent['since_year']
         if minimum_year is None and intent['recency_preference'] == 'recent':
             minimum_year = max(1, self.engine.anchor_year - 5)
+        vector = self.engine.encoder.encode([retrieval_query])[0]
+        retrieved = self.engine.retrieve(retrieval_query, vector, since_year=minimum_year)
+        scores = score_model(retrieved['features'], self.model)
         keep, rejected_applied = [], []
         for index, identifier in enumerate(retrieved['author_ids']):
             if identifier in rejected:
                 rejected_applied.append(identifier)
-                continue
-            if minimum_year is not None:
-                papers = [paper for paper in self.engine.author_papers[identifier]
-                          if self.engine.papers[paper]['year'] is not None and self.engine.papers[paper]['year'] >= minimum_year]
-                if not papers:
-                    continue
-                papers.sort(key=lambda paper: (-float(self.engine.vectors[paper] @ vector), self.engine.papers[paper]['id']))
-                retrieved['evidence'][identifier] = papers[:3]
-            keep.append(index)
+            else:
+                keep.append(index)
         filtered = dict(retrieved, author_ids=[retrieved['author_ids'][index] for index in keep])
         results = self.verifier.explain(self.engine.results(retrieval_query, filtered, scores[keep], args.limit))
         for result in results:

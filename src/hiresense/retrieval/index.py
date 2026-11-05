@@ -139,6 +139,7 @@ class SearchIndex:
         self.papers = [dict(row) for row in database.execute('SELECT id,title,year FROM papers ORDER BY id')]
         if [row['id'] for row in self.papers] != self.manifest['paper_ids']:
             raise ValueError('Paper IDs differ from index manifest')
+        self.paper_years = np.asarray([p['year'] or 0 for p in self.papers], dtype=np.int32)
         self.paper_lookup = {paper['id']: index for index, paper in enumerate(self.papers)}
         self.authors = {row['id']: row['canonical_name'] for row in database.execute('SELECT id,canonical_name FROM authors')}
         self.paper_authors, self.author_papers = [[] for _ in self.papers], defaultdict(list)
@@ -162,32 +163,46 @@ class SearchIndex:
     def close(self):
         self.lexical.close()
 
-    def _lexical(self, query):
+    def _lexical(self, query, since_year=None):
         query_terms = sorted(tokens(query))[:64]
         if not query_terms:
             return []
         expression = ' OR '.join('"' + token.replace('"', '""') + '"' for token in query_terms)
-        return [(row[0] - 1, -row[1]) for row in self.lexical.execute(
-            'SELECT rowid,bm25(documents) score FROM documents WHERE documents MATCH ? ORDER BY score,rowid LIMIT ?',
-            (expression, self.paper_limit))]
+        sql = 'SELECT rowid,bm25(documents) score FROM documents WHERE documents MATCH ? ORDER BY score,rowid'
+        cursor = self.lexical.execute(sql + (' LIMIT ?' if since_year is None else ''),
+                                      (expression, self.paper_limit) if since_year is None else (expression,))
+        output = []
+        for row in cursor:
+            i = row[0] - 1
+            if since_year is None or (self.papers[i]['year'] is not None and self.papers[i]['year'] >= since_year):
+                output.append((i, -row[1]))
+                if len(output) == self.paper_limit:
+                    break
+        return output
 
-    def retrieve(self, query: str, vector=None):
+    def retrieve(self, query: str, vector=None, *, since_year=None, excluded_ids=()):
         if not isinstance(query, str) or len(query) > 4000:
             raise ValueError('Query must be a string of at most 4000 characters')
         if not query.strip() or not self.papers:
             return {'author_ids': [], 'features': np.empty((0, len(FEATURE_NAMES))), 'lexical': [], 'dense': [], 'hybrid': [], 'evidence': {}}
-        context = self.candidate_context(query, vector)
-        author_ids = sorted(context['fused'], key=lambda author: (-context['fused'][author], author))[:self.candidate_limit]
+        context = self.candidate_context(query, vector, since_year=since_year)
+        excluded = set(excluded_ids)
+        author_ids = sorted((a for a in context['fused'] if a not in excluded), key=lambda author: (-context['fused'][author], author))[:self.candidate_limit]
         return self.assemble(query, author_ids, context)
 
-    def candidate_context(self, query, vector=None):
+    def candidate_context(self, query, vector=None, *, since_year=None):
         vector = self.encoder.encode([query])[0] if vector is None else vector
         with threadpool_limits(limits=2, user_api='blas'):
             similarities = np.asarray(self.vectors @ vector, dtype=np.float32)
-        count = min(self.paper_limit, len(self.papers))
-        selected = np.argpartition(-similarities, count - 1)[:count]
+        if since_year is None:
+            count = min(self.paper_limit, len(self.papers))
+            selected = np.argpartition(-similarities, count - 1)[:count] if count else []
+        else:
+            eligible = np.flatnonzero(self.paper_years >= since_year)
+            count = min(self.paper_limit, len(eligible))
+            selected = eligible[np.argpartition(-similarities[eligible], count - 1)[:count]] if count else []
         selected = sorted(selected, key=lambda index: (-float(similarities[index]), int(index)))
-        lexical_papers = self._lexical(query)
+        lexical_papers = self._lexical(query, since_year=since_year)
         lexical_scores = dict(lexical_papers)
         def aggregate(paper_scores):
             values = {}
@@ -204,7 +219,7 @@ class SearchIndex:
         for identifier in dense_rank:
             fused[identifier] += 1 / (60 + dense_rank[identifier])
         return {'similarities': similarities, 'lexical_scores': lexical_scores, 'lexical_rank': lexical_rank,
-                'dense_rank': dense_rank, 'fused': fused, 'lexical': lexical, 'dense': dense}
+                'dense_rank': dense_rank, 'fused': fused, 'lexical': lexical, 'dense': dense, 'since_year': since_year}
 
     def assemble(self, query, author_ids, context):
         similarities, lexical_scores = context['similarities'], context['lexical_scores']
@@ -213,7 +228,11 @@ class SearchIndex:
         query_tokens = tokens(query)
         features, evidence = [], {}
         for identifier in author_ids:
-            indices = self.author_papers[identifier]
+            indices = [i for i in self.author_papers[identifier]
+                       if context.get('since_year') is None or
+                       (self.papers[i]['year'] is not None and self.papers[i]['year'] >= context['since_year'])]
+            if not indices:
+                raise ValueError('Ineligible author reached feature assembly')
             dense_values = sorted((float(similarities[index]) for index in indices), reverse=True)
             coverages = {index: len(query_tokens & self.title_tokens[index]) / max(1, len(query_tokens)) for index in indices}
             supporting = sorted(indices, key=lambda index: (-(lexical_scores.get(index, 0.0) / max_lexical + float(similarities[index])), self.papers[index]['id']))

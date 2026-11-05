@@ -81,6 +81,16 @@ class GraphTests(unittest.TestCase):
         self.assertIsNone(matcher.match({'noisy_name': 'Alex Kim'})[0])
         self.assertEqual(matcher.candidates({'noisy_name': 'Unrelated Uniquezzzz'})[0], [])
 
+    def test_initial_block_recovers_a_bounded_candidate_group_without_names_authorizing_merge(self):
+        self.database.execute("INSERT INTO authors VALUES(42,'test:bob','Bob Kim','dblp')")
+        record={'noisy_name':'A. Kim'}
+        baseline=AuthorMatcher(self.database,max_block_size=2,initial_blocks=False)
+        improved=AuthorMatcher(self.database,max_block_size=2,initial_blocks=True)
+        self.assertEqual(baseline.candidates(record)[0],[])
+        candidates=improved.candidates(record)[0]
+        self.assertEqual(len(candidates),2)
+        self.assertIsNone(improved.match(record)[0])
+
     def test_temporal_identity_evaluates_known_and_new_people_without_future_profiles(self):
         source = connect(self.path / 'source.sqlite3')
         try:

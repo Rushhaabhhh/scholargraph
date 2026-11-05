@@ -1,0 +1,335 @@
+{
+  "ambiguity_margin": 0.06,
+  "command": [
+    "evaluate_temporal_identity",
+    "source=recovery-v2",
+    "graph=train-early",
+    "years=2023..2024",
+    "rate=.01",
+    "seed=314159",
+    "max_candidates=128"
+  ],
+  "corruptions": {
+    "initials": 1107,
+    "name_order": 1099,
+    "transliteration": 1172,
+    "typo": 1127
+  },
+  "cutoff_year": 2020,
+  "elapsed_seconds": 232.333,
+  "end_year": 2024,
+  "limitation": "Synthetic name noise; known-reference linkage with unknown-identity rejection, not open-world clustering. Wilson intervals treat observations as independent; repeated authors can be dependent.",
+  "max_candidates": 128,
+  "package_source_sha256": "5c702510c950d638e9f3e604ed57752703e6c2804386ec1b33c84cb557635453",
+  "process_peak_rss_mb": 1760.7109375,
+  "protocol": "Later authorship observations matched only against pre-cutoff profiles; unseen identities included.",
+  "resource_limit_mb": 2800,
+  "results": {
+    "conservative": {
+      "ambiguous": 10,
+      "by_corruption": {
+        "initials": {
+          "assigned": 58,
+          "candidate_hits": 589,
+          "correct": 54,
+          "incorrect_merges": 4,
+          "known": 666,
+          "observations": 1107
+        },
+        "name_order": {
+          "assigned": 177,
+          "candidate_hits": 655,
+          "correct": 174,
+          "incorrect_merges": 3,
+          "known": 655,
+          "observations": 1099
+        },
+        "transliteration": {
+          "assigned": 121,
+          "candidate_hits": 660,
+          "correct": 121,
+          "incorrect_merges": 0,
+          "known": 714,
+          "observations": 1172
+        },
+        "typo": {
+          "assigned": 102,
+          "candidate_hits": 598,
+          "correct": 101,
+          "incorrect_merges": 1,
+          "known": 650,
+          "observations": 1127
+        }
+      },
+      "correct_known_matches": 450,
+      "incorrect_merges": 8,
+      "incorrect_merges_unseen": 4,
+      "known": 2685,
+      "known_abstentions": 2231,
+      "known_candidate_hits": 2502,
+      "known_candidate_recall": 0.9318435754189944,
+      "known_recall": 0.16759776536312848,
+      "known_recall_wilson_95pct": [
+        0.1539468985660209,
+        0.1821984163076616
+      ],
+      "matched": 458,
+      "observations": 4505,
+      "precision": 0.982532751091703,
+      "precision_wilson_95pct": [
+        0.9659152898261304,
+        0.9911230867818098
+      ],
+      "unseen": 1820,
+      "unseen_abstentions": 1816,
+      "unseen_false_merge_rate": 0.002197802197802198
+    },
+    "conservative_without_initial_block": {
+      "ambiguous": 9,
+      "by_corruption": {
+        "initials": {
+          "assigned": 59,
+          "candidate_hits": 415,
+          "correct": 55,
+          "incorrect_merges": 4,
+          "known": 666,
+          "observations": 1107
+        },
+        "name_order": {
+          "assigned": 177,
+          "candidate_hits": 655,
+          "correct": 174,
+          "incorrect_merges": 3,
+          "known": 655,
+          "observations": 1099
+        },
+        "transliteration": {
+          "assigned": 121,
+          "candidate_hits": 636,
+          "correct": 121,
+          "incorrect_merges": 0,
+          "known": 714,
+          "observations": 1172
+        },
+        "typo": {
+          "assigned": 103,
+          "candidate_hits": 580,
+          "correct": 102,
+          "incorrect_merges": 1,
+          "known": 650,
+          "observations": 1127
+        }
+      },
+      "correct_known_matches": 452,
+      "incorrect_merges": 8,
+      "incorrect_merges_unseen": 4,
+      "known": 2685,
+      "known_abstentions": 2229,
+      "known_candidate_hits": 2286,
+      "known_candidate_recall": 0.8513966480446927,
+      "known_recall": 0.16834264432029794,
+      "known_recall_wilson_95pct": [
+        0.15466575718924966,
+        0.18296718723093439
+      ],
+      "matched": 460,
+      "observations": 4505,
+      "precision": 0.9826086956521739,
+      "precision_wilson_95pct": [
+        0.9660618247033006,
+        0.9911617946102023
+      ],
+      "unseen": 1820,
+      "unseen_abstentions": 1816,
+      "unseen_false_merge_rate": 0.002197802197802198
+    },
+    "distance": {
+      "ambiguous": 23,
+      "by_corruption": {
+        "initials": {
+          "assigned": 109,
+          "candidate_hits": 589,
+          "correct": 95,
+          "incorrect_merges": 14,
+          "known": 666,
+          "observations": 1107
+        },
+        "name_order": {
+          "assigned": 181,
+          "candidate_hits": 655,
+          "correct": 178,
+          "incorrect_merges": 3,
+          "known": 655,
+          "observations": 1099
+        },
+        "transliteration": {
+          "assigned": 145,
+          "candidate_hits": 660,
+          "correct": 141,
+          "incorrect_merges": 4,
+          "known": 714,
+          "observations": 1172
+        },
+        "typo": {
+          "assigned": 134,
+          "candidate_hits": 598,
+          "correct": 127,
+          "incorrect_merges": 7,
+          "known": 650,
+          "observations": 1127
+        }
+      },
+      "correct_known_matches": 541,
+      "incorrect_merges": 28,
+      "incorrect_merges_unseen": 8,
+      "known": 2685,
+      "known_abstentions": 2124,
+      "known_candidate_hits": 2502,
+      "known_candidate_recall": 0.9318435754189944,
+      "known_recall": 0.20148975791433893,
+      "known_recall_wilson_95pct": [
+        0.18674907979526403,
+        0.21708337944423908
+      ],
+      "matched": 569,
+      "observations": 4505,
+      "precision": 0.9507908611599297,
+      "precision_wilson_95pct": [
+        0.9297985962031318,
+        0.9657371442722705
+      ],
+      "unseen": 1820,
+      "unseen_abstentions": 1812,
+      "unseen_false_merge_rate": 0.004395604395604396
+    },
+    "exact": {
+      "ambiguous": 12,
+      "by_corruption": {
+        "initials": {
+          "assigned": 60,
+          "candidate_hits": 589,
+          "correct": 55,
+          "incorrect_merges": 5,
+          "known": 666,
+          "observations": 1107
+        },
+        "name_order": {
+          "assigned": 157,
+          "candidate_hits": 655,
+          "correct": 155,
+          "incorrect_merges": 2,
+          "known": 655,
+          "observations": 1099
+        },
+        "transliteration": {
+          "assigned": 103,
+          "candidate_hits": 660,
+          "correct": 101,
+          "incorrect_merges": 2,
+          "known": 714,
+          "observations": 1172
+        },
+        "typo": {
+          "assigned": 86,
+          "candidate_hits": 598,
+          "correct": 82,
+          "incorrect_merges": 4,
+          "known": 650,
+          "observations": 1127
+        }
+      },
+      "correct_known_matches": 393,
+      "incorrect_merges": 13,
+      "incorrect_merges_unseen": 6,
+      "known": 2685,
+      "known_abstentions": 2285,
+      "known_candidate_hits": 2502,
+      "known_candidate_recall": 0.9318435754189944,
+      "known_recall": 0.1463687150837989,
+      "known_recall_wilson_95pct": [
+        0.13350382370873434,
+        0.16024404908965398
+      ],
+      "matched": 406,
+      "observations": 4505,
+      "precision": 0.9679802955665024,
+      "precision_wilson_95pct": [
+        0.9459941121914032,
+        0.9811936864599046
+      ],
+      "unseen": 1820,
+      "unseen_abstentions": 1814,
+      "unseen_false_merge_rate": 0.0032967032967032967
+    },
+    "strict": {
+      "ambiguous": 1,
+      "by_corruption": {
+        "initials": {
+          "assigned": 2,
+          "candidate_hits": 589,
+          "correct": 2,
+          "incorrect_merges": 0,
+          "known": 666,
+          "observations": 1107
+        },
+        "name_order": {
+          "assigned": 46,
+          "candidate_hits": 655,
+          "correct": 46,
+          "incorrect_merges": 0,
+          "known": 655,
+          "observations": 1099
+        },
+        "transliteration": {
+          "assigned": 29,
+          "candidate_hits": 660,
+          "correct": 29,
+          "incorrect_merges": 0,
+          "known": 714,
+          "observations": 1172
+        },
+        "typo": {
+          "assigned": 17,
+          "candidate_hits": 598,
+          "correct": 17,
+          "incorrect_merges": 0,
+          "known": 650,
+          "observations": 1127
+        }
+      },
+      "correct_known_matches": 94,
+      "incorrect_merges": 0,
+      "incorrect_merges_unseen": 0,
+      "known": 2685,
+      "known_abstentions": 2591,
+      "known_candidate_hits": 2502,
+      "known_candidate_recall": 0.9318435754189944,
+      "known_recall": 0.035009310986964616,
+      "known_recall_wilson_95pct": [
+        0.0286945940002273,
+        0.04265266159617901
+      ],
+      "matched": 94,
+      "observations": 4505,
+      "precision": 1.0,
+      "precision_wilson_95pct": [
+        0.9607379237084551,
+        0.9999999999999999
+      ],
+      "unseen": 1820,
+      "unseen_abstentions": 1820,
+      "unseen_false_merge_rate": 0.0
+    }
+  },
+  "sample_rate": 0.01,
+  "seed": 314159,
+  "start_year": 2023,
+  "threshold": 0.72,
+  "year_modes": {
+    "conservative": "Year distance with strong name and independent collaborator evidence; abstain otherwise.",
+    "conservative_without_initial_block": "Same conservative matcher without the surname/first-initial candidate channel.",
+    "distance": "Exponential decay with distance to nearest historical year.",
+    "exact": "Exact year overlap.",
+    "strict": "At least two coauthors, >=50% collaborator overlap, name>=0.93, venue match, score>=0.78 and margin>=0.12."
+  }
+}

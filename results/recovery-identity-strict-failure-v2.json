@@ -1,0 +1,48 @@
+{
+  "C_grid": [
+    0.1,
+    1.0,
+    10.0
+  ],
+  "command": [
+    "scripts/train_identity_recovery.py",
+    "--precision-target",
+    ".999",
+    "--margin-max",
+    "6",
+    "--exclude-previous-test",
+    "--work",
+    "data/processed/recovery-identity-strict-v2",
+    "--out",
+    "results/recovery-identity-strict-model-v2.json"
+  ],
+  "logit_threshold_grid": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "margin_grid": [
+    0.5,
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0
+  ],
+  "minimum_validation_assignments": 50,
+  "next_step": "Retain conservative/strict abstention options and canonical DBLP graph; richer independent evidence or human review is needed before stronger assignment guarantees.",
+  "outcome": "No candidate met the validation precision/support gate. No new model promoted; reserved second test was not scored.",
+  "package_source_sha256": "9ff194178f183503e389ef58622f8051be29ffe03ccbbf260c65892080c5dcb9",
+  "runner_sha256": "c705351fdc0d4b6fec5957c1029af69c1aa1ba1c11884686a2ad648c290f0ec7",
+  "scope": "Second contextual identity calibration attempt; validation gate failed before any new test scoring.",
+  "validation_precision_target": 0.999
+}

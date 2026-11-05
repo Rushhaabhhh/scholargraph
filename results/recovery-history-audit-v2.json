@@ -1,0 +1,90 @@
+{
+  "cutoff": 2023,
+  "elapsed_seconds": 404.6345956129953,
+  "examples": [
+    {
+      "instances": 1,
+      "paper_key": "conf/bmei/WangSXLHY17",
+      "person_id": 1180168702293,
+      "title": "Reduction of Gibbs artifacts in magnetic resonance imaging based on Convolutional Neural Network.",
+      "year": 2017
+    },
+    {
+      "instances": 1,
+      "paper_key": "journals/jmihi/LinCYWDF19",
+      "person_id": 2059236766911,
+      "title": "Analysis of Bronchoscopy on Acute Exacerbation of Pulmonary Emphysema Chronic Obstructive Pulmonary Disease Using CT Chest Imaging.",
+      "year": 2019
+    },
+    {
+      "instances": 1,
+      "paper_key": "conf/enviroinfo/HusselsCCKP16",
+      "person_id": 3304659087352,
+      "title": "More than two decades of generic approach for database applications in the environmental field.",
+      "year": 2016
+    },
+    {
+      "instances": 1,
+      "paper_key": "conf/cccv/SunMCWZ15",
+      "person_id": 3754886250100,
+      "title": "A Tree-Structured Feature Matching Algorithm.",
+      "year": 2015
+    },
+    {
+      "instances": 1,
+      "paper_key": "conf/gcc/LiSZ04",
+      "person_id": 4728803557497,
+      "title": "Design and Optimization of an iSCSI System.",
+      "year": 2004
+    },
+    {
+      "instances": 1,
+      "paper_key": "conf/iconip/ZhaoZ06a",
+      "person_id": 6225628675362,
+      "title": "Application of Improved Kohonen SOFM Neural Network to Radar Signal Sorting.",
+      "year": 2006
+    },
+    {
+      "instances": 1,
+      "paper_key": "conf/IEEEcit/ZhangRL05",
+      "person_id": 9841559263567,
+      "title": "A Novel Approach for Web-based Data Input Panel Design.",
+      "year": 2005
+    },
+    {
+      "instances": 1,
+      "paper_key": "conf/ccscw/ChenCLLZZL18",
+      "person_id": 17729750013827,
+      "title": "Cost-Effective Coupled Video Distribution Network.",
+      "year": 2018
+    },
+    {
+      "instances": 1,
+      "paper_key": "conf/corl/DaunerH0C23",
+      "person_id": 36211521927205,
+      "title": "Parting with Misconceptions about Learning-based Vehicle Motion Planning.",
+      "year": 2023
+    },
+    {
+      "instances": 1,
+      "paper_key": "journals/access/XuAWJMZWPY20",
+      "person_id": 43592210942446,
+      "title": "3D Joints Estimation of the Human Body in Single-Frame Point Cloud.",
+      "year": 2020
+    }
+  ],
+  "known_in_slice": 3166,
+  "labels_sha256": "c873c728349cd51000a218cf52874cb172a456773e7a462658cd90ebb3c7d6b1",
+  "limitation": "Exact DBLP identity keys, not proof of a person having no prior research elsewhere. PID/name inconsistency or renamed labels can affect joins. This audit uses validation labels for diagnosis only and never author-targets graph enrichment.",
+  "missing_in_slice": 895,
+  "missing_instances_with_pre_cutoff_raw_history": 624,
+  "missing_instances_without_pre_cutoff_exact_id_raw_history": 271,
+  "missing_unique_authors": 886,
+  "missing_unique_with_raw_history": 618,
+  "raw_sha256": "830dd95e700a909b36ac28c66a8409b8cdc8dca75592fc4398add21241842392",
+  "records_scanned": 13070766,
+  "relevant_author_instances": 4061,
+  "runner_sha256": "f21733c96a09335bbdd9a7e2ba4b449e747adedc622f78cefffc8cbeee938ad6",
+  "scope": "Diagnostic only: no records/identities added to graph and no model setting selected.",
+  "window": "data/processed/recovery-v2/validation"
+}

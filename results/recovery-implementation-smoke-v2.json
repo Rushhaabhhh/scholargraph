@@ -1,0 +1,166 @@
+{
+  "elapsed_seconds": 49.52874329000042,
+  "queries": [
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 278,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 1,
+      "scored_papers": 151,
+      "seconds": 1.1431598449999
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 287,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 2,
+      "scored_papers": 192,
+      "seconds": 1.2899065149977105
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 306,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 0,
+      "scored_papers": 170,
+      "seconds": 1.3714099419958075
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 277,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 3,
+      "scored_papers": 192,
+      "seconds": 1.2487378250007168
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 272,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 2,
+      "scored_papers": 179,
+      "seconds": 1.0670280030026333
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 293,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 1,
+      "scored_papers": 185,
+      "seconds": 1.2475066339975456
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 303,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 1,
+      "scored_papers": 133,
+      "seconds": 1.159432136999385
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 260,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 0,
+      "scored_papers": 166,
+      "seconds": 0.8348972680032603
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 304,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 3,
+      "scored_papers": 134,
+      "seconds": 1.113883676000114
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 299,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 0,
+      "scored_papers": 157,
+      "seconds": 1.0455155030067544
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 228,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 0,
+      "scored_papers": 149,
+      "seconds": 1.079022582998732
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 233,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 0,
+      "scored_papers": 192,
+      "seconds": 1.1025159080018057
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 346,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 2,
+      "scored_papers": 138,
+      "seconds": 0.8468360459955875
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 319,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 2,
+      "scored_papers": 171,
+      "seconds": 1.2766811820038129
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 352,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 1,
+      "scored_papers": 127,
+      "seconds": 1.2216765179982758
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 231,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 0,
+      "scored_papers": 161,
+      "seconds": 1.0114308109987178
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 277,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 1,
+      "scored_papers": 131,
+      "seconds": 1.0735430669956258
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 294,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 1,
+      "scored_papers": 161,
+      "seconds": 1.2557521930066287
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 342,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 0,
+      "scored_papers": 178,
+      "seconds": 1.061430294001184
+    },
+    {
+      "candidate_count": 1200,
+      "neural_coverage": 259,
+      "neural_shortlist": 192,
+      "relevant_retrieved": 0,
+      "scored_papers": 165,
+      "seconds": 1.089714888999879
+    }
+  ],
+  "scope": "Engineering smoke on 20 already-seen old validation queries and the 2018 graph; not final evaluation or configuration selection."
+}

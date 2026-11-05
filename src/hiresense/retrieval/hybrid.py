@@ -72,19 +72,21 @@ class HybridIndex(SearchIndex):
             raise ValueError('Invalid author profile shape')
         self.profile_signature = digest_file(directory / 'manifest.json')
 
-    def retrieve(self, query, vector=None):
+    def retrieve(self, query, vector=None, *, since_year=None, excluded_ids=()):
         if not isinstance(query, str) or len(query) > 4000:
             raise ValueError('Query must be a string of at most 4000 characters')
         if not query.strip() or not self.papers:
             return {'author_ids': [], 'features': np.empty((0, len(self.feature_names))),
                     'lexical': [], 'dense': [], 'hybrid': [], 'evidence': {}}
         vector = self.encoder.encode([query])[0] if vector is None else vector
-        context = self.candidate_context(query, vector)
+        context = self.candidate_context(query, vector, since_year=since_year)
         with threadpool_limits(limits=2, user_api='blas'):
             profile_scores = np.asarray(self.profile_vectors @ vector, dtype=np.float32)
         count = min(self.profile_limit, len(self.profile_ids))
         selected = np.argsort(-profile_scores, kind='stable')[:count]
-        profile_rank = {int(self.profile_ids[row]): rank for rank, row in enumerate(selected, 1)}
+        profile_rank = {int(self.profile_ids[row]): rank for rank, row in enumerate(selected, 1)
+                        if any(since_year is None or (self.papers[i]['year'] is not None and self.papers[i]['year'] >= since_year)
+                               for i in self.author_papers[int(self.profile_ids[row])])}
         for author, rank in profile_rank.items():
             context['fused'][author] = context['fused'].get(author, 0.0) + 0.5 / (60 + rank)
         graph_support = defaultdict(float)
@@ -92,7 +94,8 @@ class HybridIndex(SearchIndex):
         for seed in seeds:
             # Only sourced, historical coauthorship events in topically matching papers.
             dated = [i for i in self.author_papers[seed]
-                     if self.papers[i]['year'] is not None and self.papers[i]['year'] <= self.anchor_year]
+                     if self.papers[i]['year'] is not None and self.papers[i]['year'] <= self.anchor_year
+                     and (since_year is None or self.papers[i]['year'] >= since_year)]
             relevant_papers = sorted(dated, key=lambda i: (-context['similarities'][i], i))[:3]
             for i in relevant_papers:
                 if float(context['similarities'][i]) < 0.25:
@@ -103,7 +106,8 @@ class HybridIndex(SearchIndex):
         expanded = sorted(graph_support, key=lambda a: (-graph_support[a], a))[:self.expansion_limit]
         for rank, author in enumerate(expanded, 1):
             context['fused'][author] = context['fused'].get(author, 0.0) + 0.15 / (60 + rank)
-        authors = sorted(context['fused'], key=lambda a: (-context['fused'][a], a))[:self.candidate_limit]
+        excluded = set(excluded_ids)
+        authors = sorted((a for a in context['fused'] if a not in excluded), key=lambda a: (-context['fused'][a], a))[:self.candidate_limit]
         retrieved = self.assemble(query, authors, context)
         if not authors:
             retrieved['features'] = np.empty((0, len(self.feature_names)), dtype=np.float32)
@@ -124,7 +128,8 @@ class HybridIndex(SearchIndex):
                      for i, value in zip(pair_indices, logits)}
         extras = []
         for author in authors:
-            indices = self.author_papers[author]
+            indices = [i for i in self.author_papers[author] if since_year is None or
+                       (self.papers[i]['year'] is not None and self.papers[i]['year'] >= since_year)]
             scored = sorted((cross[i] for i in retrieved['evidence'][author] if i in cross), reverse=True)
             coverage = max((sum(self.idf.get(t, 1.0) for t in query_terms & self.title_tokens[i]) / denominator
                             for i in indices), default=0.0)

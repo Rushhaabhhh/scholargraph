@@ -1,0 +1,23 @@
+{
+  "batch_entrypoint_sha256": "8f80dac6d99bb5c0caccdbf72d1be567eab9b2dafe0853860278c5cc37243095",
+  "command": [
+    ".venv/bin/python",
+    "scripts/run_backend_tests.py",
+    "--out",
+    "results/recovery-tests-frozen-v2.json"
+  ],
+  "elapsed_seconds": 41.819,
+  "environment_variables": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "src"
+  },
+  "error_tests": [],
+  "errors": 0,
+  "failure_tests": [],
+  "failures": 0,
+  "package_source_sha256": "5c702510c950d638e9f3e604ed57752703e6c2804386ec1b33c84cb557635453",
+  "scope": "Data, graph, ML, schemas, HTTP, assistant, grounding, privacy, retries and concurrency; prepared dependencies/models, no API keys or external services.",
+  "skipped": 0,
+  "successful": true,
+  "tests_run": 83
+}

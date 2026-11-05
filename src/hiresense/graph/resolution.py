@@ -51,7 +51,7 @@ def _deletions(token):
 
 class AuthorMatcher:
     def __init__(self, database, max_candidates: int = 128, max_block_size: int = 2000, year_mode: str = 'exact',
-                 policy: str = 'legacy'):
+                 policy: str = 'legacy', initial_blocks: bool = True):
         if max_candidates < 1 or max_block_size < 1:
             raise ValueError('Candidate and block limits must be positive')
         if year_mode not in ('exact', 'distance'):
@@ -59,15 +59,20 @@ class AuthorMatcher:
         if policy not in ('legacy', 'conservative', 'strict'):
             raise ValueError('Unknown identity decision policy')
         self.policy = policy
+        self.initial_blocks = initial_blocks
         self.year_mode = year_mode
         self.max_candidates, self.max_block_size = max_candidates, max_block_size
         self.profiles = {}
         self.names, self.tokens, self.deletions = defaultdict(set), defaultdict(set), defaultdict(set)
         self.coauthor_index = defaultdict(set)
+        self.surname_initials = defaultdict(set)
         for row in database.execute('SELECT id,canonical_name FROM authors ORDER BY id'):
             identifier, name = row['id'], normalize_name(row['canonical_name'])
             self.profiles[identifier] = {'name': name, 'years': set(), 'venues': set(), 'coauthors': set()}
             self.names[' '.join(sorted(name.split()))].add(identifier)
+            parts = name.split()
+            if len(parts) > 1:
+                self.surname_initials[(parts[-1], parts[0][0])].add(identifier)
             for token in set(name.split()):
                 if len(token) > 1:
                     self.tokens[token].add(identifier)
@@ -107,6 +112,12 @@ class AuthorMatcher:
                 weights[identifier] += weight
         name = normalize_name(record['noisy_name'])
         add(self.names.get(' '.join(sorted(name.split())), ()), 12.0)
+        if self.initial_blocks:
+            parts = name.split()
+            for surname in parts:
+                if len(surname) > 1:
+                    for initial in {p[0] for p in parts if p != surname}:
+                        add(self.surname_initials.get((surname, initial), ()), 5.0)
         for token in set(name.split()):
             if len(token) <= 1:
                 continue
@@ -173,11 +184,22 @@ class AuthorMatcher:
 
 def resolve_records(database, noisy_path: str | Path, threshold: float = 0.72,
                     ambiguity_margin: float = 0.06, max_candidates: int = 128,
-                    year_mode: str = 'exact', policy: str = 'legacy') -> dict:
+                    year_mode: str = 'exact', policy: str = 'legacy', decision_model=None) -> dict:
     if not 0 <= threshold <= 1 or not 0 <= ambiguity_margin <= 1:
         raise ValueError('Threshold and ambiguity margin must be in [0,1]')
     started = monotonic()
-    matcher = AuthorMatcher(database, max_candidates, year_mode=year_mode, policy=policy)
+    if decision_model is None and policy == 'conservative':
+        bundled = Path(__file__).resolve().parents[3] / 'models/identity_matcher.json'
+        if bundled.exists():
+            decision_model = bundled
+    model = None
+    if decision_model is not None:
+        from .identity_model import LearnedAuthorMatcher
+        model = json.loads(Path(decision_model).read_text()) if not isinstance(decision_model, dict) else decision_model
+        matcher = LearnedAuthorMatcher(database, model, max_candidates=max_candidates)
+        year_mode = 'distance'
+    else:
+        matcher = AuthorMatcher(database, max_candidates, year_mode=year_mode, policy=policy)
     counts = {'records': 0, 'matched': 0, 'ambiguous': 0, 'unresolved': 0, 'emitted_candidates': 0,
               'candidate_cap_hits': 0, 'oversized_blocks_skipped': 0}
     with database:
@@ -205,5 +227,9 @@ def resolve_records(database, noisy_path: str | Path, threshold: float = 0.72,
     counts['policy'] = {'threshold': threshold, 'ambiguity_margin': ambiguity_margin, 'max_candidates': max_candidates,
                         'year_mode': year_mode, 'decision_policy': policy,
                         'false_merge_cost': 'Higher than a false split: merging contaminates expertise and evidence. Abstain on ambiguity.',
-                        'blocking': 'Exact unordered name, token/deletion signatures, and coauthor inverted indexes; cap candidates and skip oversized blocks.'}
+                        'blocking': 'Exact unordered name, surname/first-initial, token/deletion signatures, and coauthor inverted indexes; cap candidates and skip oversized blocks.'}
+    if model is not None:
+        counts['policy'].update(decision_policy='calibrated_contextual_model',
+            logit_threshold=model['logit_threshold'],margin_threshold=model['margin_threshold'],
+            score_scope='Learned decision score; thresholds calibrated on validation only; abstain without shared coauthors.')
     return counts

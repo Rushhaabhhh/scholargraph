@@ -72,7 +72,7 @@ def enrich_history(config_path, output):
                 added += 1
                 years[paper.year] += 1
                 types[paper.record_type] += 1
-                venues[paper.venue] += 1
+                venues[paper.venue or '(unknown)'] += 1
             stream.write(b'</dblp>\n')
         if not added:
             raise ValueError('No new historical papers matched the declared selection')

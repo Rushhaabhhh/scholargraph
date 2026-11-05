@@ -31,7 +31,9 @@ def evaluate_temporal_identity(source, graph, start_year, end_year, *, rate=1.0,
     strategies = {'exact': ('exact', 'legacy'), 'distance': ('distance', 'legacy'),
                   'conservative': ('distance', 'conservative'), 'strict': ('distance', 'strict')}
     known_ids = set(matcher.profiles)
+    strategies['conservative_without_initial_block'] = ('distance', 'conservative')
     counts = {mode: Counter() for mode in strategies}
+    by_corruption = {mode: {kind: Counter() for kind in ('initials','name_order','typo','transliteration')} for mode in strategies}
     corruptions = Counter()
     rng = random.Random(seed)
     for paper in source.execute('SELECT id,year,venue FROM papers WHERE year BETWEEN ? AND ? ORDER BY id',
@@ -52,6 +54,7 @@ def evaluate_temporal_identity(source, graph, start_year, end_year, *, rate=1.0,
             corruptions[kind] += 1
             for mode, (year_mode, policy) in strategies.items():
                 matcher.year_mode, matcher.policy = year_mode, policy
+                matcher.initial_blocks = mode != 'conservative_without_initial_block'
                 identifier, _, decision, _, candidates, _, _ = matcher.match(record, threshold, ambiguity_margin)
                 c = counts[mode]
                 c['observations'] += 1
@@ -64,18 +67,36 @@ def evaluate_temporal_identity(source, graph, start_year, end_year, *, rate=1.0,
                 c['known_abstentions'] += known and identifier is None
                 c['unseen_abstentions'] += not known and identifier is None
                 c['ambiguous'] += decision == 'ambiguous'
+                subgroup = by_corruption[mode][kind]
+                subgroup['observations'] += 1
+                subgroup['known'] += known
+                subgroup['candidate_hits'] += known and truth in candidates
+                subgroup['assigned'] += identifier is not None
+                subgroup['correct'] += known and identifier == truth
+                subgroup['incorrect_merges'] += identifier is not None and identifier != truth
+    def wilson(successes, total):
+        if not total: return None
+        z = 1.959963984540054
+        p = successes / total
+        center = (p + z*z/(2*total)) / (1 + z*z/total)
+        half = z*((p*(1-p)/total + z*z/(4*total*total))**.5) / (1 + z*z/total)
+        return [max(0.,center-half),min(1.,center+half)]
     results = {}
     for mode, c in counts.items():
         ratio = lambda numerator, denominator: numerator / denominator if denominator else None
         results[mode] = {**c, 'precision': ratio(c['correct_known_matches'], c['matched']),
                          'known_recall': ratio(c['correct_known_matches'], c['known']),
                          'known_candidate_recall': ratio(c['known_candidate_hits'], c['known']),
-                         'unseen_false_merge_rate': ratio(c['incorrect_merges_unseen'], c['unseen'])}
+                         'unseen_false_merge_rate': ratio(c['incorrect_merges_unseen'], c['unseen']),
+                         'precision_wilson_95pct': wilson(c['correct_known_matches'], c['matched']),
+                         'known_recall_wilson_95pct': wilson(c['correct_known_matches'], c['known']),
+                         'by_corruption': {k: dict(v) for k,v in by_corruption[mode].items()}}
     return {'protocol': 'Later authorship observations matched only against pre-cutoff profiles; unseen identities included.',
-            'limitation': 'Synthetic name noise; known-reference linkage with unknown-identity rejection, not open-world clustering.',
+            'limitation': 'Synthetic name noise; known-reference linkage with unknown-identity rejection, not open-world clustering. Wilson intervals treat observations as independent; repeated authors can be dependent.',
             'cutoff_year': cutoff, 'start_year': start_year, 'end_year': end_year, 'seed': seed, 'sample_rate': rate,
             'threshold': threshold, 'ambiguity_margin': ambiguity_margin, 'max_candidates': max_candidates,
             'year_modes': {'exact': 'Exact year overlap.', 'distance': 'Exponential decay with distance to nearest historical year.',
                            'conservative': 'Year distance with strong name and independent collaborator evidence; abstain otherwise.',
+                           'conservative_without_initial_block': 'Same conservative matcher without the surname/first-initial candidate channel.',
                            'strict': 'At least two coauthors, >=50% collaborator overlap, name>=0.93, venue match, score>=0.78 and margin>=0.12.'},
             'corruptions': dict(corruptions), 'results': results, 'elapsed_seconds': round(monotonic() - started, 3)}

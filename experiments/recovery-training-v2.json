@@ -1,0 +1,26 @@
+{
+  "work": "data/processed/recovery-training-v2",
+  "source_work": "data/processed/recovery-v2",
+  "report": "results/recovery-validation-v2.json",
+  "retrieval_report": "results/recovery-retrieval-v2.json",
+  "encoder": "models/minilm",
+  "cross_encoder": "models/crossencoder",
+  "seed": 314159,
+  "train_roles": [
+    "train-early",
+    "train-later"
+  ],
+  "validation_role": "validation",
+  "retrieval": {
+    "paper_limit": 1536,
+    "candidate_limit": 1200,
+    "profile_limit": 512,
+    "author_lexical_limit": 512,
+    "expansion_limit": 64,
+    "cross_paper_limit": 192,
+    "cross_author_limit": 192,
+    "topic_profiles": 3
+  },
+  "selection": "Retrieval policy selected by known-author candidate recall then query-level candidate success on a fixed validation pilot, with lower candidate budget breaking ties. Model selected only by full validation nDCG@10 then MRR. Test labels stay sealed until a model/configuration freeze.",
+  "cohort_report": "data/processed/recovery-v2/cohort-preparation.json"
+}
