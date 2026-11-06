@@ -4,8 +4,8 @@ set -Eeuo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"
 python="$root/.venv/bin/python"
-backend_port="${SCHOLARGRAPH_BACKEND_PORT:-8017}"
-web_port="${SCHOLARGRAPH_WEB_PORT:-3017}"
+backend_port="${SCHOLARGRAPH_BACKEND_PORT:-8000}"
+web_port="${SCHOLARGRAPH_WEB_PORT:-3000}"
 if [[ "$backend_port" == "$web_port" ]]; then printf '%s\n' 'The frontend and backend need different ports.' >&2; exit 1; fi
 
 if [[ ! -x "$python" ]]; then

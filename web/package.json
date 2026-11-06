@@ -13,8 +13,12 @@
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/inter": "^5.3.0",
     "@fontsource/space-grotesk": "^5.3.0",
+    "@react-three/fiber": "^9.8.2",
+    "@types/three": "^0.187.0",
+    "gsap": "^3.15.1",
     "katex": "^0.19.1",
     "lucide-react": "^1.70.0",
+    "motion": "^14.10.1",
     "next": "15.5.29",
     "react": "19.1.10",
     "react-dom": "19.1.10",
@@ -22,7 +26,8 @@
     "rehype-highlight": "^7.0.2",
     "rehype-katex": "^7.0.1",
     "remark-gfm": "^4.0.1",
-    "remark-math": "^6.0.0"
+    "remark-math": "^6.0.0",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",

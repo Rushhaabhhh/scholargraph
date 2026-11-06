@@ -163,7 +163,7 @@ uv pip install --python .venv/bin/python -r config/requirements.lock
 ./scripts/start-local.sh
 ```
 
-Open **http://127.0.0.1:3017**. The script starts the API on port `8017` and the frontend on port `3017`. It uses a prepared larger graph when available or prepares the bundled sample. Set `HIRESENSE_CONFIG`, `SCHOLARGRAPH_BACKEND_PORT`, or `SCHOLARGRAPH_WEB_PORT` to change the defaults. Press `Ctrl+C` to stop both services.
+Open **http://127.0.0.1:3000**. The script starts the API on port `8000` and the frontend on port `3000`, matching Docker Compose. It uses a prepared larger graph when available or prepares the bundled sample. Set `HIRESENSE_CONFIG`, `SCHOLARGRAPH_BACKEND_PORT`, or `SCHOLARGRAPH_WEB_PORT` to change the defaults. Press `Ctrl+C` to stop both services.
 
 ### Offline Batch Search
 

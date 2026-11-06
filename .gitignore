@@ -23,7 +23,7 @@ dist/
 # Next.js local dependencies and build outputs
 /web/node_modules/
 /web/.next/
-/web/.next-local*/
+/web/.next-*/
 /web/coverage/
 /web/*.tsbuildinfo
 /web/test-results/
