@@ -53,6 +53,30 @@ PYTHONPATH=src .venv/bin/python -m hiresense.cli prepare-backend --data resource
 PYTHONPATH=src .venv/bin/python -m hiresense.cli serve --config data/processed/backend-demo-new/backend.json
 ```
 
+## Voice assistant
+
+Voice and text share the same independent conversation and language model. The local mode records one utterance at a time, sends it to Vosk, passes the transcript to the conversation model, and speaks the response with Piper; continuous mode repeats this cycle. Local transcription is utterance-based, not live streaming. Browser recognition is an optional alternative and may use an external browser service.
+
+For credential-free local voice, install the optional dependencies and download the models once:
+
+```sh
+uv pip install --python .venv/bin/python -r config/voice-requirements.lock
+.venv/bin/python scripts/prepare_voice.py
+.venv/bin/python -m piper.download_voices --data-dir data/models/piper en_US-ljspeech-medium
+```
+
+The voice assets live under ignored `data/models/`; runtime does not download them. Docker prepares them during image build. The first voice request loads the models and may take longer. Start the app, open **Conversations → Voice**, allow microphone access and speak. Use localhost or HTTPS for microphone access. Switch to text at any time; stop interrupts local capture and playback. Browser speech synthesis or an installed eSpeak provides a fallback when Piper is unavailable.
+
+`.env.example` lists server-side provider settings. To use an OpenAI-compatible speech API, set `SCHOLARGRAPH_STT_PROVIDER` and/or `SCHOLARGRAPH_TTS_PROVIDER` to `openai-compatible`, and configure `SCHOLARGRAPH_SPEECH_BASE_URL`, `SCHOLARGRAPH_SPEECH_API_KEY`, and model names in the **API server environment**. For local startup, export the variables before invoking `start-local.sh`; Compose also reads a root `.env`. Never put credentials in `NEXT_PUBLIC_*`. Remote providers have their own fees, terms, and data handling. Vosk, Piper, and their voice models have separate licenses; review their upstream terms before distribution. Audio is processed in memory and is not intentionally saved by this application.
+
+## Independent conversations
+
+Open **Conversations** in the navigation. This is separate from the search bar and has its own persistent conversation history. Text and voice in that workspace use the same conversation. The optional “Search research records” setting calls the research backend for the next message without changing search-bar state. With the bundled local model, an explicit command such as “search for graph neural networks” also runs that lookup automatically. Uploaded UTF-8 text, Markdown, CSV and JSON files are stored with the conversation; only bounded excerpts are supplied to the model, so they are not a full-document search system.
+
+The default conversation provider uses `llama-cpp-python` and `data/models/query-understanding.gguf` when present. This small 0.5B model is a basic, local fallback with limited instruction following and reasoning, not ChatGPT-level quality. Install `config/requirements-llm.lock` or the project's `local-llm` optional dependencies and run `.venv/bin/python scripts/prepare_query_model.py` to download the optional model. Configure `SCHOLARGRAPH_CHAT_MODEL_PATH` to point at another local model. Ollama is supported with `SCHOLARGRAPH_CHAT_PROVIDER=ollama`, `SCHOLARGRAPH_CHAT_BASE_URL` (default `http://127.0.0.1:11434`) and `SCHOLARGRAPH_CHAT_MODEL`. An OpenAI-compatible chat-completions endpoint can be selected with `SCHOLARGRAPH_CHAT_PROVIDER=openai-compatible`, a `/v1` base URL, model, and server-side `SCHOLARGRAPH_CHAT_API_KEY`. Restart the Python API after changing settings. Provider output is streamed; unconfigured or unavailable providers return an error rather than a simulated answer. The Docker image does not include the optional local chat model or llama-cpp dependency; configure a reachable external provider or prepare those separately for that deployment. Remote providers receive the messages and any selected document excerpts or retrieved records.
+
+Conversations use a separate local session ID stored in browser local storage, so they can be restored after closing and reopening the browser. Clearing browser storage loses access to that session; the search-session controls do not delete conversation history. The application has no accounts or authentication; do not expose it as a multi-user service without adding authentication, authorization and appropriate transport security. Deleting a conversation permanently removes its messages and documents. Older conversation turns are summarized as context grows; summaries and document excerpts can omit detail, so check original messages and files when accuracy matters.
+
 ## Results and reproducibility
 
 See [results and measured limitations](resources/results/README.md), the [project journal](docs/project-journal.md), and the [training workbook](docs/model-training-workbook.md). The trained ranker's final held-out nDCG@10 and MRR were 0.0354 and 0.0488; these are weak future-authorship-proxy scores, not hiring accuracy. The recorded test has been inspected and must not be reused for model selection.

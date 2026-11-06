@@ -3,6 +3,7 @@ import {cleanup,fireEvent,render,screen,waitFor} from '@testing-library/react';
 import {Workspace} from '../components/Workspace';
 
 vi.mock('../components/AppLayout',()=>({AppLayout:({children}:{children:React.ReactNode})=><>{children}</>}));
+vi.mock('../components/ResearchHero',()=>({ResearchHero:()=>null}));
 vi.mock('../components/PipelineStory',()=>({PipelineStory:()=>null}));
 vi.mock('../components/EvidenceGraph',()=>({EvidenceGraph:()=>null}));
 vi.mock('../components/AssistantDialog',()=>({AssistantDialog:()=>null}));

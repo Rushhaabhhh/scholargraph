@@ -44,6 +44,7 @@ import socket, sys
 for port in sys.argv[1:]:
     try:
         with socket.socket() as sock:
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             sock.bind(('127.0.0.1', int(port)))
     except (ValueError, OSError) as exc:
         raise SystemExit(f'Cannot use local port {port}: {exc}. Set SCHOLARGRAPH_BACKEND_PORT or SCHOLARGRAPH_WEB_PORT.')
@@ -73,6 +74,6 @@ PY
 done
 printf '\nScholarGraph: http://127.0.0.1:%s\nPress Ctrl+C to stop both services.\n\n' "$web_port"
 cd "$root/web"
-HIRESENSE_API_URL="http://127.0.0.1:$backend_port" "$root/web/node_modules/.bin/next" dev --hostname 127.0.0.1 --port "$web_port" &
+HIRESENSE_API_URL="http://127.0.0.1:$backend_port" SCHOLARGRAPH_NEXT_DIST_DIR=".next-local" "$root/web/node_modules/.bin/next" dev --hostname 127.0.0.1 --port "$web_port" &
 web_pid=$!
 wait "$web_pid"

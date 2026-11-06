@@ -120,4 +120,7 @@ class SessionStore:
     def delete_session(self, session_id):
         with closing(self._connect()) as database, database:
             self._read(database, session_id)
+            # Conversation tables are created lazily by the independent chat API.
+            if database.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='conversations'").fetchone():
+                database.execute('DELETE FROM conversations WHERE session_id=?', (session_id,))
             database.execute('DELETE FROM sessions WHERE id=?', (session_id,))

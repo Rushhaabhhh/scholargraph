@@ -1,1417 +1,160 @@
 {
-  "components": {
-    "schemas": {
-      "AppliedDecisions": {
-        "additionalProperties": false,
-        "properties": {
-          "rejected_people_filtered": {
-            "items": {
-              "maximum": 9007199254740991.0,
-              "minimum": 0.0,
-              "type": "integer"
-            },
-            "title": "Rejected People Filtered",
-            "type": "array"
-          },
-          "shortlisted_people_marked": {
-            "items": {
-              "maximum": 9007199254740991.0,
-              "minimum": 0.0,
-              "type": "integer"
-            },
-            "title": "Shortlisted People Marked",
-            "type": "array"
-          }
-        },
-        "required": [
-          "rejected_people_filtered",
-          "shortlisted_people_marked"
-        ],
-        "title": "AppliedDecisions",
-        "type": "object"
-      },
-      "Claim": {
-        "additionalProperties": false,
-        "properties": {
-          "collaborator_id": {
-            "anyOf": [
-              {
-                "maximum": 9007199254740991.0,
-                "minimum": 0.0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Collaborator Id"
-          },
-          "data_warnings": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Data Warnings",
-            "type": "array"
-          },
-          "kind": {
-            "title": "Kind",
-            "type": "string"
-          },
-          "paper_id": {
-            "title": "Paper Id",
-            "type": "string"
-          },
-          "person_id": {
-            "maximum": 9007199254740991.0,
-            "minimum": 0.0,
-            "title": "Person Id",
-            "type": "integer"
-          },
-          "reason": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Reason"
-          },
-          "sources": {
-            "items": {
-              "$ref": "#/components/schemas/Source"
-            },
-            "title": "Sources",
-            "type": "array"
-          },
-          "supported": {
-            "title": "Supported",
-            "type": "boolean"
-          },
-          "term": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Term"
-          },
-          "text": {
-            "title": "Text",
-            "type": "string"
-          },
-          "year": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Year"
-          }
-        },
-        "required": [
-          "kind",
-          "person_id",
-          "paper_id",
-          "year",
-          "text",
-          "supported",
-          "reason",
-          "sources"
-        ],
-        "title": "Claim",
-        "type": "object"
-      },
-      "DecisionRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "decision": {
-            "enum": [
-              "shortlist",
-              "reject",
-              "clear"
-            ],
-            "title": "Decision",
-            "type": "string"
-          },
-          "expected_version": {
-            "minimum": 0.0,
-            "title": "Expected Version",
-            "type": "integer"
-          },
-          "request_id": {
-            "pattern": "^[A-Za-z0-9_-]{8,80}$",
-            "title": "Request Id",
-            "type": "string"
-          }
-        },
-        "required": [
-          "decision",
-          "expected_version",
-          "request_id"
-        ],
-        "title": "DecisionRequest",
-        "type": "object"
-      },
-      "ErrorResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "code": {
-            "title": "Code",
-            "type": "string"
-          },
-          "message": {
-            "title": "Message",
-            "type": "string"
-          }
-        },
-        "required": [
-          "code",
-          "message"
-        ],
-        "title": "ErrorResponse",
-        "type": "object"
-      },
-      "ExpertResult": {
-        "additionalProperties": false,
-        "properties": {
-          "claims": {
-            "items": {
-              "$ref": "#/components/schemas/Claim"
-            },
-            "title": "Claims",
-            "type": "array"
-          },
-          "evidence": {
-            "items": {
-              "$ref": "#/components/schemas/PaperEvidence"
-            },
-            "title": "Evidence",
-            "type": "array"
-          },
-          "explanation": {
-            "title": "Explanation",
-            "type": "string"
-          },
-          "grounding": {
-            "$ref": "#/components/schemas/GroundingCounts"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          },
-          "person_id": {
-            "maximum": 9007199254740991.0,
-            "minimum": 0.0,
-            "title": "Person Id",
-            "type": "integer"
-          },
-          "score": {
-            "title": "Score",
-            "type": "number"
-          },
-          "shortlisted": {
-            "default": false,
-            "title": "Shortlisted",
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "person_id",
-          "name",
-          "score",
-          "explanation",
-          "evidence",
-          "claims",
-          "grounding"
-        ],
-        "title": "ExpertResult",
-        "type": "object"
-      },
-      "Filters": {
-        "additionalProperties": false,
-        "properties": {
-          "graph_cutoff_year": {
-            "title": "Graph Cutoff Year",
-            "type": "integer"
-          },
-          "since_year": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Since Year"
-          }
-        },
-        "required": [
-          "since_year",
-          "graph_cutoff_year"
-        ],
-        "title": "Filters",
-        "type": "object"
-      },
-      "GroundingCounts": {
-        "additionalProperties": false,
-        "properties": {
-          "claims": {
-            "title": "Claims",
-            "type": "integer"
-          },
-          "unsupported": {
-            "title": "Unsupported",
-            "type": "integer"
-          }
-        },
-        "required": [
-          "claims",
-          "unsupported"
-        ],
-        "title": "GroundingCounts",
-        "type": "object"
-      },
-      "HealthResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "authors": {
-            "title": "Authors",
-            "type": "integer"
-          },
-          "model_version": {
-            "title": "Model Version",
-            "type": "string"
-          },
-          "papers": {
-            "title": "Papers",
-            "type": "integer"
-          },
-          "query_provider": {
-            "title": "Query Provider",
-            "type": "string"
-          },
-          "status": {
-            "enum": [
-              "ok",
-              "degraded"
-            ],
-            "title": "Status",
-            "type": "string"
-          }
-        },
-        "required": [
-          "status",
-          "papers",
-          "authors",
-          "model_version",
-          "query_provider"
-        ],
-        "title": "HealthResponse",
-        "type": "object"
-      },
-      "Memory": {
-        "additionalProperties": false,
-        "properties": {
-          "last_intent": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/QueryIntent"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "last_query": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Last Query"
-          },
-          "last_result_ids": {
-            "items": {
-              "maximum": 9007199254740991.0,
-              "minimum": 0.0,
-              "type": "integer"
-            },
-            "title": "Last Result Ids",
-            "type": "array"
-          },
-          "rejected_person_ids": {
-            "items": {
-              "maximum": 9007199254740991.0,
-              "minimum": 0.0,
-              "type": "integer"
-            },
-            "title": "Rejected Person Ids",
-            "type": "array"
-          },
-          "shortlisted_person_ids": {
-            "items": {
-              "maximum": 9007199254740991.0,
-              "minimum": 0.0,
-              "type": "integer"
-            },
-            "title": "Shortlisted Person Ids",
-            "type": "array"
-          },
-          "version": {
-            "title": "Version",
-            "type": "integer"
-          }
-        },
-        "required": [
-          "version",
-          "shortlisted_person_ids",
-          "rejected_person_ids",
-          "last_query",
-          "last_intent",
-          "last_result_ids"
-        ],
-        "title": "Memory",
-        "type": "object"
-      },
-      "MessageRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "expected_version": {
-            "minimum": 0.0,
-            "title": "Expected Version",
-            "type": "integer"
-          },
-          "message": {
-            "maxLength": 4000,
-            "minLength": 1,
-            "title": "Message",
-            "type": "string"
-          },
-          "request_id": {
-            "pattern": "^[A-Za-z0-9_-]{8,80}$",
-            "title": "Request Id",
-            "type": "string"
-          }
-        },
-        "required": [
-          "expected_version",
-          "request_id",
-          "message"
-        ],
-        "title": "MessageRequest",
-        "type": "object"
-      },
-      "MessageResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "applied_decisions": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/AppliedDecisions"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "claims": {
-            "items": {
-              "$ref": "#/components/schemas/Claim"
-            },
-            "title": "Claims",
-            "type": "array"
-          },
-          "effective_filters": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/Filters"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "memory": {
-            "$ref": "#/components/schemas/Memory"
-          },
-          "memory_applied": {
-            "$ref": "#/components/schemas/Memory"
-          },
-          "message": {
-            "title": "Message",
-            "type": "string"
-          },
-          "path": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/PathResponse"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "profile": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ProfileResponse"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "profiles": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ProfileResponse"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Profiles"
-          },
-          "provider": {
-            "enum": [
-              "none",
-              "recorded",
-              "local_llm",
-              "fallback"
-            ],
-            "title": "Provider",
-            "type": "string"
-          },
-          "query": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Query"
-          },
-          "request_id": {
-            "title": "Request Id",
-            "type": "string"
-          },
-          "results": {
-            "items": {
-              "$ref": "#/components/schemas/ExpertResult"
-            },
-            "title": "Results",
-            "type": "array"
-          },
-          "retrieval_query": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Retrieval Query"
-          },
-          "safety": {
-            "$ref": "#/components/schemas/Safety"
-          },
-          "tool_calls": {
-            "items": {
-              "$ref": "#/components/schemas/ToolCall"
-            },
-            "title": "Tool Calls",
-            "type": "array"
-          },
-          "understanding": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/Understanding"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        },
-        "required": [
-          "message",
-          "tool_calls",
-          "memory_applied",
-          "memory",
-          "request_id",
-          "provider",
-          "safety",
-          "results",
-          "claims"
-        ],
-        "title": "MessageResponse",
-        "type": "object"
-      },
-      "MutationResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "memory": {
-            "$ref": "#/components/schemas/Memory"
-          },
-          "request_id": {
-            "title": "Request Id",
-            "type": "string"
-          }
-        },
-        "required": [
-          "memory",
-          "request_id"
-        ],
-        "title": "MutationResponse",
-        "type": "object"
-      },
-      "PaperEvidence": {
-        "additionalProperties": false,
-        "properties": {
-          "collaborators": {
-            "items": {
-              "$ref": "#/components/schemas/Person"
-            },
-            "title": "Collaborators",
-            "type": "array"
-          },
-          "paper_id": {
-            "title": "Paper Id",
-            "type": "string"
-          },
-          "source": {
-            "const": "dblp",
-            "title": "Source",
-            "type": "string"
-          },
-          "title": {
-            "title": "Title",
-            "type": "string"
-          },
-          "year": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Year"
-          }
-        },
-        "required": [
-          "paper_id",
-          "title",
-          "year",
-          "source",
-          "collaborators"
-        ],
-        "title": "PaperEvidence",
-        "type": "object"
-      },
-      "PathEdge": {
-        "additionalProperties": false,
-        "properties": {
-          "evidence": {
-            "items": {
-              "$ref": "#/components/schemas/Publication"
-            },
-            "title": "Evidence",
-            "type": "array"
-          },
-          "from": {
-            "maximum": 9007199254740991.0,
-            "minimum": 0.0,
-            "title": "From",
-            "type": "integer"
-          },
-          "to": {
-            "maximum": 9007199254740991.0,
-            "minimum": 0.0,
-            "title": "To",
-            "type": "integer"
-          },
-          "type": {
-            "const": "coauthorship",
-            "title": "Type",
-            "type": "string"
-          }
-        },
-        "required": [
-          "from",
-          "to",
-          "type",
-          "evidence"
-        ],
-        "title": "PathEdge",
-        "type": "object"
-      },
-      "PathResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "claims": {
-            "items": {
-              "$ref": "#/components/schemas/Claim"
-            },
-            "title": "Claims",
-            "type": "array"
-          },
-          "edges": {
-            "items": {
-              "$ref": "#/components/schemas/PathEdge"
-            },
-            "title": "Edges",
-            "type": "array"
-          },
-          "person_ids": {
-            "items": {
-              "maximum": 9007199254740991.0,
-              "minimum": 0.0,
-              "type": "integer"
-            },
-            "title": "Person Ids",
-            "type": "array"
-          },
-          "truncated": {
-            "title": "Truncated",
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "person_ids",
-          "edges",
-          "truncated",
-          "claims"
-        ],
-        "title": "PathResponse",
-        "type": "object"
-      },
-      "Person": {
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "title": "Name",
-            "type": "string"
-          },
-          "person_id": {
-            "maximum": 9007199254740991.0,
-            "minimum": 0.0,
-            "title": "Person Id",
-            "type": "integer"
-          }
-        },
-        "required": [
-          "person_id",
-          "name"
-        ],
-        "title": "Person",
-        "type": "object"
-      },
-      "ProfileResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "claims": {
-            "items": {
-              "$ref": "#/components/schemas/Claim"
-            },
-            "title": "Claims",
-            "type": "array"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          },
-          "name_sources": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Name Sources",
-            "type": "array"
-          },
-          "person_id": {
-            "maximum": 9007199254740991.0,
-            "minimum": 0.0,
-            "title": "Person Id",
-            "type": "integer"
-          },
-          "publications": {
-            "items": {
-              "$ref": "#/components/schemas/Publication"
-            },
-            "title": "Publications",
-            "type": "array"
-          },
-          "topic_method": {
-            "title": "Topic Method",
-            "type": "string"
-          },
-          "topics": {
-            "items": {
-              "$ref": "#/components/schemas/Topic"
-            },
-            "title": "Topics",
-            "type": "array"
-          }
-        },
-        "required": [
-          "person_id",
-          "name",
-          "publications",
-          "name_sources",
-          "topics",
-          "topic_method",
-          "claims"
-        ],
-        "title": "ProfileResponse",
-        "type": "object"
-      },
-      "Publication": {
-        "additionalProperties": false,
-        "properties": {
-          "paper_id": {
-            "title": "Paper Id",
-            "type": "string"
-          },
-          "source": {
-            "const": "dblp",
-            "title": "Source",
-            "type": "string"
-          },
-          "title": {
-            "title": "Title",
-            "type": "string"
-          },
-          "venue": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Venue"
-          },
-          "year": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Year"
-          }
-        },
-        "required": [
-          "paper_id",
-          "title",
-          "year",
-          "venue",
-          "source"
-        ],
-        "title": "Publication",
-        "type": "object"
-      },
-      "QueryIntent": {
-        "additionalProperties": false,
-        "properties": {
-          "recency_preference": {
-            "default": "any",
-            "enum": [
-              "any",
-              "recent"
-            ],
-            "title": "Recency Preference",
-            "type": "string"
-          },
-          "since_year": {
-            "anyOf": [
-              {
-                "maximum": 9999.0,
-                "minimum": 1.0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Since Year"
-          },
-          "topics": {
-            "items": {
-              "maxLength": 500,
-              "minLength": 1,
-              "type": "string"
-            },
-            "maxItems": 8,
-            "minItems": 1,
-            "title": "Topics",
-            "type": "array"
-          }
-        },
-        "required": [
-          "topics"
-        ],
-        "title": "QueryIntent",
-        "type": "object"
-      },
-      "RevisionRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "expected_version": {
-            "minimum": 0.0,
-            "title": "Expected Version",
-            "type": "integer"
-          },
-          "request_id": {
-            "pattern": "^[A-Za-z0-9_-]{8,80}$",
-            "title": "Request Id",
-            "type": "string"
-          }
-        },
-        "required": [
-          "expected_version",
-          "request_id"
-        ],
-        "title": "RevisionRequest",
-        "type": "object"
-      },
-      "Safety": {
-        "additionalProperties": false,
-        "properties": {
-          "blocked": {
-            "title": "Blocked",
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "blocked"
-        ],
-        "title": "Safety",
-        "type": "object"
-      },
-      "SearchRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "expected_version": {
-            "anyOf": [
-              {
-                "minimum": 0.0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Expected Version"
-          },
-          "limit": {
-            "default": 10,
-            "maximum": 100.0,
-            "minimum": 1.0,
-            "title": "Limit",
-            "type": "integer"
-          },
-          "query": {
-            "maxLength": 4000,
-            "minLength": 1,
-            "title": "Query",
-            "type": "string"
-          },
-          "recency_preference": {
-            "anyOf": [
-              {
-                "enum": [
-                  "any",
-                  "recent"
-                ],
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Recency Preference"
-          },
-          "request_id": {
-            "anyOf": [
-              {
-                "pattern": "^[A-Za-z0-9_-]{8,80}$",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Request Id"
-          },
-          "session_id": {
-            "anyOf": [
-              {
-                "pattern": "^[a-f0-9]{32}$",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Session Id"
-          },
-          "since_year": {
-            "anyOf": [
-              {
-                "maximum": 9999.0,
-                "minimum": 1.0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Since Year"
-          }
-        },
-        "required": [
-          "query"
-        ],
-        "title": "SearchRequest",
-        "type": "object"
-      },
-      "SearchResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "applied_decisions": {
-            "$ref": "#/components/schemas/AppliedDecisions"
-          },
-          "effective_filters": {
-            "$ref": "#/components/schemas/Filters"
-          },
-          "memory": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/Memory"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "memory_applied": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/Memory"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "query": {
-            "title": "Query",
-            "type": "string"
-          },
-          "request_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Request Id"
-          },
-          "results": {
-            "items": {
-              "$ref": "#/components/schemas/ExpertResult"
-            },
-            "title": "Results",
-            "type": "array"
-          },
-          "retrieval_query": {
-            "title": "Retrieval Query",
-            "type": "string"
-          },
-          "understanding": {
-            "$ref": "#/components/schemas/Understanding"
-          }
-        },
-        "required": [
-          "query",
-          "retrieval_query",
-          "results",
-          "understanding",
-          "effective_filters",
-          "applied_decisions"
-        ],
-        "title": "SearchResponse",
-        "type": "object"
-      },
-      "SessionResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "memory": {
-            "$ref": "#/components/schemas/Memory"
-          },
-          "session_id": {
-            "title": "Session Id",
-            "type": "string"
-          }
-        },
-        "required": [
-          "session_id",
-          "memory"
-        ],
-        "title": "SessionResponse",
-        "type": "object"
-      },
-      "Source": {
-        "additionalProperties": false,
-        "properties": {
-          "edge_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Edge Id"
-          },
-          "paper_id": {
-            "title": "Paper Id",
-            "type": "string"
-          },
-          "source": {
-            "const": "dblp",
-            "title": "Source",
-            "type": "string"
-          },
-          "year": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Year"
-          }
-        },
-        "required": [
-          "paper_id",
-          "year",
-          "source"
-        ],
-        "title": "Source",
-        "type": "object"
-      },
-      "ToolCall": {
-        "additionalProperties": false,
-        "properties": {
-          "arguments": {
-            "additionalProperties": true,
-            "title": "Arguments",
-            "type": "object"
-          },
-          "error_code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Error Code"
-          },
-          "outcome": {
-            "enum": [
-              "success",
-              "error",
-              "blocked"
-            ],
-            "title": "Outcome",
-            "type": "string"
-          },
-          "tool": {
-            "enum": [
-              "search_experts",
-              "get_profile",
-              "find_collaboration_path"
-            ],
-            "title": "Tool",
-            "type": "string"
-          }
-        },
-        "required": [
-          "tool",
-          "arguments",
-          "outcome"
-        ],
-        "title": "ToolCall",
-        "type": "object"
-      },
-      "Topic": {
-        "additionalProperties": false,
-        "properties": {
-          "source_paper_ids": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Source Paper Ids",
-            "type": "array"
-          },
-          "supported": {
-            "title": "Supported",
-            "type": "boolean"
-          },
-          "topic": {
-            "title": "Topic",
-            "type": "string"
-          }
-        },
-        "required": [
-          "topic",
-          "source_paper_ids",
-          "supported"
-        ],
-        "title": "Topic",
-        "type": "object"
-      },
-      "Understanding": {
-        "additionalProperties": false,
-        "properties": {
-          "fallback_reason": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Fallback Reason"
-          },
-          "intent": {
-            "$ref": "#/components/schemas/QueryIntent"
-          },
-          "prompt_version": {
-            "title": "Prompt Version",
-            "type": "string"
-          },
-          "provider": {
-            "enum": [
-              "recorded",
-              "local_llm",
-              "fallback"
-            ],
-            "title": "Provider",
-            "type": "string"
-          },
-          "used_fallback": {
-            "title": "Used Fallback",
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "intent",
-          "provider",
-          "used_fallback",
-          "fallback_reason",
-          "prompt_version"
-        ],
-        "title": "Understanding",
-        "type": "object"
-      }
-    }
-  },
+  "openapi": "3.1.0",
   "info": {
     "title": "HireSense API",
     "version": "1.0.0"
   },
-  "openapi": "3.1.0",
   "paths": {
-    "/authors/{person_id}": {
+    "/voice/status": {
       "get": {
-        "operationId": "profile_authors__person_id__get",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "person_id",
-            "required": true,
-            "schema": {
-              "maximum": 9007199254740991,
-              "minimum": 0,
-              "title": "Person Id",
-              "type": "integer"
+        "tags": [
+          "voice"
+        ],
+        "summary": "Status",
+        "operationId": "status_voice_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProfileResponse"
-                }
-              }
-            },
-            "description": "Successful Response"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Profile"
+        }
       }
     },
-    "/health": {
-      "get": {
-        "operationId": "health_health_get",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HealthResponse"
-                }
-              }
-            },
-            "description": "Successful Response"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Health"
-      }
-    },
-    "/search": {
+    "/voice/transcribe": {
       "post": {
-        "operationId": "search_search_post",
+        "tags": [
+          "voice"
+        ],
+        "summary": "Transcribe",
+        "operationId": "transcribe_voice_transcribe_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/voice/speak": {
+      "post": {
+        "tags": [
+          "voice"
+        ],
+        "summary": "Speak",
+        "operationId": "speak_voice_speak_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SearchRequest"
+                "$ref": "#/components/schemas/SpeechText"
               }
             }
           },
@@ -1419,82 +162,297 @@
         },
         "responses": {
           "200": {
+            "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchResponse"
-                }
+                "schema": {}
               }
-            },
-            "description": "Successful Response"
+            }
           },
           "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            },
-            "description": "Bad Request"
+            }
           },
           "404": {
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            },
-            "description": "Not Found"
+            }
           },
           "409": {
+            "description": "Conflict",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            },
-            "description": "Conflict"
+            }
           },
           "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            },
-            "description": "Unprocessable Entity"
+            }
           },
           "503": {
+            "description": "Service Unavailable",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            },
-            "description": "Service Unavailable"
+            }
           }
-        },
-        "summary": "Search"
+        }
       }
     },
-    "/sessions": {
-      "post": {
-        "operationId": "create_session_sessions_post",
+    "/conversations/status": {
+      "get": {
+        "tags": [
+          "conversations"
+        ],
+        "summary": "Status",
+        "operationId": "status_conversations_status_get",
         "responses": {
           "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SessionResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            },
-            "description": "Successful Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/conversations": {
+      "get": {
+        "tags": [
+          "conversations"
+        ],
+        "summary": "Listing",
+        "operationId": "listing_conversations_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "conversations"
+        ],
+        "summary": "Create",
+        "operationId": "create_conversations_post",
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/conversations/{cid}": {
+      "get": {
+        "tags": [
+          "conversations"
+        ],
+        "summary": "Get",
+        "operationId": "get_conversations__cid__get",
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Cid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           },
           "400": {
             "content": {
@@ -1546,22 +504,110 @@
             },
             "description": "Service Unavailable"
           }
-        },
-        "summary": "Create Session"
-      }
-    },
-    "/sessions/{session_id}": {
-      "delete": {
-        "operationId": "delete_session_sessions__session_id__delete",
+        }
+      },
+      "patch": {
+        "tags": [
+          "conversations"
+        ],
+        "summary": "Rename",
+        "operationId": "rename_conversations__cid__patch",
         "parameters": [
           {
+            "name": "cid",
             "in": "path",
-            "name": "session_id",
             "required": true,
             "schema": {
-              "pattern": "^[a-f0-9]{32}$",
-              "title": "Session Id",
-              "type": "string"
+              "type": "string",
+              "title": "Cid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TextInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "conversations"
+        ],
+        "summary": "Delete",
+        "operationId": "delete_conversations__cid__delete",
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Cid"
             }
           }
         ],
@@ -1619,55 +665,118 @@
             },
             "description": "Service Unavailable"
           }
-        },
-        "summary": "Delete Session"
+        }
       }
     },
-    "/sessions/{session_id}/decisions/{person_id}": {
-      "put": {
-        "operationId": "decision_sessions__session_id__decisions__person_id__put",
+    "/conversations/{cid}/documents": {
+      "post": {
+        "tags": [
+          "conversations"
+        ],
+        "summary": "Upload",
+        "operationId": "upload_conversations__cid__documents_post",
         "parameters": [
           {
+            "name": "cid",
             "in": "path",
-            "name": "session_id",
             "required": true,
             "schema": {
-              "pattern": "^[a-f0-9]{32}$",
-              "title": "Session Id",
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "person_id",
-            "required": true,
-            "schema": {
-              "maximum": 9007199254740991,
-              "minimum": 0,
-              "title": "Person Id",
-              "type": "integer"
+              "type": "string",
+              "title": "Cid"
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DecisionRequest"
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           },
-          "required": true
-        },
-        "responses": {
-          "200": {
+          "400": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MutationResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/conversations/{cid}/documents/{document_id}": {
+      "delete": {
+        "tags": [
+          "conversations"
+        ],
+        "summary": "Remove Document",
+        "operationId": "remove_document_conversations__cid__documents__document_id__delete",
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Cid"
+            }
+          },
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
             "description": "Successful Response"
           },
           "400": {
@@ -1720,123 +829,599 @@
             },
             "description": "Service Unavailable"
           }
+        }
+      }
+    },
+    "/conversations/{cid}/messages/{message_id}/feedback": {
+      "post": {
+        "tags": [
+          "conversations"
+        ],
+        "summary": "Feedback",
+        "operationId": "feedback_conversations__cid__messages__message_id__feedback_post",
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Cid"
+            }
+          },
+          {
+            "name": "message_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Message Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackInput"
+              }
+            }
+          }
         },
-        "summary": "Decision"
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/conversations/{cid}/stop": {
+      "post": {
+        "tags": [
+          "conversations"
+        ],
+        "summary": "Stop",
+        "operationId": "stop_conversations__cid__stop_post",
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Cid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/conversations/{cid}/messages": {
+      "post": {
+        "tags": [
+          "conversations"
+        ],
+        "summary": "Send",
+        "operationId": "send_conversations__cid__messages_post",
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Cid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TextInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "post": {
+        "summary": "Search",
+        "operationId": "search_search_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authors/{person_id}": {
+      "get": {
+        "summary": "Profile",
+        "operationId": "profile_authors__person_id__get",
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "title": "Person Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "summary": "Create Session",
+        "operationId": "create_session_sessions_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/sessions/{session_id}/memory": {
-      "delete": {
-        "operationId": "clear_sessions__session_id__memory_delete",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "session_id",
-            "required": true,
-            "schema": {
-              "pattern": "^[a-f0-9]{32}$",
-              "title": "Session Id",
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RevisionRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MutationResponse"
-                }
-              }
-            },
-            "description": "Successful Response"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Clear"
-      },
       "get": {
+        "summary": "Memory",
         "operationId": "memory_sessions__session_id__memory_get",
         "parameters": [
           {
-            "in": "path",
             "name": "session_id",
+            "in": "path",
             "required": true,
             "schema": {
+              "type": "string",
               "pattern": "^[a-f0-9]{32}$",
-              "title": "Session Id",
-              "type": "string"
+              "title": "Session Id"
             }
           }
         ],
         "responses": {
           "200": {
+            "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Memory"
                 }
               }
-            },
-            "description": "Successful Response"
+            }
           },
           "400": {
             "content": {
@@ -1888,44 +1473,306 @@
             },
             "description": "Service Unavailable"
           }
-        },
-        "summary": "Memory"
-      }
-    },
-    "/sessions/{session_id}/messages": {
-      "post": {
-        "operationId": "message_sessions__session_id__messages_post",
+        }
+      },
+      "delete": {
+        "summary": "Clear",
+        "operationId": "clear_sessions__session_id__memory_delete",
         "parameters": [
           {
-            "in": "path",
             "name": "session_id",
+            "in": "path",
             "required": true,
             "schema": {
+              "type": "string",
               "pattern": "^[a-f0-9]{32}$",
-              "title": "Session Id",
-              "type": "string"
+              "title": "Session Id"
             }
           }
         ],
         "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MutationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/sessions/{session_id}/messages": {
+      "post": {
+        "summary": "Message",
+        "operationId": "message_sessions__session_id__messages_post",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$",
+              "title": "Session Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/MessageRequest"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
+            "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/MessageResponse"
                 }
               }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
             },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/sessions/{session_id}/decisions/{person_id}": {
+      "put": {
+        "summary": "Decision",
+        "operationId": "decision_sessions__session_id__decisions__person_id__put",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$",
+              "title": "Session Id"
+            }
+          },
+          {
+            "name": "person_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "title": "Person Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecisionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MutationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/sessions/{session_id}": {
+      "delete": {
+        "summary": "Delete Session",
+        "operationId": "delete_session_sessions__session_id__delete",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$",
+              "title": "Session Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
             "description": "Successful Response"
           },
           "400": {
@@ -1978,8 +1825,1333 @@
             },
             "description": "Service Unavailable"
           }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AppliedDecisions": {
+        "properties": {
+          "rejected_people_filtered": {
+            "items": {
+              "type": "integer",
+              "maximum": 9007199254740991.0,
+              "minimum": 0.0
+            },
+            "type": "array",
+            "title": "Rejected People Filtered"
+          },
+          "shortlisted_people_marked": {
+            "items": {
+              "type": "integer",
+              "maximum": 9007199254740991.0,
+              "minimum": 0.0
+            },
+            "type": "array",
+            "title": "Shortlisted People Marked"
+          }
         },
-        "summary": "Message"
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "rejected_people_filtered",
+          "shortlisted_people_marked"
+        ],
+        "title": "AppliedDecisions"
+      },
+      "Claim": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "person_id": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Person Id"
+          },
+          "paper_id": {
+            "type": "string",
+            "title": "Paper Id"
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Year"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "collaborator_id": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9007199254740991.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Collaborator Id"
+          },
+          "term": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Term"
+          },
+          "supported": {
+            "type": "boolean",
+            "title": "Supported"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/Source"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "data_warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Data Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "person_id",
+          "paper_id",
+          "year",
+          "text",
+          "supported",
+          "reason",
+          "sources"
+        ],
+        "title": "Claim"
+      },
+      "DecisionRequest": {
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "shortlist",
+              "reject",
+              "clear"
+            ],
+            "title": "Decision"
+          },
+          "expected_version": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Version"
+          },
+          "request_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{8,80}$",
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "decision",
+          "expected_version",
+          "request_id"
+        ],
+        "title": "DecisionRequest"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorResponse"
+      },
+      "ExpertResult": {
+        "properties": {
+          "person_id": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Person Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "explanation": {
+            "type": "string",
+            "title": "Explanation"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/PaperEvidence"
+            },
+            "type": "array",
+            "title": "Evidence"
+          },
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/Claim"
+            },
+            "type": "array",
+            "title": "Claims"
+          },
+          "grounding": {
+            "$ref": "#/components/schemas/GroundingCounts"
+          },
+          "shortlisted": {
+            "type": "boolean",
+            "title": "Shortlisted",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "person_id",
+          "name",
+          "score",
+          "explanation",
+          "evidence",
+          "claims",
+          "grounding"
+        ],
+        "title": "ExpertResult"
+      },
+      "FeedbackInput": {
+        "properties": {
+          "rating": {
+            "type": "string",
+            "title": "Rating"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "rating"
+        ],
+        "title": "FeedbackInput"
+      },
+      "Filters": {
+        "properties": {
+          "since_year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Since Year"
+          },
+          "graph_cutoff_year": {
+            "type": "integer",
+            "title": "Graph Cutoff Year"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "since_year",
+          "graph_cutoff_year"
+        ],
+        "title": "Filters"
+      },
+      "GroundingCounts": {
+        "properties": {
+          "claims": {
+            "type": "integer",
+            "title": "Claims"
+          },
+          "unsupported": {
+            "type": "integer",
+            "title": "Unsupported"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "claims",
+          "unsupported"
+        ],
+        "title": "GroundingCounts"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "degraded"
+            ],
+            "title": "Status"
+          },
+          "papers": {
+            "type": "integer",
+            "title": "Papers"
+          },
+          "authors": {
+            "type": "integer",
+            "title": "Authors"
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version"
+          },
+          "query_provider": {
+            "type": "string",
+            "title": "Query Provider"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "papers",
+          "authors",
+          "model_version",
+          "query_provider"
+        ],
+        "title": "HealthResponse"
+      },
+      "Memory": {
+        "properties": {
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "shortlisted_person_ids": {
+            "items": {
+              "type": "integer",
+              "maximum": 9007199254740991.0,
+              "minimum": 0.0
+            },
+            "type": "array",
+            "title": "Shortlisted Person Ids"
+          },
+          "rejected_person_ids": {
+            "items": {
+              "type": "integer",
+              "maximum": 9007199254740991.0,
+              "minimum": 0.0
+            },
+            "type": "array",
+            "title": "Rejected Person Ids"
+          },
+          "last_query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Query"
+          },
+          "last_intent": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/QueryIntent"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "last_result_ids": {
+            "items": {
+              "type": "integer",
+              "maximum": 9007199254740991.0,
+              "minimum": 0.0
+            },
+            "type": "array",
+            "title": "Last Result Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "version",
+          "shortlisted_person_ids",
+          "rejected_person_ids",
+          "last_query",
+          "last_intent",
+          "last_result_ids"
+        ],
+        "title": "Memory"
+      },
+      "MessageRequest": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Version"
+          },
+          "request_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{8,80}$",
+            "title": "Request Id"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Message"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version",
+          "request_id",
+          "message"
+        ],
+        "title": "MessageRequest"
+      },
+      "MessageResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "tool_calls": {
+            "items": {
+              "$ref": "#/components/schemas/ToolCall"
+            },
+            "type": "array",
+            "title": "Tool Calls"
+          },
+          "memory_applied": {
+            "$ref": "#/components/schemas/Memory"
+          },
+          "memory": {
+            "$ref": "#/components/schemas/Memory"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "none",
+              "recorded",
+              "local_llm",
+              "fallback"
+            ],
+            "title": "Provider"
+          },
+          "safety": {
+            "$ref": "#/components/schemas/Safety"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/ExpertResult"
+            },
+            "type": "array",
+            "title": "Results"
+          },
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/Claim"
+            },
+            "type": "array",
+            "title": "Claims"
+          },
+          "profile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProfileResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "profiles": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profiles"
+          },
+          "path": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PathResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Query"
+          },
+          "retrieval_query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Retrieval Query"
+          },
+          "understanding": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Understanding"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "effective_filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Filters"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "applied_decisions": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AppliedDecisions"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "message",
+          "tool_calls",
+          "memory_applied",
+          "memory",
+          "request_id",
+          "provider",
+          "safety",
+          "results",
+          "claims"
+        ],
+        "title": "MessageResponse"
+      },
+      "MutationResponse": {
+        "properties": {
+          "memory": {
+            "$ref": "#/components/schemas/Memory"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "memory",
+          "request_id"
+        ],
+        "title": "MutationResponse"
+      },
+      "PaperEvidence": {
+        "properties": {
+          "paper_id": {
+            "type": "string",
+            "title": "Paper Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Year"
+          },
+          "source": {
+            "type": "string",
+            "const": "dblp",
+            "title": "Source"
+          },
+          "collaborators": {
+            "items": {
+              "$ref": "#/components/schemas/Person"
+            },
+            "type": "array",
+            "title": "Collaborators"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "paper_id",
+          "title",
+          "year",
+          "source",
+          "collaborators"
+        ],
+        "title": "PaperEvidence"
+      },
+      "PathEdge": {
+        "properties": {
+          "from": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "From"
+          },
+          "to": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "To"
+          },
+          "type": {
+            "type": "string",
+            "const": "coauthorship",
+            "title": "Type"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Publication"
+            },
+            "type": "array",
+            "title": "Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "from",
+          "to",
+          "type",
+          "evidence"
+        ],
+        "title": "PathEdge"
+      },
+      "PathResponse": {
+        "properties": {
+          "person_ids": {
+            "items": {
+              "type": "integer",
+              "maximum": 9007199254740991.0,
+              "minimum": 0.0
+            },
+            "type": "array",
+            "title": "Person Ids"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/PathEdge"
+            },
+            "type": "array",
+            "title": "Edges"
+          },
+          "truncated": {
+            "type": "boolean",
+            "title": "Truncated"
+          },
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/Claim"
+            },
+            "type": "array",
+            "title": "Claims"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "person_ids",
+          "edges",
+          "truncated",
+          "claims"
+        ],
+        "title": "PathResponse"
+      },
+      "Person": {
+        "properties": {
+          "person_id": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Person Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "person_id",
+          "name"
+        ],
+        "title": "Person"
+      },
+      "ProfileResponse": {
+        "properties": {
+          "person_id": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Person Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "publications": {
+            "items": {
+              "$ref": "#/components/schemas/Publication"
+            },
+            "type": "array",
+            "title": "Publications"
+          },
+          "name_sources": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Name Sources"
+          },
+          "topics": {
+            "items": {
+              "$ref": "#/components/schemas/Topic"
+            },
+            "type": "array",
+            "title": "Topics"
+          },
+          "topic_method": {
+            "type": "string",
+            "title": "Topic Method"
+          },
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/Claim"
+            },
+            "type": "array",
+            "title": "Claims"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "person_id",
+          "name",
+          "publications",
+          "name_sources",
+          "topics",
+          "topic_method",
+          "claims"
+        ],
+        "title": "ProfileResponse"
+      },
+      "Publication": {
+        "properties": {
+          "paper_id": {
+            "type": "string",
+            "title": "Paper Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Year"
+          },
+          "venue": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Venue"
+          },
+          "source": {
+            "type": "string",
+            "const": "dblp",
+            "title": "Source"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "paper_id",
+          "title",
+          "year",
+          "venue",
+          "source"
+        ],
+        "title": "Publication"
+      },
+      "QueryIntent": {
+        "properties": {
+          "topics": {
+            "items": {
+              "type": "string",
+              "maxLength": 500,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 8,
+            "minItems": 1,
+            "title": "Topics"
+          },
+          "recency_preference": {
+            "type": "string",
+            "enum": [
+              "any",
+              "recent"
+            ],
+            "title": "Recency Preference",
+            "default": "any"
+          },
+          "since_year": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9999.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Since Year"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "topics"
+        ],
+        "title": "QueryIntent"
+      },
+      "RevisionRequest": {
+        "properties": {
+          "expected_version": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Version"
+          },
+          "request_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{8,80}$",
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_version",
+          "request_id"
+        ],
+        "title": "RevisionRequest"
+      },
+      "Safety": {
+        "properties": {
+          "blocked": {
+            "type": "boolean",
+            "title": "Blocked"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "blocked"
+        ],
+        "title": "Safety"
+      },
+      "SearchRequest": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Query"
+          },
+          "limit": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Limit",
+            "default": 10
+          },
+          "recency_preference": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "any",
+                  "recent"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recency Preference"
+          },
+          "since_year": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9999.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Since Year"
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-f0-9]{32}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session Id"
+          },
+          "expected_version": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Version"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{8,80}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "title": "SearchRequest"
+      },
+      "SearchResponse": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "title": "Query"
+          },
+          "retrieval_query": {
+            "type": "string",
+            "title": "Retrieval Query"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/ExpertResult"
+            },
+            "type": "array",
+            "title": "Results"
+          },
+          "understanding": {
+            "$ref": "#/components/schemas/Understanding"
+          },
+          "effective_filters": {
+            "$ref": "#/components/schemas/Filters"
+          },
+          "applied_decisions": {
+            "$ref": "#/components/schemas/AppliedDecisions"
+          },
+          "memory_applied": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Memory"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "memory": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Memory"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "query",
+          "retrieval_query",
+          "results",
+          "understanding",
+          "effective_filters",
+          "applied_decisions"
+        ],
+        "title": "SearchResponse"
+      },
+      "SessionResponse": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "memory": {
+            "$ref": "#/components/schemas/Memory"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "session_id",
+          "memory"
+        ],
+        "title": "SessionResponse"
+      },
+      "Source": {
+        "properties": {
+          "paper_id": {
+            "type": "string",
+            "title": "Paper Id"
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Year"
+          },
+          "source": {
+            "type": "string",
+            "const": "dblp",
+            "title": "Source"
+          },
+          "edge_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Edge Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "paper_id",
+          "year",
+          "source"
+        ],
+        "title": "Source"
+      },
+      "SpeechText": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 1600,
+            "minLength": 1,
+            "title": "Text"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "SpeechText"
+      },
+      "TextInput": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 16000,
+            "minLength": 1,
+            "title": "Text"
+          },
+          "research": {
+            "type": "boolean",
+            "title": "Research",
+            "default": false
+          },
+          "edit_message_id": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Edit Message Id"
+          },
+          "profile_id": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9007199254740991.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "TextInput"
+      },
+      "ToolCall": {
+        "properties": {
+          "tool": {
+            "type": "string",
+            "enum": [
+              "search_experts",
+              "get_profile",
+              "find_collaboration_path"
+            ],
+            "title": "Tool"
+          },
+          "arguments": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Arguments"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "success",
+              "error",
+              "blocked"
+            ],
+            "title": "Outcome"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tool",
+          "arguments",
+          "outcome"
+        ],
+        "title": "ToolCall"
+      },
+      "Topic": {
+        "properties": {
+          "topic": {
+            "type": "string",
+            "title": "Topic"
+          },
+          "source_paper_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Paper Ids"
+          },
+          "supported": {
+            "type": "boolean",
+            "title": "Supported"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "topic",
+          "source_paper_ids",
+          "supported"
+        ],
+        "title": "Topic"
+      },
+      "Understanding": {
+        "properties": {
+          "intent": {
+            "$ref": "#/components/schemas/QueryIntent"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "recorded",
+              "local_llm",
+              "fallback"
+            ],
+            "title": "Provider"
+          },
+          "used_fallback": {
+            "type": "boolean",
+            "title": "Used Fallback"
+          },
+          "fallback_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fallback Reason"
+          },
+          "prompt_version": {
+            "type": "string",
+            "title": "Prompt Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "intent",
+          "provider",
+          "used_fallback",
+          "fallback_reason",
+          "prompt_version"
+        ],
+        "title": "Understanding"
       }
     }
   }

@@ -16,6 +16,8 @@ from ..assistant.errors import BackendError
 from ..assistant.schemas import DecisionRequest, MessageRequest, RevisionRequest, SearchRequest
 from ..assistant.service import Assistant
 from .runtime import Backend
+from ..voice.routes import voice_router
+from ..conversation.routes import router as conversation_router
 from .schemas import (ErrorResponse, HealthResponse, Memory, MessageResponse, MutationResponse,
                       ProfileResponse, SearchResponse, SessionResponse)
 
@@ -41,6 +43,9 @@ def create_app(config_path=None, backend=None):
                   docs_url=None, redoc_url=None,
                   responses={400: {'model': ErrorResponse}, 404: {'model': ErrorResponse},
                              409: {'model': ErrorResponse}, 422: {'model': ErrorResponse}, 503: {'model': ErrorResponse}})
+
+    app.include_router(voice_router())
+    app.include_router(conversation_router())
 
     @app.middleware('http')
     async def request_log(request: Request, call_next):

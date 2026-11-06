@@ -11,44 +11,18 @@ test('reconnects automatically after a temporary session startup failure',async(
  const submit=page.getByRole('button',{name:/Find researchers/});await expect(submit).toBeEnabled();await submit.click();
  await expect(page.locator('article').first()).toBeVisible({timeout:60000});
 });
-test('assistant searches the graph and checks a collaboration path',async({page})=>{
- await page.goto('/');await page.getByRole('button',{name:'Open Research Assistant'}).click();
- const dialog=page.getByRole('dialog',{name:'Research assistant'});const input=dialog.getByLabel('Message research assistant');
- await input.fill('Search for graph retrieval');await dialog.getByRole('button',{name:'Send message'}).click();
- await expect(dialog.getByText(/Search researchers · success/)).toBeVisible({timeout:60000});
- await expect(dialog.getByText(/MEMORY APPLIED TO THIS TURN/)).toBeVisible();
- await input.fill('Find collaboration path between #1 and #2 within 1 hop');await dialog.getByRole('button',{name:'Send message'}).click();
- await expect(dialog.getByText(/Trace collaboration path · success/)).toBeVisible({timeout:60000});
- await expect(dialog.getByText(/COLLABORATION PATH ·/)).toBeVisible();
- await dialog.getByRole('button',{name:'Close research assistant'}).click();
- await expect(page.locator('article').first()).toBeVisible();
+test('search results show an interactive evidence graph',async({page})=>{
+ await page.goto('/');await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');await page.getByRole('button',{name:/Find researchers/}).click();
+ await expect(page.locator('article').first()).toBeVisible({timeout:60000});
  const graph=page.getByRole('region',{name:'Interactive publication and author graph'});await expect(graph).toBeVisible();
  await graph.locator('.graph-paper').first().click();await expect(page.getByText('SELECTED PUBLICATION',{exact:false})).toBeVisible();
 });
-test('search, inspect evidence, ask assistant and save a decision',async({page})=>{
- await page.goto('/');
- await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');
- await page.getByRole('button',{name:/Find researchers/}).click();
- const card=page.locator('article').first();
- await expect(card).toBeVisible({timeout:60000});
- await card.getByText(/View evidence/).click();
- await expect(card.getByText(/DBLP ·/).first()).toBeVisible();
- await page.getByRole('button',{name:'Open Research Assistant'}).click();await page.getByLabel('Message research assistant').fill('profile #1');
- await page.getByRole('button',{name:'Send message'}).click();
- await expect(page.getByText('Retrieved the sourced publication profile.')).toBeVisible();
- await expect(page.getByRole('dialog',{name:'Research assistant'}).getByText('profile #1',{exact:true})).toBeVisible();
- await page.getByText('TOOL ACTIVITY').waitFor();
- await expect(page.getByText(/Retrieve researcher profile · success/)).toBeVisible();
- await expect(page.getByText('MEMORY APPLIED TO THIS TURN')).toBeVisible();
- await page.getByRole('dialog',{name:'Research assistant'}).getByRole('button',{name:'Close research assistant'}).click();
- await card.getByRole('button',{name:'+ Shortlist'}).click();
- await expect(card.getByRole('button',{name:/Shortlisted/})).toBeVisible();
- await page.getByRole('button',{name:'Open Research Assistant'}).click();
- await page.getByText('SESSION MEMORY').waitFor();
- await expect(page.getByText(/1 shortlisted/)).toBeVisible();
- await page.getByRole('dialog',{name:'Research assistant'}).getByRole('button',{name:'Close research assistant'}).click();
- await card.locator('a').first().click();
- await expect(page.getByRole('heading',{name:'Publication timeline'})).toBeVisible();
+test('search, inspect evidence and save a decision',async({page})=>{
+ await page.goto('/');await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');await page.getByRole('button',{name:/Find researchers/}).click();
+ const card=page.locator('article').first();await expect(card).toBeVisible({timeout:60000});
+ await card.getByText(/View evidence/).click();await expect(card.getByText(/DBLP ·/).first()).toBeVisible();
+ await card.getByRole('button',{name:'+ Shortlist'}).click();await expect(card.getByRole('button',{name:/Shortlisted/})).toBeVisible();
+ await card.locator('a').first().click();await expect(page.getByRole('heading',{name:'Publication timeline'})).toBeVisible();
 });
 test('failed shortlist is not shown as saved',async({page})=>{
  await page.goto('/');await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');await page.getByRole('button',{name:/Find researchers/}).click();
@@ -70,26 +44,17 @@ test('a newer search wins when an earlier search is delayed',async({page})=>{
  await expect(page.getByLabel('RESEARCH QUESTION OR TOPIC')).toHaveValue('information retrieval');
  await expect(page.getByRole('heading',{name:/Researchers for your question/})).toBeVisible();
 });
-test('mobile layout remains usable and memory can be cleared',async({page})=>{
+test('mobile navigation and search remain usable',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.goto('/');
  await page.getByRole('button',{name:'Open navigation'}).click();await expect(page.getByRole('dialog',{name:'Main navigation'})).toBeVisible();await page.keyboard.press('Escape');await expect(page.getByRole('dialog',{name:'Main navigation'})).toHaveCount(0);
  await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');await page.getByRole('button',{name:/Find researchers/}).click();
- const card=page.locator('article').first();await expect(card).toBeVisible({timeout:60000});
- await card.getByRole('button',{name:'+ Shortlist'}).click();await expect(card.getByRole('button',{name:/Shortlisted/})).toBeVisible();
- await page.getByRole('button',{name:/Research Assistant/}).click();await page.getByText('SESSION MEMORY').waitFor();page.once('dialog',dialog=>dialog.accept());await page.getByRole('button',{name:'Clear',exact:true}).click();
- await page.getByRole('dialog',{name:'Research assistant'}).getByRole('button',{name:'Close research assistant'}).click();
- await expect(page.getByRole('heading',{name:'Your results will appear here'})).toBeVisible();
+ const card=page.locator('article').first();await expect(card).toBeVisible({timeout:60000});await card.getByRole('button',{name:'+ Shortlist'}).click();await expect(card.getByRole('button',{name:/Shortlisted/})).toBeVisible();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
-test('rejected results do not renumber assistant references',async({page})=>{
+test('rejected results keep their original rank',async({page})=>{
  await page.goto('/');await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');await page.getByRole('button',{name:/Find researchers/}).click();
- const cards=page.locator('article');await expect(cards.nth(1)).toBeVisible({timeout:60000});
- const second=await cards.nth(1).locator('a').first().textContent();
- await cards.first().getByRole('button',{name:/Reject/}).click();
- await expect(cards.first().locator('.expert-rank')).toHaveText('02');
- await page.getByRole('button',{name:'Open Research Assistant'}).click();await page.getByLabel('Message research assistant').fill('profile #2');await page.getByRole('button',{name:'Send message'}).click();
- await expect(page.getByRole('dialog',{name:'Research assistant'}).getByText(second!,{exact:true})).toBeVisible();
- await expect(page.getByRole('link',{name:'Open full evidence profile →'})).toBeVisible();
+ const cards=page.locator('article');await expect(cards.nth(1)).toBeVisible({timeout:60000});const second=await cards.nth(1).locator('a').first().textContent();
+ await cards.first().getByRole('button',{name:/Reject/}).click();await expect(cards.first().locator('.expert-rank')).toHaveText('02');await expect(cards.first().locator('a').first()).toHaveText(second!);
 });
 test('supported recency and year filters are sent to search',async({page})=>{
  await page.goto('/');await page.getByLabel('Since year').fill('2018');await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');
@@ -97,19 +62,13 @@ test('supported recency and year filters are sent to search',async({page})=>{
  await page.getByRole('button',{name:/Find researchers/}).click();await expect(page.locator('article').first()).toBeVisible({timeout:60000});
  expect(sent?.since_year).toBe(2018);expect(sent?.recency_preference).toBeNull();await expect(page.getByText('Since 2018')).toBeVisible();
 });
-test('query dates, explicit overrides, abstention and unsupported assistant requests',async({page})=>{
+test('query dates, explicit overrides and abstention',async({page})=>{
  await page.goto('/');
  const query=page.getByLabel('RESEARCH QUESTION OR TOPIC');
  await query.fill('graph retrieval since 2018');
  await page.getByRole('button',{name:/Find researchers/}).click();
  await expect(page.locator('article').first()).toBeVisible({timeout:60000});
  await expect(page.getByText('Since 2018',{exact:true})).toBeVisible();
- await page.getByRole('button',{name:'Open Research Assistant'}).click();
- await page.getByLabel('Message research assistant').fill('Why is the first researcher relevant?');
- await page.getByRole('button',{name:'Send message'}).click();
- await expect(page.getByText(/Your search has not changed/)).toBeVisible();
- await expect(query).toHaveValue('graph retrieval since 2018');
- await page.getByRole('dialog',{name:'Research assistant'}).getByRole('button',{name:'Close research assistant'}).click();
  await page.getByLabel('Publication activity').selectOption('any');
  await page.getByRole('button',{name:/Find researchers/}).click();
  await expect(page.getByText('Since 2018',{exact:true})).toHaveCount(0);
@@ -138,7 +97,6 @@ test('profile actions use the same server session and return to search',async({p
  const first=page.locator('article').first();await expect(first).toBeVisible({timeout:60000});const name=await first.locator('.expert-identity a').textContent();await first.locator('.expert-identity a').click();
  await expect(page.getByRole('heading',{name:'Publication timeline'})).toBeVisible();await expect(page.getByText(/Name source records/)).toBeVisible();
  await page.getByRole('button',{name:'+ Shortlist'}).click();await expect(page.getByRole('button',{name:/Shortlisted/})).toBeVisible();
- await page.getByRole('link',{name:'Ask assistant about this expert'}).click();await expect(page).toHaveURL(/\/$/);await expect(page.getByLabel('Message research assistant')).toHaveValue(/Show profile/);
- await page.getByRole('button',{name:'Send message'}).click();await expect(page.getByText('Retrieved the sourced publication profile.')).toBeVisible();
- await expect(page.getByRole('heading',{name:/Researchers for your question/})).toBeVisible();expect(name).toBeTruthy();
+ await page.getByRole('link',{name:'Ask assistant about this expert'}).click();await expect(page).toHaveURL(/\/chat/);
+ await expect(page.getByLabel('Message',{exact:true})).toHaveValue(`What can you tell me about ${name}'s research?`);
 });
