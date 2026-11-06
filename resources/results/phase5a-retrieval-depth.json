@@ -1,0 +1,3149 @@
+{
+  "scope": "Identical 129 inspected 2024 queries; historical graph through 2023; fixed 800 author cap; no reranking; sequential offline CPU; preencoded query; no grounding or HTTP.",
+  "labels_sha256": "2559f849894ff787388b23068fd639bb5889f413488ee99fc27a7909cd51fa31",
+  "index_content_sha256": "4605416fc9862a911a956b59b9b56c8dd33e676d33df70dd36a17a512ece7cf9",
+  "depths": {
+    "1024": {
+      "source_reached_instances": 330,
+      "source_recall_known": 0.6179775280898876,
+      "candidate_instances": 222,
+      "candidate_recall_known": 0.4157303370786517,
+      "candidate_recall_all": 0.3236151603498542,
+      "queries_with_candidate": 77,
+      "query_hit": 0.5968992248062015,
+      "oracle_ndcg10": 0.3852378259508618,
+      "candidate_context_ms_p50": 38.84599498996977,
+      "candidate_context_ms_p95": 57.95113520289305
+    },
+    "2048": {
+      "source_reached_instances": 368,
+      "source_recall_known": 0.6891385767790262,
+      "candidate_instances": 221,
+      "candidate_recall_known": 0.41385767790262173,
+      "candidate_recall_all": 0.32215743440233235,
+      "queries_with_candidate": 77,
+      "query_hit": 0.5968992248062015,
+      "oracle_ndcg10": 0.3842275641996187,
+      "candidate_context_ms_p50": 52.39467199135106,
+      "candidate_context_ms_p95": 68.20445159974042
+    },
+    "4096": {
+      "source_reached_instances": 408,
+      "source_recall_known": 0.7640449438202247,
+      "candidate_instances": 221,
+      "candidate_recall_known": 0.41385767790262173,
+      "candidate_recall_all": 0.32215743440233235,
+      "queries_with_candidate": 77,
+      "query_hit": 0.5968992248062015,
+      "oracle_ndcg10": 0.3842275641996187,
+      "candidate_context_ms_p50": 80.73753600183409,
+      "candidate_context_ms_p95": 101.30272280366626
+    }
+  },
+  "elapsed_seconds": 28.59875566799019,
+  "peak_rss_mib": 596.30859375,
+  "per_query": {
+    "1024": [
+      {
+        "query_id": "conf/cikm/WangWWL24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 119.36575399886351
+      },
+      {
+        "query_id": "conf/icml/MemmelMSWB24",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 33.01056301279459
+      },
+      {
+        "query_id": "conf/kdd/CaiZHS0ZC024",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 28.96169100131374
+      },
+      {
+        "query_id": "conf/sigir/ManN24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 43.411913997260854
+      },
+      {
+        "query_id": "conf/wsdm/ShirzadkhaniHKR24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.7227265726449519,
+        "elapsed_ms": 30.649477004772052
+      },
+      {
+        "query_id": "conf/www/WangTHYLZZPW24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.6020941629041775,
+        "elapsed_ms": 38.12333400128409
+      },
+      {
+        "query_id": "journals/tist/YuWXSWWZX24",
+        "reachable": 4,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.5390031312763821,
+        "elapsed_ms": 49.97159099730197
+      },
+      {
+        "query_id": "journals/tkde/TuLZPMLLCH24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.3833427799846345,
+        "elapsed_ms": 39.62375999253709
+      },
+      {
+        "query_id": "journals/tois/ZhangWS24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.7653606369886217,
+        "elapsed_ms": 32.50821300025564
+      },
+      {
+        "query_id": "conf/cikm/0008ZRHJQSX0024",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 29.79783400951419
+      },
+      {
+        "query_id": "conf/icml/Chen0CS0GHSC24",
+        "reachable": 4,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.2350455494144854,
+        "elapsed_ms": 24.41553899552673
+      },
+      {
+        "query_id": "conf/kdd/VashishthaPMNAK24",
+        "reachable": 2,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.27487633291429087,
+        "elapsed_ms": 49.75516599370167
+      },
+      {
+        "query_id": "conf/sigir/LiW24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 52.12936700263526
+      },
+      {
+        "query_id": "conf/wsdm/SakotaP024",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 43.984285002807155
+      },
+      {
+        "query_id": "conf/www/ChristmannRW24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 25.405872002011165
+      },
+      {
+        "query_id": "journals/tist/GabboliniB24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 28.978511996683665
+      },
+      {
+        "query_id": "journals/tkde/ZhengMZZZYYZJ24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.3833427799846345,
+        "elapsed_ms": 48.12140100693796
+      },
+      {
+        "query_id": "journals/tois/ZhangLW24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 37.81949599215295
+      },
+      {
+        "query_id": "conf/cikm/MengLWJNQ24",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 51.06499599060044
+      },
+      {
+        "query_id": "conf/icml/KalluriMC24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 33.393438992789015
+      },
+      {
+        "query_id": "conf/kdd/JiaWD000WGT24",
+        "reachable": 8,
+        "candidate": 6,
+        "hit": 1,
+        "oracle_ndcg": 0.7767471075223498,
+        "elapsed_ms": 38.194617998669855
+      },
+      {
+        "query_id": "conf/sigir/JiHSSS24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.8687949224876582,
+        "elapsed_ms": 30.18009000516031
+      },
+      {
+        "query_id": "conf/wsdm/Lajewska24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 35.565199999837205
+      },
+      {
+        "query_id": "conf/www/TodorovFD024",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 31.730418995721266
+      },
+      {
+        "query_id": "journals/tist/TangWZJ24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3903800499921017,
+        "elapsed_ms": 46.81034899840597
+      },
+      {
+        "query_id": "journals/tkde/LiZZC24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3903800499921017,
+        "elapsed_ms": 38.471314997877926
+      },
+      {
+        "query_id": "journals/tois/WeiZHY24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 43.68657800660003
+      },
+      {
+        "query_id": "conf/cikm/0002ZHW024",
+        "reachable": 2,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 31.113484990783036
+      },
+      {
+        "query_id": "conf/icml/MaCYLG024",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 35.19629999937024
+      },
+      {
+        "query_id": "conf/kdd/NieZFH024",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 48.17934900347609
+      },
+      {
+        "query_id": "conf/sigir/RahmanKHS24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 41.327546001411974
+      },
+      {
+        "query_id": "conf/wsdm/WenCTGWDXZLZL24",
+        "reachable": 5,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.3589542101716347,
+        "elapsed_ms": 44.98567699920386
+      },
+      {
+        "query_id": "conf/www/MaTCZXZCZG24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.2350455494144854,
+        "elapsed_ms": 52.52295300306287
+      },
+      {
+        "query_id": "journals/tist/MahajanCC24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 47.37705999286845
+      },
+      {
+        "query_id": "journals/tkde/LiYGWZL24",
+        "reachable": 6,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.644824486427155,
+        "elapsed_ms": 51.0094119963469
+      },
+      {
+        "query_id": "journals/tois/PengZHHLYY24",
+        "reachable": 4,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.44830398990253034,
+        "elapsed_ms": 39.15496400441043
+      },
+      {
+        "query_id": "conf/cikm/000124",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 38.55962899979204
+      },
+      {
+        "query_id": "conf/icml/ZhangC24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.6131471927654584,
+        "elapsed_ms": 28.933617999427952
+      },
+      {
+        "query_id": "conf/kdd/MaddockCM24",
+        "reachable": 2,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.46927872602275644,
+        "elapsed_ms": 44.803136013797484
+      },
+      {
+        "query_id": "conf/sigir/TyomkinK24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.6131471927654584,
+        "elapsed_ms": 25.9196319966577
+      },
+      {
+        "query_id": "conf/wsdm/Lenti24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 42.94123400177341
+      },
+      {
+        "query_id": "conf/www/0002BAZQA24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 44.650330004515126
+      },
+      {
+        "query_id": "journals/tist/AliKZS24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 44.10534098860808
+      },
+      {
+        "query_id": "journals/tkde/ZhaoCYGZZ24",
+        "reachable": 5,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8922108454754891,
+        "elapsed_ms": 37.53720800159499
+      },
+      {
+        "query_id": "journals/tois/RashidiZM24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 25.26005799882114
+      },
+      {
+        "query_id": "conf/cikm/KimKCC24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 45.032994996290654
+      },
+      {
+        "query_id": "conf/icml/0006J00W24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.7227265726449519,
+        "elapsed_ms": 31.376557002658956
+      },
+      {
+        "query_id": "conf/kdd/DingM0P24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.6366824387328317,
+        "elapsed_ms": 58.335402005468495
+      },
+      {
+        "query_id": "conf/sigir/Liu0GRFC24",
+        "reachable": 6,
+        "candidate": 6,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 47.58145198866259
+      },
+      {
+        "query_id": "conf/wsdm/Xie0YZDH24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.4935232796777482,
+        "elapsed_ms": 42.7176860102918
+      },
+      {
+        "query_id": "conf/www/ZhuZWZD24",
+        "reachable": 5,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.7227265726449519,
+        "elapsed_ms": 32.802533998619765
+      },
+      {
+        "query_id": "journals/tist/SamarakoonME24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 26.549379996140487
+      },
+      {
+        "query_id": "journals/tkde/ZhaoZLHWF24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7751482523375256,
+        "elapsed_ms": 35.4103299905546
+      },
+      {
+        "query_id": "journals/tois/LiCWHYD24",
+        "reachable": 5,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3026024134988135,
+        "elapsed_ms": 42.917478989693336
+      },
+      {
+        "query_id": "conf/cikm/DaCJM024",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 28.462006011977792
+      },
+      {
+        "query_id": "conf/icml/LazzatiMM24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.46927872602275644,
+        "elapsed_ms": 31.106060996535234
+      },
+      {
+        "query_id": "conf/kdd/0003QXH00WL24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 30.38099499826785
+      },
+      {
+        "query_id": "conf/sigir/ZengBRZM24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 42.87896798632573
+      },
+      {
+        "query_id": "conf/wsdm/HuGLLTZK24",
+        "reachable": 6,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7041249493150388,
+        "elapsed_ms": 38.54264800611418
+      },
+      {
+        "query_id": "conf/www/WuFL24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 46.24601399700623
+      },
+      {
+        "query_id": "journals/tist/ZhuYXC24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 28.845974011346698
+      },
+      {
+        "query_id": "journals/tkde/LiLSLZWS24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 36.547045994666405
+      },
+      {
+        "query_id": "journals/tois/LienZC24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.7653606369886217,
+        "elapsed_ms": 36.43789200577885
+      },
+      {
+        "query_id": "conf/cikm/0002VM24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 29.036651001661085
+      },
+      {
+        "query_id": "conf/icml/LiLYZ24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 56.59671100147534
+      },
+      {
+        "query_id": "conf/kdd/LiL0OZR24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7751482523375256,
+        "elapsed_ms": 45.475673003238626
+      },
+      {
+        "query_id": "conf/sigir/ZhaoXZH24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 42.14048599533271
+      },
+      {
+        "query_id": "conf/wsdm/YuanZC024",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3903800499921017,
+        "elapsed_ms": 67.1421110018855
+      },
+      {
+        "query_id": "conf/www/TanZZMWLLH024",
+        "reachable": 4,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.5008655546918773,
+        "elapsed_ms": 34.2624039913062
+      },
+      {
+        "query_id": "journals/tist/YangSYLLXSF24",
+        "reachable": 4,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 66.02387000748422
+      },
+      {
+        "query_id": "journals/tkde/LiuPTJWWPW24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 30.500288004986942
+      },
+      {
+        "query_id": "journals/tois/YangZSDZL24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.4935232796777482,
+        "elapsed_ms": 39.81626000313554
+      },
+      {
+        "query_id": "conf/cikm/YangGTLDOZ0FD0X24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 41.09003199846484
+      },
+      {
+        "query_id": "conf/icml/YuanFRHA24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 38.05432499211747
+      },
+      {
+        "query_id": "conf/kdd/00040FZ0H024",
+        "reachable": 5,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8104616303452686,
+        "elapsed_ms": 27.605524999671616
+      },
+      {
+        "query_id": "conf/sigir/ZhuangZKZ24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3903800499921017,
+        "elapsed_ms": 45.82972599018831
+      },
+      {
+        "query_id": "conf/wsdm/ChenLWCW024",
+        "reachable": 5,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8922108454754891,
+        "elapsed_ms": 34.305353998206556
+      },
+      {
+        "query_id": "conf/www/YanCWYDS24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3026024134988135,
+        "elapsed_ms": 43.54460199829191
+      },
+      {
+        "query_id": "journals/tist/MaSYZ24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 41.603040997870266
+      },
+      {
+        "query_id": "journals/tkde/ZhengHQCGSZX24",
+        "reachable": 7,
+        "candidate": 7,
+        "hit": 1,
+        "oracle_ndcg": 0.9202054614375518,
+        "elapsed_ms": 42.24863801209722
+      },
+      {
+        "query_id": "journals/tois/JingSLZZN24",
+        "reachable": 6,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.644824486427155,
+        "elapsed_ms": 40.54745699977502
+      },
+      {
+        "query_id": "conf/cikm/SiGSZLHCYZLZZN024",
+        "reachable": 13,
+        "candidate": 10,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 45.085393998306245
+      },
+      {
+        "query_id": "conf/icml/ChaudhuryMY0MP24",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8922108454754891,
+        "elapsed_ms": 45.417214001645334
+      },
+      {
+        "query_id": "conf/kdd/WuXZZZLKX24",
+        "reachable": 5,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 42.59745099989232
+      },
+      {
+        "query_id": "conf/sigir/YangC024",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 44.43621900281869
+      },
+      {
+        "query_id": "conf/wsdm/LiuZZ024",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.8318724637288826,
+        "elapsed_ms": 34.70558200206142
+      },
+      {
+        "query_id": "conf/www/BhaskaraGIKMS24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7751482523375256,
+        "elapsed_ms": 35.46558400557842
+      },
+      {
+        "query_id": "journals/tist/LiuJZYWZDD24",
+        "reachable": 7,
+        "candidate": 6,
+        "hit": 1,
+        "oracle_ndcg": 0.8358912271816661,
+        "elapsed_ms": 57.3747349990299
+      },
+      {
+        "query_id": "journals/tkde/LiYYLC24",
+        "reachable": 2,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 35.33323699957691
+      },
+      {
+        "query_id": "journals/tois/LiGLSLDSX24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.4125317798925535,
+        "elapsed_ms": 40.0073470082134
+      },
+      {
+        "query_id": "conf/cikm/LiuW00ZL0Z0WY024",
+        "reachable": 8,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.4690000933206748,
+        "elapsed_ms": 34.013638010947034
+      },
+      {
+        "query_id": "conf/icml/0001XNZ24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.6366824387328317,
+        "elapsed_ms": 54.40209599328227
+      },
+      {
+        "query_id": "conf/kdd/ChenZFLPWD24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.5857421563596759,
+        "elapsed_ms": 37.05148999870289
+      },
+      {
+        "query_id": "conf/sigir/ZhaiCL24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 34.396495000692084
+      },
+      {
+        "query_id": "conf/wsdm/WangGTYHX0024",
+        "reachable": 7,
+        "candidate": 7,
+        "hit": 1,
+        "oracle_ndcg": 0.9202054614375518,
+        "elapsed_ms": 35.75290099252015
+      },
+      {
+        "query_id": "conf/www/Dash0H24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 30.494397011352703
+      },
+      {
+        "query_id": "journals/tist/KhoshraftarA24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 51.04088100779336
+      },
+      {
+        "query_id": "journals/tkde/LiuCZSZZ24",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8922108454754891,
+        "elapsed_ms": 29.615874998853542
+      },
+      {
+        "query_id": "journals/tois/Giner24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 34.82888299913611
+      },
+      {
+        "query_id": "conf/cikm/DaiZHTLX24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7751482523375256,
+        "elapsed_ms": 64.57248599326704
+      },
+      {
+        "query_id": "conf/icml/ZhongLLJYZYZXMX24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.3589542101716347,
+        "elapsed_ms": 25.462666992098093
+      },
+      {
+        "query_id": "conf/kdd/QiaoPCLS0R24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.27487633291429087,
+        "elapsed_ms": 44.678162012132816
+      },
+      {
+        "query_id": "conf/sigir/AnandVSA24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 34.27151098730974
+      },
+      {
+        "query_id": "conf/wsdm/ZhangWLTZ24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.8687949224876582,
+        "elapsed_ms": 59.063845008495264
+      },
+      {
+        "query_id": "conf/www/Jain24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 40.517059998819605
+      },
+      {
+        "query_id": "journals/tist/LeL24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 38.84599498996977
+      },
+      {
+        "query_id": "journals/tkde/WuZLSQ24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.5531464700081437,
+        "elapsed_ms": 50.165684006060474
+      },
+      {
+        "query_id": "journals/tois/LiZWZ24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 47.50422699726187
+      },
+      {
+        "query_id": "conf/cikm/LiuJC24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 36.99435299495235
+      },
+      {
+        "query_id": "conf/icml/ByambadalaiOY24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 47.71575299673714
+      },
+      {
+        "query_id": "conf/kdd/JagirdarTP0M24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 30.177544002071954
+      },
+      {
+        "query_id": "conf/sigir/ShuXTZWZ24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.4935232796777482,
+        "elapsed_ms": 27.285697011393495
+      },
+      {
+        "query_id": "conf/wsdm/Savage24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 27.043494003009982
+      },
+      {
+        "query_id": "conf/www/Weld24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 30.091813998296857
+      },
+      {
+        "query_id": "journals/tist/XuCSJZW24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 29.099770006723702
+      },
+      {
+        "query_id": "journals/tkde/LiuDLX24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 41.41606099437922
+      },
+      {
+        "query_id": "journals/tois/ZhuoQHDLW24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 41.1086370004341
+      },
+      {
+        "query_id": "conf/cikm/ShengYGWCZCZG0J24",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.6489315753318465,
+        "elapsed_ms": 32.300664999638684
+      },
+      {
+        "query_id": "conf/icml/StadlerKGPT24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 39.754183992045
+      },
+      {
+        "query_id": "conf/kdd/YeomYPJKOL24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.44830398990253034,
+        "elapsed_ms": 37.21540598780848
+      },
+      {
+        "query_id": "conf/sigir/JiangWLWHQ24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 43.50016900571063
+      },
+      {
+        "query_id": "conf/wsdm/SajadmaneshG24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 42.43396500532981
+      },
+      {
+        "query_id": "conf/www/DuanY0ZDLL024",
+        "reachable": 6,
+        "candidate": 6,
+        "hit": 1,
+        "oracle_ndcg": 0.8358912271816661,
+        "elapsed_ms": 38.73224199924152
+      },
+      {
+        "query_id": "journals/tist/ZhuangZLHL24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 59.988433989929035
+      },
+      {
+        "query_id": "journals/tkde/ZhongLCP24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 37.22123699844815
+      },
+      {
+        "query_id": "journals/tois/KrasakisYK24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 30.647132996818982
+      },
+      {
+        "query_id": "conf/cikm/Zhao0HYLW024",
+        "reachable": 4,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.44830398990253034,
+        "elapsed_ms": 48.02445000677835
+      },
+      {
+        "query_id": "conf/icml/HuangGYDH24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.7227265726449519,
+        "elapsed_ms": 42.2753989987541
+      },
+      {
+        "query_id": "conf/kdd/SalganikLMKC24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 33.14675700676162
+      }
+    ],
+    "2048": [
+      {
+        "query_id": "conf/cikm/WangWWL24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 54.32882999593858
+      },
+      {
+        "query_id": "conf/icml/MemmelMSWB24",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 47.448812998482026
+      },
+      {
+        "query_id": "conf/kdd/CaiZHS0ZC024",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 41.57018999103457
+      },
+      {
+        "query_id": "conf/sigir/ManN24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 57.72667299606837
+      },
+      {
+        "query_id": "conf/wsdm/ShirzadkhaniHKR24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.7227265726449519,
+        "elapsed_ms": 44.7121059987694
+      },
+      {
+        "query_id": "conf/www/WangTHYLZZPW24",
+        "reachable": 5,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.6020941629041775,
+        "elapsed_ms": 50.05802199593745
+      },
+      {
+        "query_id": "journals/tist/YuWXSWWZX24",
+        "reachable": 6,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.5390031312763821,
+        "elapsed_ms": 63.28333499550354
+      },
+      {
+        "query_id": "journals/tkde/TuLZPMLLCH24",
+        "reachable": 4,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.3833427799846345,
+        "elapsed_ms": 45.40753600304015
+      },
+      {
+        "query_id": "journals/tois/ZhangWS24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.7653606369886217,
+        "elapsed_ms": 45.17721499723848
+      },
+      {
+        "query_id": "conf/cikm/0008ZRHJQSX0024",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 44.22127800353337
+      },
+      {
+        "query_id": "conf/icml/Chen0CS0GHSC24",
+        "reachable": 5,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.2350455494144854,
+        "elapsed_ms": 29.996526005561464
+      },
+      {
+        "query_id": "conf/kdd/VashishthaPMNAK24",
+        "reachable": 2,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.27487633291429087,
+        "elapsed_ms": 64.1224040009547
+      },
+      {
+        "query_id": "conf/sigir/LiW24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 65.27062199893408
+      },
+      {
+        "query_id": "conf/wsdm/SakotaP024",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 58.60940400452819
+      },
+      {
+        "query_id": "conf/www/ChristmannRW24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 40.555352010414936
+      },
+      {
+        "query_id": "journals/tist/GabboliniB24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 41.430368000874296
+      },
+      {
+        "query_id": "journals/tkde/ZhengMZZZYYZJ24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.3833427799846345,
+        "elapsed_ms": 59.745449005276896
+      },
+      {
+        "query_id": "journals/tois/ZhangLW24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 49.835286001325585
+      },
+      {
+        "query_id": "conf/cikm/MengLWJNQ24",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 75.86527400417253
+      },
+      {
+        "query_id": "conf/icml/KalluriMC24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 51.28774199692998
+      },
+      {
+        "query_id": "conf/kdd/JiaWD000WGT24",
+        "reachable": 8,
+        "candidate": 6,
+        "hit": 1,
+        "oracle_ndcg": 0.7767471075223498,
+        "elapsed_ms": 52.617309003835544
+      },
+      {
+        "query_id": "conf/sigir/JiHSSS24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.8687949224876582,
+        "elapsed_ms": 43.52683799515944
+      },
+      {
+        "query_id": "conf/wsdm/Lajewska24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 48.70322901115287
+      },
+      {
+        "query_id": "conf/www/TodorovFD024",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 44.626023998716846
+      },
+      {
+        "query_id": "journals/tist/TangWZJ24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3903800499921017,
+        "elapsed_ms": 59.77437300316524
+      },
+      {
+        "query_id": "journals/tkde/LiZZC24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3903800499921017,
+        "elapsed_ms": 49.53785000543576
+      },
+      {
+        "query_id": "journals/tois/WeiZHY24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 58.55602399969939
+      },
+      {
+        "query_id": "conf/cikm/0002ZHW024",
+        "reachable": 2,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 44.79542199987918
+      },
+      {
+        "query_id": "conf/icml/MaCYLG024",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 56.50984900421463
+      },
+      {
+        "query_id": "conf/kdd/NieZFH024",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 63.49064299138263
+      },
+      {
+        "query_id": "conf/sigir/RahmanKHS24",
+        "reachable": 4,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 59.06296300236136
+      },
+      {
+        "query_id": "conf/wsdm/WenCTGWDXZLZL24",
+        "reachable": 8,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.3589542101716347,
+        "elapsed_ms": 60.83469600707758
+      },
+      {
+        "query_id": "conf/www/MaTCZXZCZG24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.2350455494144854,
+        "elapsed_ms": 69.1618979908526
+      },
+      {
+        "query_id": "journals/tist/MahajanCC24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 57.387719993130304
+      },
+      {
+        "query_id": "journals/tkde/LiYGWZL24",
+        "reachable": 6,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.644824486427155,
+        "elapsed_ms": 65.2696199977072
+      },
+      {
+        "query_id": "journals/tois/PengZHHLYY24",
+        "reachable": 4,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.44830398990253034,
+        "elapsed_ms": 53.22409400832839
+      },
+      {
+        "query_id": "conf/cikm/000124",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 52.05487700004596
+      },
+      {
+        "query_id": "conf/icml/ZhangC24",
+        "reachable": 2,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.6131471927654584,
+        "elapsed_ms": 39.30675699666608
+      },
+      {
+        "query_id": "conf/kdd/MaddockCM24",
+        "reachable": 2,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.46927872602275644,
+        "elapsed_ms": 58.95214600604959
+      },
+      {
+        "query_id": "conf/sigir/TyomkinK24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.6131471927654584,
+        "elapsed_ms": 35.606146993814036
+      },
+      {
+        "query_id": "conf/wsdm/Lenti24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 65.97393700212706
+      },
+      {
+        "query_id": "conf/www/0002BAZQA24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 63.5488109983271
+      },
+      {
+        "query_id": "journals/tist/AliKZS24",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 61.05072000354994
+      },
+      {
+        "query_id": "journals/tkde/ZhaoCYGZZ24",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8922108454754891,
+        "elapsed_ms": 43.59946399927139
+      },
+      {
+        "query_id": "journals/tois/RashidiZM24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 36.87925801204983
+      },
+      {
+        "query_id": "conf/cikm/KimKCC24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 58.79397000535391
+      },
+      {
+        "query_id": "conf/icml/0006J00W24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.7227265726449519,
+        "elapsed_ms": 45.16369001066778
+      },
+      {
+        "query_id": "conf/kdd/DingM0P24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.6366824387328317,
+        "elapsed_ms": 54.572144988924265
+      },
+      {
+        "query_id": "conf/sigir/Liu0GRFC24",
+        "reachable": 6,
+        "candidate": 6,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 61.47605599835515
+      },
+      {
+        "query_id": "conf/wsdm/Xie0YZDH24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.4935232796777482,
+        "elapsed_ms": 57.21572900074534
+      },
+      {
+        "query_id": "conf/www/ZhuZWZD24",
+        "reachable": 5,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.7227265726449519,
+        "elapsed_ms": 46.202081997762434
+      },
+      {
+        "query_id": "journals/tist/SamarakoonME24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 37.36564700375311
+      },
+      {
+        "query_id": "journals/tkde/ZhaoZLHWF24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7751482523375256,
+        "elapsed_ms": 49.4937080075033
+      },
+      {
+        "query_id": "journals/tois/LiCWHYD24",
+        "reachable": 5,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3026024134988135,
+        "elapsed_ms": 55.30735899810679
+      },
+      {
+        "query_id": "conf/cikm/DaCJM024",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 40.12166999746114
+      },
+      {
+        "query_id": "conf/icml/LazzatiMM24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.46927872602275644,
+        "elapsed_ms": 42.21056700043846
+      },
+      {
+        "query_id": "conf/kdd/0003QXH00WL24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 46.508305007591844
+      },
+      {
+        "query_id": "conf/sigir/ZengBRZM24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 54.613110987702385
+      },
+      {
+        "query_id": "conf/wsdm/HuGLLTZK24",
+        "reachable": 7,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7041249493150388,
+        "elapsed_ms": 54.0594060003059
+      },
+      {
+        "query_id": "conf/www/WuFL24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 62.488979994668625
+      },
+      {
+        "query_id": "journals/tist/ZhuYXC24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 39.938589005032554
+      },
+      {
+        "query_id": "journals/tkde/LiLSLZWS24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 51.690264997887425
+      },
+      {
+        "query_id": "journals/tois/LienZC24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.7653606369886217,
+        "elapsed_ms": 49.08099499880336
+      },
+      {
+        "query_id": "conf/cikm/0002VM24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 45.46661699714605
+      },
+      {
+        "query_id": "conf/icml/LiLYZ24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 75.59089100686833
+      },
+      {
+        "query_id": "conf/kdd/LiL0OZR24",
+        "reachable": 4,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.644824486427155,
+        "elapsed_ms": 60.85390200314578
+      },
+      {
+        "query_id": "conf/sigir/ZhaoXZH24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 55.43097099871375
+      },
+      {
+        "query_id": "conf/wsdm/YuanZC024",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3903800499921017,
+        "elapsed_ms": 68.10461099667009
+      },
+      {
+        "query_id": "conf/www/TanZZMWLLH024",
+        "reachable": 4,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.5008655546918773,
+        "elapsed_ms": 46.76723899319768
+      },
+      {
+        "query_id": "journals/tist/YangSYLLXSF24",
+        "reachable": 4,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 82.32205899548717
+      },
+      {
+        "query_id": "journals/tkde/LiuPTJWWPW24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 42.17898799106479
+      },
+      {
+        "query_id": "journals/tois/YangZSDZL24",
+        "reachable": 4,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.4935232796777482,
+        "elapsed_ms": 53.25844799517654
+      },
+      {
+        "query_id": "conf/cikm/YangGTLDOZ0FD0X24",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 56.653727995580994
+      },
+      {
+        "query_id": "conf/icml/YuanFRHA24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 51.08293000375852
+      },
+      {
+        "query_id": "conf/kdd/00040FZ0H024",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8104616303452686,
+        "elapsed_ms": 39.90778999286704
+      },
+      {
+        "query_id": "conf/sigir/ZhuangZKZ24",
+        "reachable": 4,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3903800499921017,
+        "elapsed_ms": 59.964738989947364
+      },
+      {
+        "query_id": "conf/wsdm/ChenLWCW024",
+        "reachable": 5,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8922108454754891,
+        "elapsed_ms": 47.39175700524356
+      },
+      {
+        "query_id": "conf/www/YanCWYDS24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3026024134988135,
+        "elapsed_ms": 56.6821499960497
+      },
+      {
+        "query_id": "journals/tist/MaSYZ24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 54.98540701228194
+      },
+      {
+        "query_id": "journals/tkde/ZhengHQCGSZX24",
+        "reachable": 7,
+        "candidate": 7,
+        "hit": 1,
+        "oracle_ndcg": 0.9202054614375518,
+        "elapsed_ms": 54.42686199967284
+      },
+      {
+        "query_id": "journals/tois/JingSLZZN24",
+        "reachable": 6,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.644824486427155,
+        "elapsed_ms": 54.49413899623323
+      },
+      {
+        "query_id": "conf/cikm/SiGSZLHCYZLZZN024",
+        "reachable": 13,
+        "candidate": 10,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 58.85350100288633
+      },
+      {
+        "query_id": "conf/icml/ChaudhuryMY0MP24",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8922108454754891,
+        "elapsed_ms": 57.29874299140647
+      },
+      {
+        "query_id": "conf/kdd/WuXZZZLKX24",
+        "reachable": 5,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 56.58918600238394
+      },
+      {
+        "query_id": "conf/sigir/YangC024",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 56.6389190062182
+      },
+      {
+        "query_id": "conf/wsdm/LiuZZ024",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.8318724637288826,
+        "elapsed_ms": 48.13001699221786
+      },
+      {
+        "query_id": "conf/www/BhaskaraGIKMS24",
+        "reachable": 5,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7751482523375256,
+        "elapsed_ms": 50.44150000321679
+      },
+      {
+        "query_id": "journals/tist/LiuJZYWZDD24",
+        "reachable": 7,
+        "candidate": 6,
+        "hit": 1,
+        "oracle_ndcg": 0.8358912271816661,
+        "elapsed_ms": 71.28368600388058
+      },
+      {
+        "query_id": "journals/tkde/LiYYLC24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 47.486684008617885
+      },
+      {
+        "query_id": "journals/tois/LiGLSLDSX24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.4125317798925535,
+        "elapsed_ms": 53.40198699559551
+      },
+      {
+        "query_id": "conf/cikm/LiuW00ZL0Z0WY024",
+        "reachable": 9,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.4690000933206748,
+        "elapsed_ms": 47.039146986207925
+      },
+      {
+        "query_id": "conf/icml/0001XNZ24",
+        "reachable": 4,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.6366824387328317,
+        "elapsed_ms": 60.77108799945563
+      },
+      {
+        "query_id": "conf/kdd/ChenZFLPWD24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.5857421563596759,
+        "elapsed_ms": 51.17463099304587
+      },
+      {
+        "query_id": "conf/sigir/ZhaiCL24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 46.5182729967637
+      },
+      {
+        "query_id": "conf/wsdm/WangGTYHX0024",
+        "reachable": 7,
+        "candidate": 7,
+        "hit": 1,
+        "oracle_ndcg": 0.9202054614375518,
+        "elapsed_ms": 49.20836399833206
+      },
+      {
+        "query_id": "conf/www/Dash0H24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 44.68792999978177
+      },
+      {
+        "query_id": "journals/tist/KhoshraftarA24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 64.66780399205163
+      },
+      {
+        "query_id": "journals/tkde/LiuCZSZZ24",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8922108454754891,
+        "elapsed_ms": 37.5330800015945
+      },
+      {
+        "query_id": "journals/tois/Giner24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 45.71374900115188
+      },
+      {
+        "query_id": "conf/cikm/DaiZHTLX24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7751482523375256,
+        "elapsed_ms": 79.44618100009393
+      },
+      {
+        "query_id": "conf/icml/ZhongLLJYZYZXMX24",
+        "reachable": 5,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.3589542101716347,
+        "elapsed_ms": 31.74441499868408
+      },
+      {
+        "query_id": "conf/kdd/QiaoPCLS0R24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.27487633291429087,
+        "elapsed_ms": 55.48765599087346
+      },
+      {
+        "query_id": "conf/sigir/AnandVSA24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 44.65610100305639
+      },
+      {
+        "query_id": "conf/wsdm/ZhangWLTZ24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.8687949224876582,
+        "elapsed_ms": 66.31151799228974
+      },
+      {
+        "query_id": "conf/www/Jain24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 51.95776499749627
+      },
+      {
+        "query_id": "journals/tist/LeL24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 50.42666199733503
+      },
+      {
+        "query_id": "journals/tkde/WuZLSQ24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.5531464700081437,
+        "elapsed_ms": 61.94481199781876
+      },
+      {
+        "query_id": "journals/tois/LiZWZ24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 60.7006759964861
+      },
+      {
+        "query_id": "conf/cikm/LiuJC24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 51.11531000875402
+      },
+      {
+        "query_id": "conf/icml/ByambadalaiOY24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 62.254311007563956
+      },
+      {
+        "query_id": "conf/kdd/JagirdarTP0M24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 42.40271699381992
+      },
+      {
+        "query_id": "conf/sigir/ShuXTZWZ24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.4935232796777482,
+        "elapsed_ms": 37.804266990860924
+      },
+      {
+        "query_id": "conf/wsdm/Savage24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 37.504225998418406
+      },
+      {
+        "query_id": "conf/www/Weld24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 42.5795180053683
+      },
+      {
+        "query_id": "journals/tist/XuCSJZW24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 41.62225699110422
+      },
+      {
+        "query_id": "journals/tkde/LiuDLX24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 55.35786401014775
+      },
+      {
+        "query_id": "journals/tois/ZhuoQHDLW24",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 55.036853009369224
+      },
+      {
+        "query_id": "conf/cikm/ShengYGWCZCZG0J24",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.6489315753318465,
+        "elapsed_ms": 46.73655200167559
+      },
+      {
+        "query_id": "conf/icml/StadlerKGPT24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 52.07918300584424
+      },
+      {
+        "query_id": "conf/kdd/YeomYPJKOL24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.44830398990253034,
+        "elapsed_ms": 49.24022300110664
+      },
+      {
+        "query_id": "conf/sigir/JiangWLWHQ24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 57.00772900308948
+      },
+      {
+        "query_id": "conf/wsdm/SajadmaneshG24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 53.36393498873804
+      },
+      {
+        "query_id": "conf/www/DuanY0ZDLL024",
+        "reachable": 6,
+        "candidate": 6,
+        "hit": 1,
+        "oracle_ndcg": 0.8358912271816661,
+        "elapsed_ms": 51.84780999843497
+      },
+      {
+        "query_id": "journals/tist/ZhuangZLHL24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 68.27101200178731
+      },
+      {
+        "query_id": "journals/tkde/ZhongLCP24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 52.39467199135106
+      },
+      {
+        "query_id": "journals/tois/KrasakisYK24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 44.07820000778884
+      },
+      {
+        "query_id": "conf/cikm/Zhao0HYLW024",
+        "reachable": 4,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.44830398990253034,
+        "elapsed_ms": 63.93933200160973
+      },
+      {
+        "query_id": "conf/icml/HuangGYDH24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.7227265726449519,
+        "elapsed_ms": 56.28484800399747
+      },
+      {
+        "query_id": "conf/kdd/SalganikLMKC24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 46.47128499345854
+      }
+    ],
+    "4096": [
+      {
+        "query_id": "conf/cikm/WangWWL24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 81.19760600675363
+      },
+      {
+        "query_id": "conf/icml/MemmelMSWB24",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 72.33182698837481
+      },
+      {
+        "query_id": "conf/kdd/CaiZHS0ZC024",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 65.38979499600828
+      },
+      {
+        "query_id": "conf/sigir/ManN24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 83.25410199176986
+      },
+      {
+        "query_id": "conf/wsdm/ShirzadkhaniHKR24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.7227265726449519,
+        "elapsed_ms": 67.14145001024008
+      },
+      {
+        "query_id": "conf/www/WangTHYLZZPW24",
+        "reachable": 8,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.6020941629041775,
+        "elapsed_ms": 160.70588400179986
+      },
+      {
+        "query_id": "journals/tist/YuWXSWWZX24",
+        "reachable": 7,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.5390031312763821,
+        "elapsed_ms": 106.55299300560728
+      },
+      {
+        "query_id": "journals/tkde/TuLZPMLLCH24",
+        "reachable": 4,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.3833427799846345,
+        "elapsed_ms": 69.73034200200345
+      },
+      {
+        "query_id": "journals/tois/ZhangWS24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.7653606369886217,
+        "elapsed_ms": 67.01572499878239
+      },
+      {
+        "query_id": "conf/cikm/0008ZRHJQSX0024",
+        "reachable": 5,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 68.7820580060361
+      },
+      {
+        "query_id": "conf/icml/Chen0CS0GHSC24",
+        "reachable": 5,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.2350455494144854,
+        "elapsed_ms": 40.1717040076619
+      },
+      {
+        "query_id": "conf/kdd/VashishthaPMNAK24",
+        "reachable": 2,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.27487633291429087,
+        "elapsed_ms": 99.78592798870523
+      },
+      {
+        "query_id": "conf/sigir/LiW24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 90.3016119991662
+      },
+      {
+        "query_id": "conf/wsdm/SakotaP024",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 88.8376039947616
+      },
+      {
+        "query_id": "conf/www/ChristmannRW24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 60.00837100145873
+      },
+      {
+        "query_id": "journals/tist/GabboliniB24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 65.64053300826345
+      },
+      {
+        "query_id": "journals/tkde/ZhengMZZZYYZJ24",
+        "reachable": 4,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.3833427799846345,
+        "elapsed_ms": 85.0086340069538
+      },
+      {
+        "query_id": "journals/tois/ZhangLW24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 80.73753600183409
+      },
+      {
+        "query_id": "conf/cikm/MengLWJNQ24",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 101.72803000023123
+      },
+      {
+        "query_id": "conf/icml/KalluriMC24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 76.4408909890335
+      },
+      {
+        "query_id": "conf/kdd/JiaWD000WGT24",
+        "reachable": 8,
+        "candidate": 6,
+        "hit": 1,
+        "oracle_ndcg": 0.7767471075223498,
+        "elapsed_ms": 79.13142300094478
+      },
+      {
+        "query_id": "conf/sigir/JiHSSS24",
+        "reachable": 5,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.8687949224876582,
+        "elapsed_ms": 71.70403200143483
+      },
+      {
+        "query_id": "conf/wsdm/Lajewska24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 74.72704499377869
+      },
+      {
+        "query_id": "conf/www/TodorovFD024",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 71.14782299322542
+      },
+      {
+        "query_id": "journals/tist/TangWZJ24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3903800499921017,
+        "elapsed_ms": 87.21217399579473
+      },
+      {
+        "query_id": "journals/tkde/LiZZC24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3903800499921017,
+        "elapsed_ms": 73.16907300264575
+      },
+      {
+        "query_id": "journals/tois/WeiZHY24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 98.5005750117125
+      },
+      {
+        "query_id": "conf/cikm/0002ZHW024",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 75.65790599619504
+      },
+      {
+        "query_id": "conf/icml/MaCYLG024",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 95.01037700101733
+      },
+      {
+        "query_id": "conf/kdd/NieZFH024",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 90.37662199989427
+      },
+      {
+        "query_id": "conf/sigir/RahmanKHS24",
+        "reachable": 4,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 104.86963498988189
+      },
+      {
+        "query_id": "conf/wsdm/WenCTGWDXZLZL24",
+        "reachable": 9,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.3589542101716347,
+        "elapsed_ms": 95.73023300617933
+      },
+      {
+        "query_id": "conf/www/MaTCZXZCZG24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.2350455494144854,
+        "elapsed_ms": 99.4827609974891
+      },
+      {
+        "query_id": "journals/tist/MahajanCC24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 89.68434699636418
+      },
+      {
+        "query_id": "journals/tkde/LiYGWZL24",
+        "reachable": 6,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.644824486427155,
+        "elapsed_ms": 88.01139901333954
+      },
+      {
+        "query_id": "journals/tois/PengZHHLYY24",
+        "reachable": 5,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.44830398990253034,
+        "elapsed_ms": 80.52412699908018
+      },
+      {
+        "query_id": "conf/cikm/000124",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 82.9403160023503
+      },
+      {
+        "query_id": "conf/icml/ZhangC24",
+        "reachable": 2,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.6131471927654584,
+        "elapsed_ms": 63.741411999217235
+      },
+      {
+        "query_id": "conf/kdd/MaddockCM24",
+        "reachable": 2,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.46927872602275644,
+        "elapsed_ms": 88.39657899807207
+      },
+      {
+        "query_id": "conf/sigir/TyomkinK24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.6131471927654584,
+        "elapsed_ms": 56.53419300506357
+      },
+      {
+        "query_id": "conf/wsdm/Lenti24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 100.41129800083581
+      },
+      {
+        "query_id": "conf/www/0002BAZQA24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 90.25443300197367
+      },
+      {
+        "query_id": "journals/tist/AliKZS24",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 89.48697800224181
+      },
+      {
+        "query_id": "journals/tkde/ZhaoCYGZZ24",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8922108454754891,
+        "elapsed_ms": 68.99530701048207
+      },
+      {
+        "query_id": "journals/tois/RashidiZM24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 66.69557699933648
+      },
+      {
+        "query_id": "conf/cikm/KimKCC24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 86.27123500627931
+      },
+      {
+        "query_id": "conf/icml/0006J00W24",
+        "reachable": 5,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.7227265726449519,
+        "elapsed_ms": 77.26326800184324
+      },
+      {
+        "query_id": "conf/kdd/DingM0P24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.6366824387328317,
+        "elapsed_ms": 81.02208799391519
+      },
+      {
+        "query_id": "conf/sigir/Liu0GRFC24",
+        "reachable": 6,
+        "candidate": 6,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 87.0553410059074
+      },
+      {
+        "query_id": "conf/wsdm/Xie0YZDH24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.4935232796777482,
+        "elapsed_ms": 91.80614500655793
+      },
+      {
+        "query_id": "conf/www/ZhuZWZD24",
+        "reachable": 5,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.7227265726449519,
+        "elapsed_ms": 68.31940299889538
+      },
+      {
+        "query_id": "journals/tist/SamarakoonME24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 64.49557300948072
+      },
+      {
+        "query_id": "journals/tkde/ZhaoZLHWF24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7751482523375256,
+        "elapsed_ms": 75.92074800049886
+      },
+      {
+        "query_id": "journals/tois/LiCWHYD24",
+        "reachable": 5,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3026024134988135,
+        "elapsed_ms": 83.50857799814548
+      },
+      {
+        "query_id": "conf/cikm/DaCJM024",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 67.04099199851044
+      },
+      {
+        "query_id": "conf/icml/LazzatiMM24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.46927872602275644,
+        "elapsed_ms": 69.50790600967593
+      },
+      {
+        "query_id": "conf/kdd/0003QXH00WL24",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 73.04542099882383
+      },
+      {
+        "query_id": "conf/sigir/ZengBRZM24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 90.44870700745378
+      },
+      {
+        "query_id": "conf/wsdm/HuGLLTZK24",
+        "reachable": 7,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7041249493150388,
+        "elapsed_ms": 84.88535298965871
+      },
+      {
+        "query_id": "conf/www/WuFL24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 92.238062992692
+      },
+      {
+        "query_id": "journals/tist/ZhuYXC24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 66.15629799489398
+      },
+      {
+        "query_id": "journals/tkde/LiLSLZWS24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 81.11641499272082
+      },
+      {
+        "query_id": "journals/tois/LienZC24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.7653606369886217,
+        "elapsed_ms": 74.02840899885632
+      },
+      {
+        "query_id": "conf/cikm/0002VM24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 85.83965800062288
+      },
+      {
+        "query_id": "conf/icml/LiLYZ24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 111.56743099854793
+      },
+      {
+        "query_id": "conf/kdd/LiL0OZR24",
+        "reachable": 4,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.644824486427155,
+        "elapsed_ms": 72.74171299650334
+      },
+      {
+        "query_id": "conf/sigir/ZhaoXZH24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 82.57379000133369
+      },
+      {
+        "query_id": "conf/wsdm/YuanZC024",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3903800499921017,
+        "elapsed_ms": 116.6627890052041
+      },
+      {
+        "query_id": "conf/www/TanZZMWLLH024",
+        "reachable": 4,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.5008655546918773,
+        "elapsed_ms": 74.52937601192389
+      },
+      {
+        "query_id": "journals/tist/YangSYLLXSF24",
+        "reachable": 4,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 100.47326299536508
+      },
+      {
+        "query_id": "journals/tkde/LiuPTJWWPW24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 64.8568280012114
+      },
+      {
+        "query_id": "journals/tois/YangZSDZL24",
+        "reachable": 5,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.4935232796777482,
+        "elapsed_ms": 79.44465799664613
+      },
+      {
+        "query_id": "conf/cikm/YangGTLDOZ0FD0X24",
+        "reachable": 5,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 80.31088800635189
+      },
+      {
+        "query_id": "conf/icml/YuanFRHA24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 79.95948099414818
+      },
+      {
+        "query_id": "conf/kdd/00040FZ0H024",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8104616303452686,
+        "elapsed_ms": 62.34749600116629
+      },
+      {
+        "query_id": "conf/sigir/ZhuangZKZ24",
+        "reachable": 4,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3903800499921017,
+        "elapsed_ms": 88.1981580023421
+      },
+      {
+        "query_id": "conf/wsdm/ChenLWCW024",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8922108454754891,
+        "elapsed_ms": 71.482647996163
+      },
+      {
+        "query_id": "conf/www/YanCWYDS24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3026024134988135,
+        "elapsed_ms": 86.39666899398435
+      },
+      {
+        "query_id": "journals/tist/MaSYZ24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 82.8546549892053
+      },
+      {
+        "query_id": "journals/tkde/ZhengHQCGSZX24",
+        "reachable": 7,
+        "candidate": 7,
+        "hit": 1,
+        "oracle_ndcg": 0.9202054614375518,
+        "elapsed_ms": 78.72831900021993
+      },
+      {
+        "query_id": "journals/tois/JingSLZZN24",
+        "reachable": 6,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.644824486427155,
+        "elapsed_ms": 80.7316849968629
+      },
+      {
+        "query_id": "conf/cikm/SiGSZLHCYZLZZN024",
+        "reachable": 13,
+        "candidate": 10,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 100.6647620088188
+      },
+      {
+        "query_id": "conf/icml/ChaudhuryMY0MP24",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8922108454754891,
+        "elapsed_ms": 85.52053099265322
+      },
+      {
+        "query_id": "conf/kdd/WuXZZZLKX24",
+        "reachable": 6,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 84.68709199223667
+      },
+      {
+        "query_id": "conf/sigir/YangC024",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 84.41779899294488
+      },
+      {
+        "query_id": "conf/wsdm/LiuZZ024",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.8318724637288826,
+        "elapsed_ms": 73.84855300188065
+      },
+      {
+        "query_id": "conf/www/BhaskaraGIKMS24",
+        "reachable": 6,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7751482523375256,
+        "elapsed_ms": 82.61513699835632
+      },
+      {
+        "query_id": "journals/tist/LiuJZYWZDD24",
+        "reachable": 7,
+        "candidate": 6,
+        "hit": 1,
+        "oracle_ndcg": 0.8358912271816661,
+        "elapsed_ms": 97.73011298966594
+      },
+      {
+        "query_id": "journals/tkde/LiYYLC24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 72.34147499548271
+      },
+      {
+        "query_id": "journals/tois/LiGLSLDSX24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.4125317798925535,
+        "elapsed_ms": 81.53921501070727
+      },
+      {
+        "query_id": "conf/cikm/LiuW00ZL0Z0WY024",
+        "reachable": 10,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.4690000933206748,
+        "elapsed_ms": 71.6350139991846
+      },
+      {
+        "query_id": "conf/icml/0001XNZ24",
+        "reachable": 4,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.6366824387328317,
+        "elapsed_ms": 86.23209100915119
+      },
+      {
+        "query_id": "conf/kdd/ChenZFLPWD24",
+        "reachable": 4,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.5857421563596759,
+        "elapsed_ms": 72.89061200572178
+      },
+      {
+        "query_id": "conf/sigir/ZhaiCL24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 77.50822699745186
+      },
+      {
+        "query_id": "conf/wsdm/WangGTYHX0024",
+        "reachable": 7,
+        "candidate": 7,
+        "hit": 1,
+        "oracle_ndcg": 0.9202054614375518,
+        "elapsed_ms": 81.1896419909317
+      },
+      {
+        "query_id": "conf/www/Dash0H24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 73.65270699665416
+      },
+      {
+        "query_id": "journals/tist/KhoshraftarA24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 90.31855400826316
+      },
+      {
+        "query_id": "journals/tkde/LiuCZSZZ24",
+        "reachable": 6,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.8922108454754891,
+        "elapsed_ms": 60.98454700259026
+      },
+      {
+        "query_id": "journals/tois/Giner24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 68.16408300073817
+      },
+      {
+        "query_id": "conf/cikm/DaiZHTLX24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.7751482523375256,
+        "elapsed_ms": 127.30309799371753
+      },
+      {
+        "query_id": "conf/icml/ZhongLLJYZYZXMX24",
+        "reachable": 5,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.3589542101716347,
+        "elapsed_ms": 46.937417006120086
+      },
+      {
+        "query_id": "conf/kdd/QiaoPCLS0R24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.27487633291429087,
+        "elapsed_ms": 81.41120600339491
+      },
+      {
+        "query_id": "conf/sigir/AnandVSA24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 68.1106130068656
+      },
+      {
+        "query_id": "conf/wsdm/ZhangWLTZ24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 0.8687949224876582,
+        "elapsed_ms": 87.87564499652945
+      },
+      {
+        "query_id": "conf/www/Jain24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 61.40387000050396
+      },
+      {
+        "query_id": "journals/tist/LeL24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 82.20318700477947
+      },
+      {
+        "query_id": "journals/tkde/WuZLSQ24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.5531464700081437,
+        "elapsed_ms": 88.73321900318842
+      },
+      {
+        "query_id": "journals/tois/LiZWZ24",
+        "reachable": 4,
+        "candidate": 4,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 85.77313300338574
+      },
+      {
+        "query_id": "conf/cikm/LiuJC24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 74.62243999179918
+      },
+      {
+        "query_id": "conf/icml/ByambadalaiOY24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 89.9049199942965
+      },
+      {
+        "query_id": "conf/kdd/JagirdarTP0M24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 69.3872999981977
+      },
+      {
+        "query_id": "conf/sigir/ShuXTZWZ24",
+        "reachable": 3,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.4935232796777482,
+        "elapsed_ms": 56.78337000426836
+      },
+      {
+        "query_id": "conf/wsdm/Savage24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 62.288215005537495
+      },
+      {
+        "query_id": "conf/www/Weld24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 71.70454299193807
+      },
+      {
+        "query_id": "journals/tist/XuCSJZW24",
+        "reachable": 4,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 67.07846200151835
+      },
+      {
+        "query_id": "journals/tkde/LiuDLX24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 83.77013700373936
+      },
+      {
+        "query_id": "journals/tois/ZhuoQHDLW24",
+        "reachable": 3,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 80.0926800002344
+      },
+      {
+        "query_id": "conf/cikm/ShengYGWCZCZG0J24",
+        "reachable": 8,
+        "candidate": 5,
+        "hit": 1,
+        "oracle_ndcg": 0.6489315753318465,
+        "elapsed_ms": 80.64749800541904
+      },
+      {
+        "query_id": "conf/icml/StadlerKGPT24",
+        "reachable": 3,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 76.52655099809635
+      },
+      {
+        "query_id": "conf/kdd/YeomYPJKOL24",
+        "reachable": 2,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.44830398990253034,
+        "elapsed_ms": 74.71342000644654
+      },
+      {
+        "query_id": "conf/sigir/JiangWLWHQ24",
+        "reachable": 2,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 85.19498100213241
+      },
+      {
+        "query_id": "conf/wsdm/SajadmaneshG24",
+        "reachable": 0,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 78.5699719999684
+      },
+      {
+        "query_id": "conf/www/DuanY0ZDLL024",
+        "reachable": 6,
+        "candidate": 6,
+        "hit": 1,
+        "oracle_ndcg": 0.8358912271816661,
+        "elapsed_ms": 81.10094600124285
+      },
+      {
+        "query_id": "journals/tist/ZhuangZLHL24",
+        "reachable": 1,
+        "candidate": 1,
+        "hit": 1,
+        "oracle_ndcg": 0.3391602052736161,
+        "elapsed_ms": 98.02704901085235
+      },
+      {
+        "query_id": "journals/tkde/ZhongLCP24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 81.82181300071534
+      },
+      {
+        "query_id": "journals/tois/KrasakisYK24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 1.0,
+        "elapsed_ms": 73.24854099715594
+      },
+      {
+        "query_id": "conf/cikm/Zhao0HYLW024",
+        "reachable": 4,
+        "candidate": 2,
+        "hit": 1,
+        "oracle_ndcg": 0.44830398990253034,
+        "elapsed_ms": 94.82555199065246
+      },
+      {
+        "query_id": "conf/icml/HuangGYDH24",
+        "reachable": 3,
+        "candidate": 3,
+        "hit": 1,
+        "oracle_ndcg": 0.7227265726449519,
+        "elapsed_ms": 85.38386500731576
+      },
+      {
+        "query_id": "conf/kdd/SalganikLMKC24",
+        "reachable": 1,
+        "candidate": 0,
+        "hit": 0,
+        "oracle_ndcg": 0.0,
+        "elapsed_ms": 74.51090200629551
+      }
+    ]
+  }
+}
