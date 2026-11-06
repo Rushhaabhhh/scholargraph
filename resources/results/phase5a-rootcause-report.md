@@ -65,7 +65,7 @@ In `src/hiresense/ranking/lambdamart.py`, future-paper authors among retrieved c
 
 ## Reproduce
 
-Run from the repository root with prepared local artifacts. The full scan is CPU/IO intensive and takes several minutes; it writes a temporary file and does not ingest data. The second command runs offline retrieval only. The third assembles the machine-readable reports. Scripts currently write temporary working files under `/tmp`; back up any same-named files first.
+Run from the repository root with prepared local artifacts. First restore the archived diagnostic scripts with `unzip -n scripts/historical-ml.zip "scripts/phase5a_*" -d .` and the earlier funnel report with `unzip -n resources/results/historical-ml.zip "resources/results/phase1-baseline-funnel-v1.json" -d .`. The full scan is CPU/IO intensive and takes several minutes; it writes a temporary file and does not ingest data. The second command runs offline retrieval only. The third assembles the machine-readable reports. Scripts currently write temporary working files under `/tmp`; back up any same-named files first.
 
 ```sh
 PYTHONPATH=src .venv/bin/python scripts/phase5a_archive_diagnostic.py

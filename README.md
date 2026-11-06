@@ -1,118 +1,228 @@
-# ScholarGraph
+# ScholarGraph — Research Expert Discovery
 
-Offline research-expert discovery using public DBLP bibliographic data. The Python backend owns ingestion, identity resolution, the dated context graph, retrieval, ranking, grounded explanations and session memory. SQLite stores research data and sessions separately.
+ScholarGraph is an **AI-powered research expert discovery system** that identifies researchers from public DBLP publication data. It combines a **research collaboration graph**, **hybrid search**, and a **machine learning ranking model** to match research topics with relevant authors. A Next.js interface presents researcher profiles, supporting publications, and collaboration evidence, while a Python API powers search, conversations, and voice interaction.
 
-The Next.js/TypeScript application in `web/` connects to the Python API. It includes search and supported recency/year filters, sourced evidence, author profiles, an assistant, a shortlist/rejected list, and session-memory controls. It uses a local browser session because the API has no account system. The earlier static prototype is preserved in `resources/experiments/frozen-source-504ec1.zip`.
+## Architecture
 
-## Setup
-
-Use Python 3.12 or newer. Keep `pyproject.toml` at the root: it is the standard package/build configuration. Pinned runtime, training and optional local-LLM dependencies are in `config/`.
-
-```sh
-uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python -r config/requirements.lock
-(cd web && npm ci)
+```mermaid
+flowchart LR
+    User[User] --> Web[Next.js Frontend]
+    Web --> API[FastAPI Backend]
+    API --> Search[Research Search and Ranking]
+    API --> Conversation[Conversation and Voice]
+    Search --> Graph[(SQLite Research Graph)]
+    Search --> Index[BM25 and MiniLM Indexes]
+    Search --> Ranker[LambdaMART Ranker]
+    API --> Sessions[(SQLite Session Storage)]
+    DBLP[DBLP XML] --> Ingest[Data Ingestion and Identity Resolution]
+    Ingest --> Graph
+    Graph --> Index
 ```
 
-Install `config/requirements-training.lock` when training or reproducing model experiments.
+- **Frontend:** Search for researchers, inspect profiles and evidence, maintain shortlists, and use text or voice conversations.
+- **Backend API:** Serves research search, author profiles, session memory, conversations, and voice endpoints.
+- **Research graph:** Stores publications, authors, and dated collaboration relationships in SQLite.
+- **Retrieval and ranking:** Combines keyword and semantic search with a trained model to rank author candidates.
+- **Local storage:** Keeps research data and session state in separate SQLite databases.
+- **Offline execution:** Research search and batch inference run without API keys once dependencies and data are prepared.
 
-Dependency installation and the initial Docker image build may require network access. Inference, prepared tests, the batch command and the running API require no API key or network access.
+## ML Pipeline
 
-## Run the required batch interface
-
-```sh
-./run --data resources/examples/sample.xml --queries resources/examples/queries.txt --out /tmp/hiresense-results.json
+```mermaid
+flowchart TD
+    A[DBLP XML] --> B[Parse publications and resolve author identities]
+    B --> C[Build dated research graph]
+    C --> D[Build BM25 and MiniLM paper indexes]
+    Q[Research query] --> E[Retrieve relevant papers]
+    D --> E
+    E --> F[Aggregate papers into author candidates]
+    F --> G[Extract relevance, publication, recency and graph features]
+    G --> H[Rank authors with LambdaMART]
+    H --> I[Return researchers with publication evidence]
+    C --> J[Create historical graph snapshots]
+    J --> K[Generate future-authorship proxy labels]
+    K --> L[Train and validate ranking model]
+    L --> H
 ```
 
-The command accepts another valid DBLP-style XML slice and a text file with one query per line. It creates an isolated temporary graph/index and writes ranked people, scores, explanations and sourced paper evidence as JSON. Scores are ranking values, not probabilities. The included 200-paper sample is a functional demonstration, not an accuracy benchmark.
+The serving pipeline retrieves up to **1,024 papers per search channel** and combines their evidence into up to **800 author candidates**. The selected 80-tree LambdaMART model ranks candidates using research relevance and graph features. Scores are ranking signals, not probabilities.
 
-## Run the application
+The [temporal evaluation](resources/results/lean-final-v1.json) reports nDCG@10 of **0.0354** and candidate-list MRR of **0.0488** on 500 queries. Future authorship provides incomplete proxy labels; independent human relevance review is pending. See [evaluation details](resources/results/README.md).
 
-For local development, start the API and frontend together:
+## Features
 
-```sh
-./scripts/start-local.sh
+### Researcher Search
+
+- Search for experts by research topic using **BM25 keyword search** and **MiniLM semantic embeddings**.
+- Apply supported publication-year and recency filters.
+- Rank authors using publication evidence, topical relevance, recency, and collaboration features.
+
+### Research Profiles and Evidence
+
+- Explore author profiles, publications, publication years, and collaborators.
+- Review source-backed evidence explaining why a researcher appeared in results.
+- Shortlist or reject researchers and manage search-session memory.
+
+### Research Graph and Data Processing
+
+- Parse DBLP XML and resolve author identities into a dated research graph.
+- Build local paper indexes for keyword and semantic retrieval.
+- Run batch discovery against a DBLP XML slice and a list of research queries.
+
+### Conversations and Voice
+
+- Use persistent text conversations with optional research-record lookup.
+- Attach UTF-8 text, Markdown, CSV, and JSON documents as bounded model context.
+- Use local Vosk speech recognition and Piper speech synthesis, or configure supported remote providers.
+- Stream responses from a configured local, Ollama, or OpenAI-compatible model.
+
+### Training and Evaluation
+
+- Rebuild temporal graph snapshots and train an experimental LambdaMART ranker.
+- Evaluate retrieval and ranking against future-authorship proxy labels.
+- Run backend, frontend, and browser tests.
+
+The conversation workspace is currently independent of the graph-tool assistant backend; the complete search → three-tool assistant → shortlist journey is not yet integrated. The application has no account authentication and is intended for local use.
+
+## Tech Stack
+
+### Frontend
+
+- **Next.js, React, TypeScript:** Application interface and API proxy.
+- **CSS:** Application styling.
+- **Vitest and Playwright:** Component and browser testing.
+
+### Backend and Data
+
+- **Python 3.12, FastAPI, Pydantic, Uvicorn:** API and data-processing services.
+- **SQLite:** Research graph and separate session storage.
+- **DBLP XML:** Bibliographic source data.
+- **NumPy and scikit-learn:** Numerical processing and supporting ML utilities.
+
+### Machine Learning and Voice
+
+- **BM25 and MiniLM:** Keyword and semantic paper retrieval.
+- **ONNX Runtime:** Local encoder and cross-encoder inference.
+- **LambdaMART and LightGBM:** Learning-to-rank inference and training.
+- **llama-cpp-python, Ollama, or an OpenAI-compatible endpoint:** Optional conversation model providers.
+- **Vosk and Piper:** Optional local speech recognition and synthesis.
+
+### Infrastructure
+
+- **Docker and Docker Compose:** Containerized application deployment.
+- **unittest:** Python test suite.
+
+## Codebase Structure
+
+```text
+src/hiresense/
+├── data/          DBLP ingestion, preparation, and temporal history
+├── graph/         Graph construction, author resolution, and queries
+├── retrieval/     Indexes, encoders, and hybrid search
+├── ranking/       Ranking features, model scoring, and evidence
+├── evaluation/    Retrieval, ranking, and assistant evaluation
+├── api/           FastAPI application, schemas, and runtime
+├── assistant/     Grounding, providers, safety, and memory
+├── conversation/  Conversation routes
+├── voice/         Speech routes and providers
+├── batch.py       Offline batch pipeline
+└── cli.py         Preparation and server commands
+web/               Next.js application and frontend tests
+models/            Local ONNX encoders and ranking models
+scripts/           Startup, preparation, training, and evaluation commands
+config/            Pinned dependency files
+resources/         Sample data, contracts, experiments, and results
+tests/             Python tests
+data/              Local data, indexes, downloaded models, and session state
+docs/              Architecture and design documentation
+run                Offline batch entry point
 ```
 
-Open `http://127.0.0.1:3017`. The command uses the existing prepared research graph and trained model when available; otherwise it prepares the bundled sample as a small functional demo. It waits for the API to become ready and stops both services with Ctrl+C. Set `SCHOLARGRAPH_BACKEND_PORT` or `SCHOLARGRAPH_WEB_PORT` if the defaults are occupied, or set `HIRESENSE_CONFIG` to use a different prepared backend. Install the Python and frontend dependencies from the setup instructions first.
+## Running Locally
 
-Alternatively, with Docker:
+### Docker Compose
 
-```sh
+Requirements: Docker and Docker Compose. Run from the project root:
+
+```bash
 docker compose up --build
 ```
 
-The first start prepares the bundled sample graph. Open `http://localhost:3000` for the application. The API is available at `http://localhost:8000`; `GET /health` reports readiness and `GET /openapi.json` exposes its contract. Building images requires dependencies and base images; once prepared, the application runs offline without API keys. The small included sample is for functional testing, not a measure of ranking quality.
+Open **http://localhost:3000**. The API health endpoint is at **http://localhost:8000/health**, and its schema is at **http://localhost:8000/openapi.json**. The first startup prepares the included 200-paper DBLP sample in a Docker volume. Search for `graph neural networks` to try it. Press `Ctrl+C` to stop the application.
 
-For frontend development, prepare the API as below, then run `cd web && npm ci && npm run dev`. Run `cd web && npm test` for component tests. With the API and frontend running, use `cd web && npm run test:e2e` for browser tests (install Playwright Chromium first with `npx playwright install chromium`, or set `CHROMIUM_PATH` to a compatible local executable).
+Building the images requires network access for dependencies and speech models. Full Compose startup was not verified on the original machine because its Docker daemon failed to start. The optional conversation model is not included in the image and requires separate configuration.
 
-For local Python development without Docker, use a new output directory:
+### Local Development
 
-```sh
-PYTHONPATH=src .venv/bin/python -m hiresense.cli prepare-backend --data resources/examples/sample.xml --out data/processed/backend-demo-new
-PYTHONPATH=src .venv/bin/python -m hiresense.cli serve --config data/processed/backend-demo-new/backend.json
+Requirements: Python 3.12, [uv](https://docs.astral.sh/uv/), Node.js, and npm.
+
+```bash
+uv venv --python 3.12 .venv
+uv pip install --python .venv/bin/python -r config/requirements.lock
+(cd web && npm ci)
+./scripts/start-local.sh
 ```
 
-## Voice assistant
+Open **http://127.0.0.1:3017**. The script starts the API on port `8017` and the frontend on port `3017`. It uses a prepared larger graph when available or prepares the bundled sample. Set `HIRESENSE_CONFIG`, `SCHOLARGRAPH_BACKEND_PORT`, or `SCHOLARGRAPH_WEB_PORT` to change the defaults. Press `Ctrl+C` to stop both services.
 
-Voice and text share the same independent conversation and language model. The local mode records one utterance at a time, sends it to Vosk, passes the transcript to the conversation model, and speaks the response with Piper; continuous mode repeats this cycle. Local transcription is utterance-based, not live streaming. Browser recognition is an optional alternative and may use an external browser service.
+### Offline Batch Search
 
-For credential-free local voice, install the optional dependencies and download the models once:
+With the Python runtime dependencies installed:
 
-```sh
+```bash
+./run --data resources/examples/sample.xml --queries resources/examples/queries.txt --out /tmp/hiresense-results.json
+```
+
+Use your own DBLP-format XML file and a text file with one query per line to process another dataset. The command creates a temporary graph and index and writes ranked researchers and supporting evidence to JSON. The bundled sample is a functional demonstration, not an accuracy benchmark.
+
+### Conversation Model
+
+Install the optional local model runtime and download the small fallback model:
+
+```bash
+uv pip install --python .venv/bin/python -r config/requirements-llm.lock
+.venv/bin/python scripts/prepare_query_model.py
+```
+
+The default model is a small 0.5B fallback with limited instruction following and reasoning. Alternatively, configure Ollama or an OpenAI-compatible endpoint with the `SCHOLARGRAPH_CHAT_*` settings in [.env.example](.env.example). Export settings before starting the local script, or place them in a root `.env` for Compose, and restart the API after changes. The Docker image does not include the local conversation model or `llama-cpp-python`.
+
+### Voice
+
+For local voice outside Docker, install the optional dependencies and download the speech models:
+
+```bash
 uv pip install --python .venv/bin/python -r config/voice-requirements.lock
 .venv/bin/python scripts/prepare_voice.py
 .venv/bin/python -m piper.download_voices --data-dir data/models/piper en_US-ljspeech-medium
 ```
 
-The voice assets live under ignored `data/models/`; runtime does not download them. Docker prepares them during image build. The first voice request loads the models and may take longer. Start the app, open **Conversations → Voice**, allow microphone access and speak. Use localhost or HTTPS for microphone access. Switch to text at any time; stop interrupts local capture and playback. Browser speech synthesis or an installed eSpeak provides a fallback when Piper is unavailable.
+Open **Conversations → Voice** and allow microphone access. Localhost or HTTPS is required for microphone access. The first request may take longer while models load. Docker downloads speech assets during its image build. Remote speech settings are listed in [.env.example](.env.example); keep credentials in the API server environment. Remote providers receive the relevant messages, excerpts, or audio.
 
-`.env.example` lists server-side provider settings. To use an OpenAI-compatible speech API, set `SCHOLARGRAPH_STT_PROVIDER` and/or `SCHOLARGRAPH_TTS_PROVIDER` to `openai-compatible`, and configure `SCHOLARGRAPH_SPEECH_BASE_URL`, `SCHOLARGRAPH_SPEECH_API_KEY`, and model names in the **API server environment**. For local startup, export the variables before invoking `start-local.sh`; Compose also reads a root `.env`. Never put credentials in `NEXT_PUBLIC_*`. Remote providers have their own fees, terms, and data handling. Vosk, Piper, and their voice models have separate licenses; review their upstream terms before distribution. Audio is processed in memory and is not intentionally saved by this application.
+### Training and Evaluation
 
-## Independent conversations
+Install training dependencies and provide the exact DBLP archive identified in `resources/experiments/lean-cohorts.json`:
 
-Open **Conversations** in the navigation. This is separate from the search bar and has its own persistent conversation history. Text and voice in that workspace use the same conversation. The optional “Search research records” setting calls the research backend for the next message without changing search-bar state. With the bundled local model, an explicit command such as “search for graph neural networks” also runs that lookup automatically. Uploaded UTF-8 text, Markdown, CSV and JSON files are stored with the conversation; only bounded excerpts are supplied to the model, so they are not a full-document search system.
-
-The default conversation provider uses `llama-cpp-python` and `data/models/query-understanding.gguf` when present. This small 0.5B model is a basic, local fallback with limited instruction following and reasoning, not ChatGPT-level quality. Install `config/requirements-llm.lock` or the project's `local-llm` optional dependencies and run `.venv/bin/python scripts/prepare_query_model.py` to download the optional model. Configure `SCHOLARGRAPH_CHAT_MODEL_PATH` to point at another local model. Ollama is supported with `SCHOLARGRAPH_CHAT_PROVIDER=ollama`, `SCHOLARGRAPH_CHAT_BASE_URL` (default `http://127.0.0.1:11434`) and `SCHOLARGRAPH_CHAT_MODEL`. An OpenAI-compatible chat-completions endpoint can be selected with `SCHOLARGRAPH_CHAT_PROVIDER=openai-compatible`, a `/v1` base URL, model, and server-side `SCHOLARGRAPH_CHAT_API_KEY`. Restart the Python API after changing settings. Provider output is streamed; unconfigured or unavailable providers return an error rather than a simulated answer. The Docker image does not include the optional local chat model or llama-cpp dependency; configure a reachable external provider or prepare those separately for that deployment. Remote providers receive the messages and any selected document excerpts or retrieved records.
-
-Conversations use a separate local session ID stored in browser local storage, so they can be restored after closing and reopening the browser. Clearing browser storage loses access to that session; the search-session controls do not delete conversation history. The application has no accounts or authentication; do not expose it as a multi-user service without adding authentication, authorization and appropriate transport security. Deleting a conversation permanently removes its messages and documents. Older conversation turns are summarized as context grows; summaries and document excerpts can omit detail, so check original messages and files when accuracy matters.
-
-## Results and reproducibility
-
-See [results and measured limitations](resources/results/README.md), the [project journal](docs/project-journal.md), and the [training workbook](docs/model-training-workbook.md). The trained ranker's final held-out nDCG@10 and MRR were 0.0354 and 0.0488; these are weak future-authorship-proxy scores, not hiring accuracy. The recorded test has been inspected and must not be reused for model selection.
-
-Current experiment inputs and results are in `resources/experiments/` and `resources/results/`. Earlier configurations and reports are in the respective `historical.zip` archives. Their contents are preserved as historical records, including their original paths and hashes.
-
-Moving runtime assets required changes to Python source paths. **The previously frozen experiment binds the old exact package hash.** Its original source, scripts, configuration, recordings, sample, model JSON and prototype were captured before the move in `resources/experiments/frozen-source-504ec1.zip`. Reproduce that frozen run from the restored snapshot, with the matching raw DBLP and generated data artifacts; do not alter its freeze or claim the reorganized package has the old hash. Full raw-archive replay was not completed; a synthetic rebuild and 100 sampled source records were checked.
-
-For an engineering replay of the same data and inspected test, use the original DBLP archive whose SHA-256 is recorded in `resources/experiments/lean-cohorts.json`, and fresh output paths:
-
-```sh
+```bash
+uv pip install --python .venv/bin/python -r config/requirements-training.lock
 PYTHONPATH=src .venv/bin/python scripts/rebuild_lean_data.py --archive data/raw/dblp.xml.gz --out data/processed/lean-rebuilt
 PYTHONPATH=src .venv/bin/python scripts/train_lean.py --data data/processed/lean-rebuilt --work /tmp/lean-train --report /tmp/lean-validation.json --freeze /tmp/lean-freeze.json --model /tmp/lean-model.json
 PYTHONPATH=src .venv/bin/python scripts/evaluate_lean.py --data data/processed/lean-rebuilt --freeze /tmp/lean-freeze.json --out /tmp/lean-final.json
 ```
 
-These commands have not been replayed end to end on the full archive. Their fixed test is already inspected and is suitable only for reproduction or regression; use a new untouched test when making further model decisions.
+These commands write an experimental reproduction to fresh paths without overwriting the selected model. The final test has already been inspected and is for reproduction, not model selection. See [evaluation and reproduction details](resources/results/README.md) for the frozen source and package requirements.
 
-## Layout
+### Tests
 
-```text
-config/          Pinned dependency files
-contracts/       API, batch and tool schemas
-resources/
-  examples/      Small public DBLP sample and queries
-  experiments/   Active configurations, frozen source snapshot and historical archive
-  recordings/    Local query-understanding outputs and provenance
-  results/       Current reports and historical archive
-src/hiresense/   Python data, graph, retrieval, ranking, assistant and API code
-scripts/         Preparation, training and verification entry points
-tests/           Python tests and fixtures
-models/          Local encoders and trained numeric models
-web/             Next.js application, frontend tests and container configuration
-docs/            Journal, design and assignment materials
-data/            Ignored local raw and generated artifacts
-run              Required offline batch command
+```bash
+PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -v
+(cd web && npm test && npm run build)
 ```
 
-The existing [design PDF](docs/design.pdf), [demo recording](docs/demo.mp4) and [AI-use statement](docs/ai-use-statement.md) describe the earlier prototype and need review/update for the new frontend. The demo uses synthetic narration. The repository contains no account authentication and is a local assignment demo.
+With the API and frontend running, execute browser tests with `cd web && npm run test:e2e`. Install Playwright Chromium first or set `CHROMIUM_PATH`.
+
+## Documentation
+
+- [Architecture diagrams](docs/architecture.md)
+- [Design document](docs/design.pdf)
+- [Evaluation and reproduction](resources/results/README.md)
+- [Local data and generated artifacts](data/README.md)

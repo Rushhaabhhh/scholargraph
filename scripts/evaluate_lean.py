@@ -34,8 +34,13 @@ def main():
     if frozen['package_source_sha256'] != package_digest():
         raise ValueError('Package changed after model freeze')
     paths = {key: Path(frozen[key]) for key in ('model', 'ablation_model', 'test_ids')}
-    if not paths['ablation_model'].exists():
-        paths['ablation_model'] = Path('models/lean_without_recency.json')
+    # Older frozen manifests used pre-reorganization paths. These fallbacks
+    # remain subject to the original SHA-256 checks below.
+    for key, fallback in (('model', 'models/hybrid_ranker.json'),
+                          ('ablation_model', 'models/lean_without_recency.json'),
+                          ('test_ids', 'resources/experiments/lean-test-ids.json')):
+        if not paths[key].exists():
+            paths[key] = Path(fallback)
     for key, checksum in (('model', 'model_sha256'), ('ablation_model', 'ablation_sha256'), ('test_ids', 'test_ids_sha256')):
         if digest_file(paths[key]) != frozen[checksum]:
             raise ValueError(f'Frozen {key} changed')

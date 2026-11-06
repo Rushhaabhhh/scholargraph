@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Rebuild the frozen development graphs directly from the same DBLP archive."""
 import argparse
+import gzip
 import json
 import shutil
 import sys
@@ -30,6 +31,19 @@ def main():
         raise ValueError('DBLP archive differs from the snapshot used for the reported results')
     config = json.loads(Path('resources/experiments/lean-data.json').read_text())
     prefixes = tuple(config['query_prefixes'] + config['additional_history_prefixes'])
+    # The historical upstream source applied additional selection before the
+    # venue filter. Its frozen paper IDs reproduce that exact intersection.
+    id_file = Path('resources/experiments/lean-paper-ids.txt.gz')
+    expected_ids = None
+    if not id_file.is_file() and cohorts['source_dataset_sha256'] == '48a98be06c3bd86c8afe1c6885a7937c2aa53f56bbf7a4a56c11e3c6c95d2fb8':
+        raise ValueError('Frozen paper-ID manifest is required to rebuild this dataset')
+    if id_file.is_file():
+        if digest_file(id_file) != 'f07b607cfb5e2af3616c4cdd95315b044592efb10032e44d5081bcdd89266a56':
+            raise ValueError('Frozen paper-ID manifest changed')
+        with gzip.open(id_file, 'rt', encoding='utf-8') as stream:
+            expected_ids = set(stream.read().splitlines())
+        if len(expected_ids) != 165464:
+            raise ValueError('Frozen paper-ID manifest count changed')
     args.out.parent.mkdir(parents=True, exist_ok=True)
     stage = Path(tempfile.mkdtemp(dir=args.out.parent, prefix='.rebuild-'))
     started = monotonic()
@@ -42,12 +56,15 @@ def main():
             for paper in iter_publications(args.archive):
                 scanned += 1
                 if (paper.year is not None and config['min_year'] <= paper.year <= config['max_year']
-                        and paper.record_type in ('article', 'inproceedings') and paper.key.startswith(prefixes)):
+                        and paper.record_type in ('article', 'inproceedings') and paper.key.startswith(prefixes)
+                        and (expected_ids is None or paper.key in expected_ids)):
                     out.write(_serialize(paper))
                     count += 1
                 if scanned % 1000000 == 0:
                     print(f'Scanned {scanned:,} records; selected {count:,}.', flush=True)
             out.write(b'</dblp>\n')
+        if expected_ids is not None and count != len(expected_ids):
+            raise ValueError(f'Archive contains {count} of {len(expected_ids)} frozen paper IDs')
         db = connect(stage / 'source.sqlite3')
         initialize(db)
         ingest(db, xml)

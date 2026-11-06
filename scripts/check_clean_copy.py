@@ -23,7 +23,7 @@ if args.out.exists():
     raise SystemExit('Use a new report path')
 with tempfile.TemporaryDirectory(prefix='hiresense-backend-clean-') as temporary:
     clean = Path(temporary)
-    for directory in ('src', 'tests', 'models', 'contracts', 'scripts', 'resources', 'config'):
+    for directory in ('src', 'tests', 'models', 'scripts', 'resources', 'config'):
         shutil.copytree(ROOT / directory, clean / directory, ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
     for name in ('run', 'pyproject.toml', 'README.md'):
         shutil.copy2(ROOT / name, clean / name)

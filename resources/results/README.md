@@ -1,52 +1,30 @@
-# Results and reproduction
+# Authoritative ML results and reproduction
 
-These measurements were recorded before the repository reorganization. Original machine-readable reports and the frozen package hash are unchanged; the corresponding source snapshot is in `../experiments/frozen-source-504ec1.zip`. The retired frontend and its 80-test clean-copy result are historical. Current verification covers the Python backend and batch interface; the new frontend is not yet implemented.
+The retained production model is `models/hybrid_ranker.json`, SHA-256 `947838570ec8ba0f803f63767b618221a820b958a74118a6ad771eee765b67cb`. The authoritative ranking report is [lean-final-v1.json](lean-final-v1.json). It used 500 previously reserved 2025 future-paper titles and a 2024 historical graph of 142,283 papers; this cohort is now inspected. The model and its candidate budget were frozen using earlier validation data. This is a research benchmark, not a measure of human recommendation or hiring accuracy.
 
-These are measured local results, not user-facing hiring accuracy. Future-paper authors are incomplete relevance judgments: non-authors may also be valid experts. The 500-query final sample was selected from nine venue families in 2025 and is not representative of DBLP or a human relevance assessment. The test has now been inspected and must not be reused for new model selection.
-
-## Ranking on the frozen 2025 test
-
-The model and its 800-author retrieval budget were chosen using 129 earlier validation queries before the test authors were read. Inference used a graph of 142,283 papers through 2024; 500 later paper titles supplied queries.
-
-| Method | nDCG@10 | MRR |
+| Method | nDCG@10 | MRR within up to 800 candidates |
 |---|---:|---:|
-| Lexical | 0.0245 | 0.0338 |
+| BM25 lexical | 0.0245 | 0.0338 |
 | Pretrained dense | 0.0268 | 0.0361 |
-| Untrained lexical+dense hybrid | 0.0313 | 0.0453 |
-| CPU-trained LambdaRank | **0.0354** | **0.0488** |
-| Ranker without explicit recency features | 0.0334 | 0.0479 |
+| Untrained hybrid | 0.0313 | 0.0453 |
+| Trained LambdaMART | **0.0354** | **0.0488** |
+| Retrained without explicit recency | 0.0334 | 0.0479 |
 
-MRR is calculated within the method's returned candidate list, up to 800 authors. The recency ablation shares candidate generation and other features; it does not remove every possible source of temporal information. The ranker beat the tested baselines in this evaluation, but **absolute performance is weak**. Paired bootstrap 95% interval for learned minus hybrid nDCG@10 was [0.0016, 0.0070]; this conditional interval does not correct incomplete labels or domain selection. [Full final report](lean-final-v1.json).
+The measured learned-minus-hybrid nDCG@10 interval was [0.0016, 0.0070]; the interval is conditional on incomplete labels and the selected query set. The ablation keeps retrieval fixed and may retain other temporal signals. The trained model improves on the baselines in this experiment, but absolute scores are low. Future-paper authors are proxy positives; other authors are unjudged, not confirmed irrelevant. Recall@800 was 22.36% of all labeled author instances and 30.83% among those with historical graph evidence. A name-swap check changed 0 of 8 rankings; it is not proof of fairness.
 
-Of 2,683 labelled author instances, 1,946 (72.53%) had graph history. The candidate set retrieved 22.36% of all labelled authors and 30.83% of those with history. A display-name swap changed zero of eight tested rankings/scores; this narrow check does not establish demographic fairness. Warm sequential search including encoding and ranker, but excluding HTTP, measured p50 94.5 ms and p95 108.0 ms over 20 queries on this machine; no throughput or production-scale claim follows.
+[lean-validation-v1.json](lean-validation-v1.json) records training and validation: 493 training queries, 270 usable groups, 17,978 sampled examples, 698 positives, an 80-tree model and seed 42. The training history graph ends in 2020; validation uses history through 2023 with 129 future queries. The independently selected source slice has 165,464 papers across the declared 18 venue families and 1995–2025; the cohort, label hashes, venue rules and reserved test IDs are in `resources/experiments/lean-cohorts.json`, `lean-data.json`, `lean-paper-ids.txt.gz` and `lean-test-ids.json`. The frozen paper-ID manifest is necessary because the original upstream source selection narrowed the venue/year filter; its SHA-256 is `f07b607cfb5e2af3616c4cdd95315b044592efb10032e44d5081bcdd89266a56`.
 
-Two documented failure modes: a CIKM reranking query had seven authors with historical records, but no relevant author reached its candidate list; a KDD bearing-fault query had relevant candidates but none ranked in the top ten. A third ICML example had no authors in the selected history. The report contains their paper titles, identities and proposed next steps. The 129-query validation set was balanced by family; the 500-query test was sampled by hash and included 229 ICML papers. These different query mixes and years limit a direct comparison of their aggregate scores.
+Other essential evidence: [50,000-paper benchmark](data-benchmark.json), [synthetic noisy-identity precision/recall](recovery-identity-v2.json), and [scripted assistant/grounding benchmark](lean-assistant-v1.json). Historical evaluations and alternative approaches are retained in `historical-ml.zip`; extract from the repository root to restore their original relative paths. The older `historical.zip` and frozen source snapshot remain unchanged. The Phase 5 human-review materials remain active and ungraded.
 
-## Training and validation
+See the root [README](../../README.md#final-backend-and-ml-pipeline) for exact raw-data rebuild, fresh CPU training and evaluation commands. Dependencies are pinned in `config/requirements.lock` and `config/requirements-training.lock`. The original recorded experiment used an older frozen package hash; a current-code replay is a new reproducibility check, not the exact frozen experiment. Full raw replay and new training should be reported separately and must never be called a new untouched test.
 
-The locally trained LightGBM LambdaRank model uses 80 trees and 12 author/paper relevance features. MiniLM is pretrained and was not fine-tuned. Training used 493 temporally held-out queries; 270 had at least one retrieved positive and contrast candidate at the selected budget, producing 17,978 training examples, of which 698 were positive. Sampled non-authors are unjudged. Validation chose the 800-candidate budget and a 0.25 learned-score blend. It achieved nDCG@10 0.1181 versus 0.1145 for the untrained hybrid; the paired 95% interval for the difference was [-0.0020, 0.0103]. The previous served model scored 0.1090 on the same validation cohort, versus 0.1181 for the new model. The observed validation gain is small and uncertain. [Training report](lean-validation-v1.json), [serving comparison](lean-serving-comparison-v1.json), [freeze](../experiments/lean-freeze-v1.json).
+## Two recorded failures
 
-## Assistant and graph
+- **Candidate retrieval:** for “You Only Evaluate Once: A Tree-based Rerank Method at Meituan,” historical authors existed but none of the proxy-labeled authors reached the candidate pool. Inspect whether their pre-cutoff work is genuinely topical and then test a bounded author-level retrieval alternative on independent judgments. Larger paper depth alone did not improve retained Recall@800 in the later diagnostic.
+- **Ranking:** for “Toward End-to-End Bearing Fault Diagnosis for Industrial Scenarios with Spiking Neural Networks,” proxy-labeled authors reached the candidate pool but none appeared in the top ten. Inspect their actual evidence alongside the top results; future non-authors are unjudged, so the proxy miss does not prove the displayed experts were irrelevant. A ranker change needs a controlled human-judged comparison.
 
-On the 200-paper sample with the selected model, all 10 scripted multi-turn scenarios passed. There were 0 unsupported claims among 191 generated typed claims; all 120 fabricated-claim checks were rejected; and 8/8 scripted query injections were blocked without tool calls. These are bounded test cases, not proof of general correctness or security. [Assistant report](lean-assistant-v1.json).
+These cases and their source IDs appear in `lean-final-v1.json`; neither is a human-validated failure rate.
 
-Historical noisy-identity evaluation on a broader graph found conservative matching precision 98.25% (450 correct of 458 assignments) and known-author recall 16.76%; candidate blocking recall was 93.18%. This is a different cohort from the ranking test, not the accuracy of every author identity. The learned identity experiment was not promoted. [Identity report](recovery-identity-v2.json).
+## Rebuild verification (6 November 2026)
 
-## Commands
-
-Run the app and included-data batch check from the repository root:
-
-```sh
-docker compose up --build
-./run --data resources/examples/sample.xml --queries resources/examples/queries.txt --out /tmp/hiresense-results.json
-PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -v
-```
-
-The actual training/final run used `PYTHONPATH=src .venv/bin/python scripts/train_lean.py` followed by `PYTHONPATH=src .venv/bin/python scripts/evaluate_lean.py` after validation selection and a frozen serving decision. Reproduction needs the exact historical DBLP archive and fresh output paths. The [README](../../README.md#results-and-reproducibility) gives reconstruction and repeat commands. Full reconstruction from raw data has only been checked with synthetic fixtures and a 100-record source sample; a full archive replay has not been run.
-
-For the current assistant measurement, prepare a fresh sample backend and evaluate it:
-
-```sh
-PYTHONPATH=src .venv/bin/python -m hiresense.cli prepare-backend --data resources/examples/sample.xml --out /tmp/hiresense-assistant-repeat
-PYTHONPATH=src .venv/bin/python -m hiresense.cli assistant-benchmark --config /tmp/hiresense-assistant-repeat/backend.json --out /tmp/hiresense-assistant-repeat.json
-```
+The full raw archive was rescanned (13,070,766 parsed records) and rebuilt the 165,464-paper source with its original dataset hash. Both historical snapshots matched their original label hashes and retrieval content signatures; all sourced graph edges matched after normalizing venue IDs to venue names. Raw graph digests differ because venue IDs were allocated differently, so old graph-bound caches must not be reused for the rebuild. The rebuild took 635 seconds locally; the 500-query saved feature cache was separately rescored with the unchanged production model and reproduced the reported nDCG/MRR exactly. This verification did not retrain or create a new independent test.

@@ -28,3 +28,7 @@ dist/
 /web/*.tsbuildinfo
 /web/test-results/
 /web/playwright-report/
+
+# Treat all local data as private/generated; keep only its guide.
+/data/**
+!/data/README.md
