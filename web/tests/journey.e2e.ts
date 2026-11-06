@@ -95,7 +95,27 @@ test('supported recency and year filters are sent to search',async({page})=>{
  await page.goto('/');await page.getByLabel('Since year').fill('2018');await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');
  let sent:Record<string,unknown>|undefined;page.on('request',request=>{if(request.url().endsWith('/api/search'))sent=request.postDataJSON()});
  await page.getByRole('button',{name:/Find researchers/}).click();await expect(page.locator('article').first()).toBeVisible({timeout:60000});
- expect(sent?.since_year).toBe(2018);expect(sent?.recency_preference).toBe('any');await expect(page.getByText('Since 2018')).toBeVisible();
+ expect(sent?.since_year).toBe(2018);expect(sent?.recency_preference).toBeNull();await expect(page.getByText('Since 2018')).toBeVisible();
+});
+test('query dates, explicit overrides, abstention and unsupported assistant requests',async({page})=>{
+ await page.goto('/');
+ const query=page.getByLabel('RESEARCH QUESTION OR TOPIC');
+ await query.fill('graph retrieval since 2018');
+ await page.getByRole('button',{name:/Find researchers/}).click();
+ await expect(page.locator('article').first()).toBeVisible({timeout:60000});
+ await expect(page.getByText('Since 2018',{exact:true})).toBeVisible();
+ await page.getByRole('button',{name:'Open Research Assistant'}).click();
+ await page.getByLabel('Message research assistant').fill('Why is the first researcher relevant?');
+ await page.getByRole('button',{name:'Send message'}).click();
+ await expect(page.getByText(/Your search has not changed/)).toBeVisible();
+ await expect(query).toHaveValue('graph retrieval since 2018');
+ await page.getByRole('dialog',{name:'Research assistant'}).getByRole('button',{name:'Close research assistant'}).click();
+ await page.getByLabel('Publication activity').selectOption('any');
+ await page.getByRole('button',{name:/Find researchers/}).click();
+ await expect(page.getByText('Since 2018',{exact:true})).toHaveCount(0);
+ await query.fill('zxqvplm wkrjty nonsensephrase');
+ await page.getByRole('button',{name:/Find researchers/}).click();
+ await expect(page.getByText('No researchers found for this view.')).toBeVisible();
 });
 test('shortlist route compares and changes server-backed decisions',async({page})=>{
  await page.goto('/');await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');await page.getByRole('button',{name:/Find researchers/}).click();

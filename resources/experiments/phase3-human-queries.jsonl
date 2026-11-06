@@ -1,0 +1,40 @@
+{"query_id": "Q01", "query": "transformer inference KV cache optimization", "topic": "nlp", "query_type": "narrow"}
+{"query_id": "Q02", "query": "efficient attention memory usage during language model generation", "topic": "nlp", "query_type": "paraphrase"}
+{"query_id": "Q03", "query": "quantization of large language models for inference", "topic": "nlp", "query_type": "narrow"}
+{"query_id": "Q04", "query": "retrieval augmented generation for scientific papers", "topic": "nlp", "query_type": "interdisciplinary"}
+{"query_id": "Q05", "query": "neural machine translation low resource languages", "topic": "nlp", "query_type": "broad"}
+{"query_id": "Q06", "query": "graph neural network acceleration on GPUs", "topic": "graph", "query_type": "narrow"}
+{"query_id": "Q07", "query": "hardware architecture for graph convolution networks", "topic": "graph", "query_type": "paraphrase"}
+{"query_id": "Q08", "query": "scalable graph representation learning", "topic": "graph", "query_type": "broad"}
+{"query_id": "Q09", "query": "temporal knowledge graph link prediction", "topic": "graph", "query_type": "narrow"}
+{"query_id": "Q10", "query": "entity resolution for knowledge graph integration", "topic": "graph", "query_type": "interdisciplinary"}
+{"query_id": "Q11", "query": "scientific literature retrieval and ranking", "topic": "retrieval", "query_type": "broad"}
+{"query_id": "Q12", "query": "learning to rank scholarly search results", "topic": "retrieval", "query_type": "narrow"}
+{"query_id": "Q13", "query": "dense retrieval for question answering", "topic": "retrieval", "query_type": "narrow"}
+{"query_id": "Q14", "query": "neural information retrieval evaluation", "topic": "retrieval", "query_type": "broad"}
+{"query_id": "Q15", "query": "expert finding bibliographic networks", "topic": "retrieval", "query_type": "interdisciplinary"}
+{"query_id": "Q16", "query": "distributed database query optimization", "topic": "database", "query_type": "broad"}
+{"query_id": "Q17", "query": "learned index structures for databases", "topic": "database", "query_type": "narrow"}
+{"query_id": "Q18", "query": "approximate nearest neighbor vector indexing", "topic": "database", "query_type": "narrow"}
+{"query_id": "Q19", "query": "transaction processing in distributed databases", "topic": "database", "query_type": "broad"}
+{"query_id": "Q20", "query": "database query optimization since 2021", "topic": "database", "query_type": "recency"}
+{"query_id": "Q21", "query": "distributed systems performance and congestion control", "topic": "systems", "query_type": "broad"}
+{"query_id": "Q22", "query": "cluster scheduling for deep learning workloads", "topic": "systems", "query_type": "interdisciplinary"}
+{"query_id": "Q23", "query": "fault tolerant distributed storage systems", "topic": "systems", "query_type": "narrow"}
+{"query_id": "Q24", "query": "operating system resource allocation for virtual machines", "topic": "systems", "query_type": "narrow"}
+{"query_id": "Q25", "query": "energy efficient data center networks", "topic": "systems", "query_type": "interdisciplinary"}
+{"query_id": "Q26", "query": "hyperspectral image classification remote sensing", "topic": "vision", "query_type": "narrow"}
+{"query_id": "Q27", "query": "satellite imagery crop classification", "topic": "vision", "query_type": "narrow"}
+{"query_id": "Q28", "query": "transformer based medical image segmentation", "topic": "vision", "query_type": "interdisciplinary"}
+{"query_id": "Q29", "query": "object detection in aerial images", "topic": "vision", "query_type": "narrow"}
+{"query_id": "Q30", "query": "self supervised visual representation learning", "topic": "vision", "query_type": "broad"}
+{"query_id": "Q31", "query": "federated learning with differential privacy", "topic": "ml", "query_type": "interdisciplinary"}
+{"query_id": "Q32", "query": "model compression for edge devices", "topic": "ml", "query_type": "broad"}
+{"query_id": "Q33", "query": "efficient neural network architecture search", "topic": "ml", "query_type": "narrow"}
+{"query_id": "Q34", "query": "robustness of machine learning under distribution shift", "topic": "ml", "query_type": "broad"}
+{"query_id": "Q35", "query": "interpretable machine learning for healthcare", "topic": "ml", "query_type": "interdisciplinary"}
+{"query_id": "Q36", "query": "differential privacy in machine learning since 2022", "topic": "privacy", "query_type": "recency"}
+{"query_id": "Q37", "query": "secure multiparty computation for data analytics", "topic": "privacy", "query_type": "narrow"}
+{"query_id": "Q38", "query": "adversarial attacks on graph neural networks", "topic": "security", "query_type": "interdisciplinary"}
+{"query_id": "Q39", "query": "cryptographic proofs for blockchain consensus", "topic": "security", "query_type": "narrow"}
+{"query_id": "Q40", "query": "fairness in recommender systems", "topic": "ml", "query_type": "interdisciplinary"}

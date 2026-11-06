@@ -1,0 +1,30 @@
+{
+  "additional_known_instances": 11,
+  "baseline_coverage": 0.7784256559766763,
+  "baseline_graph_papers": 123672,
+  "baseline_known": 534,
+  "command": [
+    "scripts/phase1_history_coverage.py",
+    "--out",
+    "resources/results/phase1-history-coverage-v1.json"
+  ],
+  "cutoff": 2023,
+  "extension_extra_pre_cutoff_papers": 130861,
+  "extension_source_manifest_sha256": "4622e877d1363335fc811c04259b3dcde6d36b06a6df4c3c4c496f61d9d11a26",
+  "labelled_author_instances": 686,
+  "labels_sha256": "2559f849894ff787388b23068fd639bb5889f413488ee99fc27a7909cd51fa31",
+  "limitations": [
+    "Preselected source is a purposeful ML and retrieval venue slice, not all DBLP.",
+    "Labels are incomplete future-authorship proxies.",
+    "Source-key checks do not establish human identity.",
+    "Union coverage does not measure retrieval, latency, ranking or the effect of physically building the graph."
+  ],
+  "new_unique_author_ids": 11,
+  "queries": 129,
+  "scope": "Development coverage only: virtual union of the frozen baseline graph and independently preselected recent-history source, filtered to the same cutoff. No enlarged graph or retrieval index was built.",
+  "shared_paper_content_conflicts": 0,
+  "source_key_disagreements": 0,
+  "union_coverage": 0.7944606413994169,
+  "union_known": 545,
+  "extension_query_title_conflicts": 0
+}

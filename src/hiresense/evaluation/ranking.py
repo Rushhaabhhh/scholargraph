@@ -60,7 +60,7 @@ def evaluate_rankings(engine, cache, models: dict, bootstrap_samples=1000, seed=
                                           'failure': category, 'proposed_change': change})
     def summarize(indices):
         return {name: {key: float(np.mean([values[index][key] for index in indices])) if indices else 0.0
-                       for key in ('ndcg_at_10', 'mrr')} for name, values in per_query.items()}
+                       for key in ('ndcg_at_10', 'mrr', 'mrr_at_10', 'hit_at_10')} for name, values in per_query.items()}
     differences = {}
     if 'learned' in per_query and cache['queries']:
         rng = np.random.default_rng(seed)

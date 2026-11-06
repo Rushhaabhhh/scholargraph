@@ -77,6 +77,46 @@ class AssistantTests(unittest.TestCase):
         self.assertEqual(future['results'], [])
         self.assertEqual(future['effective_filters']['since_year'], 2025)
 
+    def test_search_dates_evidence_and_explicit_override(self):
+        result = self.backend.search({'query': 'graph retrieval since 2018'})
+        self.assertEqual(result['effective_filters']['since_year'], 2018)
+        self.assertTrue(result['results'])
+        for person in result['results']:
+            for paper in person['evidence']:
+                self.assertGreaterEqual(paper['year'], 2018)
+                source = self.backend.database.execute(
+                    'SELECT p.title,p.year FROM papers p JOIN paper_authors a ON a.paper_id=p.id WHERE p.id=? AND a.author_id=?',
+                    (paper['paper_id'], person['person_id'])).fetchone()
+                self.assertIsNotNone(source)
+                self.assertEqual((paper['title'], paper['year']), (source['title'], source['year']))
+            self.assertEqual(len(person['claims']), len(person['evidence']))
+        overridden = self.backend.search({'query': 'graph retrieval since 2018', 'recency_preference': 'any'})
+        self.assertIsNone(overridden['effective_filters']['since_year'])
+        explicit = self.backend.search({'query': 'graph retrieval since 2018', 'since_year': 2019})
+        self.assertEqual(explicit['effective_filters']['since_year'], 2019)
+        explicit_recent = self.backend.search({'query': 'graph retrieval in the past 2 years', 'recency_preference': 'recent'})
+        self.assertEqual(explicit_recent['effective_filters']['since_year'], self.backend.engine.anchor_year - 5)
+
+    def test_fabricated_or_out_of_range_evidence_is_excluded(self):
+        person = self.backend.search({'query': 'graph retrieval'})['results'][0]
+        original = person['evidence'][0]
+        corrupted = dict(original, title='Fabricated title')
+        self.assertEqual(self.backend.verifier.explain([dict(person, evidence=[corrupted])]), [])
+        self.assertEqual(self.backend.verifier.explain([dict(person, evidence=[original])], since_year=2025), [])
+
+    def test_no_lexical_evidence_abstains_and_supported_queries_still_work(self):
+        self.assertEqual(self.backend.search({'query': 'zxqvplm wkrjty nonsensephrase'})['results'], [])
+        self.assertTrue(self.backend.search({'query': 'graph retrieval'})['results'])
+
+    def test_unsupported_question_keeps_search_context(self):
+        self.turn('search graph retrieval')
+        before = self.backend.sessions.read(self.session)
+        response = self.turn('Why is the first researcher relevant?')
+        self.assertEqual(response['tool_calls'], [])
+        self.assertEqual(response['memory']['last_query'], before['last_query'])
+        self.assertEqual(response['memory']['last_result_ids'], before['last_result_ids'])
+        self.assertIn('cannot answer', response['message'])
+
     def test_same_request_retries_once_and_conflicting_revisions_fail(self):
         one = self.assistant.turn(self.session, 'search graph retrieval', 0, 'retry-request-0001')
         retry = self.assistant.turn(self.session, 'search graph retrieval', 0, 'retry-request-0001')
@@ -119,7 +159,7 @@ class AssistantTests(unittest.TestCase):
         self.assertIn('stale_memory', outputs)
 
     def test_clear_deletes_decisions_context_and_cached_private_responses(self):
-        self.turn('search expert discovery')
+        self.turn('search graph retrieval')
         self.turn('shortlist #1')
         cleared = self.turn('clear memory')
         self.assertIsNone(cleared['memory']['last_query'])
@@ -127,7 +167,7 @@ class AssistantTests(unittest.TestCase):
         self.assertIsNone(cleared['memory_applied']['last_query'])
         with sqlite3.connect(self.backend.sessions.path) as database:
             self.assertEqual(database.execute('SELECT COUNT(*) FROM requests').fetchone()[0], 1)
-            self.assertNotIn('expert discovery', database.execute('SELECT response_json FROM requests').fetchone()[0])
+            self.assertNotIn('graph retrieval', database.execute('SELECT response_json FROM requests').fetchone()[0])
         with self.assertRaises(BackendError):
             self.turn('profile #1')
 

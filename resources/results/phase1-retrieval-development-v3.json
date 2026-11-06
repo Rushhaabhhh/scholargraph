@@ -1,0 +1,441 @@
+{
+  "candidate_limit": 800,
+  "command": [
+    "scripts/phase1_retrieval.py",
+    "--out",
+    "resources/results/phase1-retrieval-development-v3.json"
+  ],
+  "elapsed_seconds": 111.444,
+  "encoder_sha256": "611803ca6eebfb8eaf24fc22c22e604bc87e44ca41e6ba83f43dc89f52906eb6",
+  "graph_cutoff_year": 2023,
+  "graph_opportunity_relevant_instances": 2,
+  "graph_policy": "Top 32 paper-route seeds; top 3 historical papers per seed; require cosine >= .4 and query-token overlap in a dated shared paper; add up to 128 collaborators, RRF weight .15.",
+  "index_content_sha256": "4605416fc9862a911a956b59b9b56c8dd33e676d33df70dd36a17a512ece7cf9",
+  "labels_sha256": "2559f849894ff787388b23068fd639bb5889f413488ee99fc27a7909cd51fa31",
+  "latency_scope": "Pre-encoded query; candidate context, aggregation and ranker feature assembly/scoring. Excludes query encoding, HTTP and grounding. Topic profile build excluded.",
+  "limitations": [
+    "Development selection on the same already inspected cohort; not a held-out estimate.",
+    "Historical author publications are not individually labelled relevant.",
+    "Existing ranker was trained on original retrieval; changed candidates can cause distribution shift.",
+    "Graph-neighbor thresholds and aggregation weights are preliminary and not separately calibrated.",
+    "Memory is process peak RSS and includes the shared graph and encoder; per-variant memory not isolated."
+  ],
+  "model_sha256": "947838570ec8ba0f803f63767b618221a820b958a74118a6ad771eee765b67cb",
+  "paired_recall_comparisons_vs_existing_1024": {
+    "coverage_1024": {
+      "known_recall800_delta": -0.00749063670411985,
+      "paired_bootstrap_95pct": [
+        -0.017275136316240395,
+        0.0
+      ]
+    },
+    "coverage_2048": {
+      "known_recall800_delta": -0.00749063670411985,
+      "paired_bootstrap_95pct": [
+        -0.017275136316240395,
+        0.0
+      ]
+    },
+    "existing_1024": {
+      "known_recall800_delta": 0.0,
+      "paired_bootstrap_95pct": [
+        0.0,
+        0.0
+      ]
+    },
+    "existing_2048": {
+      "known_recall800_delta": -0.0018726591760299626,
+      "paired_bootstrap_95pct": [
+        -0.005940888731730316,
+        0.0
+      ]
+    },
+    "max_1024": {
+      "known_recall800_delta": -0.011235955056179775,
+      "paired_bootstrap_95pct": [
+        -0.022018348623853212,
+        -0.0019840287600188604
+      ]
+    },
+    "max_2048": {
+      "known_recall800_delta": -0.011235955056179775,
+      "paired_bootstrap_95pct": [
+        -0.022018348623853212,
+        -0.0019840287600188604
+      ]
+    },
+    "r1": {
+      "known_recall800_delta": 0.0018726591760299626,
+      "paired_bootstrap_95pct": [
+        -0.00931098696461825,
+        0.012939001848428836
+      ]
+    },
+    "r2_author_topic": {
+      "known_recall800_delta": 0.011235955056179775,
+      "paired_bootstrap_95pct": [
+        -0.0019122293867874325,
+        0.02518061181307054
+      ]
+    },
+    "r3_topic_neighbors": {
+      "known_recall800_delta": 0.0149812734082397,
+      "paired_bootstrap_95pct": [
+        0.0018796110821142913,
+        0.028958228414750146
+      ]
+    },
+    "top3_1024": {
+      "known_recall800_delta": 0.0018726591760299626,
+      "paired_bootstrap_95pct": [
+        -0.00931098696461825,
+        0.012939001848428836
+      ]
+    },
+    "top3_2048": {
+      "known_recall800_delta": 0.0,
+      "paired_bootstrap_95pct": [
+        -0.009191176470588236,
+        0.00922509225092251
+      ]
+    }
+  },
+  "peak_rss_mib": 840.2265625,
+  "profile_build_seconds": 5.902,
+  "profile_count": 167582,
+  "profile_policy": "At most two normalized local title-vector groups from latest 12 pre-cutoff papers; seed latest and most dissimilar. Top 128 unique authors, RRF weight .25.",
+  "queries": 129,
+  "scope": "Inspected 2024 validation: future authorship is an incomplete relevance proxy; no model was retrained. Raw title queries, pre-cutoff graph; no serving decision, grounding or HTTP.",
+  "selected_development_method": "top3_1024",
+  "selection_policy": "Highest known-author Recall@800; tie prefers shallower pool then model nDCG@10.",
+  "source": {
+    "1024": {
+      "all": 686,
+      "author_recall_known": 0.6179775280898876,
+      "known": 534,
+      "mean_source_papers": 1748.8372093023256,
+      "paper_recall": 0.09956592512208357,
+      "paper_recall_scope": "All historical papers authored by labelled people, not individually relevance-labelled.",
+      "reachable": 330
+    },
+    "2048": {
+      "all": 686,
+      "author_recall_known": 0.6891385767790262,
+      "known": 534,
+      "mean_source_papers": 3462.31007751938,
+      "paper_recall": 0.15011756194610237,
+      "paper_recall_scope": "All historical papers authored by labelled people, not individually relevance-labelled.",
+      "reachable": 368
+    }
+  },
+  "variants": {
+    "coverage_1024": {
+      "author_recall": {
+        "100": {
+          "all": 0.19825072886297376,
+          "known": 0.2546816479400749
+        },
+        "400": {
+          "all": 0.26239067055393583,
+          "known": 0.33707865168539325
+        },
+        "800": {
+          "all": 0.3177842565597668,
+          "known": 0.40823970037453183
+        }
+      },
+      "candidate_oracle_mrr10_all": 0.5891472868217055,
+      "candidate_oracle_mrr10_known_queries": 0.6178861788617886,
+      "candidate_oracle_ndcg10_all": 0.3806023160272115,
+      "candidate_oracle_ndcg10_known": 0.4154715608232278,
+      "latency_ms": {
+        "p50": 88.67419800662901,
+        "p95": 133.47857219632695
+      },
+      "model_mrr10": 0.144927402485542,
+      "model_ndcg10": 0.11811077266772446,
+      "query_hit_at_800": 0.5891472868217055,
+      "retrieved_relevant_instances": 218
+    },
+    "coverage_2048": {
+      "author_recall": {
+        "100": {
+          "all": 0.19825072886297376,
+          "known": 0.2546816479400749
+        },
+        "400": {
+          "all": 0.26676384839650147,
+          "known": 0.34269662921348315
+        },
+        "800": {
+          "all": 0.3177842565597668,
+          "known": 0.40823970037453183
+        }
+      },
+      "candidate_oracle_mrr10_all": 0.5891472868217055,
+      "candidate_oracle_mrr10_known_queries": 0.6178861788617886,
+      "candidate_oracle_ndcg10_all": 0.3806023160272115,
+      "candidate_oracle_ndcg10_known": 0.4154715608232278,
+      "latency_ms": {
+        "p50": 113.79921500338241,
+        "p95": 177.51121700566728
+      },
+      "model_mrr10": 0.144927402485542,
+      "model_ndcg10": 0.11811077266772446,
+      "query_hit_at_800": 0.5891472868217055,
+      "retrieved_relevant_instances": 218
+    },
+    "existing_1024": {
+      "author_recall": {
+        "100": {
+          "all": 0.19096209912536444,
+          "known": 0.24531835205992508
+        },
+        "400": {
+          "all": 0.26676384839650147,
+          "known": 0.34269662921348315
+        },
+        "800": {
+          "all": 0.3236151603498542,
+          "known": 0.4157303370786517
+        }
+      },
+      "candidate_oracle_mrr10_all": 0.5968992248062015,
+      "candidate_oracle_mrr10_known_queries": 0.6260162601626016,
+      "candidate_oracle_ndcg10_all": 0.3852378259508618,
+      "candidate_oracle_ndcg10_known": 0.4203900181108843,
+      "latency_ms": {
+        "p50": 76.32948199170642,
+        "p95": 90.32385520404205
+      },
+      "model_mrr10": 0.144927402485542,
+      "model_ndcg10": 0.11811077266772446,
+      "query_hit_at_800": 0.5968992248062015,
+      "retrieved_relevant_instances": 222
+    },
+    "existing_2048": {
+      "author_recall": {
+        "100": {
+          "all": 0.19096209912536444,
+          "known": 0.24531835205992508
+        },
+        "400": {
+          "all": 0.26676384839650147,
+          "known": 0.34269662921348315
+        },
+        "800": {
+          "all": 0.32215743440233235,
+          "known": 0.41385767790262173
+        }
+      },
+      "candidate_oracle_mrr10_all": 0.5968992248062015,
+      "candidate_oracle_mrr10_known_queries": 0.6260162601626016,
+      "candidate_oracle_ndcg10_all": 0.3842275641996187,
+      "candidate_oracle_ndcg10_known": 0.41937975635964114,
+      "latency_ms": {
+        "p50": 90.28704398951959,
+        "p95": 106.21690019906964
+      },
+      "model_mrr10": 0.144927402485542,
+      "model_ndcg10": 0.11811077266772446,
+      "query_hit_at_800": 0.5968992248062015,
+      "retrieved_relevant_instances": 221
+    },
+    "max_1024": {
+      "author_recall": {
+        "100": {
+          "all": 0.19533527696793002,
+          "known": 0.250936329588015
+        },
+        "400": {
+          "all": 0.26384839650145775,
+          "known": 0.3389513108614232
+        },
+        "800": {
+          "all": 0.31486880466472306,
+          "known": 0.4044943820224719
+        }
+      },
+      "candidate_oracle_mrr10_all": 0.5813953488372093,
+      "candidate_oracle_mrr10_known_queries": 0.6097560975609756,
+      "candidate_oracle_ndcg10_all": 0.3769629053978783,
+      "candidate_oracle_ndcg10_known": 0.41143509713406134,
+      "latency_ms": {
+        "p50": 80.6916209985502,
+        "p95": 153.3992482087342
+      },
+      "model_mrr10": 0.144927402485542,
+      "model_ndcg10": 0.11811077266772446,
+      "query_hit_at_800": 0.5813953488372093,
+      "retrieved_relevant_instances": 216
+    },
+    "max_2048": {
+      "author_recall": {
+        "100": {
+          "all": 0.19533527696793002,
+          "known": 0.250936329588015
+        },
+        "400": {
+          "all": 0.26384839650145775,
+          "known": 0.3389513108614232
+        },
+        "800": {
+          "all": 0.31486880466472306,
+          "known": 0.4044943820224719
+        }
+      },
+      "candidate_oracle_mrr10_all": 0.5813953488372093,
+      "candidate_oracle_mrr10_known_queries": 0.6097560975609756,
+      "candidate_oracle_ndcg10_all": 0.3769629053978783,
+      "candidate_oracle_ndcg10_known": 0.41143509713406134,
+      "latency_ms": {
+        "p50": 100.94926299643703,
+        "p95": 185.86824359663294
+      },
+      "model_mrr10": 0.144927402485542,
+      "model_ndcg10": 0.11811077266772446,
+      "query_hit_at_800": 0.5813953488372093,
+      "retrieved_relevant_instances": 216
+    },
+    "r1": {
+      "author_recall": {
+        "100": {
+          "all": 0.21137026239067055,
+          "known": 0.27153558052434457
+        },
+        "400": {
+          "all": 0.2857142857142857,
+          "known": 0.36704119850187267
+        },
+        "800": {
+          "all": 0.3250728862973761,
+          "known": 0.41760299625468167
+        }
+      },
+      "candidate_oracle_mrr10_all": 0.5968992248062015,
+      "candidate_oracle_mrr10_known_queries": 0.6260162601626016,
+      "candidate_oracle_ndcg10_all": 0.3819866926584809,
+      "candidate_oracle_ndcg10_known": 0.41871257852882193,
+      "latency_ms": {
+        "p50": 90.19503199669998,
+        "p95": 148.3605455956419
+      },
+      "model_mrr10": 0.144927402485542,
+      "model_ndcg10": 0.11811077266772446,
+      "query_hit_at_800": 0.5968992248062015,
+      "retrieved_relevant_instances": 223
+    },
+    "r2_author_topic": {
+      "author_recall": {
+        "100": {
+          "all": 0.21574344023323616,
+          "known": 0.27715355805243447
+        },
+        "400": {
+          "all": 0.2944606413994169,
+          "known": 0.3782771535580524
+        },
+        "800": {
+          "all": 0.3323615160349854,
+          "known": 0.42696629213483145
+        }
+      },
+      "candidate_oracle_mrr10_all": 0.6201550387596899,
+      "candidate_oracle_mrr10_known_queries": 0.6504065040650406,
+      "candidate_oracle_ndcg10_all": 0.3926485195600732,
+      "candidate_oracle_ndcg10_known": 0.43182207280741164,
+      "latency_ms": {
+        "p50": 103.55040901049506,
+        "p95": 161.08714439615113
+      },
+      "model_mrr10": 0.144927402485542,
+      "model_ndcg10": 0.11811077266772446,
+      "query_hit_at_800": 0.6201550387596899,
+      "retrieved_relevant_instances": 228
+    },
+    "r3_topic_neighbors": {
+      "author_recall": {
+        "100": {
+          "all": 0.21428571428571427,
+          "known": 0.2752808988764045
+        },
+        "400": {
+          "all": 0.2944606413994169,
+          "known": 0.3782771535580524
+        },
+        "800": {
+          "all": 0.33527696793002915,
+          "known": 0.4307116104868914
+        }
+      },
+      "candidate_oracle_mrr10_all": 0.6201550387596899,
+      "candidate_oracle_mrr10_known_queries": 0.6504065040650406,
+      "candidate_oracle_ndcg10_all": 0.3941551871368556,
+      "candidate_oracle_ndcg10_known": 0.4333854164310845,
+      "latency_ms": {
+        "p50": 107.49765801301692,
+        "p95": 165.36262119188876
+      },
+      "model_mrr10": 0.144927402485542,
+      "model_ndcg10": 0.11811077266772446,
+      "query_hit_at_800": 0.6201550387596899,
+      "retrieved_relevant_instances": 230
+    },
+    "top3_1024": {
+      "author_recall": {
+        "100": {
+          "all": 0.21137026239067055,
+          "known": 0.27153558052434457
+        },
+        "400": {
+          "all": 0.2857142857142857,
+          "known": 0.36704119850187267
+        },
+        "800": {
+          "all": 0.3250728862973761,
+          "known": 0.41760299625468167
+        }
+      },
+      "candidate_oracle_mrr10_all": 0.5968992248062015,
+      "candidate_oracle_mrr10_known_queries": 0.6260162601626016,
+      "candidate_oracle_ndcg10_all": 0.3819866926584809,
+      "candidate_oracle_ndcg10_known": 0.41871257852882193,
+      "latency_ms": {
+        "p50": 86.27336798235774,
+        "p95": 103.62855560088065
+      },
+      "model_mrr10": 0.144927402485542,
+      "model_ndcg10": 0.11811077266772446,
+      "query_hit_at_800": 0.5968992248062015,
+      "retrieved_relevant_instances": 223
+    },
+    "top3_2048": {
+      "author_recall": {
+        "100": {
+          "all": 0.21137026239067055,
+          "known": 0.27153558052434457
+        },
+        "400": {
+          "all": 0.2886297376093295,
+          "known": 0.3707865168539326
+        },
+        "800": {
+          "all": 0.3236151603498542,
+          "known": 0.4157303370786517
+        }
+      },
+      "candidate_oracle_mrr10_all": 0.6046511627906976,
+      "candidate_oracle_mrr10_known_queries": 0.6341463414634146,
+      "candidate_oracle_ndcg10_all": 0.3880234390479896,
+      "candidate_oracle_ndcg10_known": 0.4242166220221118,
+      "latency_ms": {
+        "p50": 109.77767300209962,
+        "p95": 195.35731499490794
+      },
+      "model_mrr10": 0.144927402485542,
+      "model_ndcg10": 0.11811077266772446,
+      "query_hit_at_800": 0.6046511627906976,
+      "retrieved_relevant_instances": 222
+    }
+  }
+}

@@ -95,11 +95,10 @@ class Backend:
         # Explicit structured request fields override extracted preferences.
         if args.recency_preference is not None:
             intent['recency_preference'] = args.recency_preference
-            if args.recency_preference == 'any':
-                intent['since_year'] = None
+            intent['since_year'] = None
         if args.since_year is not None:
             intent['since_year'] = args.since_year
-        elif args.recency_preference != 'any':
+        elif args.recency_preference is None:
             relative = re.search(r'\b(?:past|last)\s+([1-9]\d?)\s+years?\b', args.query, re.I)
             if relative:
                 intent['recency_preference'] = 'recent'
@@ -112,6 +111,11 @@ class Backend:
             minimum_year = max(1, self.engine.anchor_year - 5)
         vector = self.engine.encoder.encode([retrieval_query])[0]
         retrieved = self.engine.retrieve(retrieval_query, vector, since_year=minimum_year)
+        # Dense retrieval always returns nearest neighbours, even for nonsense.
+        # Require at least one title-token match in the eligible corpus. This is
+        # deliberately conservative: legitimate zero-overlap synonyms may abstain.
+        if not retrieved['lexical']:
+            retrieved = dict(retrieved, author_ids=[], features=retrieved['features'][:0])
         scores = score_model(retrieved['features'], self.model)
         keep, rejected_applied = [], []
         for index, identifier in enumerate(retrieved['author_ids']):
@@ -120,7 +124,7 @@ class Backend:
             else:
                 keep.append(index)
         filtered = dict(retrieved, author_ids=[retrieved['author_ids'][index] for index in keep])
-        results = self.verifier.explain(self.engine.results(retrieval_query, filtered, scores[keep], args.limit))
+        results = self.verifier.explain(self.engine.results(retrieval_query, filtered, scores[keep], args.limit), minimum_year)
         for result in results:
             result['shortlisted'] = result['person_id'] in shortlisted
         return {'query': args.query, 'retrieval_query': retrieval_query, 'results': results, 'understanding': understood,

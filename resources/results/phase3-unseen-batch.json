@@ -1,0 +1,27 @@
+{
+  "command": [
+    "scripts/check_unseen_batch.py",
+    "--model",
+    "models/hybrid_ranker.json",
+    "--data",
+    "data/processed/unseen-systems-check/source.xml",
+    "--queries",
+    "data/processed/unseen-systems-check/queries.txt",
+    "--out",
+    "resources/results/phase3-unseen-batch.json"
+  ],
+  "data_sha256": "ea77cf71cdfcd0f1630484f54de02395353b81034677da554fa34b149122c58e",
+  "elapsed_seconds": 0.987,
+  "environment": "Clean code/model copy with prepared dependencies; no API keys.",
+  "model_sha256": "947838570ec8ba0f803f63767b618221a820b958a74118a6ad771eee765b67cb",
+  "package_source_sha256": "8a75ac83648a174667e073dd28aaf025b962f823a0c393aa2fc151f416a48543",
+  "queries_sha256": "227371a776521c81ae1d18258ecbb340b73e40f6467425126a7a1382e241d2fa",
+  "query_count": 3,
+  "result_counts": [
+    10,
+    10,
+    10
+  ],
+  "scope": "Different-field, disjoint XML functional acceptance; not an expert-ranking accuracy test.",
+  "unsupported_claims": 0
+}

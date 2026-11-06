@@ -1,0 +1,86 @@
+{
+  "cohort_sha256": "90b8c291f652639e35ba33d3959598d2f38fa3ea802921fb489d956c826e4d22",
+  "evidence_code_sha256": "913e66c3c34eaa5d9b1369e3a20b9484bb88d8e8f2e2372e4401a3ed34c4faaf",
+  "final_graph_cutoff": 2024,
+  "final_graph_index_manifest_sha256": "be9cf6ddb5f8e1ce4c98ff977a97aec35d5561b367ed33e51af81b83078ef84d",
+  "production_model_sha256": "947838570ec8ba0f803f63767b618221a820b958a74118a6ad771eee765b67cb",
+  "protocol": "Identical candidate pool, B0/B1/B2, lexical and dense, nDCG@10 MRR@10 Hit@10 and paired bootstrap. No model tuning on final.",
+  "retrieval": {
+    "candidate_limit": 800,
+    "paper_limit": 1024
+  },
+  "scope": "Frozen before final labels are opened; experimental B2 only, production unchanged.",
+  "selected": "B2",
+  "spec": {
+    "blend_alpha": 0.25,
+    "elapsed_seconds": 0.35,
+    "features": [
+      "lexical_max",
+      "dense_max",
+      "dense_top3",
+      "lexical_rank",
+      "dense_rank",
+      "title_coverage",
+      "support_fraction",
+      "matched_recency",
+      "author_recency",
+      "log_publications",
+      "log_collaborators",
+      "hybrid_rrf",
+      "bm25_top3_weighted",
+      "dense_top3_weighted",
+      "combined_top3_weighted",
+      "strong_papers_log",
+      "strong_concentration_smoothed",
+      "recent_strong_log",
+      "strong_most_recent_decay",
+      "topical_recency_weighted",
+      "publication_count_log_capped"
+    ],
+    "model_sha256": "9a15cc5dcbf27b6c55cbc15845d4e1a62f65b5ab145d595170e5b95a9f1f2bbb",
+    "trials": [
+      {
+        "blend": 0.0,
+        "metrics": {
+          "hit_at_10": 0.12,
+          "mrr_at_10": 0.06934722222222221,
+          "ndcg_at_10": 0.04666888825740871
+        }
+      },
+      {
+        "blend": 0.25,
+        "metrics": {
+          "hit_at_10": 0.12,
+          "mrr_at_10": 0.07330555555555555,
+          "ndcg_at_10": 0.04996218092556811
+        }
+      },
+      {
+        "blend": 0.5,
+        "metrics": {
+          "hit_at_10": 0.12,
+          "mrr_at_10": 0.07868650793650794,
+          "ndcg_at_10": 0.049710763658573985
+        }
+      },
+      {
+        "blend": 0.75,
+        "metrics": {
+          "hit_at_10": 0.13,
+          "mrr_at_10": 0.07866666666666668,
+          "ndcg_at_10": 0.04549448304639271
+        }
+      },
+      {
+        "blend": 1.0,
+        "metrics": {
+          "hit_at_10": 0.07,
+          "mrr_at_10": 0.01978968253968254,
+          "ndcg_at_10": 0.012820708990242284
+        }
+      }
+    ]
+  },
+  "validation_graph_content_sha256": "4605416fc9862a911a956b59b9b56c8dd33e676d33df70dd36a17a512ece7cf9",
+  "validation_report_sha256": "0d5deb786dd69af6eae2db74b37a3c1d858e68e1414c5ea7253aadae3e1da9aa"
+}

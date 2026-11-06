@@ -1,0 +1,30 @@
+{
+  "batch_end_to_end_seconds": 0.9142890579969389,
+  "component_latency_ms": {
+    "encoding": {
+      "p50": 1.530612506030593,
+      "p95": 1.8116967992682476
+    },
+    "grounding": {
+      "p50": 3.4205620031571016,
+      "p95": 4.728753094241256
+    },
+    "ranking": {
+      "p50": 10.508867489988916,
+      "p95": 10.936835056054406
+    },
+    "retrieval": {
+      "p50": 7.277640004758723,
+      "p95": 8.474427048349753
+    }
+  },
+  "graph_build_seconds": 0.04303040000377223,
+  "index_construction_seconds": 0.583714925989625,
+  "ingestion_seconds": 0.0817145440087188,
+  "model_sha256": "947838570ec8ba0f803f63767b618221a820b958a74118a6ad771eee765b67cb",
+  "peak_rss_mib_process": 232.484375,
+  "queries_per_component": 20,
+  "repeat_ingestion_seconds": 0.04096803399443161,
+  "scope": "200-paper sample and 20 warm component calls, local CPU; batch includes complete temporary ingestion and index. Not representative of the 266k-paper graph or a load test.",
+  "source_sha256": "1bf6e8f861a8cd850c3041ccc698bde14354e6f9c200d8294b50dde3cfc90534"
+}

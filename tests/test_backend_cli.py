@@ -11,6 +11,7 @@ from fastapi.testclient import TestClient
 from hiresense.api.app import create_app
 from hiresense.api.runtime import Backend
 from hiresense.assistant.providers import RecordedProvider
+from hiresense.batch import run_batch
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -38,6 +39,15 @@ class BackendCliTests(unittest.TestCase):
                 self.assertTrue(search['results'])
                 self.assertTrue(all(claim['supported'] for person in search['results'] for claim in person['claims']))
                 self.assertEqual(client.get('/health').json()['papers'], 200)
+                queries = Path(temporary) / 'queries.txt'
+                queries.write_text('graph neural networks\n', encoding='utf-8')
+                batch_path = Path(temporary) / 'batch.json'
+                run_batch(str(ROOT / 'resources/examples/sample.xml'), str(queries), str(batch_path))
+                batch = json.loads(batch_path.read_text())[0]
+                self.assertEqual([r['person_id'] for r in batch['results']],
+                                 [r['person_id'] for r in search['results']])
+                self.assertEqual([r['score'] for r in batch['results']],
+                                 [r['score'] for r in search['results']])
             # Configurations produced before the resource move remain usable.
             config_path = Path(preparation['config'])
             config = json.loads(config_path.read_text())

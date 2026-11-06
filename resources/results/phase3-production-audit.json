@@ -1,0 +1,34 @@
+{
+  "authors": 332611,
+  "baseline_scope": "Review pool is not labelled. Methods measured on identical graph but lexical/dense candidates can differ.",
+  "candidate_limit": 800,
+  "command": [
+    "scripts/phase3_audit.py"
+  ],
+  "elapsed_seconds": 68.49,
+  "errors": [],
+  "evidence_entries": 1971,
+  "experimental_routes_active": false,
+  "git_revision": "c13577b46ac4c96fb45a9bf86057f018486fb4cf",
+  "graph_content_sha256": "b1f5d40476913be2c2bfb424310906264deac321bf6fc99a6da15acee2842b79",
+  "graph_cutoff": 2024,
+  "graph_file_sha256": "ca5ace892182d014fe3992b23f18c6c66e0f076be4be7f3b191ad914e2329ff8",
+  "human_judgments": "pending",
+  "index_manifest_sha256": "be9cf6ddb5f8e1ce4c98ff977a97aec35d5561b367ed33e51af81b83078ef84d",
+  "model_sha256": "947838570ec8ba0f803f63767b618221a820b958a74118a6ad771eee765b67cb",
+  "model_version": "paper-lambdamart-v1",
+  "paper_limit": 1024,
+  "papers": 265885,
+  "pooled_rows": 752,
+  "queries": 40,
+  "query_provider": "recorded",
+  "retrieval_kind": "paper",
+  "review_pool_sha256": "83e96e93ba4e8141653cb06477943a3a7d8e2bd7a7eb089a357b8287517d6351",
+  "review_template_sha256": "40c392e7c4994585c05a4c54f353ff1c303d2566204f69892721c1aed769a4fc",
+  "scope": "Production runtime, 40 predetermined convenience topics. Timing averages two sequential searches and includes result verification, excludes HTTP and startup. Not relevance accuracy.",
+  "sequential_search_latency_ms": {
+    "p50": 97.19806100110873,
+    "p95": 126.91044784951373
+  },
+  "source_sha256": "8a75ac83648a174667e073dd28aaf025b962f823a0c393aa2fc151f416a48543"
+}

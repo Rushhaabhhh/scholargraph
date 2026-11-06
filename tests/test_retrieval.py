@@ -200,6 +200,9 @@ class RetrievalTests(unittest.TestCase):
         ranked = list(range(20))
         self.assertEqual(ranking_metrics(ranked, {15})['ndcg_at_10'], 0)
         self.assertEqual(ranking_metrics(ranked, {15})['mrr'], 1 / 16)
+        self.assertEqual(ranking_metrics(ranked, {15})['mrr_at_10'], 0)
+        self.assertEqual(ranking_metrics(ranked, {2})['mrr_at_10'], 1 / 3)
+        self.assertEqual(ranking_metrics(ranked, {2})['hit_at_10'], 1)
         self.assertEqual(ranking_metrics([], {15})['mrr'], 0)
         with self.assertRaises(ValueError):
             ranking_metrics([1, 1], {1})

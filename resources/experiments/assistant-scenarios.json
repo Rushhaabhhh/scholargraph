@@ -23,7 +23,7 @@
     {"message":"path $COLLAB_A $COLLAB_B", "tools":["find_collaboration_path"], "checks":["path","grounded"]}
   ]},
   {"id":"delete_memory", "turns":[
-    {"message":"search expert discovery", "tools":["search_experts"], "checks":["results"]},
+    {"message":"search graph retrieval", "tools":["search_experts"], "checks":["results"]},
     {"message":"shortlist #1", "tools":[], "checks":["shortlisted"]},
     {"message":"clear memory", "tools":[], "checks":["empty_memory"]}
   ]},

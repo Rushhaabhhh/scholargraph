@@ -78,11 +78,29 @@ class GroundingVerifier:
         return self.verify({'kind': 'authorship', 'person_id': person_id, 'paper_id': paper_id,
                             'year': paper['year'], 'text': claim_text('authorship', paper)})
 
-    def explain(self, results):
+    def explain(self, results, since_year=None):
         output = []
         for result in results:
-            claims = [self.authorship(result['person_id'], paper['paper_id']) for paper in result['evidence'][:2]]
+            evidence, claims = [], []
+            for paper in result['evidence']:
+                source = self.database.execute('SELECT title,year,source FROM papers WHERE id=?', (paper['paper_id'],)).fetchone()
+                claim = self.authorship(result['person_id'], paper['paper_id'])
+                if (not source or not claim['supported'] or paper['title'] != source['title']
+                        or paper['year'] != source['year'] or paper['source'] != source['source']
+                        or (since_year is not None and (source['year'] is None or source['year'] < since_year))):
+                    continue
+                collaborators = []
+                for person in paper['collaborators']:
+                    edge = self.verify({'kind': 'coauthorship', 'person_id': result['person_id'],
+                                        'paper_id': paper['paper_id'], 'collaborator_id': person['person_id'],
+                                        'year': paper['year'], 'text': claim_text('coauthorship', source, person['person_id'])})
+                    if edge['supported']:
+                        collaborators.append(person)
+                evidence.append(dict(paper, collaborators=collaborators))
+                claims.append(claim)
+            if not evidence:
+                continue
             explanation = ' '.join(claim['text'] for claim in claims if claim['supported']) or 'No verified publication claim is available.'
-            output.append(dict(result, claims=claims, explanation=explanation,
+            output.append(dict(result, evidence=evidence, claims=claims, explanation=explanation,
                                grounding={'claims': len(claims), 'unsupported': sum(not claim['supported'] for claim in claims)}))
         return output

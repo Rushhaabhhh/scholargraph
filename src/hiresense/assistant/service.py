@@ -74,7 +74,9 @@ class Assistant:
                               'since_year': intent.get('since_year')}
         # The remainder of an explicit search is query DATA and is not parsed again.
         match = re.fullmatch(r'(?:search(?: for)?|find experts(?: on| in| for)?)\s+(.+)', text, re.I | re.S)
-        query = match[1] if match else text
+        if not match:
+            return 'unsupported', {}
+        query = match[1]
         if len(query) >= 2 and query[0] == query[-1] and query[0] in ('"', "'"):
             query = query[1:-1]
         return 'search', {'query': query}
@@ -119,6 +121,8 @@ class Assistant:
                     raise BackendError(call['error_code'], 'The requested graph operation could not be completed') from None
             if action == 'blocked':
                 response['message'] = 'Embedded instructions were blocked. Enter a research query or an explicit supported command.'
+            elif action == 'unsupported':
+                response['message'] = 'I cannot answer that request yet. Try “search graph neural networks”, “profile #1”, or “path #1 #2”. Your search has not changed.'
             elif action == 'clear':
                 response['message'] = 'Session decisions and search context were deleted.'
                 response['memory_applied'] = empty_applied(before['version'])

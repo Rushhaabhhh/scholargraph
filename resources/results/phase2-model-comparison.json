@@ -1,0 +1,605 @@
+{
+  "examples": 17978,
+  "groups": 270,
+  "metrics": {
+    "B0": {
+      "hit_at_10": 0.12,
+      "mrr_at_10": 0.06934722222222221,
+      "ndcg_at_10": 0.04666888825740871
+    },
+    "B1": {
+      "hit_at_10": 0.12,
+      "mrr_at_10": 0.07219444444444445,
+      "ndcg_at_10": 0.04993522637642846
+    },
+    "B2": {
+      "hit_at_10": 0.12,
+      "mrr_at_10": 0.07330555555555555,
+      "ndcg_at_10": 0.04996218092556811
+    },
+    "B3": {
+      "hit_at_10": 0.125,
+      "mrr_at_10": 0.08275,
+      "ndcg_at_10": 0.05135120819861544
+    },
+    "B4": {
+      "hit_at_10": 0.12,
+      "mrr_at_10": 0.07433333333333333,
+      "ndcg_at_10": 0.049898886240060565
+    },
+    "G0": {
+      "hit_at_10": 0.12,
+      "mrr_at_10": 0.07247222222222222,
+      "ndcg_at_10": 0.05009963399691389
+    },
+    "G1": {
+      "hit_at_10": 0.12,
+      "mrr_at_10": 0.07330555555555555,
+      "ndcg_at_10": 0.04996218092556811
+    },
+    "G2": {
+      "hit_at_10": 0.125,
+      "mrr_at_10": 0.073875,
+      "ndcg_at_10": 0.050857033060745446
+    }
+  },
+  "paired_vs_B1": {
+    "B2": {
+      "hit_at_10": {
+        "delta": 0.0,
+        "paired_95pct": [
+          0.0,
+          0.0
+        ]
+      },
+      "mrr_at_10": {
+        "delta": 0.0011111111111111111,
+        "paired_95pct": [
+          0.0,
+          0.0030555555555555557
+        ]
+      },
+      "ndcg_at_10": {
+        "delta": 2.695454913964834e-05,
+        "paired_95pct": [
+          -0.0011142197262397253,
+          0.0011187757385623751
+        ]
+      }
+    },
+    "B3": {
+      "hit_at_10": {
+        "delta": 0.005,
+        "paired_95pct": [
+          -0.02,
+          0.03
+        ]
+      },
+      "mrr_at_10": {
+        "delta": 0.010555555555555558,
+        "paired_95pct": [
+          -0.00027847222222222195,
+          0.024639583333333326
+        ]
+      },
+      "ndcg_at_10": {
+        "delta": 0.0014159818221869756,
+        "paired_95pct": [
+          -0.004597540964864407,
+          0.007676182775314682
+        ]
+      }
+    },
+    "B4": {
+      "hit_at_10": {
+        "delta": 0.0,
+        "paired_95pct": [
+          0.0,
+          0.0
+        ]
+      },
+      "mrr_at_10": {
+        "delta": 0.002138888888888889,
+        "paired_95pct": [
+          0.0,
+          0.005529166666666647
+        ]
+      },
+      "ndcg_at_10": {
+        "delta": -3.634013636790515e-05,
+        "paired_95pct": [
+          -0.0012141525590880899,
+          0.0010519983420104434
+        ]
+      }
+    },
+    "G0": {
+      "hit_at_10": {
+        "delta": 0.0,
+        "paired_95pct": [
+          0.0,
+          0.0
+        ]
+      },
+      "mrr_at_10": {
+        "delta": 0.0002777777777777778,
+        "paired_95pct": [
+          0.0,
+          0.0008333333333333333
+        ]
+      },
+      "ndcg_at_10": {
+        "delta": 0.00016440762048543084,
+        "paired_95pct": [
+          -0.000262862210959067,
+          0.0006608132853714081
+        ]
+      }
+    },
+    "G1": {
+      "hit_at_10": {
+        "delta": 0.0,
+        "paired_95pct": [
+          0.0,
+          0.0
+        ]
+      },
+      "mrr_at_10": {
+        "delta": 0.0011111111111111111,
+        "paired_95pct": [
+          0.0,
+          0.0030555555555555557
+        ]
+      },
+      "ndcg_at_10": {
+        "delta": 2.695454913964834e-05,
+        "paired_95pct": [
+          -0.0011142197262397253,
+          0.0011187757385623751
+        ]
+      }
+    },
+    "G2": {
+      "hit_at_10": {
+        "delta": 0.005,
+        "paired_95pct": [
+          0.0,
+          0.015
+        ]
+      },
+      "mrr_at_10": {
+        "delta": 0.0016805555555555558,
+        "paired_95pct": [
+          6.944444444444447e-05,
+          0.003958680555555551
+        ]
+      },
+      "ndcg_at_10": {
+        "delta": 0.0009218066843169849,
+        "paired_95pct": [
+          -0.0007147177789717209,
+          0.0029055991197177613
+        ]
+      }
+    }
+  },
+  "scope": "Previously reserved 2024 validation, automatic future-authorship labels; selection and ablations share fixed candidates. Not final test.",
+  "seed": 42,
+  "train_cache_sha256": "a32261e837c58248af2b26fa8eb3aee2a4fd6ecbb281b046ea36c811050ca1e9",
+  "training": {
+    "B2": {
+      "blend_alpha": 0.25,
+      "elapsed_seconds": 0.35,
+      "features": [
+        "lexical_max",
+        "dense_max",
+        "dense_top3",
+        "lexical_rank",
+        "dense_rank",
+        "title_coverage",
+        "support_fraction",
+        "matched_recency",
+        "author_recency",
+        "log_publications",
+        "log_collaborators",
+        "hybrid_rrf",
+        "bm25_top3_weighted",
+        "dense_top3_weighted",
+        "combined_top3_weighted",
+        "strong_papers_log",
+        "strong_concentration_smoothed",
+        "recent_strong_log",
+        "strong_most_recent_decay",
+        "topical_recency_weighted",
+        "publication_count_log_capped"
+      ],
+      "model_sha256": "9a15cc5dcbf27b6c55cbc15845d4e1a62f65b5ab145d595170e5b95a9f1f2bbb",
+      "trials": [
+        {
+          "blend": 0.0,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.06934722222222221,
+            "ndcg_at_10": 0.04666888825740871
+          }
+        },
+        {
+          "blend": 0.25,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.07330555555555555,
+            "ndcg_at_10": 0.04996218092556811
+          }
+        },
+        {
+          "blend": 0.5,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.07868650793650794,
+            "ndcg_at_10": 0.049710763658573985
+          }
+        },
+        {
+          "blend": 0.75,
+          "metrics": {
+            "hit_at_10": 0.13,
+            "mrr_at_10": 0.07866666666666668,
+            "ndcg_at_10": 0.04549448304639271
+          }
+        },
+        {
+          "blend": 1.0,
+          "metrics": {
+            "hit_at_10": 0.07,
+            "mrr_at_10": 0.01978968253968254,
+            "ndcg_at_10": 0.012820708990242284
+          }
+        }
+      ]
+    },
+    "B3": {
+      "blend_alpha": 0.5,
+      "elapsed_seconds": 0.33,
+      "features": [
+        "lexical_max",
+        "dense_max",
+        "dense_top3",
+        "lexical_rank",
+        "dense_rank",
+        "title_coverage",
+        "support_fraction",
+        "matched_recency",
+        "author_recency",
+        "log_publications",
+        "log_collaborators",
+        "hybrid_rrf",
+        "bm25_top3_weighted",
+        "dense_top3_weighted",
+        "recent_strong_log",
+        "strong_most_recent_decay",
+        "topical_recency_weighted",
+        "publication_count_log_capped"
+      ],
+      "model_sha256": "31cedb86319d0ca54d10100dd87015a92b744a6ed65b923157d7e110e4a60bdb",
+      "trials": [
+        {
+          "blend": 0.0,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.06934722222222221,
+            "ndcg_at_10": 0.04666888825740871
+          }
+        },
+        {
+          "blend": 0.25,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.07337500000000001,
+            "ndcg_at_10": 0.050627045996797945
+          }
+        },
+        {
+          "blend": 0.5,
+          "metrics": {
+            "hit_at_10": 0.125,
+            "mrr_at_10": 0.08275,
+            "ndcg_at_10": 0.05135120819861544
+          }
+        },
+        {
+          "blend": 0.75,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.07979761904761905,
+            "ndcg_at_10": 0.04652117845027995
+          }
+        },
+        {
+          "blend": 1.0,
+          "metrics": {
+            "hit_at_10": 0.075,
+            "mrr_at_10": 0.02786706349206349,
+            "ndcg_at_10": 0.01675529486059468
+          }
+        }
+      ]
+    },
+    "B4": {
+      "blend_alpha": 0.25,
+      "elapsed_seconds": 0.31,
+      "features": [
+        "lexical_max",
+        "dense_max",
+        "dense_top3",
+        "lexical_rank",
+        "dense_rank",
+        "title_coverage",
+        "support_fraction",
+        "log_publications",
+        "log_collaborators",
+        "hybrid_rrf",
+        "bm25_top3_weighted",
+        "dense_top3_weighted",
+        "combined_top3_weighted",
+        "strong_papers_log",
+        "strong_concentration_smoothed",
+        "publication_count_log_capped"
+      ],
+      "model_sha256": "75b14b678785a915633d270bc8e256d8147f38cc413608e1ea28bcbca9d5977f",
+      "trials": [
+        {
+          "blend": 0.0,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.06934722222222221,
+            "ndcg_at_10": 0.04666888825740871
+          }
+        },
+        {
+          "blend": 0.25,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.07433333333333333,
+            "ndcg_at_10": 0.049898886240060565
+          }
+        },
+        {
+          "blend": 0.5,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.07938095238095237,
+            "ndcg_at_10": 0.048932341234967494
+          }
+        },
+        {
+          "blend": 0.75,
+          "metrics": {
+            "hit_at_10": 0.1,
+            "mrr_at_10": 0.050249999999999996,
+            "ndcg_at_10": 0.030676502469112275
+          }
+        },
+        {
+          "blend": 1.0,
+          "metrics": {
+            "hit_at_10": 0.04,
+            "mrr_at_10": 0.024166666666666666,
+            "ndcg_at_10": 0.012003638278188374
+          }
+        }
+      ]
+    },
+    "G0": {
+      "blend_alpha": 0.25,
+      "elapsed_seconds": 0.33,
+      "features": [
+        "lexical_max",
+        "dense_max",
+        "dense_top3",
+        "lexical_rank",
+        "dense_rank",
+        "title_coverage",
+        "support_fraction",
+        "matched_recency",
+        "author_recency",
+        "log_publications",
+        "hybrid_rrf",
+        "bm25_top3_weighted",
+        "dense_top3_weighted",
+        "combined_top3_weighted",
+        "strong_papers_log",
+        "strong_concentration_smoothed",
+        "recent_strong_log",
+        "strong_most_recent_decay",
+        "topical_recency_weighted",
+        "publication_count_log_capped"
+      ],
+      "model_sha256": "ac74d11e4e99ea9d91f836e88bb6f39e091cbfc749585c1da364fe07d0bede3c",
+      "trials": [
+        {
+          "blend": 0.0,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.06934722222222221,
+            "ndcg_at_10": 0.04666888825740871
+          }
+        },
+        {
+          "blend": 0.25,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.07247222222222222,
+            "ndcg_at_10": 0.05009963399691389
+          }
+        },
+        {
+          "blend": 0.5,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.07763888888888888,
+            "ndcg_at_10": 0.04916681819002981
+          }
+        },
+        {
+          "blend": 0.75,
+          "metrics": {
+            "hit_at_10": 0.13,
+            "mrr_at_10": 0.0775138888888889,
+            "ndcg_at_10": 0.044872810334665746
+          }
+        },
+        {
+          "blend": 1.0,
+          "metrics": {
+            "hit_at_10": 0.07,
+            "mrr_at_10": 0.01732936507936508,
+            "ndcg_at_10": 0.014100466091193113
+          }
+        }
+      ]
+    },
+    "G1": {
+      "blend_alpha": 0.25,
+      "elapsed_seconds": 0.33,
+      "features": [
+        "lexical_max",
+        "dense_max",
+        "dense_top3",
+        "lexical_rank",
+        "dense_rank",
+        "title_coverage",
+        "support_fraction",
+        "matched_recency",
+        "author_recency",
+        "log_publications",
+        "log_collaborators",
+        "hybrid_rrf",
+        "bm25_top3_weighted",
+        "dense_top3_weighted",
+        "combined_top3_weighted",
+        "strong_papers_log",
+        "strong_concentration_smoothed",
+        "recent_strong_log",
+        "strong_most_recent_decay",
+        "topical_recency_weighted",
+        "publication_count_log_capped"
+      ],
+      "model_sha256": "9a15cc5dcbf27b6c55cbc15845d4e1a62f65b5ab145d595170e5b95a9f1f2bbb",
+      "trials": [
+        {
+          "blend": 0.0,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.06934722222222221,
+            "ndcg_at_10": 0.04666888825740871
+          }
+        },
+        {
+          "blend": 0.25,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.07330555555555555,
+            "ndcg_at_10": 0.04996218092556811
+          }
+        },
+        {
+          "blend": 0.5,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.07868650793650794,
+            "ndcg_at_10": 0.049710763658573985
+          }
+        },
+        {
+          "blend": 0.75,
+          "metrics": {
+            "hit_at_10": 0.13,
+            "mrr_at_10": 0.07866666666666668,
+            "ndcg_at_10": 0.04549448304639271
+          }
+        },
+        {
+          "blend": 1.0,
+          "metrics": {
+            "hit_at_10": 0.07,
+            "mrr_at_10": 0.01978968253968254,
+            "ndcg_at_10": 0.012820708990242284
+          }
+        }
+      ]
+    },
+    "G2": {
+      "blend_alpha": 0.25,
+      "elapsed_seconds": 0.34,
+      "features": [
+        "lexical_max",
+        "dense_max",
+        "dense_top3",
+        "lexical_rank",
+        "dense_rank",
+        "title_coverage",
+        "support_fraction",
+        "matched_recency",
+        "author_recency",
+        "log_publications",
+        "hybrid_rrf",
+        "bm25_top3_weighted",
+        "dense_top3_weighted",
+        "combined_top3_weighted",
+        "strong_papers_log",
+        "strong_concentration_smoothed",
+        "recent_strong_log",
+        "strong_most_recent_decay",
+        "topical_recency_weighted",
+        "publication_count_log_capped",
+        "topical_coauthor_strength",
+        "topical_coauthor_recency",
+        "topical_collaborator_normalized"
+      ],
+      "model_sha256": "afa1834a28af462016729ef93391cd0c4805b2a1c11dae62aaf65ef012e6a167",
+      "trials": [
+        {
+          "blend": 0.0,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.06934722222222221,
+            "ndcg_at_10": 0.04666888825740871
+          }
+        },
+        {
+          "blend": 0.25,
+          "metrics": {
+            "hit_at_10": 0.125,
+            "mrr_at_10": 0.073875,
+            "ndcg_at_10": 0.050857033060745446
+          }
+        },
+        {
+          "blend": 0.5,
+          "metrics": {
+            "hit_at_10": 0.12,
+            "mrr_at_10": 0.07738095238095238,
+            "ndcg_at_10": 0.049413911314962124
+          }
+        },
+        {
+          "blend": 0.75,
+          "metrics": {
+            "hit_at_10": 0.13,
+            "mrr_at_10": 0.07309722222222222,
+            "ndcg_at_10": 0.04451418457668382
+          }
+        },
+        {
+          "blend": 1.0,
+          "metrics": {
+            "hit_at_10": 0.055,
+            "mrr_at_10": 0.019375,
+            "ndcg_at_10": 0.013639717203472615
+          }
+        }
+      ]
+    }
+  },
+  "validation_cache_sha256": "21c1ff70542d955fca09624a3f4f3f5dfd9cdd5247c5e7a8e38028d634d7aa53"
+}

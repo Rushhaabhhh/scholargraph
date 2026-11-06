@@ -1,0 +1,105 @@
+{
+  "scope": "Development selection only, no untouched final test or serving promotion.",
+  "selected_serving_configuration": "existing_1024",
+  "selection_reason": "Existing paper retrieval retained: experimental topical author and graph routes added 8/534 known author instances on inspected validation, with no top-10 gain and higher warm latency and memory.",
+  "candidate_limit": 800,
+  "paper_limit_per_channel": 1024,
+  "aggregation": "Existing reciprocal-rank fusion of maximum author paper relevance in each channel",
+  "experimental_challenger": "r3_topic_neighbors",
+  "challenger_settings": {
+    "paper_limit_per_channel": 1024,
+    "paper_aggregation": "top3",
+    "paper_weights": [
+      1,
+      0.6,
+      0.36
+    ],
+    "topic_profiles": "At most two normalized clusters over 12 most recent historical paper embeddings, same local encoder",
+    "topic_author_limit": 128,
+    "topic_rrf_weight": 0.25,
+    "graph_seed_limit": 32,
+    "papers_per_seed": 3,
+    "min_similarity": 0.4,
+    "requires_title_token_overlap": true,
+    "neighbor_limit": 128,
+    "neighbor_rrf_weight": 0.15,
+    "requires_sourced_coauthorship_edge": true
+  },
+  "labels_sha256": "2559f849894ff787388b23068fd639bb5889f413488ee99fc27a7909cd51fa31",
+  "graph_content_sha256": "4605416fc9862a911a956b59b9b56c8dd33e676d33df70dd36a17a512ece7cf9",
+  "model_sha256": "947838570ec8ba0f803f63767b618221a820b958a74118a6ad771eee765b67cb",
+  "comparison_report": "resources/results/phase1-retrieval-development-v3.json",
+  "comparison_report_sha256": "9e755c98d1bd7ee94b751a2f4cca72ecf52517fd68fb2062fc87f9e17c76ef98",
+  "baseline_result": {
+    "author_recall": {
+      "100": {
+        "all": 0.19096209912536444,
+        "known": 0.24531835205992508
+      },
+      "400": {
+        "all": 0.26676384839650147,
+        "known": 0.34269662921348315
+      },
+      "800": {
+        "all": 0.3236151603498542,
+        "known": 0.4157303370786517
+      }
+    },
+    "candidate_oracle_mrr10_all": 0.5968992248062015,
+    "candidate_oracle_mrr10_known_queries": 0.6260162601626016,
+    "candidate_oracle_ndcg10_all": 0.3852378259508618,
+    "candidate_oracle_ndcg10_known": 0.4203900181108843,
+    "latency_ms": {
+      "p50": 76.32948199170642,
+      "p95": 90.32385520404205
+    },
+    "model_mrr10": 0.144927402485542,
+    "model_ndcg10": 0.11811077266772446,
+    "query_hit_at_800": 0.5968992248062015,
+    "retrieved_relevant_instances": 222
+  },
+  "challenger_result": {
+    "author_recall": {
+      "100": {
+        "all": 0.21428571428571427,
+        "known": 0.2752808988764045
+      },
+      "400": {
+        "all": 0.2944606413994169,
+        "known": 0.3782771535580524
+      },
+      "800": {
+        "all": 0.33527696793002915,
+        "known": 0.4307116104868914
+      }
+    },
+    "candidate_oracle_mrr10_all": 0.6201550387596899,
+    "candidate_oracle_mrr10_known_queries": 0.6504065040650406,
+    "candidate_oracle_ndcg10_all": 0.3941551871368556,
+    "candidate_oracle_ndcg10_known": 0.4333854164310845,
+    "latency_ms": {
+      "p50": 107.49765801301692,
+      "p95": 165.36262119188876
+    },
+    "model_mrr10": 0.144927402485542,
+    "model_ndcg10": 0.11811077266772446,
+    "query_hit_at_800": 0.6201550387596899,
+    "retrieved_relevant_instances": 230
+  },
+  "challenger_recall_delta": {
+    "known_recall800_delta": 0.0149812734082397,
+    "paired_bootstrap_95pct": [
+      0.0018796110821142913,
+      0.028958228414750146
+    ]
+  },
+  "peak_process_rss_mib": 840.2265625,
+  "latency_scope": "Pre-encoded query; candidate context, aggregation and ranker feature assembly/scoring. Excludes query encoding, HTTP and grounding. Topic profile build excluded.",
+  "limitations": [
+    "Development data inspected repeatedly; uncertainty intervals do not correct for selection.",
+    "Frozen ranker trained for original retrieval; candidate changes were not retrained.",
+    "Challenger is experimental only and has no serving index or online date-filter implementation.",
+    "Candidate recall and oracle use incomplete future-authorship proxy labels."
+  ],
+  "implementation_sha256": "d5eb791516c0cc1a1323daf270fe641562b9d35763728e8e5a766c5c16f56d32"
+}
