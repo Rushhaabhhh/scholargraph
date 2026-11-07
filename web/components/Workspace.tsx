@@ -1,5 +1,12 @@
 'use client';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+} from 'react';
 import { AppLayout } from './AppLayout';
 import { getSession } from '../lib/session';
 import { ExpertCard } from './ExpertCard';
@@ -7,18 +14,24 @@ import { EvidenceGraph } from './EvidenceGraph';
 import { PipelineStory } from './PipelineStory';
 import { ResearchHero } from './ResearchHero';
 import { CursorSwarm } from './CursorSwarm';
+import { AssistantDialog, type ChatTurn } from './AssistantDialog';
 import { Icon } from './Icon';
 import {
   ArrowUpRight,
+  ArrowRight,
   CalendarDays,
   Compass,
   Network,
   Search,
-  SlidersHorizontal,
   Sparkles,
 } from 'lucide-react';
 import { api, ApiError, json, requestId } from '../lib/api';
-import type { Expert, Memory, SearchResponse } from '../lib/types';
+import type {
+  ChatResponse,
+  Expert,
+  Memory,
+  SearchResponse,
+} from '../lib/types';
 type Health = {
   status: 'ok' | 'degraded';
   papers: number;
@@ -53,6 +66,12 @@ export function Workspace() {
   const [searching, setSearching] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [assistantOpen, setAssistantOpen] = useState(false);
+  const closeAssistant = useCallback(() => setAssistantOpen(false), []);
+  const [assistantBusy, setAssistantBusy] = useState(false);
+  const [assistantError, setAssistantError] = useState('');
+  const [assistantMessage, setAssistantMessage] = useState('');
+  const [turns, setTurns] = useState<ChatTurn[]>([]);
   useEffect(() => {
     if (
       query ||
@@ -274,6 +293,89 @@ export function Workspace() {
     }
   }
 
+  async function sendAssistant(text: string, signal?: AbortSignal) {
+    if (!session || !text.trim()) return '';
+    setAssistantBusy(true);
+    setAssistantError('');
+    try {
+      const data = await mutate<ChatResponse>(
+        `/sessions/${session}/messages`,
+        'POST',
+        { message: text.trim() },
+        signal,
+      );
+      setMemory(data.memory);
+      setTurns((previous) => [
+        ...previous,
+        { role: 'user', text },
+        { role: 'assistant', text: data.message, response: data },
+      ]);
+      if (
+        data.query &&
+        data.understanding &&
+        data.effective_filters &&
+        data.retrieval_query
+      ) {
+        const searchResult: SearchResponse = {
+          query: data.query,
+          retrieval_query: data.retrieval_query,
+          results: data.results,
+          memory: data.memory,
+          understanding: data.understanding,
+          effective_filters: data.effective_filters,
+        };
+        setQuery(data.query);
+        setSearched(data.query);
+        setResults(data.results);
+        setSearchInfo(searchResult);
+        setRecency(data.understanding.intent.recency_preference);
+        setSinceYear(data.understanding.intent.since_year?.toString() ?? '');
+        sessionStorage.setItem(
+          'scholargraph-results',
+          JSON.stringify(searchResult),
+        );
+        sessionStorage.setItem(
+          'scholargraph-filters',
+          JSON.stringify({
+            recency: data.understanding.intent.recency_preference,
+            sinceYear: data.understanding.intent.since_year?.toString() ?? '',
+          }),
+        );
+      }
+      setAssistantMessage('');
+      return data.message;
+    } catch (e) {
+      if ((e as Error).name !== 'AbortError')
+        setAssistantError((e as Error).message);
+      throw e;
+    } finally {
+      setAssistantBusy(false);
+    }
+  }
+
+  function submitAssistant(event: FormEvent) {
+    event.preventDefault();
+    void sendAssistant(assistantMessage).catch(() => {});
+  }
+
+  async function clearAssistantMemory() {
+    setAssistantBusy(true);
+    setAssistantError('');
+    try {
+      const data = await mutate<{ memory: Memory }>(
+        `/sessions/${session}/memory`,
+        'DELETE',
+        {},
+      );
+      setMemory(data.memory);
+      setTurns([]);
+    } catch (e) {
+      setAssistantError((e as Error).message);
+    } finally {
+      setAssistantBusy(false);
+    }
+  }
+
   const visible = useMemo(
     () =>
       results.filter((r) => !memory?.rejected_person_ids.includes(r.person_id)),
@@ -288,11 +390,7 @@ export function Workspace() {
     <AppLayout>
       <div className="home-page" id="top">
         <ResearchHero health={health} />
-        <PipelineStory
-          stats={
-            health ? { papers: health.papers, authors: health.authors } : null
-          }
-        />
+        <PipelineStory />
         <section
           className="search-section"
           id="search"
@@ -381,9 +479,6 @@ export function Workspace() {
             </div>
             <div className="filter-row">
               <div className="filter-group">
-                <span className="filter-group-title">
-                  <SlidersHorizontal size={15} /> REFINE YOUR SEARCH
-                </span>
                 <div className="filter-fields">
                   <label>
                     <span>
@@ -560,7 +655,8 @@ export function Workspace() {
                 no shared title terms can miss relevant synonyms.
               </p>
               <a className="text-link" href="/shortlist">
-                Review shortlist and rejected people →
+                Review shortlist and rejected people{' '}
+                <ArrowRight size={14} aria-hidden="true" />
               </a>
             </div>
           ) : (
@@ -577,9 +673,8 @@ export function Workspace() {
                     busy={busy || searching}
                     onDecision={decide}
                     onAsk={(expert) => {
-                      window.location.assign(
-                        `/chat?profile=${expert.person_id}&name=${encodeURIComponent(expert.name)}`,
-                      );
+                      setAssistantMessage(`Show profile ${expert.person_id}`);
+                      setAssistantOpen(true);
                     }}
                   />
                 ))}
@@ -594,6 +689,27 @@ export function Workspace() {
           )}
         </section>
       </div>
+      <AssistantDialog
+        open={assistantOpen}
+        onClose={closeAssistant}
+        online={apiOnline}
+        session={session}
+        memory={memory}
+        results={results}
+        turns={turns}
+        message={assistantMessage}
+        busy={assistantBusy}
+        searching={searching}
+        error={assistantError}
+        onMessageChange={setAssistantMessage}
+        onSend={submitAssistant}
+        onVoiceSend={sendAssistant}
+        onClearMemory={clearAssistantMemory}
+        onViewResults={() => {
+          setAssistantOpen(false);
+          document.getElementById('discovery-results')?.scrollIntoView();
+        }}
+      />
       <CursorSwarm />
     </AppLayout>
   );

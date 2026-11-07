@@ -882,3 +882,92 @@
     transition: none;
   }
 }
+
+/* The opposite corner remains anchored while the top-left handle resizes. */
+.assistant-float-panel {
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 140px);
+  min-height: min(350px, calc(100dvh - 140px));
+}
+.assistant-resize-handle {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  padding: 4px 0 0 4px;
+  border: 1px solid #91ad8a55;
+  border-top: 0;
+  border-left: 0;
+  border-radius: 24px 0 8px 0;
+  background: #a7c99c12;
+  color: #b3c9ad;
+  cursor: nwse-resize;
+  touch-action: none;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+}
+.assistant-resize-handle:hover,
+.assistant-resize-handle:focus-visible {
+  color: #eef8e9;
+  background: #a7c99c35;
+}
+.assistant-resize-handle:focus-visible {
+  outline: 2px solid #c0dbb1;
+  outline-offset: -4px;
+}
+.conversation-floating .conversation-header {
+  padding: 22px 20px 15px 27px;
+  align-items: center;
+}
+.conversation-floating .conversation-header .floating-assistant-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  font-size: clamp(16px, 3.6vw, 20px);
+  white-space: nowrap;
+}
+.floating-assistant-title i {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a8dca8;
+  box-shadow:
+    0 0 12px #a2d7a5,
+    0 0 4px #a2d7a5;
+}
+.conversation-floating .conversation-header > div:first-child {
+  min-width: 0;
+}
+.conversation-floating .floating-header-actions {
+  margin-left: auto;
+}
+.conversation-workspace.conversation-floating .conversation-message {
+  padding: 0;
+  border: 0 !important;
+}
+.conversation-workspace.conversation-floating .conversation-message-content {
+  margin: 0;
+  padding: 12px 15px;
+}
+@media (max-width: 600px) {
+  .assistant-float-panel {
+    max-width: calc(100vw - 16px);
+    max-height: calc(100dvh - 110px);
+    min-height: min(350px, calc(100dvh - 110px));
+  }
+  .conversation-floating .conversation-header {
+    padding: 20px 14px 12px 25px;
+    gap: 8px;
+  }
+  .conversation-floating .floating-header-actions button {
+    width: 31px;
+    height: 31px;
+  }
+}

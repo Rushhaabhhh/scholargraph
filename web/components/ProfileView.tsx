@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { AppLayout } from './AppLayout';
 import { api, json, requestId } from '../lib/api';
 import { getSession } from '../lib/session';
@@ -126,7 +127,8 @@ export function ProfileView({ id }: { id: string }) {
                   className="text-link"
                   href={`/chat?profile=${profile.person_id}&name=${encodeURIComponent(profile.name)}`}
                 >
-                  Ask assistant about this expert →
+                  Ask assistant about this expert{' '}
+                  <ArrowRight size={14} aria-hidden="true" />
                 </Link>
               </div>
               {actionError && (

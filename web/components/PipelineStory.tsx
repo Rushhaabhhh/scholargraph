@@ -1,42 +1,94 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { useReducedMotion } from 'motion/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-const stages = [
+import {
+  ArrowRight,
+  BookOpenCheck,
+  Database,
+  FileText,
+  GitFork,
+  ListOrdered,
+  Network,
+  Plus,
+  Search,
+  SlidersHorizontal,
+  Sparkles,
+  UserRound,
+  UsersRound,
+  type LucideIcon,
+} from 'lucide-react';
+
+type Stage = {
+  label: string;
+  title: string;
+  body: string;
+  notes: [string, string];
+  diagram: { icon: LucideIcon; label: string }[];
+};
+const stages: Stage[] = [
   {
     label: 'SOURCE',
     title: 'Start with the work.',
-    body: 'Publications, dates and author records form the evidence base. Every discovery begins with a real research record.',
+    body: 'Every discovery starts with public DBLP records: papers, researchers, venues and publication dates.',
+    notes: ['Public research records', 'Source and date retained'],
+    diagram: [
+      { icon: Database, label: 'DBLP' },
+      { icon: FileText, label: 'PAPERS' },
+      { icon: UsersRound, label: 'AUTHORS' },
+    ],
   },
   {
     label: 'CONNECT',
     title: 'See the connections.',
-    body: 'Author identities and coauthorship links bring papers and people together in a sourced research graph.',
+    body: 'Authorship, venues and collaborations link people to the work behind their expertise in a sourced research graph.',
+    notes: ['Dated graph relationships', 'Evidence linked to its source'],
+    diagram: [
+      { icon: UserRound, label: 'PERSON' },
+      { icon: Network, label: 'GRAPH' },
+      { icon: GitFork, label: 'COLLABORATION' },
+    ],
   },
   {
     label: 'RETRIEVE',
     title: 'Find the signal.',
-    body: 'Keyword and semantic search find relevant publications and the researchers behind them.',
+    body: 'Lexical and semantic search work together to surface relevant publications and the researchers connected to them.',
+    notes: ['Keyword and vector search', 'Publication evidence collected'],
+    diagram: [
+      { icon: Search, label: 'QUERY' },
+      { icon: Sparkles, label: 'HYBRID SEARCH' },
+      { icon: FileText, label: 'MATCHES' },
+    ],
   },
   {
     label: 'RANK',
     title: 'Put relevance first.',
-    body: 'A trained ranking model orders candidates using research relevance and historical graph features.',
+    body: 'A trained ranking model orders candidates using topical evidence, publication history and graph features.',
+    notes: ['Learned ranking model', 'Scores are ordering signals'],
+    diagram: [
+      { icon: SlidersHorizontal, label: 'FEATURES' },
+      { icon: Sparkles, label: 'MODEL' },
+      { icon: ListOrdered, label: 'RANKING' },
+    ],
   },
   {
     label: 'EXPLORE',
     title: 'Follow the evidence.',
-    body: 'Inspect supporting publications, open profiles and build a shortlist of people worth knowing.',
+    body: 'Review supporting papers, inspect researcher profiles and keep a shortlist for your next decision.',
+    notes: ['Trace claims to publications', 'Save and compare researchers'],
+    diagram: [
+      { icon: BookOpenCheck, label: 'EVIDENCE' },
+      { icon: UserRound, label: 'PROFILE' },
+      { icon: UsersRound, label: 'SHORTLIST' },
+    ],
   },
 ];
-export function PipelineStory({
-  stats,
-}: {
-  stats: { papers: number; authors: number } | null;
-}) {
+
+export function PipelineStory() {
   const [active, setActive] = useState(0);
   const root = useRef<HTMLElement>(null);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const reduced = useReducedMotion();
   useEffect(() => {
     if (reduced || !root.current) return;
@@ -60,6 +112,20 @@ export function PipelineStory({
     }, root);
     return () => ctx.revert();
   }, [reduced]);
+  function moveTab(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    let next = index;
+    if (event.key === 'ArrowDown' || event.key === 'ArrowRight')
+      next = (index + 1) % stages.length;
+    else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft')
+      next = (index + stages.length - 1) % stages.length;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = stages.length - 1;
+    else return;
+    event.preventDefault();
+    setActive(next);
+    tabs.current[next]?.focus();
+  }
+  const stage = stages[active];
   return (
     <section
       ref={root}
@@ -77,40 +143,86 @@ export function PipelineStory({
         <span>WITH CONTEXT.</span>
       </h2>
       <div className="method-grid method-reveal">
-        <div className="method-list" role="tablist" aria-label="Pipeline steps">
-          {stages.map((s, i) => (
+        <div
+          className="method-list"
+          role="tablist"
+          aria-label="Pipeline steps"
+          aria-orientation="vertical"
+        >
+          {stages.map((item, index) => (
             <button
-              key={s.label}
+              key={item.label}
+              ref={(element) => {
+                tabs.current[index] = element;
+              }}
+              id={`method-tab-${index}`}
+              type="button"
               role="tab"
-              aria-selected={active === i}
-              onClick={() => setActive(i)}
+              aria-selected={active === index}
+              aria-controls="method-panel"
+              tabIndex={active === index ? 0 : -1}
+              onMouseEnter={() => setActive(index)}
+              onFocus={() => setActive(index)}
+              onClick={() => setActive(index)}
+              onKeyDown={(event) => moveTab(event, index)}
             >
-              <span>0{i + 1}</span>
-              <b>{s.label}</b>
-              <i>{active === i ? '↗' : '+'}</i>
+              <span className="method-number">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <b>{item.label}</b>
+              <Plus
+                className="method-plus"
+                size={24}
+                strokeWidth={1.5}
+                aria-hidden="true"
+              />
             </button>
           ))}
         </div>
-        <div className="method-detail">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              initial={reduced ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduced ? undefined : { opacity: 0, y: -8 }}
-              transition={{ duration: 0.22 }}
+        <div
+          className="method-detail"
+          id="method-panel"
+          role="tabpanel"
+          aria-labelledby={`method-tab-${active}`}
+        >
+          <div className="method-stage-content" key={stage.label}>
+            <div className="method-stage-kicker">
+              <span>
+                0{active + 1} / {stage.label}
+              </span>
+              <span>THE PROCESS</span>
+            </div>
+            <h3>{stage.title}</h3>
+            <p>{stage.body}</p>
+            <div
+              className="method-diagram"
+              aria-label={`${stage.label.toLowerCase()} process diagram`}
             >
-              <h3>{stages[active].title}</h3>
-              <p>{stages[active].body}</p>
-            </motion.div>
-          </AnimatePresence>
-          <div className="method-detail-bottom">
-            <span>
-              {stats
-                ? `${stats.papers.toLocaleString()} PAPERS / ${stats.authors.toLocaleString()} AUTHORS`
-                : 'PUBLICATION-BACKED DISCOVERY'}
-            </span>
-            <span>↗</span>
+              {stage.diagram.map(({ icon: DiagramIcon, label }, index) => (
+                <div className="method-diagram-step" key={label}>
+                  <div className="method-diagram-node">
+                    <DiagramIcon
+                      size={25}
+                      strokeWidth={1.4}
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <span>{label}</span>
+                  {index < stage.diagram.length - 1 && (
+                    <ArrowRight
+                      className="method-diagram-arrow"
+                      size={16}
+                      aria-hidden="true"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="method-notes">
+              {stage.notes.map((note) => (
+                <span key={note}>{note}</span>
+              ))}
+            </div>
           </div>
         </div>
       </div>

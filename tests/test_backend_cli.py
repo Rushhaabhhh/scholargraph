@@ -10,7 +10,7 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 from hiresense.api.app import create_app
 from hiresense.api.runtime import Backend
-from hiresense.assistant.providers import RecordedProvider
+from hiresense.assistant.providers import LocalLLMProvider, RecordedProvider
 from hiresense.batch import run_batch
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,6 +32,17 @@ class BackendCliTests(unittest.TestCase):
                                     text=True, capture_output=True, timeout=30)
             self.assertEqual(result.returncode, 0, result.stderr)
             preparation = json.loads(result.stdout)
+            config_path = Path(preparation['config'])
+            config = json.loads(config_path.read_text())
+            self.assertEqual(config['query_provider'], 'local_llm')
+            backend = Backend.load(config_path)
+            try:
+                self.assertIsInstance(backend.understander.provider, LocalLLMProvider)
+            finally:
+                backend.close()
+            # Avoid loading the optional 0.5B model in this offline integration test.
+            config['query_provider'] = 'recorded'
+            config_path.write_text(json.dumps(config))
             self.assertEqual(preparation['snapshot']['papers'], 200)
             self.assertFalse((output / 'source.sqlite3').exists())
             with TestClient(create_app(preparation['config'])) as client:
@@ -49,8 +60,7 @@ class BackendCliTests(unittest.TestCase):
                 self.assertEqual([r['score'] for r in batch['results']],
                                  [r['score'] for r in search['results']])
             # Configurations produced before the resource move remain usable.
-            config_path = Path(preparation['config'])
-            config = json.loads(config_path.read_text())
+            config['query_provider'] = 'recorded'
             config['recordings'] = str(ROOT / 'recordings/query-intents.json')
             config_path.write_text(json.dumps(config))
             backend = Backend.load(config_path)

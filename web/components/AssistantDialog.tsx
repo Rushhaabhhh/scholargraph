@@ -1,5 +1,5 @@
 'use client';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, Fragment, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { ChatResponse, Expert, Memory } from '../lib/types';
 import { Icon } from './Icon';
@@ -56,13 +56,15 @@ export function AssistantDialog({
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const wasOpen = useRef(false);
+  const returnFocus = useRef<HTMLElement | null>(null);
   useEffect(() => {
     if (!open) {
-      if (wasOpen.current)
-        document.getElementById('assistant-launcher')?.focus();
+      if (wasOpen.current) returnFocus.current?.focus();
       wasOpen.current = false;
       return;
     }
+    if (!wasOpen.current && document.activeElement instanceof HTMLElement)
+      returnFocus.current = document.activeElement;
     wasOpen.current = true;
     closeRef.current?.focus();
     const onKey = (event: KeyboardEvent) => {
@@ -181,7 +183,9 @@ export function AssistantDialog({
             <p>
               Use an explicit search command, or use the commands below to open
               profiles, find paths, and manage your shortlist. For match
-              rationale, open “Why this match” on a result.
+              rationale, open “Why this match” on a result. When configured,
+              general questions can use AI chat without accessing the graph;
+              those answers are not source-verified.
             </p>
           </div>
           <div className="assistant-command-guide">
@@ -320,7 +324,8 @@ export function AssistantDialog({
                         <Link
                           href={`/experts/${turn.response.profile.person_id}`}
                         >
-                          Open full evidence profile →
+                          Open full evidence profile{' '}
+                          <Icon name="forward" size={13} />
                         </Link>
                       </div>
                     )}
@@ -344,10 +349,16 @@ export function AssistantDialog({
                           {turn.response.path.person_ids.length} PEOPLE
                         </span>
                         <strong>
-                          {turn.response.path.person_ids
-                            .map((id) => label(id))
-                            .join(' → ') ||
-                            'No path found within the traversal limit'}
+                          {turn.response.path.person_ids.length
+                            ? turn.response.path.person_ids.map((id, index) => (
+                                <Fragment key={`${id}-${index}`}>
+                                  {index > 0 && (
+                                    <Icon name="forward" size={13} />
+                                  )}
+                                  {label(id)}
+                                </Fragment>
+                              ))
+                            : 'No path found within the traversal limit'}
                         </strong>
                         {turn.response.path.edges.map((edge, j) => (
                           <p key={`${edge.from}-${edge.to}-${j}`}>
@@ -429,7 +440,8 @@ export function AssistantDialog({
           </button>
         </form>
         <div className="assistant-footer">
-          Responses use the connected DBLP graph and session tools.
+          Responses use the connected DBLP graph and session tools. For general
+          conversation, <Link href="/chat">open AI chat</Link>.
         </div>
       </aside>
     </>

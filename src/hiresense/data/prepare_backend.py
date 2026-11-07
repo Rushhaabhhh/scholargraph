@@ -52,7 +52,8 @@ def prepare_backend(data, output, cutoff_year=None):
                          'encoder': os.path.relpath(root / 'models/minilm', output.resolve()),
                          'model': os.path.relpath(model_path, output.resolve()),
                          'recordings': os.path.relpath(root / 'resources/recordings/query-intents.json', output.resolve()),
-                         'query_provider': 'recorded'}
+                         'query_provider': 'local_llm',
+                         'local_model': os.path.relpath(root / 'data/models/query-understanding.gguf', output.resolve())}
         if model.get('retrieval_kind') == 'hybrid':
             configuration['cross_encoder'] = os.path.relpath(root / 'models/crossencoder', output.resolve())
         write_json(stage / 'backend.json', configuration)

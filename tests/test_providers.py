@@ -11,6 +11,21 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ProviderTests(unittest.TestCase):
+    def test_live_local_provider_handles_an_unseen_query(self):
+        class LocalModel:
+            def create_chat_completion(self, **kwargs):
+                return {'choices': [{'message': {'content': json.dumps({
+                    'topics': ['distributed storage'], 'recency_preference': 'any', 'since_year': None,
+                })}}]}
+            def reset(self):
+                pass
+        provider = LocalLLMProvider('/unused-model')
+        provider.model = LocalModel()
+        result = QueryUnderstander(provider).understand('distributed storage')
+        self.assertEqual(result['provider'], 'local_llm')
+        self.assertFalse(result['used_fallback'])
+        self.assertEqual(result['intent']['topics'], ['distributed storage'])
+
     def test_recordings_are_actual_model_outputs_and_are_validated_on_replay(self):
         recordings = json.loads((ROOT / 'resources/recordings/query-intents.json').read_text())
         model = json.loads((ROOT / 'resources/recordings/local-model.json').read_text())

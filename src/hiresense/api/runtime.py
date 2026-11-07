@@ -1,6 +1,7 @@
 """Load immutable research artifacts once; serialize shared SQLite/model access."""
 
 import json
+import os
 import re
 import sqlite3
 import threading
@@ -55,7 +56,7 @@ class Backend:
             engine = search_index(database, path('index'), encoder, model,
                                   profiles=path('profiles') if 'profiles' in config else None,
                                   cross_directory=path('cross_encoder') if 'cross_encoder' in config else None)
-            mode = config.get('query_provider', 'recorded')
+            mode = os.environ.get('SCHOLARGRAPH_QUERY_PROVIDER', config.get('query_provider', 'recorded'))
             if mode == 'recorded':
                 try:
                     recording_path = path('recordings')
@@ -66,7 +67,10 @@ class Backend:
                 except (OSError, ValueError, KeyError, TypeError):
                     provider = UnavailableProvider()
             elif mode == 'local_llm':
-                provider = LocalLLMProvider(path('local_model'), config.get('local_model_sha256'))
+                model_path = os.environ.get('SCHOLARGRAPH_QUERY_MODEL_PATH')
+                if not model_path:
+                    model_path = path('local_model') if 'local_model' in config else Path(__file__).resolve().parents[3] / 'data/models/query-understanding.gguf'
+                provider = LocalLLMProvider(model_path, config.get('local_model_sha256'))
             elif mode == 'fallback':
                 provider = None
             else:

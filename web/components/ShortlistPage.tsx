@@ -350,7 +350,8 @@ export function ShortlistPage() {
                         href={`/experts/${p.person_id}`}
                         className="text-link"
                       >
-                        View profile ↗
+                        View profile{' '}
+                        <ArrowUpRight size={14} aria-hidden="true" />
                       </Link>
                       {tab === 'shortlist' ? (
                         <>

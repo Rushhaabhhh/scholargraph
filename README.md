@@ -71,6 +71,7 @@ The [temporal evaluation](resources/results/lean-final-v1.json) reports nDCG@10 
 
 ### Conversations and Voice
 
+- Use **Ask assistant** on a researcher result to refine a search, inspect a profile or collaboration path, and manage the same shortlist and session memory. The panel displays tool activity and the memory used for each turn. Supported commands are shown in the panel.
 - Use persistent text conversations with optional research-record lookup.
 - Attach UTF-8 text, Markdown, CSV, and JSON documents as bounded model context.
 - Use local Vosk speech recognition and Piper speech synthesis, or configure supported remote providers.
@@ -82,7 +83,7 @@ The [temporal evaluation](resources/results/lean-final-v1.json) reports nDCG@10 
 - Evaluate retrieval and ranking against future-authorship proxy labels.
 - Run backend, frontend, and browser tests.
 
-The conversation workspace is currently independent of the graph-tool assistant backend; the complete search → three-tool assistant → shortlist journey is not yet integrated. The application has no account authentication and is intended for local use.
+The graph assistant uses explicit commands and the search session. If Gemini is configured, unsupported questions can fall back to general AI conversation: the user message is sent to the configured conversation provider, without graph data or tool access, and the answer is marked unverified. If the provider is unavailable, command guidance remains available offline. The separate general conversation workspace also retains Gemini and local-model support. General AI prose is not covered by the graph assistant's typed-claim verifier. The application has no account authentication and is intended for local use.
 
 ## Tech Stack
 
@@ -150,20 +151,23 @@ docker compose up --build
 
 Open **http://localhost:3000**. The API health endpoint is at **http://localhost:8000/health**, and its schema is at **http://localhost:8000/openapi.json**. The first startup prepares the included 200-paper DBLP sample in a Docker volume. Search for `graph neural networks` to try it. Press `Ctrl+C` to stop the application.
 
-Building the images requires network access for dependencies and speech models. Full Compose startup was not verified on the original machine because its Docker daemon failed to start. The optional conversation model is not included in the image and requires separate configuration.
+Building the images requires network access for dependencies, the local query/conversation model, and speech models. Once the images are built, the default application uses those local assets without API keys. Full Compose startup remains unverified on the original machine because its Docker daemon is unavailable. CI includes a clean build and smoke test; check its result before submission.
 
 ### Local Development
 
-Requirements: Python 3.12, [uv](https://docs.astral.sh/uv/), Node.js, and npm.
+Requirements: Python 3.12, [uv](https://docs.astral.sh/uv/), Node.js, npm, CMake, and a C++ compiler for the local model runtime.
 
 ```bash
 uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python -r config/requirements.lock
+uv pip install --python .venv/bin/python -r config/requirements.lock -r config/requirements-llm.lock
 (cd web && npm ci)
-./scripts/start-local.sh
+.venv/bin/python scripts/prepare_query_model.py
+SCHOLARGRAPH_QUERY_PROVIDER=local_llm ./scripts/start-local.sh
 ```
 
 Open **http://127.0.0.1:3000**. The script starts the API on port `8000` and the frontend on port `3000`, matching Docker Compose. It uses a prepared larger graph when available or prepares the bundled sample. Set `HIRESENSE_CONFIG`, `SCHOLARGRAPH_BACKEND_PORT`, or `SCHOLARGRAPH_WEB_PORT` to change the defaults. Press `Ctrl+C` to stop both services.
+
+Freshly prepared backends use a schema-validated local model for query understanding, falling back to deterministic parsing if the model is unavailable or its output fails validation. For local development, install the optional runtime and model below. Existing configurations can opt in with `SCHOLARGRAPH_QUERY_PROVIDER=local_llm` and `SCHOLARGRAPH_QUERY_MODEL_PATH`; otherwise their configured provider is retained. The offline batch interface continues to use recorded outputs and deterministic fallback for reproducibility.
 
 ### Offline Batch Search
 
@@ -194,7 +198,7 @@ SCHOLARGRAPH_GEMINI_MODEL=gemini-2.5-flash
 
 Get a key from [Google AI Studio](https://aistudio.google.com/apikey). Google offers a [limited free tier](https://ai.google.dev/gemini-api/docs/pricing); model availability and quotas depend on the account and region. Chat messages and any retrieved excerpts are sent to Google when Gemini is enabled; check Google's data-use terms before sending sensitive content. The backend keeps the key server-side. If Gemini fails before producing text, the assistant falls back to the local model; interrupted partial responses are not replaced with a second answer. The small 0.5B local model has limited instruction following and reasoning.
 
-The local launcher reads assistant settings from the root `.env`; exported environment variables take precedence. Compose also reads the root `.env`, but its image does not include the local conversation model or `llama-cpp-python`, so its fallback is only available if those are installed and the model is provided. Ollama and other OpenAI-compatible services remain configurable with the `SCHOLARGRAPH_CHAT_*` settings in [.env.example](.env.example).
+The local launcher reads assistant settings from the root `.env`; exported environment variables take precedence. Compose also reads the root `.env` and builds the local model and `llama-cpp-python` into its image. Ollama and other OpenAI-compatible services remain configurable with the `SCHOLARGRAPH_CHAT_*` settings in [compose.yaml](compose.yaml).
 
 ### Voice
 
@@ -206,7 +210,7 @@ uv pip install --python .venv/bin/python -r config/voice-requirements.lock
 .venv/bin/python -m piper.download_voices --data-dir data/models/piper en_US-ljspeech-medium
 ```
 
-Open the floating **AI Assistant → Voice** and allow microphone access. Localhost or HTTPS is required for microphone access. The first request may take longer while models load. Docker downloads speech assets during its image build. Voice uses local Vosk for speech recognition and Piper (or eSpeak) for speech output by default; compatible browser recognition and speech synthesis can be used when available. For Gemini speech with local fallback, add `SCHOLARGRAPH_STT_PROVIDER=gemini` and `SCHOLARGRAPH_TTS_PROVIDER=gemini` to `.env` alongside your Gemini key, then restart. Gemini receives microphone recordings and response text for these operations. The local fallback remains available when its models are installed. Gemini's speech models and free quotas may vary; review [Google's pricing](https://ai.google.dev/gemini-api/docs/pricing) and data-use terms. Other remote speech settings are listed in [.env.example](.env.example); keep credentials in the API server environment.
+Open the floating **AI Assistant → Voice** and allow microphone access. Localhost or HTTPS is required for microphone access. The first request may take longer while models load. Docker downloads speech assets during its image build. Voice uses local Vosk for speech recognition and Piper (or eSpeak) for speech output by default; compatible browser recognition and speech synthesis can be used when available. For Gemini speech with local fallback, add `SCHOLARGRAPH_STT_PROVIDER=gemini` and `SCHOLARGRAPH_TTS_PROVIDER=gemini` to `.env` alongside your Gemini key, then restart. Gemini receives microphone recordings and response text for these operations. The local fallback remains available when its models are installed. Gemini's speech models and free quotas may vary; review [Google's pricing](https://ai.google.dev/gemini-api/docs/pricing) and data-use terms. Other remote speech settings are listed in [compose.yaml](compose.yaml); keep credentials in the API server environment.
 
 ### Training and Evaluation
 
@@ -229,6 +233,8 @@ PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -v
 ```
 
 With the API and frontend running, execute browser tests with `cd web && npm run test:e2e`. Install Playwright Chromium first or set `CHROMIUM_PATH`.
+
+For the Compose smoke check, run `docker compose up --build -d --wait` and then `python scripts/check_compose.py`; stop the containers with `docker compose down`. The check exercises health, search, a profile tool, a shortlist decision, and memory deletion.
 
 ## Documentation
 

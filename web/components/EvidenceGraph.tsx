@@ -279,7 +279,9 @@ export function EvidenceGraph({ experts }: { experts: Expert[] }) {
           <strong>
             {String(graph.authorCount).padStart(2, '0')} <small>people</small>
           </strong>
-          <span>↗ SOURCED FROM DBLP</span>
+          <span>
+            <Icon name="arrow" size={13} /> SOURCED FROM DBLP
+          </span>
         </div>
       </div>
       <div className="network-toolbar">
@@ -447,9 +449,14 @@ export function EvidenceGraph({ experts }: { experts: Expert[] }) {
                 : `Their work connects to ${neighbors.size} ${neighbors.size === 1 ? 'publication' : 'publications'} in this view. Follow a line to discover the research behind the connection.`}
             </p>
             <span className="network-detail-source">
-              {current.kind === 'paper'
-                ? `DBLP RECORD · ${current.paperId}`
-                : 'SELECT THE NODE TO OPEN THEIR PROFILE ↗'}
+              {current.kind === 'paper' ? (
+                `DBLP RECORD · ${current.paperId}`
+              ) : (
+                <>
+                  SELECT THE NODE TO OPEN THEIR PROFILE{' '}
+                  <Icon name="arrow" size={13} />
+                </>
+              )}
             </span>
           </div>
         ) : (

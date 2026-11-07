@@ -69,6 +69,13 @@ const waves: { scrollTo: string; tasks: Task[] }[] = [
       { selector: '.filter-row', mode: 'box' },
     ],
   },
+  {
+    scrollTo: '.results-heading',
+    tasks: [
+      { selector: '.results-heading', mode: 'text' },
+      { selector: '.results-placeholder', mode: 'box' },
+    ],
+  },
 ];
 
 /** Independent cursor choreography over the actual page, with no cloned controls. */

@@ -490,15 +490,21 @@ export function ConversationContent({
       <section className="conversation-main" aria-label="Conversation">
         <header className="conversation-header">
           <div>
-            <span className="conversation-kicker">
-              <i /> Scholar AI assistant
-            </span>
-            <h1>
-              {floating
-                ? 'AI Assistant'
-                : items.find((x) => x.id === active)?.title ||
-                  'A space to think.'}
-            </h1>
+            {floating ? (
+              <h1 className="floating-assistant-title">
+                <i aria-hidden="true" /> Scholar AI assistant
+              </h1>
+            ) : (
+              <>
+                <span className="conversation-kicker">
+                  <i /> Scholar AI assistant
+                </span>
+                <h1>
+                  {items.find((x) => x.id === active)?.title ||
+                    'A space to think.'}
+                </h1>
+              </>
+            )}
           </div>
           {floating && (
             <div className="floating-header-actions">
@@ -745,22 +751,6 @@ export function ConversationContent({
                           components={{
                             pre: ({ children }) => (
                               <div className="conversation-code">
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    const code =
-                                      e.currentTarget.parentElement?.querySelector(
-                                        'code',
-                                      )?.textContent || '';
-                                    void navigator.clipboard
-                                      .writeText(code)
-                                      .catch(() =>
-                                        setError('Could not copy the code.'),
-                                      );
-                                  }}
-                                >
-                                  Copy code
-                                </button>
                                 <pre>{children}</pre>
                               </div>
                             ),
@@ -783,21 +773,8 @@ export function ConversationContent({
                         'No response generated.'
                       )}
                     </div>
-                    {m.content && (
+                    {m.content && m.role === 'user' && (
                       <div className="conversation-message-actions">
-                        <button
-                          className="message-copy"
-                          type="button"
-                          onClick={() =>
-                            void navigator.clipboard
-                              .writeText(m.content)
-                              .catch(() =>
-                                setError('Could not copy the message.'),
-                              )
-                          }
-                        >
-                          Copy
-                        </button>
                         {m.role === 'user' && (
                           <button
                             type="button"
@@ -837,55 +814,6 @@ export function ConversationContent({
                               Retry
                             </button>
                           )}
-                        {m.role === 'assistant' &&
-                          i === messages.length - 1 &&
-                          messages[i - 1]?.role === 'user' && (
-                            <button
-                              type="button"
-                              disabled={busy}
-                              onClick={() => {
-                                const previous = messages[i - 1];
-                                void send(
-                                  previous.content,
-                                  undefined,
-                                  previous.id,
-                                ).catch(() => {});
-                              }}
-                            >
-                              Regenerate
-                            </button>
-                          )}
-                        {m.role === 'assistant' &&
-                          !busy &&
-                          (['helpful', 'unhelpful'] as const).map((rating) => (
-                            <button
-                              key={rating}
-                              type="button"
-                              aria-pressed={m.rating === rating}
-                              onClick={() => {
-                                void api(
-                                  `/conversations/${active}/messages/${m.id}/feedback`,
-                                  {
-                                    method: 'POST',
-                                    headers: headers(session),
-                                    body: JSON.stringify({ rating }),
-                                  },
-                                )
-                                  .then(() =>
-                                    setMessages((old) =>
-                                      old.map((item) =>
-                                        item.id === m.id
-                                          ? { ...item, rating }
-                                          : item,
-                                      ),
-                                    ),
-                                  )
-                                  .catch((e) => setError(e.message));
-                              }}
-                            >
-                              {rating === 'helpful' ? 'Helpful' : 'Not helpful'}
-                            </button>
-                          ))}
                       </div>
                     )}
                   </article>
@@ -995,8 +923,8 @@ export function ConversationContent({
               </div>
             </form>
             <p className="conversation-footnote">
-              Enter to send <span>·</span> Shift + Enter for a new line{' '}
-              <span>·</span> Verify important claims
+              Chats save automatically <span>·</span> Shift + Enter for a new
+              line <span>·</span> Verify important claims
             </p>
           </>
         )}

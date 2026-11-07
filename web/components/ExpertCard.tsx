@@ -54,7 +54,6 @@ export function ExpertCard({
         <div className="expert-model-score">
           <strong>{expert.score.toFixed(3)}</strong>
           <span>MODEL RANK SCORE</span>
-          <small>Not a probability</small>
         </div>
       </div>
       <div className="expert-card-content">
@@ -84,10 +83,7 @@ export function ExpertCard({
         )}
         <details className="expert-evidence">
           <summary>
-            <span>
-              <Icon name="bookmark" size={15} />
-              View evidence
-            </span>
+            <span>View evidence</span>
             <b>
               {expert.evidence.length}{' '}
               {expert.evidence.length === 1 ? 'publication' : 'publications'}
@@ -138,7 +134,7 @@ export function ExpertCard({
       </div>
       <div className="expert-card-footer">
         <Link className="profile-action" href={`/experts/${expert.person_id}`}>
-          Open evidence profile <Icon name="arrow" size={14} />
+          Open evidence profile
         </Link>
         <div className="expert-actions">
           {onAsk && (

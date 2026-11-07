@@ -502,6 +502,31 @@
 .search-section .expert-actions > * {
   font-size: 13px;
 }
+.search-section .expert-evidence > summary {
+  min-height: 52px;
+  padding: 14px 12px;
+  font-size: 16px;
+  color: #e1edda;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+.search-section .expert-evidence > summary:hover,
+.search-section .expert-evidence > summary:focus-visible {
+  background: #3d5139;
+  color: #f3faed;
+}
+.search-section .expert-evidence > summary:hover b {
+  color: #e2eddb;
+}
+.search-section .profile-action {
+  font-size: 16px;
+  line-height: 1.4;
+  padding: 10px 0;
+}
+.search-section .profile-action:hover {
+  color: #e8f3df;
+}
 .search-section .expert-evidence > summary b,
 .search-section .evidence-item p {
   font-size: 11px;

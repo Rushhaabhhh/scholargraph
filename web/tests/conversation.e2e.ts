@@ -127,7 +127,7 @@ test('generation can be stopped and conversation remains usable', async ({
   ).not.toContainText('No response generated.');
 });
 
-test('a researcher can be discussed without changing search state', async ({
+test('a researcher can be opened in the graph assistant without leaving search', async ({
   page,
 }) => {
   test.setTimeout(120000);
@@ -136,11 +136,13 @@ test('a researcher can be discussed without changing search state', async ({
   await page.getByRole('button', { name: /Find researchers/ }).click();
   const card = page.locator('article').first();
   await expect(card).toBeVisible({ timeout: 60000 });
-  const name = await card.locator('.expert-identity a').textContent();
   await card.getByRole('button', { name: 'Ask assistant' }).click();
-  await expect(page).toHaveURL(/\/chat/);
-  await expect(page.getByLabel('Message', { exact: true })).toHaveValue(
-    `What can you tell me about ${name}'s research?`,
+  const assistant = page.getByRole('dialog', { name: 'Research assistant' });
+  await expect(assistant.getByLabel('Message research assistant')).toHaveValue(
+    /Show profile \d+/,
   );
-  await expect(page.getByText(`Profile: ${name}`)).toBeVisible();
+  await assistant.getByRole('button', { name: 'Send message' }).click();
+  await expect(
+    assistant.getByText('Retrieve researcher profile · success'),
+  ).toBeVisible();
 });

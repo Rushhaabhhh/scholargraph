@@ -1,4 +1,60 @@
 import { test, expect } from '@playwright/test';
+test('search, refine with graph tools, and keep shortlist memory in one session', async ({
+  page,
+}) => {
+  test.setTimeout(120000);
+  await page.goto('/');
+  await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');
+  await page.getByRole('button', { name: /Find researchers/ }).click();
+  await expect(page.locator('article').nth(1)).toBeVisible({ timeout: 60000 });
+  await page
+    .locator('article')
+    .first()
+    .getByRole('button', { name: 'Ask assistant' })
+    .click();
+  const assistant = page.getByRole('dialog', { name: 'Research assistant' });
+  const message = assistant.getByLabel('Message research assistant');
+  const send = async (text: string) => {
+    await message.fill(text);
+    await assistant.getByRole('button', { name: 'Send message' }).click();
+  };
+  await send('Show profile #1');
+  await expect(
+    assistant.getByText('Retrieve researcher profile · success'),
+  ).toBeVisible();
+  await send('Find collaboration path between #1 and #2');
+  await expect(
+    assistant.getByText('Trace collaboration path · success'),
+  ).toBeVisible();
+  await send('Shortlist #1');
+  await expect(assistant.getByText(/Decision saved: shortlist/)).toBeVisible();
+  await send('search again');
+  await expect(
+    assistant.getByText('Search researchers · success'),
+  ).toBeVisible();
+  await expect(
+    assistant.getByText(/1 shortlisted · 0 dismissed · Search context:/),
+  ).toBeVisible();
+  await assistant
+    .getByRole('button', { name: 'Close research assistant' })
+    .click();
+  await expect(
+    page
+      .locator('article')
+      .first()
+      .getByRole('button', { name: /Shortlisted/ }),
+  ).toBeVisible();
+  await page
+    .locator('article')
+    .first()
+    .getByRole('button', { name: 'Ask assistant' })
+    .click();
+  page.once('dialog', (dialog) => dialog.accept());
+  await assistant.getByRole('button', { name: 'Clear', exact: true }).click();
+  await expect(assistant.locator('.session-memory')).toContainText(
+    '0 shortlisted · 0 dismissed',
+  );
+});
 test('reconnects automatically after a temporary session startup failure', async ({
   page,
 }) => {

@@ -2,10 +2,17 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type PointerEvent,
+} from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { gsap } from 'gsap';
-import { Bookmark, Sparkles } from 'lucide-react';
+import { Bookmark, MoveDiagonal2, Sparkles } from 'lucide-react';
 const ConversationContent = dynamic(
   () =>
     import('./ConversationWorkspace').then(
@@ -24,8 +31,72 @@ export function FloatingAssistant() {
     [visited, setVisited] = useState(false),
     [state, setState] = useState('idle');
   const button = useRef<HTMLButtonElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
+  const resize = useRef<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  } | null>(null);
+  const [panelSize, setPanelSize] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
   const reduced = useReducedMotion();
   const report = useCallback((value: string) => setState(value), []);
+  const resizePanel = (width: number, height: number) => {
+    const mobile = window.innerWidth <= 600;
+    const maxWidth = Math.max(1, window.innerWidth - (mobile ? 16 : 32));
+    const maxHeight = Math.max(1, window.innerHeight - (mobile ? 110 : 140));
+    setPanelSize({
+      width: Math.min(maxWidth, Math.max(Math.min(320, maxWidth), width)),
+      height: Math.min(maxHeight, Math.max(Math.min(350, maxHeight), height)),
+    });
+  };
+  const startResize = (event: PointerEvent<HTMLButtonElement>) => {
+    if (event.button !== 0 || !panel.current) return;
+    const rect = panel.current.getBoundingClientRect();
+    resize.current = {
+      x: event.clientX,
+      y: event.clientY,
+      width: rect.width,
+      height: rect.height,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  };
+  const moveResize = (event: PointerEvent<HTMLButtonElement>) => {
+    const start = resize.current;
+    if (start)
+      resizePanel(
+        start.width + start.x - event.clientX,
+        start.height + start.y - event.clientY,
+      );
+  };
+  const resizeWithKeyboard = (event: ReactKeyboardEvent<HTMLButtonElement>) => {
+    if (
+      !panel.current ||
+      !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)
+    )
+      return;
+    event.preventDefault();
+    const rect = panel.current.getBoundingClientRect();
+    const step = event.shiftKey ? 48 : 16;
+    resizePanel(
+      rect.width +
+        (event.key === 'ArrowLeft'
+          ? step
+          : event.key === 'ArrowRight'
+            ? -step
+            : 0),
+      rect.height +
+        (event.key === 'ArrowUp'
+          ? step
+          : event.key === 'ArrowDown'
+            ? -step
+            : 0),
+    );
+  };
   useEffect(() => {
     if (!button.current || reduced) return;
     const animation = gsap.fromTo(
@@ -66,10 +137,16 @@ export function FloatingAssistant() {
         <>
           {visited && (
             <motion.div
+              ref={panel}
               className="assistant-float-panel"
               role="dialog"
               aria-label="AI Assistant"
               aria-hidden={!open}
+              style={
+                panelSize
+                  ? { width: panelSize.width, height: panelSize.height }
+                  : undefined
+              }
               initial={reduced ? false : { opacity: 0, y: 18, scale: 0.97 }}
               animate={
                 open
@@ -86,6 +163,23 @@ export function FloatingAssistant() {
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
+              <button
+                type="button"
+                className="assistant-resize-handle"
+                aria-label="Resize assistant panel"
+                title="Drag to resize, or use arrow keys"
+                onPointerDown={startResize}
+                onPointerMove={moveResize}
+                onPointerUp={() => {
+                  resize.current = null;
+                }}
+                onPointerCancel={() => {
+                  resize.current = null;
+                }}
+                onKeyDown={resizeWithKeyboard}
+              >
+                <MoveDiagonal2 size={13} strokeWidth={1.8} aria-hidden="true" />
+              </button>
               <ConversationContent
                 floating
                 visible={open}

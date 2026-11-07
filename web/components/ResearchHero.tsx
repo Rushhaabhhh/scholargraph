@@ -130,7 +130,10 @@ export function ResearchHero({
             <br />
             QUESTION
             <br />
-            TO CONNECTION<span className="card-arrow">↗</span>
+            TO CONNECTION
+            <span className="card-arrow">
+              <ArrowUpRight aria-hidden="true" />
+            </span>
           </span>
           <small>BUILT ON PUBLISHED WORK</small>
         </div>
