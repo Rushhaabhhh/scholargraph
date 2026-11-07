@@ -36,3 +36,11 @@ dist/
 # Private experiment inputs and generated evaluation reports.
 /resources/experiments/
 /resources/results/
+
+# Local submission planning and superseded archives, not reviewer materials.
+/docs/FullStack-AI-ML-Role-Assignment-HireSense-AI.pdf
+/docs/project-journal.md
+/docs/submission-email.md
+/docs/historical.zip
+/models/historical-ml.zip
+/scripts/historical-ml.zip

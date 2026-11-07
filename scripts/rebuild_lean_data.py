@@ -21,19 +21,22 @@ from hiresense.graph.build import build_context_graph
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--archive', type=Path, required=True)
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument('--archive', type=Path, help='Original full DBLP archive')
+    source.add_argument('--selected-source', type=Path, help='Frozen derived DBLP slice; verified by dataset digest')
+    parser.add_argument('--manifests', type=Path, default=Path('data/research/experiments'))
     parser.add_argument('--out', type=Path, required=True)
     args = parser.parse_args()
     if args.out.exists():
         raise ValueError('Use a fresh output directory')
-    cohorts = json.loads(Path('data/research/experiments/lean-cohorts.json').read_text())
-    if digest_file(args.archive) != cohorts['source_archive_sha256']:
+    cohorts = json.loads((args.manifests / 'lean-cohorts.json').read_text())
+    if args.archive and digest_file(args.archive) != cohorts['source_archive_sha256']:
         raise ValueError('DBLP archive differs from the snapshot used for the reported results')
-    config = json.loads(Path('data/research/experiments/lean-data.json').read_text())
+    config = json.loads((args.manifests / 'lean-data.json').read_text())
     prefixes = tuple(config['query_prefixes'] + config['additional_history_prefixes'])
     # The historical upstream source applied additional selection before the
     # venue filter. Its frozen paper IDs reproduce that exact intersection.
-    id_file = Path('data/research/experiments/lean-paper-ids.txt.gz')
+    id_file = args.manifests / 'lean-paper-ids.txt.gz'
     expected_ids = None
     if not id_file.is_file() and cohorts['source_dataset_sha256'] == '48a98be06c3bd86c8afe1c6885a7937c2aa53f56bbf7a4a56c11e3c6c95d2fb8':
         raise ValueError('Frozen paper-ID manifest is required to rebuild this dataset')
@@ -53,7 +56,7 @@ def main():
         count = scanned = 0
         with xml.open('wb') as out:
             out.write(b'<?xml version="1.0" encoding="UTF-8"?>\n<dblp>\n')
-            for paper in iter_publications(args.archive):
+            for paper in iter_publications(args.archive or args.selected_source):
                 scanned += 1
                 if (paper.year is not None and config['min_year'] <= paper.year <= config['max_year']
                         and paper.record_type in ('article', 'inproceedings') and paper.key.startswith(prefixes)
@@ -95,12 +98,12 @@ def main():
                        'labels_sha256': digest_file(labels), 'source_dataset_sha256': cohorts['source_dataset_sha256'],
                        'snapshot': counts, 'graph': report})
             print(f'{role}: {counts["papers"]:,} historical papers; {len(queries)} queries.', flush=True)
-        shutil.copyfile('data/research/experiments/lean-test-ids.json', stage / 'reserved-test-ids.json')
+        shutil.copyfile(args.manifests / 'lean-test-ids.json', stage / 'reserved-test-ids.json')
         xml.unlink()
         db.close()
         db = None
         write_json(stage / 'manifest.json', {'source_dataset_sha256': cohorts['source_dataset_sha256'],
-                   'archive_sha256': cohorts['source_archive_sha256'], 'papers': count, 'records_scanned': scanned,
+                   'input_sha256': digest_file(args.archive or args.selected_source), 'papers': count, 'records_scanned': scanned,
                    'elapsed_seconds': round(monotonic()-started, 3), 'scope': 'Locked development cohorts; reserved 2025 IDs copied without opening their author labels.'})
         stage.rename(args.out)
     except BaseException:

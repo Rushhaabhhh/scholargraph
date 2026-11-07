@@ -1,41 +1,61 @@
-# ScholarGraph design
+# ScholarGraph — design document
 
-ScholarGraph finds researchers from public DBLP records and presents the publications and graph relationships behind each result. The deployed frontend and backend serve a prepared DBLP snapshot; the offline batch command accepts another DBLP-format XML file and query list.
+ScholarGraph finds researchers in DBLP and presents the publications and relationships behind each result. The reviewer can run the bundled sample with Docker Compose or use the offline batch interface on another DBLP XML slice. The application uses Next.js/TypeScript, FastAPI/Python, SQLite and local ONNX models; no API key is required after provisioning.
 
-## Data and context graph
+## Architecture and graph
 
-DBLP XML is streamed into SQLite. Ingestion uses DBLP author PIDs when present and names otherwise, preserves source keys, and is idempotent. The research graph contains people, papers and venues, with dated, sourced author–paper, author–venue and coauthorship edges. Search indexes and mutable session data are separate from the read-only serving graph. A historical benchmark ingested 50,000 papers; the selected ML source slice contains 165,464 papers from specified venue families and years.
+```text
+DBLP XML ──> streaming ingest ──> SQLite graph ──> BM25 + MiniLM indexes
+                                     │                        │
+Browser ──> Next.js API proxy ──> FastAPI ──> retrieve papers ──> rank authors
+                                     │                │
+                              session SQLite     sourced evidence
+```
 
-A separate experimental resolver matches synthetically corrupted author observations to historical profiles. It uses bounded candidate generation based on name variants and coauthors, then scores names, coauthors, venues and years. In its conservative held-out experiment, precision was 98.25% and known-author recall was 16.76%. This is synthetic known-reference linkage, not an open-world clustering or production merge-rate measurement. Incorrect merges are costlier than splits because they attach another person's evidence to a profile; the resolver abstains when evidence is insufficient. Normal DBLP ingestion does not apply this experimental matcher.
+The graph has person, paper and venue nodes; authorship, author–venue and coauthorship edges carry a publication year and DBLP source key. Re-ingestion is idempotent. Serving opens the graph read-only and keeps mutable sessions in a separate SQLite database. DBLP PIDs distinguish authors where supplied; otherwise ingestion falls back to names. Public DBLP data is CC0.
 
-## Retrieval, training and evaluation
+An experimental noisy-author linker blocks on name variants and coauthors before scoring names, coauthors, venues and years. On synthetic known-reference linkage it measured 98.25% precision and 16.76% known-author recall; it is not the serving identity pipeline or open-world clustering. Incorrect merges cost more than splits because they attach another person's evidence to a profile. Conservative matching and abstention reduce that risk.
 
-BM25 and pretrained local MiniLM embeddings each retrieve up to 1,024 papers. Paper evidence is aggregated into up to 800 author candidates. An 80-tree LambdaMART model trained for this project ranks candidates using relevance, publication history, recency and graph features. Scores order candidates; they are not probabilities. A lexical-overlap guard may also abstain on valid synonym-only searches.
+SQLite and local indexes were chosen for portable, keyless operation and a small operational footprint. PostgreSQL plus a separate search service would offer replication and concurrency at the cost of more moving parts. The reference application is not a multi-tenant service.
 
-Training uses later paper titles as queries and their authors as proxy positives against a historical graph. The training graph ends in 2020; validation uses history through 2023, and the reported test uses history through 2024 and 500 reserved 2025 titles. Source IDs, dates and exact normalized titles are checked for leakage. The test has since been inspected; non-authors are unjudged and semantic near-duplicates or identity errors remain possible.
+<!-- pagebreak -->
 
-| Method | nDCG@10 | MRR within up to 800 candidates |
-|---|---:|---:|
+## Retrieval, learning and measurement
+
+```text
+Free-text query ──> validated topics / recency ──> BM25 + MiniLM paper retrieval
+                      │                                      │
+                  offline fallback                  aggregate paper evidence
+                                                             │
+                               dated graph features ──> LambdaMART author ranking
+                                                             │
+                                                verified claims + source links
+```
+
+BM25 and a pretrained local MiniLM encoder each retrieve up to 1,024 papers; evidence is aggregated into at most 800 author candidates. A project-trained 80-tree LambdaMART model orders candidates using retrieval, publication, recency and graph features. Scores are ranking signals, not probabilities. A lexical-overlap guard reduces unsupported matches but can also suppress valid synonym-only queries.
+
+Training labels use later paper titles as queries and their authors as proxy positives against earlier graph snapshots. Training history ends in 2020, validation history in 2023, and the 500-query historical test uses 2025 titles against a graph through 2024. Source IDs, dates and exact normalized titles are checked for leakage; semantic near-duplicates and identity errors remain possible. The test has been inspected and must not be treated as a new untouched test.
+
+| Method | nDCG@10 | MRR (up to 800) |
+| --- | ---: | ---: |
 | BM25 lexical | 0.0245 | 0.0338 |
 | Pretrained dense | 0.0268 | 0.0361 |
 | Untrained hybrid | 0.0313 | 0.0453 |
 | Trained LambdaMART | 0.0354 | 0.0488 |
-| Retrained without explicit recency | 0.0334 | 0.0479 |
+| Without explicit recency | 0.0334 | 0.0479 |
 
-The trained model improves on these baselines, but absolute scores are low and future authorship is incomplete proxy supervision, not human relevance or hiring accuracy. The recency ablation holds retrieval fixed and can retain other time signals. Independent relevance review remains incomplete. A small name-swap check changed none of eight rankings; it does not establish fairness. Detailed evaluation artifacts are kept locally and are not included in the repository.
+Future authorship is incomplete relevance supervision; other authors are unjudged. Absolute scores are low and do not measure hiring quality. The recency ablation keeps retrieval fixed and other features may retain temporal signals. A name-swap check changed none of eight rankings; this is not proof of fairness. A fresh index replay shifted dense-based scores; rescoring preserved historical features reproduced the reported numbers. The results file records both, failure cases and replay instructions.
 
-## Assistant and reliability
+<!-- pagebreak -->
 
-The search page's graph assistant uses explicit commands and three schema-validated tools: search experts, retrieve a profile, and find a collaboration path. Session state keeps shortlist and reject decisions; the interface shows applied memory and tool activity and can delete the memory. Typed claims are checked against source records and graph edges. In a historical benchmark, 10 scripted scenarios passed, 0 of 191 typed claims were unsupported, and 8 of 8 scripted query attacks were blocked. These bounded checks do not verify unrestricted generated prose or guarantee resistance to all attacks.
+## Assistant, safety and operations
 
-Prepared backends can use a schema-validated local LLM to interpret search topics and recency. Recorded outputs or deterministic parsing provide offline fallback. If Gemini is configured, unsupported graph-assistant questions can use general chat without graph data or tool access; those answers are marked unverified. The separate conversation interface supports local or configured remote models. Source text and provider output do not select graph tools.
+The graph assistant accepts explicit commands and calls three schema-validated tools: search experts, retrieve a profile and find a collaboration path. Session memory records shortlist and reject decisions; the UI displays tool activity and applied memory and supports deletion. Typed factual claims are checked against papers and edges. In a historical scripted benchmark, 10 scenarios passed, 0 of 191 typed claims were unsupported, and 8 of 8 scripted query attacks were blocked. These bounded results do not verify general generated prose or guarantee injection resistance.
 
-## Operations, scale and trade-offs
+Query understanding supports a schema-validated local model, with recorded and deterministic fallback. Paper text and model output cannot select graph tools. If configured, general chat can use a remote provider; graph data and tools are not passed to its unsupported-question fallback, whose answer is marked unverified. The API exposes health and request logs. Tests, browser checks and a Compose smoke check run in CI. Building images downloads dependencies and models; provisioned runtime and batch execution need no API key.
 
-SQLite and in-process indexes keep a small, offline-capable setup simple; partitioned relational storage, separate search services and caching would add operational complexity but support greater concurrency. The API provides health and request logs, and CI runs backend, frontend, browser and Compose checks. Image building downloads dependencies and models; runtime works without API keys once provisioned. The clean Compose CI job passed for commit `05d834c`; first-time offline installation was not verified.
+## Scaling and privacy
 
-The deployed backend runs on a Google Cloud Compute Engine VM with 2 vCPUs and 8 GB RAM, using a prepared index on its persistent disk. On 7 November 2026, the backend and Vercel proxy health endpoints reported 265,885 papers and 332,611 authors, and a search through the proxy returned results. The backend uses `SCHOLARGRAPH_QUERY_PROVIDER=recorded`; unseen queries use deterministic parsing. This smoke check is not a concurrency or capacity test, and chat and voice can require additional resources.
+For a target of 50 million papers, 200 queries/s and p95 500 ms, partition ingestion and store versioned graph snapshots; precompute embeddings and author features; shard and replicate lexical and approximate-vector indexes; bound reranking and batch evidence reads; add caching, backpressure and monitoring. An illustrative budget is 30 ms network/auth, 150 ms retrieval, 100 ms reranking, 100 ms evidence and 120 ms other overhead. These are design targets, not measurements; validate ANN recall, update lag, cost, resilience and concurrency before committing to them.
 
-To target **50 million papers, 200 queries/s and p95 500 ms**, use partitioned ingestion with versioned graph snapshots, precomputed embeddings and author features, sharded and replicated lexical and approximate-vector indexes, bounded candidate reranking, batched evidence retrieval, caching and backpressure. An illustrative latency budget is 30 ms for network/auth, 150 ms retrieval, 100 ms reranking, 100 ms evidence and 120 ms remaining overhead. These are design allocations, not measured performance. Load testing must assess ANN recall, update lag, hot authors, cost, resilience and consistency.
-
-DBLP is public, but profiles and session decisions still require care. The reference application has no account authentication or tenant isolation. A production system needs access control, tenant isolation and retention policies; outreach should require human approval and an audit trail; user feedback should be consented and evaluated for bias before training. Deeper graph relationships can be added as versioned, dated, sourced edges.
+DBLP records are public, but profiles and shortlist decisions still require access control, tenant isolation, retention/deletion rules and audit logs. Versioned, dated edges can extend the context graph. Outreach should require human approval; feedback used for learning should be consented, bias-checked and evaluated separately. The current demo has no accounts or tenant isolation.

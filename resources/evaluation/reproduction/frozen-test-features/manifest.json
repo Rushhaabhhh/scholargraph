@@ -1,0 +1,30 @@
+{
+  "candidate_rows": 400000,
+  "elapsed_seconds": 43.097,
+  "features_sha256": "f6e709574847cd91513364f585f52de015c6867a68be798565a4a3b52f9f633e",
+  "queries": 500,
+  "signature": {
+    "base_implementation_sha256": "c5fe636b300c2d7675a18d2f451e7fb08ab44f2fca8db1cf399a5ac6dc91ac58",
+    "candidate_limit": 800,
+    "content_sha256": "3979c47a46afc14672003a0e38ae3659de7a87edc0f7e6492bfb5d2b0718ed6b",
+    "encoder_sha256": "611803ca6eebfb8eaf24fc22c22e604bc87e44ca41e6ba83f43dc89f52906eb6",
+    "feature_version": 2,
+    "features": [
+      "lexical_max",
+      "dense_max",
+      "dense_top3",
+      "lexical_rank",
+      "dense_rank",
+      "title_coverage",
+      "support_fraction",
+      "matched_recency",
+      "author_recency",
+      "log_publications",
+      "log_collaborators",
+      "hybrid_rrf"
+    ],
+    "graph_sha256": "ffb99daf2b2c34bf7490bc7693173252460ac92cb3b6dbeabac76805a28b75a9",
+    "labels_sha256": "8e2fcbf50195d19f896c86c14dd6f618aea37ca0b4799a6d7dd5f6f93bcfdb5c",
+    "paper_limit": 1024
+  }
+}

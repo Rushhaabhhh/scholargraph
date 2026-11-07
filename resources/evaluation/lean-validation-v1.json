@@ -1,0 +1,715 @@
+{
+  "ablation_scope": "Remove explicit recency features while keeping candidates and remaining features fixed; author recency may still influence existing features.",
+  "ablation_training": {
+    "blend_alpha": 0.25,
+    "elapsed_seconds": 3.874,
+    "examples": 17978,
+    "parameters": {
+      "n_estimators": 80,
+      "num_leaves": 7
+    },
+    "positive_examples": 698,
+    "queries_used": 270,
+    "removed_features": [
+      "matched_recency",
+      "author_recency"
+    ],
+    "validation": {
+      "mrr": 0.15015443441715812,
+      "ndcg_at_10": 0.11897313744587505
+    }
+  },
+  "budgets": {
+    "1600": {
+      "model": "data/processed/lean-training-v1/ranker-1600.json",
+      "training": {
+        "blend_alpha": 0.25,
+        "elapsed_seconds": 6.799,
+        "examples": 20658,
+        "parameters": {
+          "n_estimators": 80,
+          "num_leaves": 7
+        },
+        "positive_examples": 818,
+        "queries_used": 310,
+        "removed_features": [],
+        "validation": {
+          "mrr": 0.1528445636439791,
+          "ndcg_at_10": 0.11792775930145631
+        }
+      },
+      "validation": {
+        "ablation_scope": "Feature ablations retrain on identical labels and share hybrid candidates and the hybrid prior. Without-dense removes explicit cosine/rank features, not dense retrieval inside that prior. Standalone lexical/dense baselines test retrieval components.",
+        "cohorts": {
+          "has_unseen_relevant_author": {
+            "metrics": {
+              "dense": {
+                "mrr": 0.075943188701537,
+                "ndcg_at_10": 0.05385201383037671
+              },
+              "hybrid": {
+                "mrr": 0.09593014268816953,
+                "ndcg_at_10": 0.06643407033127478
+              },
+              "learned": {
+                "mrr": 0.09956983153094083,
+                "ndcg_at_10": 0.06715319958796785
+              },
+              "lexical": {
+                "mrr": 0.06337768143431563,
+                "ndcg_at_10": 0.046777821032076415
+              }
+            },
+            "queries": 78
+          },
+          "newcomer_history_1_or_2": {
+            "metrics": {
+              "dense": {
+                "mrr": 0.12287120440666033,
+                "ndcg_at_10": 0.08725648194609875
+              },
+              "hybrid": {
+                "mrr": 0.14126011625170928,
+                "ndcg_at_10": 0.11088460133324118
+              },
+              "learned": {
+                "mrr": 0.16373806379995076,
+                "ndcg_at_10": 0.11645210271840287
+              },
+              "lexical": {
+                "mrr": 0.11294064096123606,
+                "ndcg_at_10": 0.09385759548408396
+              }
+            },
+            "queries": 82
+          },
+          "prolific_history_20_plus": {
+            "metrics": {
+              "dense": {
+                "mrr": 0.1736347117983769,
+                "ndcg_at_10": 0.14451216686796142
+              },
+              "hybrid": {
+                "mrr": 0.2062934407108062,
+                "ndcg_at_10": 0.16726515925511382
+              },
+              "learned": {
+                "mrr": 0.22365934103961177,
+                "ndcg_at_10": 0.17275842227333857
+              },
+              "lexical": {
+                "mrr": 0.15588168638399072,
+                "ndcg_at_10": 0.1433292378277893
+              }
+            },
+            "queries": 82
+          }
+        },
+        "coverage": {
+          "hybrid_candidate_recall_all_authors": 0.3746355685131195,
+          "hybrid_candidate_recall_known_authors": 0.4812734082397004,
+          "queries_with_history": 123,
+          "relevant_authors": 686,
+          "relevant_with_history": 534
+        },
+        "failure_analyses": [
+          {
+            "failure": "candidate_retrieval_miss",
+            "proposed_change": "Test larger retrieval budgets and author-level topic profiles using validation queries.",
+            "query": "Bots Shield Fake News: Adversarial Attack on User Engagement based Fake News Detection.",
+            "query_id": "conf/cikm/WangWWL24",
+            "relevant_author_ids": [
+              179246264438298,
+              876369516995629,
+              3332344460657407,
+              4182554718864337
+            ],
+            "retrievable_relevant_author_ids": [
+              179246264438298,
+              876369516995629,
+              3332344460657407,
+              4182554718864337
+            ],
+            "top_results": [
+              {
+                "name": "Philip S. Yu",
+                "person_id": 364310867272605
+              },
+              {
+                "name": "Kai Shu",
+                "person_id": 2133548385108822
+              },
+              {
+                "name": "Yingtong Dou",
+                "person_id": 1400557442399017
+              }
+            ]
+          },
+          {
+            "failure": "reranking_miss",
+            "proposed_change": "Inspect topic specificity and sampled-negative ambiguity; validate richer paper-author relevance features.",
+            "query": "Position: Tensor Networks are a Valuable Asset for Green AI.",
+            "query_id": "conf/icml/MemmelMSWB24",
+            "relevant_author_ids": [
+              967445545771312,
+              1586155323628564,
+              2024578708437587,
+              2804004552817729,
+              3960571249163173
+            ],
+            "retrievable_relevant_author_ids": [
+              967445545771312,
+              1586155323628564,
+              3960571249163173
+            ],
+            "top_results": [
+              {
+                "name": "Hiba Fakhoury",
+                "person_id": 113931950646412
+              },
+              {
+                "name": "Aran Clauson",
+                "person_id": 254123642521639
+              },
+              {
+                "name": "Kevin Scavezze",
+                "person_id": 389626728253789
+              }
+            ]
+          },
+          {
+            "failure": "no_historical_evidence",
+            "proposed_change": "Additional public pre-cutoff sources could improve coverage; future papers must remain excluded.",
+            "query": "A Review Selection Method Based on Consumer Decision Phases in E-commerce.",
+            "query_id": "journals/tois/ZhangLW24",
+            "relevant_author_ids": [
+              905677358991459,
+              3589934704518419,
+              3885584991110865
+            ],
+            "retrievable_relevant_author_ids": [],
+            "top_results": [
+              {
+                "name": "Panayiotis Tsaparas",
+                "person_id": 3763619020493914
+              },
+              {
+                "name": "Hady Wirawan Lauw",
+                "person_id": 4089546447587707
+              },
+              {
+                "name": "Thanh-Son Nguyen 0001",
+                "person_id": 3616927795291342
+              }
+            ]
+          }
+        ],
+        "learned_vs_baseline": {
+          "dense": {
+            "mean_ndcg_delta": 0.023074204461550736,
+            "paired_bootstrap_95pct": [
+              0.006685809332015286,
+              0.043204640900328516
+            ]
+          },
+          "hybrid": {
+            "mean_ndcg_delta": 0.003427875548167786,
+            "paired_bootstrap_95pct": [
+              -0.0015771097484439552,
+              0.009695259351026072
+            ]
+          },
+          "lexical": {
+            "mean_ndcg_delta": 0.023691585173466263,
+            "paired_bootstrap_95pct": [
+              0.006638894146923135,
+              0.046342673355656616
+            ]
+          }
+        },
+        "metrics": {
+          "dense": {
+            "mrr": 0.11793175122165747,
+            "ndcg_at_10": 0.09485355483990558
+          },
+          "hybrid": {
+            "mrr": 0.1415158731431193,
+            "ndcg_at_10": 0.11449988375328855
+          },
+          "learned": {
+            "mrr": 0.1528445636439791,
+            "ndcg_at_10": 0.11792775930145631
+          },
+          "lexical": {
+            "mrr": 0.10148961457353078,
+            "ndcg_at_10": 0.09423617412799005
+          }
+        },
+        "mrr_scope": "Untruncated within each method's returned list, up to 1600 authors.",
+        "queries": 129
+      }
+    },
+    "800": {
+      "model": "data/processed/lean-training-v1/ranker-800.json",
+      "training": {
+        "blend_alpha": 0.25,
+        "elapsed_seconds": 3.365,
+        "examples": 17978,
+        "parameters": {
+          "n_estimators": 80,
+          "num_leaves": 7
+        },
+        "positive_examples": 698,
+        "queries_used": 270,
+        "removed_features": [],
+        "validation": {
+          "mrr": 0.15218415175479058,
+          "ndcg_at_10": 0.11811077266772446
+        }
+      },
+      "validation": {
+        "ablation_scope": "Feature ablations retrain on identical labels and share hybrid candidates and the hybrid prior. Without-dense removes explicit cosine/rank features, not dense retrieval inside that prior. Standalone lexical/dense baselines test retrieval components.",
+        "cohorts": {
+          "has_unseen_relevant_author": {
+            "metrics": {
+              "dense": {
+                "mrr": 0.07587106960055297,
+                "ndcg_at_10": 0.05385201383037671
+              },
+              "hybrid": {
+                "mrr": 0.09581978795901815,
+                "ndcg_at_10": 0.06643407033127478
+              },
+              "learned": {
+                "mrr": 0.10602022125960119,
+                "ndcg_at_10": 0.06786751439297212
+              },
+              "lexical": {
+                "mrr": 0.06328855201895926,
+                "ndcg_at_10": 0.046777821032076415
+              }
+            },
+            "queries": 78
+          },
+          "newcomer_history_1_or_2": {
+            "metrics": {
+              "dense": {
+                "mrr": 0.12277891950966231,
+                "ndcg_at_10": 0.08725648194609875
+              },
+              "hybrid": {
+                "mrr": 0.14116719416764048,
+                "ndcg_at_10": 0.11088460133324118
+              },
+              "learned": {
+                "mrr": 0.15641335907466497,
+                "ndcg_at_10": 0.11393961583428938
+              },
+              "lexical": {
+                "mrr": 0.11287394610812515,
+                "ndcg_at_10": 0.09385759548408396
+              }
+            },
+            "queries": 82
+          },
+          "prolific_history_20_plus": {
+            "metrics": {
+              "dense": {
+                "mrr": 0.17356662183659652,
+                "ndcg_at_10": 0.14451216686796142
+              },
+              "hybrid": {
+                "mrr": 0.20624994045231945,
+                "ndcg_at_10": 0.16726515925511382
+              },
+              "learned": {
+                "mrr": 0.22265025498766222,
+                "ndcg_at_10": 0.1739380023061739
+              },
+              "lexical": {
+                "mrr": 0.15582442355341106,
+                "ndcg_at_10": 0.1433292378277893
+              }
+            },
+            "queries": 82
+          }
+        },
+        "coverage": {
+          "hybrid_candidate_recall_all_authors": 0.3236151603498542,
+          "hybrid_candidate_recall_known_authors": 0.4157303370786517,
+          "queries_with_history": 123,
+          "relevant_authors": 686,
+          "relevant_with_history": 534
+        },
+        "failure_analyses": [
+          {
+            "failure": "candidate_retrieval_miss",
+            "proposed_change": "Test larger retrieval budgets and author-level topic profiles using validation queries.",
+            "query": "Bots Shield Fake News: Adversarial Attack on User Engagement based Fake News Detection.",
+            "query_id": "conf/cikm/WangWWL24",
+            "relevant_author_ids": [
+              179246264438298,
+              876369516995629,
+              3332344460657407,
+              4182554718864337
+            ],
+            "retrievable_relevant_author_ids": [
+              179246264438298,
+              876369516995629,
+              3332344460657407,
+              4182554718864337
+            ],
+            "top_results": [
+              {
+                "name": "Philip S. Yu",
+                "person_id": 364310867272605
+              },
+              {
+                "name": "Kai Shu",
+                "person_id": 2133548385108822
+              },
+              {
+                "name": "Yingtong Dou",
+                "person_id": 1400557442399017
+              }
+            ]
+          },
+          {
+            "failure": "reranking_miss",
+            "proposed_change": "Inspect topic specificity and sampled-negative ambiguity; validate richer paper-author relevance features.",
+            "query": "Temporal Graph Analysis with TGX.",
+            "query_id": "conf/wsdm/ShirzadkhaniHKR24",
+            "relevant_author_ids": [
+              2097009851163662,
+              2120666986813181,
+              2803078656649847,
+              3895131562819151,
+              4025624615237885
+            ],
+            "retrievable_relevant_author_ids": [
+              2097009851163662,
+              2120666986813181,
+              3895131562819151
+            ],
+            "top_results": [
+              {
+                "name": "Rong-Hua Li 0001",
+                "person_id": 3428347326603078
+              },
+              {
+                "name": "Hongchao Qin",
+                "person_id": 3519692766592750
+              },
+              {
+                "name": "Guoren Wang",
+                "person_id": 3898859166557528
+              }
+            ]
+          },
+          {
+            "failure": "no_historical_evidence",
+            "proposed_change": "Additional public pre-cutoff sources could improve coverage; future papers must remain excluded.",
+            "query": "A Review Selection Method Based on Consumer Decision Phases in E-commerce.",
+            "query_id": "journals/tois/ZhangLW24",
+            "relevant_author_ids": [
+              905677358991459,
+              3589934704518419,
+              3885584991110865
+            ],
+            "retrievable_relevant_author_ids": [],
+            "top_results": [
+              {
+                "name": "Panayiotis Tsaparas",
+                "person_id": 3763619020493914
+              },
+              {
+                "name": "Hady Wirawan Lauw",
+                "person_id": 4089546447587707
+              },
+              {
+                "name": "Thanh-Son Nguyen 0001",
+                "person_id": 3616927795291342
+              }
+            ]
+          }
+        ],
+        "learned_vs_baseline": {
+          "dense": {
+            "mean_ndcg_delta": 0.023257217827818873,
+            "paired_bootstrap_95pct": [
+              0.007979427007033326,
+              0.042029407131595836
+            ]
+          },
+          "hybrid": {
+            "mean_ndcg_delta": 0.0036108889144359237,
+            "paired_bootstrap_95pct": [
+              -0.0019875129009350274,
+              0.010250844028226186
+            ]
+          },
+          "lexical": {
+            "mean_ndcg_delta": 0.0238745985397344,
+            "paired_bootstrap_95pct": [
+              0.00688538239669569,
+              0.04599985580483886
+            ]
+          }
+        },
+        "metrics": {
+          "dense": {
+            "mrr": 0.11786763039292916,
+            "ndcg_at_10": 0.09485355483990558
+          },
+          "hybrid": {
+            "mrr": 0.14144303471332348,
+            "ndcg_at_10": 0.11449988375328855
+          },
+          "learned": {
+            "mrr": 0.15218415175479058,
+            "ndcg_at_10": 0.11811077266772446
+          },
+          "lexical": {
+            "mrr": 0.10142392358804875,
+            "ndcg_at_10": 0.09423617412799005
+          }
+        },
+        "mrr_scope": "Untruncated within each method's returned list, up to 800 authors.",
+        "queries": 129
+      }
+    }
+  },
+  "data": "data/processed/lean-v1",
+  "elapsed_seconds": 258.716,
+  "package_source_sha256": "504ec1a134328b5bf095467bdebca20dba2fec0d83dfd657249f7aa7751f5791",
+  "scope": "CPU train and validation only; no final-test labels opened. Future authorship is incomplete relevance supervision.",
+  "selected_budget": 800,
+  "selected_comparison": {
+    "ablation_scope": "Feature ablations retrain on identical labels and share hybrid candidates and the hybrid prior. Without-dense removes explicit cosine/rank features, not dense retrieval inside that prior. Standalone lexical/dense baselines test retrieval components.",
+    "cohorts": {
+      "has_unseen_relevant_author": {
+        "metrics": {
+          "dense": {
+            "mrr": 0.07587106960055297,
+            "ndcg_at_10": 0.05385201383037671
+          },
+          "hybrid": {
+            "mrr": 0.09581978795901815,
+            "ndcg_at_10": 0.06643407033127478
+          },
+          "learned": {
+            "mrr": 0.10602022125960119,
+            "ndcg_at_10": 0.06786751439297212
+          },
+          "lexical": {
+            "mrr": 0.06328855201895926,
+            "ndcg_at_10": 0.046777821032076415
+          },
+          "without_recency": {
+            "mrr": 0.09715616796213411,
+            "ndcg_at_10": 0.06816872164001098
+          }
+        },
+        "queries": 78
+      },
+      "newcomer_history_1_or_2": {
+        "metrics": {
+          "dense": {
+            "mrr": 0.12277891950966231,
+            "ndcg_at_10": 0.08725648194609875
+          },
+          "hybrid": {
+            "mrr": 0.14116719416764048,
+            "ndcg_at_10": 0.11088460133324118
+          },
+          "learned": {
+            "mrr": 0.15641335907466497,
+            "ndcg_at_10": 0.11393961583428938
+          },
+          "lexical": {
+            "mrr": 0.11287394610812515,
+            "ndcg_at_10": 0.09385759548408396
+          },
+          "without_recency": {
+            "mrr": 0.15895221134193252,
+            "ndcg_at_10": 0.11689800029521903
+          }
+        },
+        "queries": 82
+      },
+      "prolific_history_20_plus": {
+        "metrics": {
+          "dense": {
+            "mrr": 0.17356662183659652,
+            "ndcg_at_10": 0.14451216686796142
+          },
+          "hybrid": {
+            "mrr": 0.20624994045231945,
+            "ndcg_at_10": 0.16726515925511382
+          },
+          "learned": {
+            "mrr": 0.22265025498766222,
+            "ndcg_at_10": 0.1739380023061739
+          },
+          "lexical": {
+            "mrr": 0.15582442355341106,
+            "ndcg_at_10": 0.1433292378277893
+          },
+          "without_recency": {
+            "mrr": 0.21973995264289778,
+            "ndcg_at_10": 0.17436607200939394
+          }
+        },
+        "queries": 82
+      }
+    },
+    "coverage": {
+      "hybrid_candidate_recall_all_authors": 0.3236151603498542,
+      "hybrid_candidate_recall_known_authors": 0.4157303370786517,
+      "queries_with_history": 123,
+      "relevant_authors": 686,
+      "relevant_with_history": 534
+    },
+    "failure_analyses": [
+      {
+        "failure": "candidate_retrieval_miss",
+        "proposed_change": "Test larger retrieval budgets and author-level topic profiles using validation queries.",
+        "query": "Bots Shield Fake News: Adversarial Attack on User Engagement based Fake News Detection.",
+        "query_id": "conf/cikm/WangWWL24",
+        "relevant_author_ids": [
+          179246264438298,
+          876369516995629,
+          3332344460657407,
+          4182554718864337
+        ],
+        "retrievable_relevant_author_ids": [
+          179246264438298,
+          876369516995629,
+          3332344460657407,
+          4182554718864337
+        ],
+        "top_results": [
+          {
+            "name": "Philip S. Yu",
+            "person_id": 364310867272605
+          },
+          {
+            "name": "Kai Shu",
+            "person_id": 2133548385108822
+          },
+          {
+            "name": "Yingtong Dou",
+            "person_id": 1400557442399017
+          }
+        ]
+      },
+      {
+        "failure": "reranking_miss",
+        "proposed_change": "Inspect topic specificity and sampled-negative ambiguity; validate richer paper-author relevance features.",
+        "query": "Temporal Graph Analysis with TGX.",
+        "query_id": "conf/wsdm/ShirzadkhaniHKR24",
+        "relevant_author_ids": [
+          2097009851163662,
+          2120666986813181,
+          2803078656649847,
+          3895131562819151,
+          4025624615237885
+        ],
+        "retrievable_relevant_author_ids": [
+          2097009851163662,
+          2120666986813181,
+          3895131562819151
+        ],
+        "top_results": [
+          {
+            "name": "Rong-Hua Li 0001",
+            "person_id": 3428347326603078
+          },
+          {
+            "name": "Hongchao Qin",
+            "person_id": 3519692766592750
+          },
+          {
+            "name": "Guoren Wang",
+            "person_id": 3898859166557528
+          }
+        ]
+      },
+      {
+        "failure": "no_historical_evidence",
+        "proposed_change": "Additional public pre-cutoff sources could improve coverage; future papers must remain excluded.",
+        "query": "A Review Selection Method Based on Consumer Decision Phases in E-commerce.",
+        "query_id": "journals/tois/ZhangLW24",
+        "relevant_author_ids": [
+          905677358991459,
+          3589934704518419,
+          3885584991110865
+        ],
+        "retrievable_relevant_author_ids": [],
+        "top_results": [
+          {
+            "name": "Panayiotis Tsaparas",
+            "person_id": 3763619020493914
+          },
+          {
+            "name": "Hady Wirawan Lauw",
+            "person_id": 4089546447587707
+          },
+          {
+            "name": "Thanh-Son Nguyen 0001",
+            "person_id": 3616927795291342
+          }
+        ]
+      }
+    ],
+    "learned_vs_baseline": {
+      "dense": {
+        "mean_ndcg_delta": 0.023257217827818873,
+        "paired_bootstrap_95pct": [
+          0.007979427007033326,
+          0.042029407131595836
+        ]
+      },
+      "hybrid": {
+        "mean_ndcg_delta": 0.0036108889144359237,
+        "paired_bootstrap_95pct": [
+          -0.0019875129009350274,
+          0.010250844028226186
+        ]
+      },
+      "lexical": {
+        "mean_ndcg_delta": 0.0238745985397344,
+        "paired_bootstrap_95pct": [
+          0.00688538239669569,
+          0.04599985580483886
+        ]
+      }
+    },
+    "metrics": {
+      "dense": {
+        "mrr": 0.11786763039292916,
+        "ndcg_at_10": 0.09485355483990558
+      },
+      "hybrid": {
+        "mrr": 0.14144303471332348,
+        "ndcg_at_10": 0.11449988375328855
+      },
+      "learned": {
+        "mrr": 0.15218415175479058,
+        "ndcg_at_10": 0.11811077266772446
+      },
+      "lexical": {
+        "mrr": 0.10142392358804875,
+        "ndcg_at_10": 0.09423617412799005
+      },
+      "without_recency": {
+        "mrr": 0.15015443441715812,
+        "ndcg_at_10": 0.11897313744587505
+      }
+    },
+    "mrr_scope": "Untruncated within each method's returned list, up to 800 authors.",
+    "queries": 129
+  },
+  "train_queries": 493,
+  "validation_queries": 129
+}

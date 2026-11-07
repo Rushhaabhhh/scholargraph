@@ -1,0 +1,41 @@
+{
+  "evaluation": {
+    "coverage": {
+      "hybrid_candidate_recall_all_authors": 0.22176667909057027,
+      "hybrid_candidate_recall_known_authors": 0.3057553956834532,
+      "queries_with_history": 476,
+      "relevant_authors": 2683,
+      "relevant_with_history": 1946
+    },
+    "metrics": {
+      "dense": {
+        "mrr": 0.03782714383167621,
+        "ndcg_at_10": 0.02839465525155852
+      },
+      "hybrid": {
+        "mrr": 0.044299904803133,
+        "ndcg_at_10": 0.031180970193574808
+      },
+      "learned": {
+        "mrr": 0.05076732646451361,
+        "ndcg_at_10": 0.035691565904830545
+      },
+      "lexical": {
+        "mrr": 0.03382660643072529,
+        "ndcg_at_10": 0.024520759601065128
+      },
+      "without_recency": {
+        "mrr": 0.04842997340451494,
+        "ndcg_at_10": 0.03346996567640984
+      }
+    }
+  },
+  "graph_cutoff_year": 2024,
+  "graph_papers": 142283,
+  "historical_index_embeddings_sha256": "6319538ca8c88dc482b5910e67312b9efe8e94aef8456c039a20d2951833249f",
+  "labels_sha256": "8e2fcbf50195d19f896c86c14dd6f618aea37ca0b4799a6d7dd5f6f93bcfdb5c",
+  "model_sha256": "947838570ec8ba0f803f63767b618221a820b958a74118a6ad771eee765b67cb",
+  "scope": "Rebuilt selected source and test graph; regenerated MiniLM title embeddings and retrieved candidates with frozen evaluation code. Previously inspected cohort.",
+  "test_ids_sha256": "8acda5256b12072944617ce560e7967f6fd15cde7c6f27c76228a33ade19c91a",
+  "test_index_embeddings_sha256": "2029922a23f6382451f68cbbeca7694dbf886e34e47d933063696f664e0c4085"
+}

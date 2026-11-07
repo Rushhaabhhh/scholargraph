@@ -8,4 +8,4 @@ This directory holds local-only data. None of the raw download, generated graphs
 - `models/`: optional downloaded speech/chat models.
 - `runtime/`: session and conversation state, which may contain private user data.
 
-The bundled, versioned 200-paper sample is in `resources/examples/`. The batch command builds its graph and index in a temporary directory. Compose stores its sample and sessions in a Docker volume. Existing local data has deliberately been retained; remove it yourself only when you no longer need it.
+The bundled 200-paper sample is in `resources/examples/`; the separate, derived evaluation slice and frozen research artifacts are in `resources/evaluation/reproduction/`. The batch command builds its graph and index in a temporary directory. Compose stores its sample and sessions in a Docker volume.

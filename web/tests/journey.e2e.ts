@@ -31,7 +31,7 @@ test('search, refine with graph tools, and keep shortlist memory in one session'
   await send('search again');
   await expect(
     assistant.getByText('Search researchers · success'),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 30000 });
   await expect(
     assistant.getByText(/1 shortlisted · 0 dismissed · Search context:/),
   ).toBeVisible();

@@ -78,6 +78,19 @@ class LeanPipelineTests(unittest.TestCase):
                                       '--out', str(root / 'rebuilt')], cwd=root, text=True, capture_output=True, timeout=30)
             self.assertEqual(rebuilt.returncode, 0, rebuilt.stderr)
             self.assertEqual(digest_file(root / 'rebuilt/train/labels.jsonl'), locked['windows']['train']['labels_sha256'])
+            selected = subprocess.run([sys.executable, str(ROOT / 'scripts/rebuild_lean_data.py'),
+                                       '--selected-source', str(xml), '--manifests', str(experiments),
+                                       '--out', str(root / 'selected-rebuilt')],
+                                      cwd=root, text=True, capture_output=True, timeout=30)
+            self.assertEqual(selected.returncode, 0, selected.stderr)
+            changed = root / 'changed.xml'
+            changed.write_text(xml.read_text().replace('Distinct topic 2019', 'Changed topic 2019'))
+            rejected = subprocess.run([sys.executable, str(ROOT / 'scripts/rebuild_lean_data.py'),
+                                       '--selected-source', str(changed), '--manifests', str(experiments),
+                                       '--out', str(root / 'changed-rebuilt')],
+                                      cwd=root, text=True, capture_output=True, timeout=30)
+            self.assertNotEqual(rejected.returncode, 0)
+            self.assertIn('Selected source content differs', rejected.stderr)
             config['output'] = str(root / 'mismatch')
             (root / 'config.json').write_text(json.dumps(config))
             (root / 'expected.json').write_text(json.dumps({'source_paper_ids': ['conf/demo/other']}))

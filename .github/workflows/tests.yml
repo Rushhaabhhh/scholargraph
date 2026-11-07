@@ -14,6 +14,7 @@ jobs:
 
   frontend:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -43,6 +44,12 @@ jobs:
           done
           if [ "$ready" != true ]; then cat /tmp/hiresense-api.log /tmp/hiresense-web.log; exit 1; fi
           npx playwright test tests/journey.e2e.ts tests/floating-assistant.e2e.ts tests/cursor-swarm.e2e.ts tests/method-design.e2e.ts
+      - name: Print application logs on failure
+        if: failure()
+        run: |
+          for log in /tmp/hiresense-api.log /tmp/hiresense-web.log; do
+            if [ -f "$log" ]; then cat "$log"; fi
+          done
 
   compose:
     runs-on: ubuntu-latest
