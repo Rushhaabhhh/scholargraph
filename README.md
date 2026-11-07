@@ -2,6 +2,15 @@
 
 ScholarGraph is an **AI-powered research expert discovery system** that identifies researchers from public DBLP publication data. It combines a **research collaboration graph**, **hybrid search**, and a **machine learning ranking model** to match research topics with relevant authors. A Next.js interface presents researcher profiles, supporting publications, and collaboration evidence, while a Python API powers search, conversations, and voice interaction.
 
+- **Live frontend:** [scholargraph-one.vercel.app](https://scholargraph-one.vercel.app/)
+- **API health:** [scholargraph-fc9i.onrender.com/health](https://scholargraph-fc9i.onrender.com/health)
+
+On 7 November 2026, the frontend, backend health endpoint and frontend API health proxy returned successful responses. The deployed backend reported a 200-paper, 762-author sample; it is a functional demonstration, not the evaluation corpus. In the same verification, sample search requests through the frontend and directly to the backend returned HTTP 502, including in a browser; the cause has not yet been established. Recheck the deployed search before relying on the live link. The offline run instructions below remain the required route for evaluating another DBLP slice.
+
+The deployed Render instance has 512 MB of RAM. In separate local sample runs, the backend peaked at approximately 805 MiB after the first live local-model search and 118 MiB using the recorded query provider. These are process peak-RSS measurements on one machine, not Render memory measurements or capacity guarantees. Render logs showed instance restarts during the check, so memory pressure is a plausible cause, but was not confirmed by an out-of-memory log.
+
+For a memory-constrained Render deployment, set `SCHOLARGRAPH_QUERY_PROVIDER=recorded` in the backend service's environment and restart it. This uses recorded outputs for matching queries and deterministic parsing for unseen or invalid ones, rather than live LLM query understanding. Recheck `/health` and a browser search after the restart. General chat, local voice models, concurrency and larger data can require additional memory; the lower-memory query setting does not establish that every feature fits in 512 MB.
+
 ## Architecture
 
 ```mermaid
@@ -14,7 +23,7 @@ flowchart LR
     Search --> Index[BM25 and MiniLM Indexes]
     Search --> Ranker[LambdaMART Ranker]
     API --> Sessions[(SQLite Session Storage)]
-    DBLP[DBLP XML] --> Ingest[Data Ingestion and Identity Resolution]
+    DBLP[DBLP XML] --> Ingest[Data Ingestion and DBLP Identity Keys]
     Ingest --> Graph
     Graph --> Index
 ```
@@ -30,7 +39,7 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A[DBLP XML] --> B[Parse publications and resolve author identities]
+    A[DBLP XML] --> B[Parse publications and use DBLP identity keys]
     B --> C[Build dated research graph]
     C --> D[Build BM25 and MiniLM paper indexes]
     Q[Research query] --> E[Retrieve relevant papers]
@@ -65,7 +74,7 @@ The [temporal evaluation](resources/results/lean-final-v1.json) reports nDCG@10 
 
 ### Research Graph and Data Processing
 
-- Parse DBLP XML and resolve author identities into a dated research graph.
+- Parse DBLP XML into a dated research graph using author PIDs when available and names otherwise. A separate experimental matcher evaluates noisy author observations against historical profiles; it is not used to resolve the normal serving ingestion.
 - Build local paper indexes for keyword and semantic retrieval.
 - Run batch discovery against a DBLP XML slice and a list of research queries.
 
@@ -83,7 +92,7 @@ The [temporal evaluation](resources/results/lean-final-v1.json) reports nDCG@10 
 - Evaluate retrieval and ranking against future-authorship proxy labels.
 - Run backend, frontend, and browser tests.
 
-The graph assistant uses explicit commands and the search session. If Gemini is configured, unsupported questions can fall back to general AI conversation: the user message is sent to the configured conversation provider, without graph data or tool access, and the answer is marked unverified. If the provider is unavailable, command guidance remains available offline. The separate general conversation workspace also retains Gemini and local-model support. General AI prose is not covered by the graph assistant's typed-claim verifier. The application has no account authentication and is intended for local use.
+The graph assistant uses explicit commands and the search session. If Gemini is configured, unsupported questions can fall back to general AI conversation: the user message is sent to the configured conversation provider, without graph data or tool access, and the answer is marked unverified. If the provider is unavailable, command guidance remains available offline. The separate general conversation workspace also retains Gemini and local-model support. General AI prose is not covered by the graph assistant's typed-claim verifier. The application has no account authentication or tenant isolation; the deployed demo is a reference implementation rather than a multi-tenant production service.
 
 ## Tech Stack
 
@@ -151,7 +160,7 @@ docker compose up --build
 
 Open **http://localhost:3000**. The API health endpoint is at **http://localhost:8000/health**, and its schema is at **http://localhost:8000/openapi.json**. The first startup prepares the included 200-paper DBLP sample in a Docker volume. Search for `graph neural networks` to try it. Press `Ctrl+C` to stop the application.
 
-Building the images requires network access for dependencies, the local query/conversation model, and speech models. Once the images are built, the default application uses those local assets without API keys. Full Compose startup remains unverified on the original machine because its Docker daemon is unavailable. CI includes a clean build and smoke test; check its result before submission.
+Building the images requires network access for dependencies, the local query/conversation model, and speech models. Once the images are built, the default application uses those local assets without API keys. The [CI run for commit `05d834c`](https://github.com/Rushhaabhhh/scholargraph/actions/runs/42332300107) passed its clean Compose build/start and smoke test. This machine's Docker socket was unavailable for a separate local Compose run; first-time offline installation has not been verified.
 
 ### Local Development
 
@@ -239,6 +248,6 @@ For the Compose smoke check, run `docker compose up --build -d --wait` and then 
 ## Documentation
 
 - [Architecture diagrams](docs/architecture.md)
-- [Design document](docs/design.pdf)
+- [Design document](docs/design.md)
 - [Evaluation and reproduction](resources/results/README.md)
 - [Local data and generated artifacts](data/README.md)

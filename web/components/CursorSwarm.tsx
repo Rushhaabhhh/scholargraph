@@ -80,8 +80,7 @@ const waves: { scrollTo: string; tasks: Task[] }[] = [
 
 /** Independent cursor choreography over the actual page, with no cloned controls. */
 export function CursorSwarm() {
-  const layer = useRef<HTMLDivElement>(null),
-    finishRef = useRef<() => void>(() => {});
+  const layer = useRef<HTMLDivElement>(null);
   const [running, setRunning] = useState(false);
   useEffect(() => {
     if (
@@ -155,26 +154,13 @@ export function CursorSwarm() {
       for (const [element, clip] of originalClips)
         element.style.clipPath = clip;
       document.documentElement.style.scrollBehavior = previousScrollBehavior;
-      window.removeEventListener('wheel', interrupt, true);
-      window.removeEventListener('touchstart', interrupt, true);
-      window.removeEventListener('pointerdown', interrupt, true);
-      window.removeEventListener('keydown', interrupt, true);
+      window.removeEventListener('keydown', onKeyDown, true);
       setRunning(false);
     }
-    finishRef.current = finish;
-    function interrupt(event: Event) {
-      if (event.isTrusted) finish();
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.isTrusted && event.key === 'Escape') finish();
     }
-    window.addEventListener('wheel', interrupt, {
-      capture: true,
-      passive: true,
-    });
-    window.addEventListener('touchstart', interrupt, {
-      capture: true,
-      passive: true,
-    });
-    window.addEventListener('pointerdown', interrupt, true);
-    window.addEventListener('keydown', interrupt, true);
+    window.addEventListener('keydown', onKeyDown, true);
     tasks.forEach((wave, index) => {
       const start = 0.2 + index * 1.95;
       if (wave.target && index > 0) {
@@ -330,13 +316,9 @@ export function CursorSwarm() {
         </div>
       ))}
       {running && (
-        <button
-          type="button"
-          className="swarm-skip"
-          onClick={() => finishRef.current()}
-        >
-          Skip intro <span>ESC</span>
-        </button>
+        <div className="swarm-skip" role="status">
+          Press <kbd>ESC</kbd> to skip intro
+        </div>
       )}
     </div>
   );

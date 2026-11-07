@@ -25,10 +25,20 @@ test('the intro reveals the final results area and leaves it usable', async ({
   await expect(heading).toBeInViewport();
 });
 
-test('skipping the intro restores the final results area', async ({ page }) => {
+test('only Escape interrupts the intro and restores the final results area', async ({
+  page,
+}) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
-  await page.getByRole('button', { name: /Skip intro/ }).click();
+  const swarm = page.locator('.swarm-layer');
+  await expect(swarm).toHaveClass(/is-running/);
+  await page.mouse.click(10, 10);
+  await expect(swarm).toHaveClass(/is-running/);
+  await page.mouse.wheel(0, 100);
+  await page.keyboard.press('a');
+  await expect(swarm).toHaveClass(/is-running/);
+  await page.keyboard.press('Escape');
+  await expect(swarm).not.toHaveClass(/is-running/);
   const placeholder = page.locator('.results-placeholder');
   await expect(placeholder).toBeVisible();
   expect(await placeholder.evaluate((element) => element.style.clipPath)).toBe(

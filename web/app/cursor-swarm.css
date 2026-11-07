@@ -74,7 +74,6 @@
   position: absolute;
   left: 22px;
   bottom: 22px;
-  pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -85,16 +84,9 @@
   font: 12px var(--sans);
   box-shadow: 0 8px 24px #0007;
 }
-.swarm-skip:hover {
-  background: #344632;
-}
-.swarm-skip span {
+.swarm-skip kbd {
   color: #b7c8af;
   font: 10px var(--mono);
-}
-.swarm-skip:focus-visible {
-  outline: 2px solid #ecffe1;
-  outline-offset: 3px;
 }
 @media (max-width: 700px) {
   .swarm-skip {

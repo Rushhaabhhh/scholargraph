@@ -6,8 +6,10 @@ ROOT=Path(__file__).resolve().parents[1]
 class HumanReviewTests(unittest.TestCase):
     def test_blank_grades_cannot_be_reported_as_human_results(self):
         with tempfile.TemporaryDirectory() as d:
-            output=Path(d)/'result.json'
-            p=subprocess.run([sys.executable,str(ROOT/'scripts/evaluate_human_review.py'),'--reviews',str(ROOT/'resources/experiments/phase3-review-template.csv'),'--out',str(output)],cwd=ROOT,capture_output=True,text=True)
+            root=Path(d);output=root/'result.json';pool=root/'pool.jsonl';reviews=root/'reviews.csv'
+            pool.write_text(json.dumps({'query_id':'q','person_id':1})+'\n')
+            reviews.write_text('query_id,person_id,grade_0_to_3,reviewer\nq,1,,\n')
+            p=subprocess.run([sys.executable,str(ROOT/'scripts/evaluate_human_review.py'),'--reviews',str(reviews),'--pool',str(pool),'--out',str(output)],cwd=ROOT,capture_output=True,text=True)
             self.assertNotEqual(p.returncode,0)
             self.assertIn('No actual human judgments',p.stderr)
             self.assertFalse(output.exists())
