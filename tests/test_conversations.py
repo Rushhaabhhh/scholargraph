@@ -35,6 +35,13 @@ class ConversationTests(unittest.TestCase):
         self.assertEqual(len(self.client.get('/conversations',headers=self.headers).json()),1)
         self.assertEqual(self.client.delete('/conversations/'+cid,headers=self.headers).status_code,204)
         self.assertEqual(self.client.get('/conversations/'+cid,headers=self.headers).status_code,404)
+    def test_history_preview_is_latest_message_and_session_scoped(self):
+        cid=self.client.post('/conversations',headers=self.headers).json()['id']
+        with sqlite3.connect(self.app.state.backend.sessions.path) as db:
+            db.executemany('INSERT INTO conversation_messages(conversation_id,role,content) VALUES(?,?,?)',[(cid,'user','A question'),(cid,'assistant','A useful answer')])
+        history=self.client.get('/conversations',headers=self.headers).json()
+        self.assertEqual(history[0]['preview'],'A useful answer')
+        self.assertEqual(self.client.get('/conversations',headers={'X-Session-ID':'b'*32}).json(),[])
     def test_document_upload_is_scoped_and_bounded(self):
         cid=self.client.post('/conversations',headers=self.headers).json()['id']
         upload=self.client.post('/conversations/'+cid+'/documents',headers={**self.headers,'X-Document-Name':'notes.txt'},content=b'Research notes')

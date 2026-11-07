@@ -1,2 +1,2 @@
-import {SettingsPage} from '../../components/SettingsPage';
-export default function Page(){return <SettingsPage/>}
+import {redirect} from 'next/navigation';
+export default function Page(){redirect('/shortlist#session-settings')}

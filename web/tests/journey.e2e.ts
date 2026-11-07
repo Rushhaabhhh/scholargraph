@@ -44,9 +44,9 @@ test('a newer search wins when an earlier search is delayed',async({page})=>{
  await expect(page.getByLabel('RESEARCH QUESTION OR TOPIC')).toHaveValue('information retrieval');
  await expect(page.getByRole('heading',{name:/Researchers for your question/})).toBeVisible();
 });
-test('mobile navigation and search remain usable',async({page})=>{
+test('mobile search remains usable without navigation',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.goto('/');
- await page.getByRole('button',{name:'Open navigation'}).click();await expect(page.getByRole('dialog',{name:'Main navigation'})).toBeVisible();await page.keyboard.press('Escape');await expect(page.getByRole('dialog',{name:'Main navigation'})).toHaveCount(0);
+ await expect(page.getByRole('navigation',{name:'Main navigation'})).toHaveCount(0);
  await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');await page.getByRole('button',{name:/Find researchers/}).click();
  const card=page.locator('article').first();await expect(card).toBeVisible({timeout:60000});await card.getByRole('button',{name:'+ Shortlist'}).click();await expect(card.getByRole('button',{name:/Shortlisted/})).toBeVisible();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -81,15 +81,15 @@ test('shortlist route compares and changes server-backed decisions',async({page}
  const cards=page.locator('article');await expect(cards.nth(1)).toBeVisible({timeout:60000});
  await cards.nth(0).getByRole('button',{name:'+ Shortlist'}).click();await expect(cards.nth(0).getByRole('button',{name:/Shortlisted/})).toBeVisible();
  await cards.nth(1).getByRole('button',{name:'+ Shortlist'}).click();await expect(cards.nth(1).getByRole('button',{name:/Shortlisted/})).toBeVisible();
- await page.getByRole('link',{name:'Shortlist'}).click();await expect(page.getByRole('heading',{name:'My experts'})).toBeVisible();
+ await page.getByRole('link',{name:'Open saved workspace'}).click();await expect(page.getByRole('heading',{name:'Saved & session.'})).toBeVisible();
  await expect(page.getByText('Shortlisted',{exact:false}).first()).toBeVisible();
  const checks=page.getByRole('checkbox');await checks.nth(0).check();await checks.nth(1).check();await page.getByRole('button',{name:'Compare selected experts'}).click();await expect(page.getByRole('heading',{name:'Compare experts'})).toBeVisible();
  await page.getByRole('button',{name:'Close'}).click();await page.locator('.saved-card').first().getByRole('button',{name:'Reject'}).click();await page.getByRole('tab',{name:/Rejected/}).click();await expect(page.locator('.saved-card')).toHaveCount(1);
  await page.locator('.saved-card').getByRole('button',{name:'Restore'}).click();await expect(page.getByRole('tab',{name:/Rejected/})).toContainText('0');
 });
 test('settings require confirmation and report server-confirmed session deletion',async({page})=>{
- await page.goto('/');await page.getByRole('link',{name:'Session settings'}).click();await expect(page.getByRole('heading',{name:'Settings'})).toBeVisible();
- page.once('dialog',dialog=>dialog.dismiss());await page.getByRole('button',{name:'Delete session'}).click();await expect(page.getByText('Session decisions', {exact:false})).toBeVisible();
+ await page.goto('/');await page.getByRole('link',{name:'Open saved workspace'}).click();await expect(page.getByRole('heading',{name:'Your session memory'})).toBeVisible();
+ page.once('dialog',dialog=>dialog.dismiss());await page.getByRole('button',{name:'Delete session'}).click();await expect(page.getByRole('heading',{name:'Your session memory'})).toBeVisible();
  page.once('dialog',dialog=>dialog.accept());await page.getByRole('button',{name:'Delete session'}).click();await expect(page.getByRole('status')).toContainText('Session memory deleted');
 });
 test('profile actions use the same server session and return to search',async({page})=>{

@@ -1,0 +1,16 @@
+.swarm-layer{position:fixed;inset:0;z-index:90;pointer-events:none;visibility:hidden;overflow:hidden}
+.swarm-layer.is-running{visibility:visible}
+.swarm-cursor{position:absolute;top:0;left:0;display:flex;align-items:flex-start;color:var(--cursor-color);will-change:transform;opacity:0}
+.swarm-cursor svg{flex:none;filter:drop-shadow(0 2px 3px #0009)}
+.swarm-cursor>span{margin:16px 0 0 -1px;padding:4px 7px;background:var(--cursor-color);color:#141a13;font:600 10px/1 var(--sans);white-space:nowrap;box-shadow:0 3px 10px #0003}
+.swarm-outline{position:absolute;border:1px solid #bdd9af;box-shadow:0 0 0 1px #9ec08a33,inset 0 0 28px #b7d9a812;opacity:0;pointer-events:none;will-change:clip-path}
+.swarm-outline:before,.swarm-outline:after{content:'';position:absolute;width:7px;height:7px;background:#d3e8c2;border:1px solid #172017}
+.swarm-outline:before{left:-4px;top:-4px}.swarm-outline:after{right:-4px;bottom:-4px}
+.swarm-outline>span{position:absolute;right:0;bottom:0;transform:translateY(100%);padding:5px 7px;background:#c8dfba;color:#182015;font:9px var(--mono);letter-spacing:.05em}
+.swarm-skip{position:absolute;left:22px;bottom:22px;pointer-events:auto;display:flex;align-items:center;gap:16px;padding:12px 14px;color:#f0f4eb;background:#222d20;border:1px solid #7c9273;font:12px var(--sans);box-shadow:0 8px 24px #0007}
+.swarm-skip:hover{background:#344632}.swarm-skip span{color:#b7c8af;font:10px var(--mono)}.swarm-skip:focus-visible{outline:2px solid #ecffe1;outline-offset:3px}
+@media(max-width:700px){.swarm-skip{left:12px;bottom:12px}.swarm-cursor>span{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.swarm-layer{display:none!important}}
+.swarm-outline{border-color:var(--cursor-color);box-shadow:0 0 0 1px color-mix(in srgb,var(--cursor-color) 22%,transparent);will-change:width,height,left,top}
+.swarm-outline:before,.swarm-outline:after{background:var(--cursor-color)}
+.swarm-outline>span{background:var(--cursor-color)}

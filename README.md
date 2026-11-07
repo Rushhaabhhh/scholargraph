@@ -184,7 +184,17 @@ uv pip install --python .venv/bin/python -r config/requirements-llm.lock
 .venv/bin/python scripts/prepare_query_model.py
 ```
 
-The default model is a small 0.5B fallback with limited instruction following and reasoning. Alternatively, configure Ollama or an OpenAI-compatible endpoint with the `SCHOLARGRAPH_CHAT_*` settings in [.env.example](.env.example). Export settings before starting the local script, or place them in a root `.env` for Compose, and restart the API after changes. The Docker image does not include the local conversation model or `llama-cpp-python`.
+The default `auto` mode uses the local model when no API key is configured. To use Gemini with an offline fallback, add the following to the root `.env` and restart the backend:
+
+```dotenv
+SCHOLARGRAPH_CHAT_PROVIDER=auto
+GEMINI_API_KEY=your_google_ai_studio_key
+SCHOLARGRAPH_GEMINI_MODEL=gemini-2.5-flash
+```
+
+Get a key from [Google AI Studio](https://aistudio.google.com/apikey). Google offers a [limited free tier](https://ai.google.dev/gemini-api/docs/pricing); model availability and quotas depend on the account and region. Chat messages and any retrieved excerpts are sent to Google when Gemini is enabled; check Google's data-use terms before sending sensitive content. The backend keeps the key server-side. If Gemini fails before producing text, the assistant falls back to the local model; interrupted partial responses are not replaced with a second answer. The small 0.5B local model has limited instruction following and reasoning.
+
+The local launcher reads assistant settings from the root `.env`; exported environment variables take precedence. Compose also reads the root `.env`, but its image does not include the local conversation model or `llama-cpp-python`, so its fallback is only available if those are installed and the model is provided. Ollama and other OpenAI-compatible services remain configurable with the `SCHOLARGRAPH_CHAT_*` settings in [.env.example](.env.example).
 
 ### Voice
 
@@ -196,7 +206,7 @@ uv pip install --python .venv/bin/python -r config/voice-requirements.lock
 .venv/bin/python -m piper.download_voices --data-dir data/models/piper en_US-ljspeech-medium
 ```
 
-Open **Conversations → Voice** and allow microphone access. Localhost or HTTPS is required for microphone access. The first request may take longer while models load. Docker downloads speech assets during its image build. Remote speech settings are listed in [.env.example](.env.example); keep credentials in the API server environment. Remote providers receive the relevant messages, excerpts, or audio.
+Open the floating **AI Assistant → Voice** and allow microphone access. Localhost or HTTPS is required for microphone access. The first request may take longer while models load. Docker downloads speech assets during its image build. Voice uses local Vosk for speech recognition and Piper (or eSpeak) for speech output by default; compatible browser recognition and speech synthesis can be used when available. For Gemini speech with local fallback, add `SCHOLARGRAPH_STT_PROVIDER=gemini` and `SCHOLARGRAPH_TTS_PROVIDER=gemini` to `.env` alongside your Gemini key, then restart. Gemini receives microphone recordings and response text for these operations. The local fallback remains available when its models are installed. Gemini's speech models and free quotas may vary; review [Google's pricing](https://ai.google.dev/gemini-api/docs/pricing) and data-use terms. Other remote speech settings are listed in [.env.example](.env.example); keep credentials in the API server environment.
 
 ### Training and Evaluation
 

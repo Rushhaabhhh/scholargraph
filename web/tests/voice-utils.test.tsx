@@ -17,4 +17,11 @@ describe('voice utilities',()=>{
   expect(data.getUint32(40,true)).toBe(960000);
   expect(blob.size).toBe(960044);
  });
+ it('retains microphone audio when the input sample rate is below 16 kHz',async()=>{
+  const blob=wav(new Float32Array([.5,.5]),8000);
+  const buffer=await new Promise<ArrayBuffer>((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result as ArrayBuffer);reader.onerror=()=>reject(reader.error);reader.readAsArrayBuffer(blob)});
+  const data=new DataView(buffer);
+  expect(data.getUint32(40,true)).toBe(8);
+  for(let offset=44;offset<52;offset+=2)expect(data.getInt16(offset,true)).toBeGreaterThan(16000);
+ });
 });

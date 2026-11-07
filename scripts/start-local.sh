@@ -59,7 +59,7 @@ cleanup(){
 }
 trap cleanup EXIT INT TERM
 printf 'Starting research backend using %s\n' "$config"
-PYTHONPATH="$root/src" "$python" -m hiresense.cli serve --config "$config" --host 127.0.0.1 --port "$backend_port" &
+PYTHONPATH="$root/src" "$python" "$root/scripts/run_local_backend.py" --config "$config" --host 127.0.0.1 --port "$backend_port" &
 backend_pid=$!
 for ((attempt=0; attempt<180; attempt++)); do
   if "$python" - "$backend_port" <<'PY' >/dev/null 2>&1
