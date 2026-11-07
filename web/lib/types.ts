@@ -1,8 +1,117 @@
-export type Person = {person_id:number; name:string};
-export type Evidence = {paper_id:string; title:string; year:number|null; source:string; collaborators:Person[]};
-export type Claim = {kind:string; person_id:number; paper_id:string; year:number|null; collaborator_id:number|null; term:string|null; text:string; supported:boolean; reason:string|null; sources:{paper_id:string;year:number|null;source:string;edge_id:string|null}[]; data_warnings:string[]};
-export type Expert = Person & {score:number; explanation:string; evidence:Evidence[]; claims:Claim[]; grounding:{claims:number; unsupported:number}; shortlisted:boolean};
-export type Memory = {version:number; shortlisted_person_ids:number[]; rejected_person_ids:number[]; last_query:string|null; last_intent:{topics:string[];recency_preference:'any'|'recent';since_year:number|null}|null; last_result_ids:number[]};
-export type SearchResponse = {query:string; retrieval_query:string; results:Expert[]; memory:Memory|null; understanding:{intent:{topics:string[];recency_preference:'any'|'recent';since_year:number|null};provider:string;used_fallback:boolean;fallback_reason:string|null}; effective_filters:{graph_cutoff_year:number; since_year:number|null}};
-export type Profile = Person & {claims:Claim[]; name_sources:string[]; publications:{paper_id:string; title:string; year:number|null; venue:string|null; source:string}[]; topics:{topic:string; source_paper_ids:string[]; supported:boolean}[]};
-export type ChatResponse = {message:string; results:Expert[]; memory:Memory; memory_applied:Memory; tool_calls:{tool:string; outcome:string; arguments:Record<string,unknown>;error_code?:string|null}[]; claims:Claim[]; profile:Profile|null; profiles:Profile[]|null; path:{person_ids:number[]; edges:{from:number; to:number; evidence:{paper_id:string; title:string; year:number|null}[]}[]; truncated:boolean}|null; safety:{blocked:boolean};provider:'none'|'recorded'|'local_llm'|'fallback';query?:string|null;retrieval_query?:string|null;understanding?:{intent:{topics:string[];recency_preference:'any'|'recent';since_year:number|null};provider:string;used_fallback:boolean;fallback_reason:string|null}|null;effective_filters?:{since_year:number|null;graph_cutoff_year:number}|null;}
+export type Person = { person_id: number; name: string };
+export type Evidence = {
+  paper_id: string;
+  title: string;
+  year: number | null;
+  source: string;
+  collaborators: Person[];
+};
+export type Claim = {
+  kind: string;
+  person_id: number;
+  paper_id: string;
+  year: number | null;
+  collaborator_id: number | null;
+  term: string | null;
+  text: string;
+  supported: boolean;
+  reason: string | null;
+  sources: {
+    paper_id: string;
+    year: number | null;
+    source: string;
+    edge_id: string | null;
+  }[];
+  data_warnings: string[];
+};
+export type Expert = Person & {
+  score: number;
+  explanation: string;
+  evidence: Evidence[];
+  claims: Claim[];
+  grounding: { claims: number; unsupported: number };
+  shortlisted: boolean;
+};
+export type Memory = {
+  version: number;
+  shortlisted_person_ids: number[];
+  rejected_person_ids: number[];
+  last_query: string | null;
+  last_intent: {
+    topics: string[];
+    recency_preference: 'any' | 'recent';
+    since_year: number | null;
+  } | null;
+  last_result_ids: number[];
+};
+export type SearchResponse = {
+  query: string;
+  retrieval_query: string;
+  results: Expert[];
+  memory: Memory | null;
+  understanding: {
+    intent: {
+      topics: string[];
+      recency_preference: 'any' | 'recent';
+      since_year: number | null;
+    };
+    provider: string;
+    used_fallback: boolean;
+    fallback_reason: string | null;
+  };
+  effective_filters: { graph_cutoff_year: number; since_year: number | null };
+};
+export type Profile = Person & {
+  claims: Claim[];
+  name_sources: string[];
+  publications: {
+    paper_id: string;
+    title: string;
+    year: number | null;
+    venue: string | null;
+    source: string;
+  }[];
+  topics: { topic: string; source_paper_ids: string[]; supported: boolean }[];
+};
+export type ChatResponse = {
+  message: string;
+  results: Expert[];
+  memory: Memory;
+  memory_applied: Memory;
+  tool_calls: {
+    tool: string;
+    outcome: string;
+    arguments: Record<string, unknown>;
+    error_code?: string | null;
+  }[];
+  claims: Claim[];
+  profile: Profile | null;
+  profiles: Profile[] | null;
+  path: {
+    person_ids: number[];
+    edges: {
+      from: number;
+      to: number;
+      evidence: { paper_id: string; title: string; year: number | null }[];
+    }[];
+    truncated: boolean;
+  } | null;
+  safety: { blocked: boolean };
+  provider: 'none' | 'recorded' | 'local_llm' | 'fallback';
+  query?: string | null;
+  retrieval_query?: string | null;
+  understanding?: {
+    intent: {
+      topics: string[];
+      recency_preference: 'any' | 'recent';
+      since_year: number | null;
+    };
+    provider: string;
+    used_fallback: boolean;
+    fallback_reason: string | null;
+  } | null;
+  effective_filters?: {
+    since_year: number | null;
+    graph_cutoff_year: number;
+  } | null;
+};

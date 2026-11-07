@@ -1,2 +1,4 @@
-import {ShortlistPage} from '../../components/ShortlistPage';
-export default function Page(){return <ShortlistPage/>}
+import { ShortlistPage } from '../../components/ShortlistPage';
+export default function Page() {
+  return <ShortlistPage />;
+}

@@ -36,5 +36,10 @@ jobs:
           PYTHONPATH=src python -m hiresense.cli serve --config /tmp/hiresense-test/backend.json --host 127.0.0.1 --port 8000 > /tmp/hiresense-api.log 2>&1 &
           cd web
           npm run start -- --hostname 127.0.0.1 > /tmp/hiresense-web.log 2>&1 &
-          for attempt in $(seq 1 60); do curl -fsS http://127.0.0.1:8000/health > /dev/null && curl -fsS http://127.0.0.1:3000/ > /dev/null && break; sleep 2; done
-          npm run test:e2e
+          ready=false
+          for attempt in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:8000/health > /dev/null && curl -fsS http://127.0.0.1:3000/ > /dev/null; then ready=true; break; fi
+            sleep 2
+          done
+          if [ "$ready" != true ]; then cat /tmp/hiresense-api.log /tmp/hiresense-web.log; exit 1; fi
+          npx playwright test tests/journey.e2e.ts

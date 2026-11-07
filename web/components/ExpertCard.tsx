@@ -1,11 +1,179 @@
 import Link from 'next/link';
-import type {Expert,Memory} from '../lib/types';
-import {Icon} from './Icon';
-export function ExpertCard({expert,index,memory,busy,onDecision,onAsk}:{expert:Expert;index:number;memory:Memory|null;busy:boolean;onDecision:(id:number,action:'shortlist'|'reject'|'clear')=>void;onAsk?:(expert:Expert,index:number)=>void}){
- const shortlisted=memory?.shortlisted_person_ids.includes(expert.person_id)??expert.shortlisted;const topics=[...new Set(expert.claims.filter(c=>c.supported&&c.term).map(c=>c.term!))].slice(0,5);
- return <article className="expert-card"><div className="expert-card-top"><span className="expert-rank">{String(index+1).padStart(2,'0')}</span><div className="expert-avatar" aria-hidden="true">{expert.name.split(' ').slice(0,2).map(x=>x[0]).join('').toUpperCase()}</div><div className="expert-identity"><div className="expert-name-line"><Link href={`/experts/${expert.person_id}`}>{expert.name}</Link>{shortlisted&&<span className="saved-label"><Icon name="check" size={12}/> SAVED</span>}</div><span>Research author <i>·</i> DBLP record #{expert.person_id}</span></div><div className="expert-model-score"><strong>{expert.score.toFixed(3)}</strong><span>MODEL RANK SCORE</span><small>Not a probability</small></div></div>
-  <div className="expert-card-content"><div className="expert-reason"><span className="reason-label"><Icon name="spark" size={14}/> WHY THIS MATCH</span><p>{expert.explanation}</p></div>{topics.length>0&&<div className="expert-topics" aria-label="Supported research terms">{topics.map(topic=><span key={topic}>{topic}</span>)}</div>}{expert.claims.some(c=>!c.supported)&&<div className="warning" role="note">Some claims could not be verified against the research graph. Review before relying on them.</div>}{expert.claims.some(c=>c.data_warnings?.length>0)&&<div className="warning" role="note">Source text contains content flagged for review.</div>}
-   <details className="expert-evidence"><summary><span><Icon name="bookmark" size={15}/>View evidence</span><b>{expert.evidence.length} {expert.evidence.length===1?'publication':'publications'}</b><i/></summary><div className="evidence-list">{expert.evidence.length===0&&<p className="empty-evidence">No publication evidence was returned for this result.</p>}{expert.evidence.map(p=><div className="evidence-item" key={p.paper_id}><span className="paper-year">{p.year||'N.D.'}</span><div><strong>{p.title}</strong><p>DBLP · {p.paper_id}{p.collaborators.length>0&&<> · With {p.collaborators.map(c=>c.name).join(', ')}</>}</p></div></div>)}{expert.claims.filter(c=>c.supported).slice(0,5).map((c,i)=><p className="claim-source" key={`claim-${i}`}><Icon name="check" size={13}/>{c.text} <span>DBLP · {c.paper_id}</span></p>)}{expert.claims.filter(c=>!c.supported).map((c,i)=><p className="warning" key={`unsupported-${i}`}>Unverified: {c.text} {c.reason&&`(${c.reason})`}</p>)}</div></details>
-  </div><div className="expert-card-footer"><Link className="profile-action" href={`/experts/${expert.person_id}`}>Open evidence profile <Icon name="arrow" size={14}/></Link><div className="expert-actions">{onAsk&&<button className="quiet-button" disabled={busy} onClick={()=>onAsk(expert,index)}>Ask assistant</button>}<button className="quiet-button reject-action" disabled={busy} onClick={()=>onDecision(expert.person_id,'reject')}>Reject</button><button className={shortlisted?'saved-button':'outline-button'} disabled={busy} onClick={()=>onDecision(expert.person_id,shortlisted?'clear':'shortlist')}>{shortlisted?<><Icon name="check" size={14}/> Shortlisted</>:<>+ Shortlist</>}</button></div></div>
- </article>
+import type { Expert, Memory } from '../lib/types';
+import { Icon } from './Icon';
+export function ExpertCard({
+  expert,
+  index,
+  memory,
+  busy,
+  onDecision,
+  onAsk,
+}: {
+  expert: Expert;
+  index: number;
+  memory: Memory | null;
+  busy: boolean;
+  onDecision: (id: number, action: 'shortlist' | 'reject' | 'clear') => void;
+  onAsk?: (expert: Expert, index: number) => void;
+}) {
+  const shortlisted =
+    memory?.shortlisted_person_ids.includes(expert.person_id) ??
+    expert.shortlisted;
+  const topics = [
+    ...new Set(
+      expert.claims.filter((c) => c.supported && c.term).map((c) => c.term!),
+    ),
+  ].slice(0, 5);
+  return (
+    <article className="expert-card">
+      <div className="expert-card-top">
+        <span className="expert-rank">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        <div className="expert-avatar" aria-hidden="true">
+          {expert.name
+            .split(' ')
+            .slice(0, 2)
+            .map((x) => x[0])
+            .join('')
+            .toUpperCase()}
+        </div>
+        <div className="expert-identity">
+          <div className="expert-name-line">
+            <Link href={`/experts/${expert.person_id}`}>{expert.name}</Link>
+            {shortlisted && (
+              <span className="saved-label">
+                <Icon name="check" size={12} /> SAVED
+              </span>
+            )}
+          </div>
+          <span>
+            Research author <i>·</i> DBLP record #{expert.person_id}
+          </span>
+        </div>
+        <div className="expert-model-score">
+          <strong>{expert.score.toFixed(3)}</strong>
+          <span>MODEL RANK SCORE</span>
+          <small>Not a probability</small>
+        </div>
+      </div>
+      <div className="expert-card-content">
+        <div className="expert-reason">
+          <span className="reason-label">
+            <Icon name="spark" size={14} /> WHY THIS MATCH
+          </span>
+          <p>{expert.explanation}</p>
+        </div>
+        {topics.length > 0 && (
+          <div className="expert-topics" aria-label="Supported research terms">
+            {topics.map((topic) => (
+              <span key={topic}>{topic}</span>
+            ))}
+          </div>
+        )}
+        {expert.claims.some((c) => !c.supported) && (
+          <div className="warning" role="note">
+            Some claims could not be verified against the research graph. Review
+            before relying on them.
+          </div>
+        )}
+        {expert.claims.some((c) => c.data_warnings?.length > 0) && (
+          <div className="warning" role="note">
+            Source text contains content flagged for review.
+          </div>
+        )}
+        <details className="expert-evidence">
+          <summary>
+            <span>
+              <Icon name="bookmark" size={15} />
+              View evidence
+            </span>
+            <b>
+              {expert.evidence.length}{' '}
+              {expert.evidence.length === 1 ? 'publication' : 'publications'}
+            </b>
+            <i />
+          </summary>
+          <div className="evidence-list">
+            {expert.evidence.length === 0 && (
+              <p className="empty-evidence">
+                No publication evidence was returned for this result.
+              </p>
+            )}
+            {expert.evidence.map((p) => (
+              <div className="evidence-item" key={p.paper_id}>
+                <span className="paper-year">{p.year || 'N.D.'}</span>
+                <div>
+                  <strong>{p.title}</strong>
+                  <p>
+                    DBLP · {p.paper_id}
+                    {p.collaborators.length > 0 && (
+                      <>
+                        {' '}
+                        · With {p.collaborators.map((c) => c.name).join(', ')}
+                      </>
+                    )}
+                  </p>
+                </div>
+              </div>
+            ))}
+            {expert.claims
+              .filter((c) => c.supported)
+              .slice(0, 5)
+              .map((c, i) => (
+                <p className="claim-source" key={`claim-${i}`}>
+                  <Icon name="check" size={13} />
+                  {c.text} <span>DBLP · {c.paper_id}</span>
+                </p>
+              ))}
+            {expert.claims
+              .filter((c) => !c.supported)
+              .map((c, i) => (
+                <p className="warning" key={`unsupported-${i}`}>
+                  Unverified: {c.text} {c.reason && `(${c.reason})`}
+                </p>
+              ))}
+          </div>
+        </details>
+      </div>
+      <div className="expert-card-footer">
+        <Link className="profile-action" href={`/experts/${expert.person_id}`}>
+          Open evidence profile <Icon name="arrow" size={14} />
+        </Link>
+        <div className="expert-actions">
+          {onAsk && (
+            <button
+              className="quiet-button"
+              disabled={busy}
+              onClick={() => onAsk(expert, index)}
+            >
+              Ask assistant
+            </button>
+          )}
+          <button
+            className="quiet-button reject-action"
+            disabled={busy}
+            onClick={() => onDecision(expert.person_id, 'reject')}
+          >
+            Reject
+          </button>
+          <button
+            className={shortlisted ? 'saved-button' : 'outline-button'}
+            disabled={busy}
+            onClick={() =>
+              onDecision(expert.person_id, shortlisted ? 'clear' : 'shortlist')
+            }
+          >
+            {shortlisted ? (
+              <>
+                <Icon name="check" size={14} /> Shortlisted
+              </>
+            ) : (
+              <>+ Shortlist</>
+            )}
+          </button>
+        </div>
+      </div>
+    </article>
+  );
 }

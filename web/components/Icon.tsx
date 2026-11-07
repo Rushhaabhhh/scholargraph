@@ -1,4 +1,81 @@
-import {Search,Bookmark,Settings2,ArrowUpRight,X,Sparkles,Network,MessagesSquare,Menu,Mic,Check,ChevronLeft,ChevronRight,Pause,Play,Volume2,VolumeX,Square,Repeat2,Database,FileText,SlidersHorizontal,Layers,Activity,GitBranch,ArrowRight,ShieldCheck,Keyboard,Clock,Plus,Headphones,Compass,AudioLines} from 'lucide-react';
-import type {LucideProps} from 'lucide-react';
-const icons={search:Search,bookmark:Bookmark,settings:Settings2,arrow:ArrowUpRight,close:X,spark:Sparkles,graph:Network,message:MessagesSquare,menu:Menu,mic:Mic,check:Check,left:ChevronLeft,right:ChevronRight,pause:Pause,play:Play,volume:Volume2,volumeOff:VolumeX,stop:Square,repeat:Repeat2,database:Database,paper:FileText,filters:SlidersHorizontal,layers:Layers,activity:Activity,branch:GitBranch,forward:ArrowRight,shield:ShieldCheck,keyboard:Keyboard,clock:Clock,plus:Plus,headphones:Headphones,compass:Compass,audio:AudioLines};
-export function Icon({name,size=18,...props}:{name:keyof typeof icons}&LucideProps){const Component=icons[name];return <Component size={size} strokeWidth={1.65} aria-hidden="true" {...props}/>}
+import {
+  Search,
+  Bookmark,
+  Settings2,
+  ArrowUpRight,
+  X,
+  Sparkles,
+  Network,
+  MessagesSquare,
+  Menu,
+  Mic,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Pause,
+  Play,
+  Volume2,
+  VolumeX,
+  Square,
+  Repeat2,
+  Database,
+  FileText,
+  SlidersHorizontal,
+  Layers,
+  Activity,
+  GitBranch,
+  ArrowRight,
+  ShieldCheck,
+  Keyboard,
+  Clock,
+  Plus,
+  Headphones,
+  Compass,
+  AudioLines,
+} from 'lucide-react';
+import type { LucideProps } from 'lucide-react';
+const icons = {
+  search: Search,
+  bookmark: Bookmark,
+  settings: Settings2,
+  arrow: ArrowUpRight,
+  close: X,
+  spark: Sparkles,
+  graph: Network,
+  message: MessagesSquare,
+  menu: Menu,
+  mic: Mic,
+  check: Check,
+  left: ChevronLeft,
+  right: ChevronRight,
+  pause: Pause,
+  play: Play,
+  volume: Volume2,
+  volumeOff: VolumeX,
+  stop: Square,
+  repeat: Repeat2,
+  database: Database,
+  paper: FileText,
+  filters: SlidersHorizontal,
+  layers: Layers,
+  activity: Activity,
+  branch: GitBranch,
+  forward: ArrowRight,
+  shield: ShieldCheck,
+  keyboard: Keyboard,
+  clock: Clock,
+  plus: Plus,
+  headphones: Headphones,
+  compass: Compass,
+  audio: AudioLines,
+};
+export function Icon({
+  name,
+  size = 18,
+  ...props
+}: { name: keyof typeof icons } & LucideProps) {
+  const Component = icons[name];
+  return (
+    <Component size={size} strokeWidth={1.65} aria-hidden="true" {...props} />
+  );
+}
