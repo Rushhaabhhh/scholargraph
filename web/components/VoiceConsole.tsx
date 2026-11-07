@@ -135,6 +135,9 @@ export function VoiceConsole({
   };
   async function speak(text: string, token: number) {
     if (mutedRef.current || !text) return;
+    // A single turn owns playback. Clear any lingering browser utterance
+    // before starting server audio, including after an interrupted turn.
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     setPhase('speaking');
     let fallbackText = text;
     if (status?.tts.available) {
@@ -146,6 +149,7 @@ export function VoiceConsole({
           const c = new AbortController();
           controller.current = c;
           const timeout = setTimeout(() => c.abort(), 25000);
+          let started = false;
           try {
             const response = await fetch('/api/voice/speak', {
               method: 'POST',
@@ -176,6 +180,7 @@ export function VoiceConsole({
                 );
               player
                 .play()
+                .then(() => { started = true; })
                 .catch(() =>
                   reject(
                     new Error(
@@ -185,9 +190,15 @@ export function VoiceConsole({
                 );
             });
             playbackDone.current = null;
+          } catch (error) {
+            // Replaying a chunk in a different voice after it has begun would
+            // repeat speech. Only fall back when playback never started.
+            if (started) throw new Error('Playback was interrupted. You can play the answer again.');
+            throw error;
           } finally {
             clearTimeout(timeout);
             playbackDone.current = null;
+            audio.current?.pause();
             if (audioUrl.current) {
               URL.revokeObjectURL(audioUrl.current);
               audioUrl.current = '';
@@ -198,6 +209,7 @@ export function VoiceConsole({
         return;
       } catch (e) {
         if (token !== sequence.current) return;
+        if (e instanceof Error && e.message === 'Playback was interrupted. You can play the answer again.') throw e;
         if (!('speechSynthesis' in window)) throw e;
         fallbackText = chunks.slice(index).join(' ');
       }
@@ -224,7 +236,7 @@ export function VoiceConsole({
       );
   }
   async function submit(text: string, token: number) {
-    if (token !== sequence.current || !mounted.current) return;
+    if (token !== sequence.current || !mounted.current || pendingReply.current) return;
     if (!text.trim()) {
       setError(
         'No words were recognized. Check your microphone input and try speaking closer to it, or select another recognition provider.',
@@ -339,6 +351,7 @@ export function VoiceConsole({
         let final = '';
         let partial = '';
         let failed = false;
+        let submitted = false;
         r.onresult = (e) => {
           final = '';
           partial = '';
@@ -362,7 +375,8 @@ export function VoiceConsole({
           setContinuous(false);
         };
         r.onend = () => {
-          if (token !== sequence.current) return;
+          if (token !== sequence.current || submitted) return;
+          submitted = true;
           if (timer.current) clearTimeout(timer.current);
           recognition.current = null;
           if (!failed) void submit(final || partial, token);

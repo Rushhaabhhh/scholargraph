@@ -33,4 +33,4 @@ flowchart LR
   M --> E["Inspected 2025 proxy evaluation"]
 ```
 
-The 2025 test is no longer untouched. Future-paper authors are incomplete proxy labels, and non-authors are unjudged. The search page's graph assistant shares session decisions and exposes the three validated tools and applied memory; general conversation remains a separate Gemini/local-model experience. The 50-million-paper scale-out proposal is in the [design document](design.md); it has not been load-tested.
+The 2025 test is no longer untouched. Future-paper authors are incomplete proxy labels, and non-authors are unjudged. The API's command-based graph assistant exposes three validated tools and session memory; the shared conversation UI can attach a researcher profile but does not expose those graph tools or memory. The 50-million-paper scale-out proposal is in the [design document](design.md); it has not been load-tested.

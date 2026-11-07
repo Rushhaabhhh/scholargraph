@@ -127,22 +127,15 @@ test('generation can be stopped and conversation remains usable', async ({
   ).not.toContainText('No response generated.');
 });
 
-test('a researcher can be opened in the graph assistant without leaving search', async ({
-  page,
-}) => {
+test('a researcher opens in the main assistant without leaving search', async ({ page }) => {
   test.setTimeout(120000);
   await page.goto('/');
   await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');
   await page.getByRole('button', { name: /Find researchers/ }).click();
-  const card = page.locator('article').first();
+  const card = page.locator('article.expert-card').first();
   await expect(card).toBeVisible({ timeout: 60000 });
   await card.getByRole('button', { name: 'Ask assistant' }).click();
-  const assistant = page.getByRole('dialog', { name: 'Research assistant' });
-  await expect(assistant.getByLabel('Message research assistant')).toHaveValue(
-    /Show profile \d+/,
-  );
-  await assistant.getByRole('button', { name: 'Send message' }).click();
-  await expect(
-    assistant.getByText('Retrieve researcher profile · success'),
-  ).toBeVisible();
+  const assistant = page.getByRole('dialog', { name: 'AI Assistant' });
+  await expect(assistant.getByLabel('Message', { exact: true })).toHaveValue(/What can you tell me about/);
+  await expect(assistant.getByText('Profile:', { exact: false })).toBeVisible();
 });

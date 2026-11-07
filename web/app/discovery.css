@@ -784,3 +784,36 @@
 .graph-intro { display: flex; align-items: center; gap: 14px; margin: 28px 0 12px; padding: 18px 20px; color: #183421; background: #e2efdc; border: 1px solid #aacba3; border-radius: 12px; }
 .graph-intro strong { font-size: 16px; }
 .graph-intro p { margin: 3px 0 0; font-size: 13px; }
+
+/* Readable researcher profiles */
+.search-section .result-list { scroll-margin-top: clamp(80px, 18vh, 180px); }
+.profile-wrap { max-width: 1320px; padding-top: 42px; }
+.profile-wrap .back-link { font-size: 15px; margin-bottom: 24px; }
+.profile-wrap .profile-hero { padding: clamp(24px, 3vw, 40px); }
+.profile-wrap .profile-head { gap: 24px; margin: 24px 0; }
+.profile-wrap .avatar-large { width: 80px; height: 80px; font-size: 24px; }
+.profile-wrap .profile-hero h1 { font-size: clamp(32px, 4vw, 48px); line-height: 1.1; }
+.profile-wrap .profile-hero p, .profile-wrap .profile-aside > p { font-size: 16px; line-height: 1.65; }
+.profile-wrap .profile-actions { gap: 14px; padding: 20px 0; }
+.profile-wrap .profile-actions button { font-size: 15px; min-height: 44px; }
+.profile-wrap .profile-actions .text-link { display: inline-flex; align-items: center; gap: 8px; background: none; border: 0; cursor: pointer; }
+.profile-wrap .name-provenance, .profile-wrap .name-provenance p { font-size: 14px; line-height: 1.6; }
+.profile-wrap .profile-stats { gap: clamp(24px, 5vw, 64px); flex-wrap: wrap; padding-top: 22px; }
+.profile-wrap .profile-stats strong { font-size: 23px; }
+.profile-wrap .profile-stats span { font-size: 12px; line-height: 1.4; }
+.profile-wrap .profile-grid { grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); gap: 36px; margin-top: 36px; }
+.profile-wrap .section-title h2, .profile-wrap .profile-aside h2 { font-size: 25px; }
+.profile-wrap .section-title > span, .profile-wrap .eyebrow { font-size: 12px; }
+.profile-wrap .timeline-item { grid-template-columns: 64px minmax(0, 1fr); gap: 20px; padding: 20px 0; font-size: 16px; line-height: 1.55; }
+.profile-wrap .timeline-item > span { font-size: 14px; line-height: 1.6; }
+.profile-wrap .timeline-item p { font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.profile-wrap .profile-aside { padding: 26px; }
+.profile-wrap .topic-list details, .profile-wrap .profile-claims, .profile-wrap .source-note { font-size: 15px; line-height: 1.55; }
+.profile-wrap .topic-list details { padding: 14px 0; }
+.profile-wrap .topic-list details p, .profile-wrap .profile-claims small { font-size: 13px; line-height: 1.55; overflow-wrap: anywhere; }
+@media (max-width: 800px) {
+  .profile-wrap .profile-grid { grid-template-columns: 1fr; gap: 24px; }
+  .profile-wrap .avatar-large { width: 64px; height: 64px; font-size: 20px; }
+  .profile-wrap .profile-head { gap: 16px; }
+  .profile-wrap .timeline-item { grid-template-columns: 52px minmax(0, 1fr); gap: 12px; }
+}

@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import { AppLayout } from './AppLayout';
 import { api, json, requestId } from '../lib/api';
 import { getSession } from '../lib/session';
+import { openAssistantForProfile } from '../lib/assistant';
 import type { Memory } from '../lib/types';
 import type { Profile } from '../lib/types';
 export function ProfileView({ id }: { id: string }) {
@@ -123,13 +124,14 @@ export function ProfileView({ id }: { id: string }) {
                     ? 'Restore from rejected'
                     : 'Reject expert'}
                 </button>
-                <Link
+                <button
+                  type="button"
                   className="text-link"
-                  href={`/chat?profile=${profile.person_id}&name=${encodeURIComponent(profile.name)}`}
+                  onClick={() => openAssistantForProfile({ id: profile.person_id, name: profile.name })}
                 >
                   Ask assistant about this expert{' '}
                   <ArrowRight size={14} aria-hidden="true" />
-                </Link>
+                </button>
               </div>
               {actionError && (
                 <div className="error-banner" role="alert">

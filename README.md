@@ -45,11 +45,11 @@ Replace the sample XML and query file with a DBLP-format XML slice and one query
 
 - Search using BM25 and local MiniLM embeddings, with a trained LambdaMART author ranker and date filters.
 - Inspect sourced publication evidence, author profiles, topics, timelines and collaboration paths.
-- Use the graph assistant's explicit commands to search, inspect profiles, trace paths, shortlist and reject. Tool calls and applied memory are visible; memory can be deleted.
+- Open the shared assistant from any search result or researcher profile, with that profile attached as context. Shortlist and reject decisions remain in the search session and can be deleted.
 - Use a separate text and voice conversation workspace with optional configured model providers.
 - Rebuild temporal datasets, train and evaluate models, and run offline tests.
 
-The reference app uses DBLP author PIDs when available; noisy-author linking is a separate experiment. The graph assistant uses explicit commands, and its optional general-chat fallback is marked unverified. The app has no accounts or tenant isolation. See the [design](docs/design.md) for trade-offs and safety boundaries.
+The reference app uses DBLP author PIDs when available; noisy-author linking is a separate experiment. The API also exposes a separate command-based graph assistant; its tools and memory are covered by backend tests but are not currently exposed in the shared conversation panel. General conversation responses are not verified graph claims. The app has no accounts or tenant isolation. See the [design](docs/design.md) for trade-offs and safety boundaries.
 
 ## Results
 

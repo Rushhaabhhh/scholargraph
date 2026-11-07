@@ -1,59 +1,20 @@
 import { test, expect } from '@playwright/test';
-test('search, refine with graph tools, and keep shortlist memory in one session', async ({
-  page,
-}) => {
+test('search results open the main assistant with the selected researcher', async ({ page }) => {
   test.setTimeout(120000);
   await page.goto('/');
   await page.getByLabel('RESEARCH QUESTION OR TOPIC').fill('graph retrieval');
   await page.getByRole('button', { name: /Find researchers/ }).click();
-  await expect(page.locator('article').nth(1)).toBeVisible({ timeout: 60000 });
-  await page
-    .locator('article')
-    .first()
-    .getByRole('button', { name: 'Ask assistant' })
-    .click();
-  const assistant = page.getByRole('dialog', { name: 'Research assistant' });
-  const message = assistant.getByLabel('Message research assistant');
-  const send = async (text: string) => {
-    await message.fill(text);
-    await assistant.getByRole('button', { name: 'Send message' }).click();
-  };
-  await send('Show profile #1');
-  await expect(
-    assistant.getByText('Retrieve researcher profile · success'),
-  ).toBeVisible();
-  await send('Find collaboration path between #1 and #2');
-  await expect(
-    assistant.getByText('Trace collaboration path · success'),
-  ).toBeVisible();
-  await send('Shortlist #1');
-  await expect(assistant.getByText(/Decision saved: shortlist/)).toBeVisible();
-  await send('search again');
-  await expect(
-    assistant.getByText('Search researchers · success'),
-  ).toBeVisible({ timeout: 30000 });
-  await expect(
-    assistant.getByText(/1 shortlisted · 0 dismissed · Search context:/),
-  ).toBeVisible();
-  await assistant
-    .getByRole('button', { name: 'Close research assistant' })
-    .click();
-  await expect(
-    page
-      .locator('article')
-      .first()
-      .getByRole('button', { name: /Shortlisted/ }),
-  ).toBeVisible();
-  await page
-    .locator('article')
-    .first()
-    .getByRole('button', { name: 'Ask assistant' })
-    .click();
-  page.once('dialog', (dialog) => dialog.accept());
-  await assistant.getByRole('button', { name: 'Clear', exact: true }).click();
-  await expect(assistant.locator('.session-memory')).toContainText(
-    '0 shortlisted · 0 dismissed',
-  );
+  const card = page.locator('article.expert-card').first();
+  await expect(card).toBeVisible({ timeout: 60000 });
+  await expect(card).toBeInViewport({ ratio: 0.1, timeout: 10000 });
+  await card.getByRole('button', { name: 'Ask assistant' }).click();
+  const assistant = page.getByRole('dialog', { name: 'AI Assistant' });
+  await expect(assistant).toBeVisible();
+  await expect(assistant.getByLabel('Message', { exact: true })).toHaveValue(/What can you tell me about/);
+  await expect(assistant.getByText('Profile:', { exact: false })).toBeVisible();
+  await assistant.getByRole('button', { name: 'Collapse AI assistant' }).click();
+  await card.getByRole('button', { name: '+ Shortlist' }).click();
+  await expect(card.getByRole('button', { name: /Shortlisted/ })).toBeVisible();
 });
 test('reconnects automatically after a temporary session startup failure', async ({
   page,
@@ -111,6 +72,7 @@ test('search, inspect evidence and save a decision', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'Publication timeline' }),
   ).toBeVisible();
+  await expect(page.locator('.timeline-item').first()).toHaveCSS('font-size', '16px');
 });
 test('failed shortlist is not shown as saved', async ({ page }) => {
   await page.goto('/');
@@ -305,10 +267,11 @@ test('profile actions use the same server session and return to search', async (
   await page.getByRole('button', { name: '+ Shortlist' }).click();
   await expect(page.getByRole('button', { name: /Shortlisted/ })).toBeVisible();
   await page
-    .getByRole('link', { name: 'Ask assistant about this expert' })
+    .getByRole('button', { name: 'Ask assistant about this expert' })
     .click();
-  await expect(page).toHaveURL(/\/chat/);
-  await expect(page.getByLabel('Message', { exact: true })).toHaveValue(
+  const assistant = page.getByRole('dialog', { name: 'AI Assistant' });
+  await expect(assistant).toBeVisible();
+  await expect(assistant.getByLabel('Message', { exact: true })).toHaveValue(
     `What can you tell me about ${name}'s research?`,
   );
 });

@@ -2,6 +2,7 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { AppLayout } from './AppLayout';
 import { VoiceConsole } from './VoiceConsole';
+import type { AssistantProfile } from '../lib/assistant';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -93,11 +94,13 @@ export function ConversationContent({
   visible = true,
   onState,
   onClose,
+  profileTarget,
 }: {
   floating?: boolean;
   visible?: boolean;
   onState?: (state: string) => void;
   onClose?: () => void;
+  profileTarget?: AssistantProfile | null;
 }) {
   const [session, setSession] = useState(''),
     [items, setItems] = useState<Conversation[]>([]),
@@ -117,6 +120,7 @@ export function ConversationContent({
     [voicePhase, setVoicePhase] = useState('idle');
   const abort = useRef<AbortController | null>(null),
     stopGeneration = useRef<(() => void) | null>(null),
+    generation = useRef(0),
     activeRef = useRef(''),
     tail = useRef<HTMLDivElement>(null);
   activeRef.current = active;
@@ -145,6 +149,13 @@ export function ConversationContent({
     },
     [headers],
   );
+  useEffect(() => {
+    if (!profileTarget) return;
+    setProfile(profileTarget);
+    setInput(`What can you tell me about ${profileTarget.name}'s research?`);
+    setHistoryOpen(false);
+    setMode('text');
+  }, [profileTarget]);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const id = Number(params.get('profile'));
@@ -260,6 +271,7 @@ export function ConversationContent({
       throw new Error('Wait for the current response to finish.');
     setError('');
     setBusy(true);
+    const turn = ++generation.current;
     let id = activeRef.current;
     const controller = new AbortController();
     abort.current = controller;
@@ -380,7 +392,6 @@ export function ConversationContent({
       }
       if (stopping) throw new DOMException('Stopped', 'AbortError');
       if (!answer) throw new Error('The model returned an empty response.');
-      await refresh(session);
       return answer;
     } catch (e) {
       if ((e as Error).name !== 'AbortError') setError((e as Error).message);
@@ -397,15 +408,16 @@ export function ConversationContent({
         }).catch(() => {});
       }
       if (id) {
-        await api<Conversation & { messages: Message[] }>(
+        void api<Conversation & { messages: Message[] }>(
           `/conversations/${id}`,
           { headers: headers(session) },
         )
           .then((value) => {
-            if (activeRef.current === id) setMessages(value.messages);
+            if (activeRef.current === id && generation.current === turn)
+              setMessages(value.messages);
           })
           .catch(() => {});
-        await refresh(session).catch(() => {});
+        void refresh(session).catch(() => {});
       }
       setBusy(false);
       setProgress('');

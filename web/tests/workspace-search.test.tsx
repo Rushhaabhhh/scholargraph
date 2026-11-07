@@ -89,6 +89,10 @@ it('infers query dates by default and sends an explicit any-time override', asyn
   expect(calls[0].recency_preference).toBeNull();
   expect(calls[0].since_year).toBeNull();
   await screen.findByText('Since 2018');
+  await waitFor(() => expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
+    behavior: 'smooth',
+    block: 'start',
+  }));
   fireEvent.change(screen.getByLabelText('Publication activity'), {
     target: { value: 'any' },
   });

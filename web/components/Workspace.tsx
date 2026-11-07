@@ -5,7 +5,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type FormEvent,
 } from 'react';
 import { AppLayout } from './AppLayout';
 import { getSession } from '../lib/session';
@@ -14,7 +13,7 @@ import { EvidenceGraph } from './EvidenceGraph';
 import { PipelineStory } from './PipelineStory';
 import { ResearchHero } from './ResearchHero';
 import { CursorSwarm } from './CursorSwarm';
-import { AssistantDialog, type ChatTurn } from './AssistantDialog';
+import { openAssistantForProfile } from '../lib/assistant';
 import { Icon } from './Icon';
 import {
   ArrowUpRight,
@@ -27,7 +26,6 @@ import {
 } from 'lucide-react';
 import { api, ApiError, json, requestId } from '../lib/api';
 import type {
-  ChatResponse,
   Expert,
   Memory,
   SearchResponse,
@@ -66,12 +64,6 @@ export function Workspace() {
   const [searching, setSearching] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const [assistantOpen, setAssistantOpen] = useState(false);
-  const closeAssistant = useCallback(() => setAssistantOpen(false), []);
-  const [assistantBusy, setAssistantBusy] = useState(false);
-  const [assistantError, setAssistantError] = useState('');
-  const [assistantMessage, setAssistantMessage] = useState('');
-  const [turns, setTurns] = useState<ChatTurn[]>([]);
   useEffect(() => {
     if (
       query ||
@@ -86,6 +78,7 @@ export function Workspace() {
   }, [query]);
   const searchAbort = useRef<AbortController | null>(null);
   const searchSeq = useRef(0);
+  const scrollAfterSearch = useRef(false);
   const apiOnline = health?.status === 'ok';
 
   useEffect(() => {
@@ -162,6 +155,19 @@ export function Workspace() {
       searchAbort.current?.abort();
     };
   }, []);
+
+  useEffect(() => {
+    if (searching || !scrollAfterSearch.current) return;
+    scrollAfterSearch.current = false;
+    const frame = window.requestAnimationFrame(() => {
+      const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      (document.getElementById('ranked-results') || document.getElementById('discovery-results'))?.scrollIntoView({
+        behavior: reduced ? 'auto' : 'smooth',
+        block: 'start',
+      });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [searching, searchInfo]);
 
   async function currentMemory() {
     const m = await api<Memory>(`/sessions/${session}/memory`);
@@ -257,9 +263,7 @@ export function Workspace() {
         JSON.stringify({ recency: appliedRecency, sinceYear: appliedYear }),
       );
       if (data.memory) setMemory(data.memory);
-      document
-        .getElementById('discovery-results')
-        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollAfterSearch.current = true;
     } catch (e) {
       if (seq === searchSeq.current && (e as Error).name !== 'AbortError')
         setError(
@@ -290,89 +294,6 @@ export function Workspace() {
       setError((e as Error).message);
     } finally {
       setBusy(false);
-    }
-  }
-
-  async function sendAssistant(text: string, signal?: AbortSignal) {
-    if (!session || !text.trim()) return '';
-    setAssistantBusy(true);
-    setAssistantError('');
-    try {
-      const data = await mutate<ChatResponse>(
-        `/sessions/${session}/messages`,
-        'POST',
-        { message: text.trim() },
-        signal,
-      );
-      setMemory(data.memory);
-      setTurns((previous) => [
-        ...previous,
-        { role: 'user', text },
-        { role: 'assistant', text: data.message, response: data },
-      ]);
-      if (
-        data.query &&
-        data.understanding &&
-        data.effective_filters &&
-        data.retrieval_query
-      ) {
-        const searchResult: SearchResponse = {
-          query: data.query,
-          retrieval_query: data.retrieval_query,
-          results: data.results,
-          memory: data.memory,
-          understanding: data.understanding,
-          effective_filters: data.effective_filters,
-        };
-        setQuery(data.query);
-        setSearched(data.query);
-        setResults(data.results);
-        setSearchInfo(searchResult);
-        setRecency(data.understanding.intent.recency_preference);
-        setSinceYear(data.understanding.intent.since_year?.toString() ?? '');
-        sessionStorage.setItem(
-          'scholargraph-results',
-          JSON.stringify(searchResult),
-        );
-        sessionStorage.setItem(
-          'scholargraph-filters',
-          JSON.stringify({
-            recency: data.understanding.intent.recency_preference,
-            sinceYear: data.understanding.intent.since_year?.toString() ?? '',
-          }),
-        );
-      }
-      setAssistantMessage('');
-      return data.message;
-    } catch (e) {
-      if ((e as Error).name !== 'AbortError')
-        setAssistantError((e as Error).message);
-      throw e;
-    } finally {
-      setAssistantBusy(false);
-    }
-  }
-
-  function submitAssistant(event: FormEvent) {
-    event.preventDefault();
-    void sendAssistant(assistantMessage).catch(() => {});
-  }
-
-  async function clearAssistantMemory() {
-    setAssistantBusy(true);
-    setAssistantError('');
-    try {
-      const data = await mutate<{ memory: Memory }>(
-        `/sessions/${session}/memory`,
-        'DELETE',
-        {},
-      );
-      setMemory(data.memory);
-      setTurns([]);
-    } catch (e) {
-      setAssistantError((e as Error).message);
-    } finally {
-      setAssistantBusy(false);
     }
   }
 
@@ -663,7 +584,7 @@ export function Workspace() {
             <>
               <div className="graph-intro"><Network size={20} /><div><strong>Explore the evidence graph</strong><p>Select a researcher or paper to explore their connections.</p></div></div>
               <EvidenceGraph experts={visible} />
-              <div className="result-list">
+              <div className="result-list" id="ranked-results">
                 {visible.map((expert) => (
                   <ExpertCard
                     key={expert.person_id}
@@ -675,8 +596,7 @@ export function Workspace() {
                     busy={busy || searching}
                     onDecision={decide}
                     onAsk={(expert) => {
-                      setAssistantMessage(`Show profile ${expert.person_id}`);
-                      setAssistantOpen(true);
+                      openAssistantForProfile({ id: expert.person_id, name: expert.name });
                     }}
                   />
                 ))}
@@ -690,27 +610,6 @@ export function Workspace() {
           )}
         </section>
       </div>
-      <AssistantDialog
-        open={assistantOpen}
-        onClose={closeAssistant}
-        online={apiOnline}
-        session={session}
-        memory={memory}
-        results={results}
-        turns={turns}
-        message={assistantMessage}
-        busy={assistantBusy}
-        searching={searching}
-        error={assistantError}
-        onMessageChange={setAssistantMessage}
-        onSend={submitAssistant}
-        onVoiceSend={sendAssistant}
-        onClearMemory={clearAssistantMemory}
-        onViewResults={() => {
-          setAssistantOpen(false);
-          document.getElementById('discovery-results')?.scrollIntoView();
-        }}
-      />
       <CursorSwarm />
     </AppLayout>
   );

@@ -149,3 +149,60 @@ it('sends recognized speech to the assistant and speaks its answer', async () =>
   );
   expect(screen.getByText('Explain graph learning')).toBeTruthy();
 });
+
+it('speaks each successive voice answer once', async () => {
+  let turn = 0;
+  const fetcher = vi.fn(async (path: string) =>
+    path.endsWith('/transcribe')
+      ? { ok: true, json: async () => ({ text: `Question ${++turn}` }) }
+      : { ok: true, blob: async () => new Blob(['audio'], { type: 'audio/wav' }) },
+  );
+  vi.stubGlobal('fetch', fetcher);
+  vi.stubGlobal('Audio', class {
+    onended: (() => void) | null = null;
+    play() { queueMicrotask(() => this.onended?.()); return Promise.resolve(); }
+    pause() {}
+  });
+  vi.stubGlobal('URL', { createObjectURL: vi.fn(() => 'blob:voice'), revokeObjectURL: vi.fn() });
+  const send = vi.fn(async (text: string) => `Answer to ${text}`);
+  render(<VoiceConsole session="session" busy={false} onSend={send} />);
+  await waitFor(() => expect(mocks.api).toHaveBeenCalled());
+  for (let n = 1; n <= 2; n++) {
+    fireEvent.click(screen.getByRole('button', { name: 'Push to talk' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'Finish recording' }));
+    await waitFor(() => expect(screen.getByRole('status').textContent).toBe('Response complete'));
+  }
+  expect(send).toHaveBeenCalledTimes(2);
+  const requests = fetcher.mock.calls.filter(([path]) => path.endsWith('/speak'));
+  expect(requests).toHaveLength(2);
+});
+
+it('does not send or speak a browser recognition result twice', async () => {
+  let instance: { onresult: ((event: any) => void) | null; onend: (() => void) | null } | undefined;
+  mocks.api.mockResolvedValue({ stt: { provider: 'vosk', available: false, local: true }, tts: { provider: 'piper', available: true, local: true } });
+  mocks.recognition.mockReturnValue(class {
+    onresult = null; onend = null; onerror = null;
+    constructor() { instance = this; }
+    start() {} stop() {} abort() {}
+  });
+  const fetcher = vi.fn().mockResolvedValue({ ok: true, blob: async () => new Blob(['audio']) });
+  vi.stubGlobal('fetch', fetcher);
+  vi.stubGlobal('Audio', class {
+    onended: (() => void) | null = null;
+    play() { setTimeout(() => this.onended?.(), 30); return Promise.resolve(); }
+    pause() {}
+  });
+  vi.stubGlobal('URL', { createObjectURL: vi.fn(() => 'blob:voice'), revokeObjectURL: vi.fn() });
+  const send = vi.fn().mockResolvedValue('One answer');
+  render(<VoiceConsole session="session" busy={false} onSend={send} />);
+  await waitFor(() => expect(screen.getByLabelText('Speech recognition provider')).toHaveProperty('value', 'browser'));
+  fireEvent.click(screen.getByRole('button', { name: 'Push to talk' }));
+  await waitFor(() => expect(instance).toBeDefined());
+  instance!.onresult?.({ results: { length: 1, 0: { 0: { transcript: 'Question' }, isFinal: true } } });
+  instance!.onend?.();
+  await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(1));
+  instance!.onend?.();
+  await waitFor(() => expect(screen.getByRole('status').textContent).toBe('Response complete'));
+  expect(send).toHaveBeenCalledTimes(1);
+  expect(fetcher).toHaveBeenCalledTimes(1);
+});

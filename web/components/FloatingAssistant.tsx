@@ -13,6 +13,7 @@ import {
 import { motion, useReducedMotion } from 'motion/react';
 import { gsap } from 'gsap';
 import { Bookmark, MoveDiagonal2, Sparkles } from 'lucide-react';
+import { OPEN_ASSISTANT_EVENT, type AssistantProfile } from '../lib/assistant';
 const ConversationContent = dynamic(
   () =>
     import('./ConversationWorkspace').then(
@@ -30,6 +31,7 @@ export function FloatingAssistant() {
   const [open, setOpen] = useState(false),
     [visited, setVisited] = useState(false),
     [state, setState] = useState('idle');
+  const [profileTarget, setProfileTarget] = useState<AssistantProfile | null>(null);
   const button = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const resize = useRef<{
@@ -97,6 +99,17 @@ export function FloatingAssistant() {
             : 0),
     );
   };
+  useEffect(() => {
+    const openProfile = (event: Event) => {
+      const profile = (event as CustomEvent<AssistantProfile>).detail;
+      if (!profile || !Number.isSafeInteger(profile.id) || profile.id <= 0 || !profile.name) return;
+      setProfileTarget({ id: profile.id, name: profile.name });
+      setVisited(true);
+      setOpen(true);
+    };
+    window.addEventListener(OPEN_ASSISTANT_EVENT, openProfile);
+    return () => window.removeEventListener(OPEN_ASSISTANT_EVENT, openProfile);
+  }, []);
   useEffect(() => {
     if (!button.current || reduced) return;
     const animation = gsap.fromTo(
@@ -184,6 +197,7 @@ export function FloatingAssistant() {
                 floating
                 visible={open}
                 onState={report}
+                profileTarget={profileTarget}
                 onClose={() => {
                   setOpen(false);
                   button.current?.focus();
