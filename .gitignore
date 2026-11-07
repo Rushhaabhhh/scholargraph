@@ -32,3 +32,7 @@ dist/
 # Treat all local data as private/generated; keep only its guide.
 /data/**
 !/data/README.md
+
+# Private experiment inputs and generated evaluation reports.
+/resources/experiments/
+/resources/results/

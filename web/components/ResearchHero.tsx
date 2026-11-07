@@ -58,6 +58,7 @@ export function ResearchHero({
     <section ref={root} className="editorial-hero" aria-labelledby="hero-title">
       <div className="hero-brand">
         <Brand />
+        <a className="hero-search-link" href="#search">Search researchers <ArrowUpRight size={17} /></a>
       </div>
       <motion.div
         className="hero-title-wrap"

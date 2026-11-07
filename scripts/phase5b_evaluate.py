@@ -9,7 +9,7 @@ import statistics
 from collections import Counter, defaultdict
 from pathlib import Path
 
-ROOT = Path('resources/results')
+ROOT = Path('data/research/results')
 
 def read_csv(path):
     with path.open(newline='', encoding='utf-8') as stream:

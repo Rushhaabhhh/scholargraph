@@ -26,14 +26,14 @@ def main():
     args = parser.parse_args()
     if args.out.exists():
         raise ValueError('Use a fresh output directory')
-    cohorts = json.loads(Path('resources/experiments/lean-cohorts.json').read_text())
+    cohorts = json.loads(Path('data/research/experiments/lean-cohorts.json').read_text())
     if digest_file(args.archive) != cohorts['source_archive_sha256']:
         raise ValueError('DBLP archive differs from the snapshot used for the reported results')
-    config = json.loads(Path('resources/experiments/lean-data.json').read_text())
+    config = json.loads(Path('data/research/experiments/lean-data.json').read_text())
     prefixes = tuple(config['query_prefixes'] + config['additional_history_prefixes'])
     # The historical upstream source applied additional selection before the
     # venue filter. Its frozen paper IDs reproduce that exact intersection.
-    id_file = Path('resources/experiments/lean-paper-ids.txt.gz')
+    id_file = Path('data/research/experiments/lean-paper-ids.txt.gz')
     expected_ids = None
     if not id_file.is_file() and cohorts['source_dataset_sha256'] == '48a98be06c3bd86c8afe1c6885a7937c2aa53f56bbf7a4a56c11e3c6c95d2fb8':
         raise ValueError('Frozen paper-ID manifest is required to rebuild this dataset')
@@ -95,7 +95,7 @@ def main():
                        'labels_sha256': digest_file(labels), 'source_dataset_sha256': cohorts['source_dataset_sha256'],
                        'snapshot': counts, 'graph': report})
             print(f'{role}: {counts["papers"]:,} historical papers; {len(queries)} queries.', flush=True)
-        shutil.copyfile('resources/experiments/lean-test-ids.json', stage / 'reserved-test-ids.json')
+        shutil.copyfile('data/research/experiments/lean-test-ids.json', stage / 'reserved-test-ids.json')
         xml.unlink()
         db.close()
         db = None

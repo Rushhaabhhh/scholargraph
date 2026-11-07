@@ -1,6 +1,6 @@
 # ScholarGraph design
 
-ScholarGraph finds researchers from public DBLP records and presents the publications and graph relationships behind each result. The deployed frontend and backend serve a small demonstration slice; the offline batch command accepts another DBLP-format XML file and query list.
+ScholarGraph finds researchers from public DBLP records and presents the publications and graph relationships behind each result. The deployed frontend and backend serve a prepared DBLP snapshot; the offline batch command accepts another DBLP-format XML file and query list.
 
 ## Data and context graph
 
@@ -22,7 +22,7 @@ Training uses later paper titles as queries and their authors as proxy positives
 | Trained LambdaMART | 0.0354 | 0.0488 |
 | Retrained without explicit recency | 0.0334 | 0.0479 |
 
-The trained model improves on these baselines, but absolute scores are low and future authorship is incomplete proxy supervision, not human relevance or hiring accuracy. The recency ablation holds retrieval fixed and can retain other time signals. Independent relevance review remains incomplete. A small name-swap check changed none of eight rankings; it does not establish fairness. Candidate retrieval and ordering failures, exact commands, metrics and limitations are documented in [results and reproduction](../resources/results/README.md).
+The trained model improves on these baselines, but absolute scores are low and future authorship is incomplete proxy supervision, not human relevance or hiring accuracy. The recency ablation holds retrieval fixed and can retain other time signals. Independent relevance review remains incomplete. A small name-swap check changed none of eight rankings; it does not establish fairness. Detailed evaluation artifacts are kept locally and are not included in the repository.
 
 ## Assistant and reliability
 
@@ -34,7 +34,7 @@ Prepared backends can use a schema-validated local LLM to interpret search topic
 
 SQLite and in-process indexes keep a small, offline-capable setup simple; partitioned relational storage, separate search services and caching would add operational complexity but support greater concurrency. The API provides health and request logs, and CI runs backend, frontend, browser and Compose checks. Image building downloads dependencies and models; runtime works without API keys once provisioned. The clean Compose CI job passed for commit `05d834c`; first-time offline installation was not verified.
 
-The deployed backend reported a 200-paper sample and has a 512 MB Render instance. On 7 November 2026, health checks passed but deployed searches returned HTTP 502 and Render logs showed restarts. A local sample run peaked at approximately 805 MiB after loading the live local query model; memory pressure is plausible but not confirmed by an out-of-memory log. Setting `SCHOLARGRAPH_QUERY_PROVIDER=recorded` is the selected lower-memory deployment workaround; unseen queries then use deterministic parsing. The setting and live search must be verified after the service restarts. General chat and voice can require additional memory.
+The deployed backend runs on a Google Cloud Compute Engine VM with 2 vCPUs and 8 GB RAM, using a prepared index on its persistent disk. On 7 November 2026, the backend and Vercel proxy health endpoints reported 265,885 papers and 332,611 authors, and a search through the proxy returned results. The backend uses `SCHOLARGRAPH_QUERY_PROVIDER=recorded`; unseen queries use deterministic parsing. This smoke check is not a concurrency or capacity test, and chat and voice can require additional resources.
 
 To target **50 million papers, 200 queries/s and p95 500 ms**, use partitioned ingestion with versioned graph snapshots, precomputed embeddings and author features, sharded and replicated lexical and approximate-vector indexes, bounded candidate reranking, batched evidence retrieval, caching and backpressure. An illustrative latency budget is 30 ms for network/auth, 150 ms retrieval, 100 ms reranking, 100 ms evidence and 120 ms remaining overhead. These are design allocations, not measured performance. Load testing must assess ANN recall, update lag, hot authors, cost, resilience and consistency.
 

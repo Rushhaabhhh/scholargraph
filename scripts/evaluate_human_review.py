@@ -4,7 +4,7 @@ import argparse,csv,json,math,statistics,sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
 from hiresense.data.artifacts import write_json
-p=argparse.ArgumentParser(description=__doc__);p.add_argument('--reviews',type=Path,required=True);p.add_argument('--pool',type=Path,default=Path('resources/experiments/phase3-judgment-pool.jsonl'));p.add_argument('--methods',type=Path,default=Path('resources/results/phase3-pool-methods-private.json'));p.add_argument('--out',type=Path,required=True);a=p.parse_args()
+p=argparse.ArgumentParser(description=__doc__);p.add_argument('--reviews',type=Path,required=True);p.add_argument('--pool',type=Path,default=Path('data/research/experiments/phase3-judgment-pool.jsonl'));p.add_argument('--methods',type=Path,default=Path('data/research/results/phase3-pool-methods-private.json'));p.add_argument('--out',type=Path,required=True);a=p.parse_args()
 if a.out.exists():raise ValueError('Use a new report path')
 pool=[json.loads(x) for x in a.pool.read_text().splitlines()];valid={(x['query_id'],str(x['person_id'])) for x in pool};grades={};reviewers={}
 with a.reviews.open(newline='') as f:

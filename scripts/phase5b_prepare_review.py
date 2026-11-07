@@ -10,7 +10,7 @@ from hiresense.retrieval.encoder import LocalEncoder
 from hiresense.retrieval.index import SearchIndex,tokens
 from hiresense.ranking.scoring import score_model
 
-ROOT=Path('resources/results'); rows=json.loads((ROOT/'phase5a-loss-attribution.json').read_text())['rows']; labels={q.query_id:q for q in load_queries('data/processed/lean-v1/validation/labels.jsonl')}
+ROOT=Path('data/research/results'); rows=json.loads((ROOT/'phase5a-loss-attribution.json').read_text())['rows']; labels={q.query_id:q for q in load_queries('data/processed/lean-v1/validation/labels.jsonl')}
 def hashkey(x):return hashlib.sha256(('phase5b-v1:'+x['query_id']).encode()).hexdigest()
 def has_sources(row):return any(v['archive_exact_record'] for v in row['no_history']) and any(1024<min(y['best_dense_paper_rank'],y['best_bm25_paper_rank'] or 10**9)<=4096 for y in row['source_miss'])
 eligible=sorted((r for r in rows if has_sources(r)),key=hashkey);five=eligible[:5];other=sorted((r for r in rows if r not in five),key=hashkey)[:5];selected=five+other
@@ -52,7 +52,7 @@ finally:engine.close();db.close();src.close()
 with (ROOT/'phase5b-excluded-author-sample.csv').open('w',newline='',encoding='utf-8') as f:
  w=csv.DictWriter(f,fieldnames=list(private[0]));w.writeheader();w.writerows(private)
 # Merge original review sheet unchanged as a separate cohort. Do not overwrite it.
-original=list(csv.DictReader(open('resources/experiments/phase3-review-template.csv',encoding='utf-8',newline='')))
+original=list(csv.DictReader(open('data/research/experiments/phase3-review-template.csv',encoding='utf-8',newline='')))
 for r in original:r.update({'cutoff_year':2024,'reviewer_slot':1})
 fields=['query_id','query','cutoff_year','person_id','author_name','evidence','reviewer_slot','grade_0_to_3','reviewer','notes']
 with (ROOT/'phase5b-blinded-review.csv').open('w',newline='',encoding='utf-8') as f:

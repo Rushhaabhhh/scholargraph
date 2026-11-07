@@ -2,9 +2,9 @@ import csv,json,sqlite3,collections,tempfile,sys,time
 from pathlib import Path
 sys.path.insert(0,'src')
 from hiresense.api.runtime import Backend
-pool=[json.loads(x) for x in Path('resources/experiments/phase3-judgment-pool.jsonl').read_text().splitlines()];q=[json.loads(x) for x in Path('resources/experiments/phase3-human-queries.jsonl').read_text().splitlines()]; method=json.load(open('resources/results/phase3-pool-methods-private.json'))['methods'];counts=collections.Counter((x['query_id'],x['person_id']) for x in pool); pairs=set(counts); duplicate={str(k):v for k,v in counts.items() if v>1};issues=[];missing=[]; actual={}; stamp=time.monotonic()
+pool=[json.loads(x) for x in Path('data/research/experiments/phase3-judgment-pool.jsonl').read_text().splitlines()];q=[json.loads(x) for x in Path('data/research/experiments/phase3-human-queries.jsonl').read_text().splitlines()]; method=json.load(open('data/research/results/phase3-pool-methods-private.json'))['methods'];counts=collections.Counter((x['query_id'],x['person_id']) for x in pool); pairs=set(counts); duplicate={str(k):v for k,v in counts.items() if v>1};issues=[];missing=[]; actual={}; stamp=time.monotonic()
 with tempfile.TemporaryDirectory(prefix='phase5b-') as tmp:
- b=Backend.load('resources/experiments/backend.json',session_db_override=Path(tmp)/'sessions.sqlite')
+ b=Backend.load('data/research/experiments/backend.json',session_db_override=Path(tmp)/'sessions.sqlite')
  try:
   for row in pool:
    if not row['evidence']:issues.append([row['query_id'],row['person_id'],'empty'])

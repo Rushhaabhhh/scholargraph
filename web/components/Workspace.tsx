@@ -661,6 +661,8 @@ export function Workspace() {
             </div>
           ) : (
             <>
+              <div className="graph-intro"><Network size={20} /><div><strong>Explore the evidence graph</strong><p>Select a researcher or paper to explore their connections.</p></div></div>
+              <EvidenceGraph experts={visible} />
               <div className="result-list">
                 {visible.map((expert) => (
                   <ExpertCard
@@ -684,7 +686,6 @@ export function Workspace() {
                 not probabilities or hiring accuracy. Inspect the sourced
                 evidence before making a decision.
               </p>
-              <EvidenceGraph experts={visible} />
             </>
           )}
         </section>

@@ -36,8 +36,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--data', type=Path, default=Path('data/processed/lean-v1'))
     parser.add_argument('--work', type=Path, default=Path('data/processed/lean-training-v1'))
-    parser.add_argument('--report', type=Path, default=Path('resources/results/lean-validation-v1.json'))
-    parser.add_argument('--freeze', type=Path, default=Path('resources/experiments/lean-freeze-v1.json'))
+    parser.add_argument('--report', type=Path, default=Path('data/research/results/lean-validation-v1.json'))
+    parser.add_argument('--freeze', type=Path, default=Path('data/research/experiments/lean-freeze-v1.json'))
     parser.add_argument('--model', type=Path, default=Path('models/lean_ranker.json'))
     args = parser.parse_args()
     if any(p.exists() for p in (args.report, args.freeze, args.model)):
@@ -108,7 +108,7 @@ def main():
             raise ValueError('Package changed during training; repeat with frozen code')
         args.model.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(results[selected]['model'], args.model)
-        test_ids = Path('resources/experiments/lean-test-ids.json')
+        test_ids = Path('data/research/experiments/lean-test-ids.json')
         report = {'scope': 'CPU train and validation only; no final-test labels opened. Future authorship is incomplete relevance supervision.',
                   'data': str(args.data), 'train_queries': len(train_queries), 'validation_queries': len(val_queries),
                   'budgets': results, 'selected_budget': budget, 'ablation_training': ablation, 'selected_comparison': comparison,

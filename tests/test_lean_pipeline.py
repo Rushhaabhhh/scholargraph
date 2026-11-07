@@ -64,7 +64,7 @@ class LeanPipelineTests(unittest.TestCase):
             reserved = json.loads((root / 'out/reserved-test-ids.json').read_text())
             self.assertEqual(reserved['source_paper_ids'], ['conf/demo/p2025'])
             self.assertNotIn('relevant_author_ids', json.dumps(reserved))
-            experiments = root / 'resources/experiments'
+            experiments = root / 'data/research/experiments'
             experiments.mkdir(parents=True)
             (experiments / 'lean-data.json').write_text(json.dumps(config))
             (experiments / 'lean-test-ids.json').write_text(json.dumps(reserved))

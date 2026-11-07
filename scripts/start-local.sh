@@ -23,8 +23,8 @@ fi
 
 if [[ -n "${HIRESENSE_CONFIG:-}" ]]; then
   config="$HIRESENSE_CONFIG"
-elif [[ -f data/processed/recent-history/graph.sqlite3 && -f data/indexes/recent-history/manifest.json ]]; then
-  config="$root/resources/experiments/backend.json"
+elif [[ -f data/research/experiments/backend.json && -f data/processed/recent-history/graph.sqlite3 && -f data/indexes/recent-history/manifest.json ]]; then
+  config="$root/data/research/experiments/backend.json"
 else
   demo="$root/data/processed/local-demo"
   if [[ ! -f "$demo/backend.json" ]]; then

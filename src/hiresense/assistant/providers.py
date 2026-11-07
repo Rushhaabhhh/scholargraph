@@ -2,6 +2,9 @@
 
 import hashlib
 import json
+import os
+
+import httpx
 import re
 from pathlib import Path
 
@@ -52,6 +55,37 @@ class RecordedProvider:
         if item is None:
             raise ProviderUnavailable('query_not_recorded')
         return item['raw_output']
+
+
+class GeminiQueryProvider:
+    """Extract research intent with Gemini; retrieval stays on the local index."""
+    name = 'gemini'
+
+    def __init__(self, key, fallback=None):
+        self.key, self.fallback = key, fallback
+
+    def extract(self, text):
+        self.name = 'gemini'
+        try:
+            model = os.getenv('SCHOLARGRAPH_GEMINI_MODEL', 'gemini-2.5-flash')
+            if not re.fullmatch(r'[A-Za-z0-9._-]+', model):
+                raise ProviderUnavailable('invalid_gemini_model')
+            response = httpx.post(
+                f'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent',
+                headers={'x-goog-api-key': self.key},
+                json={'systemInstruction': {'parts': [{'text': SYSTEM_PROMPT}]},
+                      'contents': [{'parts': [{'text': json.dumps({'research_query': text}, ensure_ascii=False)}]}],
+                      'generationConfig': {'responseMimeType': 'application/json', 'temperature': 0}},
+                timeout=15.0,
+            )
+            response.raise_for_status()
+            return response.json()['candidates'][0]['content']['parts'][0]['text']
+        except Exception:
+            if self.fallback is not None:
+                result = self.fallback.extract(text)
+                self.name = self.fallback.name
+                return result
+            raise ProviderUnavailable('gemini_unavailable') from None
 
 
 class LocalLLMProvider:

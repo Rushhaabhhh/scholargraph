@@ -10,7 +10,7 @@ from pathlib import Path
 from ..assistant.grounding import GroundingVerifier, claim_text
 from ..data.artifacts import digest_file
 from ..assistant.memory import SessionStore
-from ..assistant.providers import LocalLLMProvider, QueryUnderstander, RecordedProvider, UnavailableProvider
+from ..assistant.providers import GeminiQueryProvider, LocalLLMProvider, QueryUnderstander, RecordedProvider, UnavailableProvider
 from ..assistant.safety import injection_like
 from ..assistant.schemas import PathArgs, ProfileArgs, SearchExpertsArgs
 from ..assistant.errors import BackendError
@@ -75,6 +75,8 @@ class Backend:
                 provider = None
             else:
                 raise ValueError('Unknown query-provider mode')
+            if os.environ.get('GEMINI_API_KEY') and not os.environ.get('SCHOLARGRAPH_QUERY_PROVIDER'):
+                provider = GeminiQueryProvider(os.environ['GEMINI_API_KEY'], provider)
             runtime = cls(database, engine, model,
                           SessionStore(state_path, engine.manifest['content_sha256']), QueryUnderstander(provider))
             runtime.model_sha256 = digest_file(path('model'))

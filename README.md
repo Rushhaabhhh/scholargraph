@@ -3,13 +3,28 @@
 ScholarGraph is an **AI-powered research expert discovery system** that identifies researchers from public DBLP publication data. It combines a **research collaboration graph**, **hybrid search**, and a **machine learning ranking model** to match research topics with relevant authors. A Next.js interface presents researcher profiles, supporting publications, and collaboration evidence, while a Python API powers search, conversations, and voice interaction.
 
 - **Live frontend:** [scholargraph-one.vercel.app](https://scholargraph-one.vercel.app/)
-- **API health:** [scholargraph-fc9i.onrender.com/health](https://scholargraph-fc9i.onrender.com/health)
+- **API health:** [34.100.138.196.sslip.io/health](https://34.100.138.196.sslip.io/health)
+- **Frontend API health:** [scholargraph-one.vercel.app/api/health](https://scholargraph-one.vercel.app/api/health)
 
-On 7 November 2026, the frontend, backend health endpoint and frontend API health proxy returned successful responses. The deployed backend reported a 200-paper, 762-author sample; it is a functional demonstration, not the evaluation corpus. In the same verification, sample search requests through the frontend and directly to the backend returned HTTP 502, including in a browser; the cause has not yet been established. Recheck the deployed search before relying on the live link. The offline run instructions below remain the required route for evaluating another DBLP slice.
+The frontend runs on Vercel and the backend runs in Docker on a Google Cloud Compute Engine VM, behind an HTTPS proxy. On 7 November 2026, both health endpoints reported **265,885 publication records and 332,611 researcher records**, and a `graph neural networks` search through the frontend API returned results. These counts describe the deployed snapshot, not the whole DBLP database. The offline run instructions below support evaluating another DBLP slice.
 
-The deployed Render instance has 512 MB of RAM. In separate local sample runs, the backend peaked at approximately 805 MiB after the first live local-model search and 118 MiB using the recorded query provider. These are process peak-RSS measurements on one machine, not Render memory measurements or capacity guarantees. Render logs showed instance restarts during the check, so memory pressure is a plausible cause, but was not confirmed by an out-of-memory log.
+The backend VM has 2 vCPUs, 8 GB RAM and a 50 GB boot disk. It uses `SCHOLARGRAPH_QUERY_PROVIDER=recorded`, which uses recorded outputs for matching queries and deterministic parsing for unseen or invalid ones. A single search and health check passed; these checks do not establish capacity under concurrent load. Google Cloud compute, disk and networking consume trial credits or incur charges according to the account's billing terms.
 
-For a memory-constrained Render deployment, set `SCHOLARGRAPH_QUERY_PROVIDER=recorded` in the backend service's environment and restart it. This uses recorded outputs for matching queries and deterministic parsing for unseen or invalid ones, rather than live LLM query understanding. Recheck `/health` and a browser search after the restart. General chat, local voice models, concurrency and larger data can require additional memory; the lower-memory query setting does not establish that every feature fits in 512 MB.
+### Deploying the local index
+
+The local index is generated data under `data/`, which is excluded from Git and the Docker build. The VM therefore cannot receive it through a code deployment alone. The container normally prepares the bundled sample unless `HIRESENSE_CONFIG` identifies another prepared index. The health counts describe the index actually loaded, not a cached frontend count.
+
+1. On the machine with the desired index, create an archive (allow several GB of free space):
+
+   ```sh
+   python scripts/package_deployment_index.py --config /path/to/backend.json --out /tmp/scholargraph-index.tar
+   ```
+
+2. Transfer the archive to the Compute Engine VM and extract it into a **new, empty versioned directory** on the VM's persistent disk. The current container mounts `~/scholargraph/index-v1` on the VM at `/var/data` inside the container. The archive contains research artifacts only; it does not include local sessions. The paths in its configuration target this repository's Docker image.
+3. Mount the chosen VM directory at `/var/data` in the backend container and set `HIRESENSE_CONFIG=/var/data/backend.json` and `SCHOLARGRAPH_QUERY_PROVIDER=recorded`. Recreate the container with the new mount when switching versions. If the specified configuration is missing, startup fails instead of silently serving the sample. Allow time for the full graph to validate on startup and check logs and available memory.
+4. On Vercel, set the server-side environment variable `HIRESENSE_API_URL=https://34.100.138.196.sslip.io` with no trailing endpoint or `/api`, then redeploy the frontend. The browser calls `/api/health` on Vercel; the Next.js proxy forwards it to `/health` on the Google Cloud backend. Other `/api/...` requests are forwarded in the same way. Both health URLs should return the same counts after the backend is ready.
+
+To refresh data, create a new local graph and index, package that configuration, extract it to a new versioned directory, and recreate the container with that directory mounted at `/var/data`. Confirm both health URLs and an actual search. This is a snapshot deployment; it does not automatically ingest new DBLP releases. The session database is stored alongside the index in the mounted directory, so preserve or migrate it separately if needed.
 
 ## Architecture
 
@@ -56,7 +71,7 @@ flowchart TD
 
 The serving pipeline retrieves up to **1,024 papers per search channel** and combines their evidence into up to **800 author candidates**. The selected 80-tree LambdaMART model ranks candidates using research relevance and graph features. Scores are ranking signals, not probabilities.
 
-The [temporal evaluation](resources/results/lean-final-v1.json) reports nDCG@10 of **0.0354** and candidate-list MRR of **0.0488** on 500 queries. Future authorship provides incomplete proxy labels; independent human relevance review is pending. See [evaluation details](resources/results/README.md).
+The temporal evaluation reports nDCG@10 of **0.0354** and candidate-list MRR of **0.0488** on 500 queries. Future authorship provides incomplete proxy labels; independent human relevance review is pending. Evaluation artifacts are kept locally and are not included in the repository.
 
 ## Features
 
@@ -223,7 +238,7 @@ Open the floating **AI Assistant → Voice** and allow microphone access. Localh
 
 ### Training and Evaluation
 
-Install training dependencies and provide the exact DBLP archive identified in `resources/experiments/lean-cohorts.json`:
+These reproduction commands require the original local experiment inputs and the exact DBLP archive used for the frozen cohorts. Those inputs are not included in the repository. If they are available under `data/research`, install the training dependencies and run:
 
 ```bash
 uv pip install --python .venv/bin/python -r config/requirements-training.lock
@@ -232,7 +247,7 @@ PYTHONPATH=src .venv/bin/python scripts/train_lean.py --data data/processed/lean
 PYTHONPATH=src .venv/bin/python scripts/evaluate_lean.py --data data/processed/lean-rebuilt --freeze /tmp/lean-freeze.json --out /tmp/lean-final.json
 ```
 
-These commands write an experimental reproduction to fresh paths without overwriting the selected model. The final test has already been inspected and is for reproduction, not model selection. See [evaluation and reproduction details](resources/results/README.md) for the frozen source and package requirements.
+These commands write an experimental reproduction to fresh paths without overwriting the selected model. The final test has already been inspected and is for reproduction, not model selection.
 
 ### Tests
 
@@ -249,5 +264,4 @@ For the Compose smoke check, run `docker compose up --build -d --wait` and then 
 
 - [Architecture diagrams](docs/architecture.md)
 - [Design document](docs/design.md)
-- [Evaluation and reproduction](resources/results/README.md)
 - [Local data and generated artifacts](data/README.md)

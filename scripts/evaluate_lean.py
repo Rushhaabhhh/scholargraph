@@ -24,9 +24,9 @@ from hiresense.retrieval.index import SearchIndex, build_index
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--freeze', type=Path, default=Path('resources/experiments/lean-freeze-v1.json'))
+    parser.add_argument('--freeze', type=Path, default=Path('data/research/experiments/lean-freeze-v1.json'))
     parser.add_argument('--data', type=Path, default=Path('data/processed/lean-v1'))
-    parser.add_argument('--out', type=Path, default=Path('resources/results/lean-final-v1.json'))
+    parser.add_argument('--out', type=Path, default=Path('data/research/results/lean-final-v1.json'))
     args = parser.parse_args()
     if args.out.exists():
         raise ValueError('A final report already exists; never overwrite an evaluated test')
@@ -38,13 +38,16 @@ def main():
     # remain subject to the original SHA-256 checks below.
     for key, fallback in (('model', 'models/hybrid_ranker.json'),
                           ('ablation_model', 'models/lean_without_recency.json'),
-                          ('test_ids', 'resources/experiments/lean-test-ids.json')):
+                          ('test_ids', 'data/research/experiments/lean-test-ids.json')):
         if not paths[key].exists():
             paths[key] = Path(fallback)
     for key, checksum in (('model', 'model_sha256'), ('ablation_model', 'ablation_sha256'), ('test_ids', 'test_ids_sha256')):
         if digest_file(paths[key]) != frozen[checksum]:
             raise ValueError(f'Frozen {key} changed')
-    if digest_file(frozen.get('validation_report', 'resources/results/lean-validation-v1.json')) != frozen['validation_report_sha256']:
+    validation_report = Path(frozen.get('validation_report', 'data/research/results/lean-validation-v1.json'))
+    if not validation_report.exists():
+        validation_report = Path('data/research/results') / validation_report.name
+    if digest_file(validation_report) != frozen['validation_report_sha256']:
         raise ValueError('Validation report changed after freeze')
     model = json.loads(paths['model'].read_text())
     ablation = json.loads(paths['ablation_model'].read_text())

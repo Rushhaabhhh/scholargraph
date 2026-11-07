@@ -1746,7 +1746,7 @@ summary:focus-visible {
   margin: 0 4px 4px;
 }
 .expert-evidence[open] > summary > i {
-  transform: rotate(225deg);
+  transform: rotate(135deg);
   margin-bottom: 0;
 }
 .evidence-list {

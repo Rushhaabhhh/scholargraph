@@ -7,9 +7,23 @@ async function forward(
   context: { params: Promise<{ path: string[] }> },
 ) {
   const { path } = await context.params;
+  const base = process.env.HIRESENSE_API_URL ||
+    (process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:8000');
+  let backend: URL;
+  try {
+    backend = new URL(base);
+    if (!['http:', 'https:'].includes(backend.protocol) ||
+        !['', '/'].includes(backend.pathname) || backend.search || backend.hash ||
+        backend.username || backend.password) throw new Error('Invalid backend origin');
+  } catch {
+    return NextResponse.json(
+      { code: 'backend_misconfigured', message: 'Set HIRESENSE_API_URL to the backend origin, without /api or /health.' },
+      { status: 503 },
+    );
+  }
   const upstream = new URL(
     path.map(encodeURIComponent).join('/'),
-    `${process.env.HIRESENSE_API_URL || 'http://127.0.0.1:8000'}/`,
+    backend.origin + '/',
   );
   upstream.search = request.nextUrl.search;
   const quickRequest =
